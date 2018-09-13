@@ -115,7 +115,7 @@ class Textarea {
     );
 
     // Add relevant css classes
-    $cssClasses = array('field', $this->_data['type']);
+    $cssClasses = array('control', $this->_data['type']);
     if ($this->_data['class']) {
       array_push($cssClasses, $this->_data['class']);
     }
@@ -130,7 +130,7 @@ class Textarea {
   }
 
   /**
-   * Get form field's value submitted by user
+   * Get form control's value submitted by user
    *
    * @return {String}
    */

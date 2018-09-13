@@ -7,63 +7,65 @@
  * TODO: Allow user to set color for form buttons on instantiation (impement via .js?)
  */
 class Form {
-  private $_items = array(),
-          $_labels = array(),
-          $_layouts = array(),
-          $_msg,
-          $_values = array();
+  private $_arrangements = array(), // positioning of radio/checkbox groups (horizontal or vertical)
+          $_controls = array(), // form controls
+          $_labels = array(), // form control labels
+          $_msg, // message shown to user upon successful form submission
+          $_values = array(); // form control values entered by user
 
   /**
    * Add a radio/checkbox group
    *
    * @param $group {Array}
    *   [
-   *     fields {Array} - Form field instances as an indexed array
+   *     arrangement {String} 'horizontal' or 'vertical'
+   *     controls {Array} - Form control instances as an indexed array
    *     label {String}
    *   ]
    */
   public function addGroup ($group) {
-    $alignment = 'horizontal'; // default value
-    $fields = $group['fields'];
+    $controls = $group['controls'];
 
-    // Check that all fields in group have the same 'name' attribute; set $key to that value
+    // Check that all controls in group have the same 'name' attribute; set $key to that value
     $prevKey = '';
-    foreach ($fields as $field) {
-      $key = $field->name;
-      if ($key !== $prevKey && $prevKey !== '') {
-         print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all inputs in a group</p>';
+    foreach ($controls as $control) {
+      $key = $control->name;
+      if ($prevKey && $key !== $prevKey) {
+         print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all input els in a group</p>';
       }
       $prevKey = $key;
     }
-    $label = $key; // default to name attr.
 
-    if (array_key_exists('alignment', $group)) {
-      $alignment = $group['alignment'];
+    $arrangement = 'horizontal'; // default value
+    if (array_key_exists('arrangement', $group)) {
+      $arrangement = $group['arrangement'];
     }
+
+    $label = $control->name; // default to control's 'name' attr, but use 'label' if available
     if (array_key_exists('label', $group)) {
       $label = $group['label'];
     }
 
-    $this->_items[$key] = $fields;
+    $this->_arrangements[$key] = $arrangement;
+    $this->_controls[$key] = $controls;
     $this->_labels[$key] = $label;
-    $this->_layouts[$key] = $alignment;
   }
 
   /**
-   * Add a single form field (input, select, textarea) instance
+   * Add a single form control (input, select, textarea) instance
    *
-   * @param $field {Object}
-   *     Form field instance
+   * @param $control {Object}
+   *     Form control instance
    */
-  public function addItem ($field) {
-    $key = $field->name;
+  public function addItem ($control) {
+    $key = $control->name;
 
-    $label = $field->name; // default to field's 'name' attr, but use 'label' if available
-    if ($field->label) {
-      $label = $field->label;
+    $label = $control->name; // default to control's 'name' attr, but use 'label' if available
+    if ($control->label) {
+      $label = $control->label;
     }
 
-    $this->_items[$key] = $field;
+    $this->_controls[$key] = $control;
     $this->_labels[$key] = $label;
   }
 
@@ -77,22 +79,22 @@ class Form {
     $html .= sprintf('<form action="%s" method="POST">', $_SERVER['REQUEST_URI']);
 
     $count = 0;
-    foreach ($this->_items as $key => $items) {
-      if (is_array($items)) { // radio/checkbox group
+    foreach ($this->_controls as $key => $control) {
+      if (is_array($control)) { // radio/checkbox group
+        $controls = $control; // group of controls as array
         $html .= sprintf('<fieldset>
           <legend>%s</legend>
           <div class="group %s">',
           $this->_labels[$key],
-          $this->_layouts[$key]
+          $this->_arrangements[$key]
         );
-        foreach ($items as $item) {
-          $html .= $item->getHtml(++ $count);
+        foreach ($controls as $control) {
+          $html .= $control->getHtml(++ $count);
         }
         $html .= '</div>
           </fieldset>';
-      } else { // single field
-        $item = $items; // only 1 item (not an array)
-        $html .= $item->getHtml(++ $count);
+      } else { // single control
+        $html .= $control->getHtml(++ $count);
       }
     }
 
@@ -127,7 +129,7 @@ class Form {
   }
 
   /**
-   * Create an array containing form field values entered by user, then insert into database
+   * Create an array containing form control values entered by user, then insert into database
    *
    * @param $Database {Object}
    *    Database instance
@@ -135,11 +137,11 @@ class Form {
    *    Table name
    */
   public function process ($Database, $table) {
-    foreach ($this->_items as $key => $item) {
-      if (is_array($item)) { // radio/checkbox group, get value from first item
-        $value = $item[0]->getValue();
+    foreach ($this->_controls as $key => $control) {
+      if (is_array($control)) { // radio/checkbox group, get value from first control
+        $value = $control[0]->getValue();
       } else {
-        $value = $item->getValue();
+        $value = $control->getValue();
       }
       $this->_values[$key] = $value;
     }

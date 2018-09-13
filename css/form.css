@@ -946,14 +946,14 @@ section.form {
     border: 0;
     padding: 0; }
   section.form fieldset,
-  section.form .field:not(.checkbox):not(.radio) {
+  section.form .control:not(.checkbox):not(.radio) {
     margin: 1.25rem 0 0; }
   section.form label {
     cursor: pointer; }
   section.form .checkbox,
   section.form .radio {
     margin: 6px 1rem 3px 0; }
-  section.form .field:not(.checkbox):not(.radio) label,
+  section.form .control:not(.checkbox):not(.radio) label,
   section.form legend {
     color: #666;
     font-size: .85rem;
@@ -961,11 +961,11 @@ section.form {
     margin: 0;
     padding: 0 0 .15rem;
     text-transform: uppercase; }
-  section.form .field {
+  section.form .control {
     display: flex; }
-    section.form .field:not(.checkbox):not(.radio) {
+    section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse;
-      /* display labels before fields */ }
+      /* display labels before controls */ }
   section.form .group {
     display: flex;
     flex-wrap: wrap; }

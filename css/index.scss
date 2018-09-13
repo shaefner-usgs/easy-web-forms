@@ -31,7 +31,7 @@ section.results {
 section.form {
   @include fonts;
 
-  // Form fields (TODO: Set :focus styles for radio/checkboxes)
+  // Form controls (TODO: Set :focus styles for radio/checkboxes)
 
   input:not([type="submit"]),
   select,
@@ -66,7 +66,7 @@ section.form {
     box-shadow: 0 0 3px $primary;
   }
 
-  // Form field/group labels and layout
+  // Form control/group labels and layout
 
   fieldset {
     border: 0;
@@ -74,7 +74,7 @@ section.form {
   }
 
   fieldset,
-  .field:not(.checkbox):not(.radio) {
+  .control:not(.checkbox):not(.radio) {
     margin: 1.25rem 0 0;
   }
 
@@ -87,16 +87,16 @@ section.form {
     margin: 6px 1rem 3px 0;
   }
 
-  .field:not(.checkbox):not(.radio) label,
+  .control:not(.checkbox):not(.radio) label,
   legend {
     @include labels;
   }
 
-  .field {
+  .control {
     display: flex;
 
     &:not(.checkbox):not(.radio) {
-      flex-direction: column-reverse; /* display labels before fields */
+      flex-direction: column-reverse; /* display labels before controls */
     }
   }
 

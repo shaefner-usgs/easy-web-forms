@@ -81,15 +81,15 @@ $Form->addItem($fname);
 $Form->addItem($lname);
 $Form->addItem($cone);
 $Form->addGroup(array(
-  'fields' => array(
+  'controls' => array(
     $vanilla,
     $chocolate
   ),
   'label' => 'Flavor'
 ));
 $Form->addGroup(array(
-  'alignment' => 'vertical',
-  'fields' => array(
+  'arrangement' => 'vertical',
+  'controls' => array(
     $nuts,
     $sprinkles
   )

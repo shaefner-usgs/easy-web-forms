@@ -1,0 +1,152 @@
+@import 'bootstrap-buttons.scss';
+@import 'pretty-checkbox.scss';
+
+@mixin fonts {
+  color: #333;
+  font: {
+    family: Helvetica, sans-serif;
+    size: 16px;
+  }
+  line-height: 1.4;
+}
+
+@mixin labels {
+  color: #666;
+  font-size: .85rem;
+  font-weight: 500;
+  margin: 0;
+  padding: 0 0 .15rem;
+  text-transform: uppercase;
+}
+
+// Parent containers
+
+section.form,
+section.results {
+  max-width: 35rem;
+}
+
+// Form
+
+section.form {
+  @include fonts;
+
+  // Form fields (TODO: Set :focus styles for radio/checkboxes)
+
+  input:not([type="submit"]),
+  select,
+  textarea {
+    @include fonts;
+  }
+
+  input:not([type="submit"]),
+  textarea {
+    border: 1px solid #dfdfdf;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 4px 0 hsla(0, 0%, 0%, 0.08);
+    outline: none;
+    transition: all 0.25s ease-in-out;
+  }
+
+  input:not([type="submit"]) {
+    line-height: 1;
+    padding: 6px;
+  }
+
+  textarea {
+    padding: 4px 6px;
+  }
+
+  input[type="submit"] {
+    margin-top: 1rem;
+  }
+  input:not([type="submit"]):focus,
+  textarea:focus {
+    border: 1px solid $primary;
+    box-shadow: 0 0 3px $primary;
+  }
+
+  // Form field/group labels and layout
+
+  fieldset {
+    border: 0;
+    padding: 0;
+  }
+
+  fieldset,
+  .field:not(.checkbox):not(.radio) {
+    margin: 1.25rem 0 0;
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+  .checkbox,
+  .radio {
+    margin: 6px 1rem 3px 0;
+  }
+
+  .field:not(.checkbox):not(.radio) label,
+  legend {
+    @include labels;
+  }
+
+  .field {
+    display: flex;
+
+    &:not(.checkbox):not(.radio) {
+      flex-direction: column-reverse; /* display labels before fields */
+    }
+  }
+
+  .group {
+    display: flex;
+    flex-wrap: wrap;
+
+    &.vertical {
+      flex-direction: column;
+    }
+  }
+}
+
+// Results
+
+section.results {
+  @include fonts;
+
+  dl {
+    margin-top: 2rem;
+  }
+
+  dd {
+    color: #000;
+    margin: 0 0 1.5rem 0;
+  }
+
+  dt {
+    @include labels;
+  }
+}
+
+// Alerts (TODO: set bg colors based on sass calcs. from variable colors)
+
+.alert {
+  background: rgba(0, 0, 204, .05);
+  border: 1px solid $info;
+  padding: 1rem;
+}
+
+p.error {
+  @extend .alert;
+  background: rgba(204, 0, 0, .05);
+  border-color: $danger;
+  color: $danger;
+}
+
+p.success {
+  @extend .alert;
+  background: rgba(0, 204, 0, .05);
+  border-color: $success;
+  color: $success;
+}

@@ -33,7 +33,8 @@ class Textarea {
             'placeholder' => '',
             'required' => '',
             'rows' => 4,
-            'type' => 'textarea'
+            'type' => 'textarea',
+            'value' => ''
           );
 
   public function __construct ($params=NULL) {
@@ -100,13 +101,14 @@ class Textarea {
       $labelText = $this->_data['name'];
     }
 
-    $textarea = sprintf('<textarea id="%s" name="%s" cols="%s" maxLength="%s" rows="%s"%s></textarea>',
+    $textarea = sprintf('<textarea id="%s" name="%s" cols="%s" maxLength="%s" rows="%s"%s>%s</textarea>',
       $id,
       $this->_data['name'],
       $this->_data['cols'],
       $this->_data['maxLength'],
       $this->_data['rows'],
-      $attrs
+      $attrs,
+      $this->_data['value']
     );
 
     $label = sprintf('<label for="%s">%s</label>',

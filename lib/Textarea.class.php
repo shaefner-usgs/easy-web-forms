@@ -19,6 +19,7 @@
  *
  *       class {String}
  *       label {String}
+ *       value {String}
  */
 class Textarea {
   private $_data = array(),
@@ -89,6 +90,12 @@ class Textarea {
       $attrs .= sprintf(' tabindex="%d"', $tabindex);
     }
 
+    // Set value: data entered by user overrides if validation fails
+    $value = $this->_data['value'];
+    if (isSet($_POST[$this->_data['name']])) {
+      $value = safeParam($this->_data['name']);
+    }
+
     if ($this->_data['id']) {
       $id = $this->_data['id'];
     } else {
@@ -108,7 +115,7 @@ class Textarea {
       $this->_data['maxLength'],
       $this->_data['rows'],
       $attrs,
-      $this->_data['value']
+      $value
     );
 
     $label = sprintf('<label for="%s">%s</label>',

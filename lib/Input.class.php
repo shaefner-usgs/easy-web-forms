@@ -117,6 +117,18 @@ class Input {
       $attrs .= sprintf(' tabindex="%d"', $tabindex);
     }
 
+    if ($this->_data['type'] === 'number') {
+      $attrs .= sprintf(' max="%s" min="%s"',
+        $this->_data['max'],
+        $this->_data['min']
+      );
+    }
+    if ($this->_data['type'] === 'text') {
+      $attrs .= sprintf(' maxLength="%s"', $this->_data['maxLength']);
+    }
+
+    // Set value: data entered by user overrides if validation fails
+    $value = $this->_data['value'];
     if ($this->_isCheckboxOrRadio) {
       if ($this->_data['checked']) {
         $attrs .= ' checked="checked"';
@@ -124,15 +136,10 @@ class Input {
       if ($this->_data['type'] === 'checkbox' && !preg_match('/.*\[\]$/', $this->_data['name'])) {
         $this->_data['name'] .= '[]'; // set name to array for checkbox values
       }
-    }
-    else if ($this->_data['type'] === 'number') {
-      $attrs .= sprintf(' max="%s" min="%s"',
-        $this->_data['max'],
-        $this->_data['min']
-      );
-    }
-    else if ($this->_data['type'] === 'text') {
-      $attrs .= sprintf(' maxLength="%s"', $this->_data['maxLength']);
+    } else {
+      if (isSet($_POST[$this->_data['name']])) {
+        $value = safeParam($this->_data['name']);
+      }
     }
 
     if ($this->_data['id']) {
@@ -155,7 +162,7 @@ class Input {
       $id,
       $this->_data['name'],
       $this->_data['type'],
-      $this->_data['value'],
+      $value,
       $attrs
     );
 

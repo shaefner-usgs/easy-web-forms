@@ -9,9 +9,39 @@
 class Form {
   private $_arrangements = array(), // positioning of radio/checkbox groups (horizontal or vertical)
           $_controls = array(), // form controls
+          $_isValid, // Boolean value (false if form doesn't validate)
           $_labels = array(), // form control labels
           $_msg, // message shown to user upon successful form submission
           $_values = array(); // form control values entered by user
+
+  public function __construct () {
+    $this->_isValid = false; // default value; not validated yet
+  }
+
+  /*
+   * Server-side validation
+   *   sets _isValid flag to true if all form controls are valid
+   */
+  private function _validate () {
+    $this->_isValid = true; // gets set to false if any controls are invalid
+
+    foreach ($this->_values as $key => $value) {
+      $control = $this->_controls[$key];
+      if (is_array($control)) { // radio/checkbox group, use first control to validate gruop
+        $control = $control[0];
+      }
+
+      if ($control->required && !$value) {
+        $this->_isValid = false; // form (set to false if any conrol is invalid)
+        $control->isValid = false; // this control
+      } else if ($control->pattern && !preg_match("/$control->pattern/", $value)) {
+        $this->_isValid = false;
+        $control->isValid = false;
+      } else {
+        $control->isValid = true;
+      }
+    }
+  }
 
   /**
    * Add a radio/checkbox group
@@ -26,14 +56,22 @@ class Form {
   public function addGroup ($group) {
     $controls = $group['controls'];
 
-    // Check that all controls in group have the same 'name' attribute; set $key to that value
+    // Check that all controls in group have matching 'name', 'required' attrs
     $prevKey = '';
+    $prevRequired = '';
     foreach ($controls as $control) {
       $key = $control->name;
+      $required = $control->required;
       if ($prevKey && $key !== $prevKey) {
-         print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all input els in a group</p>';
+         print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all inputs in a group</p>';
+      }
+      if ($prevRequired && $required !== $prevRequired) {
+        printf ('<p class="error">ERROR: the <em>required</em> attribute must be the same for all inputs in a group (%s)</p>',
+          $control->name
+        );
       }
       $prevKey = $key;
+      $prevRequired = $required;
     }
 
     $arrangement = 'horizontal'; // default value
@@ -47,7 +85,7 @@ class Form {
     }
 
     $this->_arrangements[$key] = $arrangement;
-    $this->_controls[$key] = $controls;
+    $this->_controls[$key] = $controls; // array
     $this->_labels[$key] = $label;
   }
 
@@ -76,9 +114,10 @@ class Form {
    */
   public function getFormHtml () {
     $html = '<section class="form">';
-    $html .= sprintf('<form action="%s" method="POST">', $_SERVER['REQUEST_URI']);
+    $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
+      $_SERVER['REQUEST_URI']);
 
-    $count = 0;
+    $count = 0; // used for tabindex attrs
     foreach ($this->_controls as $key => $control) {
       if (is_array($control)) { // radio/checkbox group
         $controls = $control; // group of controls as array
@@ -107,23 +146,28 @@ class Form {
 
   /**
    * Get html for results summary (values entered by user)
+   *   if form does not validate, send back form instead
    *
    * @return $html {String}
    */
   public function getResultsHtml () {
-    $html = '<section class="results">';
+    if ($this->_isValid) {
+      $html = '<section class="results">';
 
-    if ($this->_msg) {
-      $html .= '<p class="success">' . $this->_msg . '</p>';
-    }
+      if ($this->_msg) {
+        $html .= '<p class="success">' . $this->_msg . '</p>';
+      }
 
-    $html .= '<dl>';
-    foreach ($this->_values as $key => $value) {
-      $html .= '<dt>' . ucfirst($this->_labels[$key]) . '</dt>';
-      $html .= '<dd>' . htmlentities(stripslashes($value)) . '</dd>';
+      $html .= '<dl>';
+      foreach ($this->_values as $key => $value) {
+        $html .= '<dt>' . ucfirst($this->_labels[$key]) . '</dt>';
+        $html .= '<dd>' . htmlentities(stripslashes($value)) . '</dd>';
+      }
+      $html .= '</dl>';
+      $html .= '</section>';
+    } else { // validation failed; show form
+      $html = $this->getFormHtml();
     }
-    $html .= '</dl>';
-    $html .= '</section>';
 
     return $html;
   }
@@ -146,7 +190,11 @@ class Form {
       $this->_values[$key] = $value;
     }
 
-    $Database->insertRecord($this->_values, $table);
+    // Validate and insert record if valid
+    $this->_validate();
+    if ($this->_isValid) {
+      //$Database->insertRecord($this->_values, $table);
+    }
   }
 
   /**

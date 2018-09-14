@@ -98,15 +98,21 @@ class Select {
     }
 
     $options = '';
-    foreach ($this->_data['options'] as $key => $option) {
+    foreach ($this->_data['options'] as $key => $value) {
+      // Set selected option: data entered by user overrides if validation fails
       $selected = '';
-      if ($this->_data['selected'] === $key) {
+      if (isSet($_POST[$this->_data['name']])) {
+        if (safeParam($this->_data['name']) === $key) {
+          $selected = 'selected="selected"';
+        }
+      } else if ($this->_data['selected'] === $key) {
         $selected = 'selected="selected"';
       }
+
       $options .= sprintf('<option value="%s"%s>%s</option>',
         $key,
         $selected,
-        $option
+        $value
       );
     }
 

@@ -9,13 +9,14 @@
  *       disabled {Boolean}
  *       id {String}
  *       name {String} - REQUIRED
- *       options {Array} - REQUIRED
  *       required {Boolean}
  *
  *     other supported properties:
  *
  *       class {String}
  *       label {String}
+ *       options {Array} - REQUIRED
+ *       selected {String}
  */
 class Select {
   private $_data = array(),
@@ -27,7 +28,8 @@ class Select {
             'name' => '',
             'options' => '',
             'required' => '',
-            'type' => 'select'
+            'type' => 'select',
+            'selected' => ''
           );
 
   public function __construct ($params=NULL) {
@@ -97,8 +99,13 @@ class Select {
 
     $options = '';
     foreach ($this->_data['options'] as $key => $option) {
-      $options .= sprintf('<option value="%s">%s</option>',
+      $selected = '';
+      if ($this->_data['selected'] === $key) {
+        $selected = 'selected="selected"';
+      }
+      $options .= sprintf('<option value="%s"%s>%s</option>',
         $key,
+        $selected,
         $option
       );
     }

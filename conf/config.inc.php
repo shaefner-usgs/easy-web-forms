@@ -15,7 +15,7 @@ $username = '';
 $password = '';
 
 try {
-  $db = new PDO("mysql:host=$host;dbName=$dbname;charset=utf8", $username, $password);
+  $db = new PDO("mysql:host=$host;dbName=$dbName;charset=utf8", $username, $password);
   $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
   echo 'ERROR: ' . $e->getMessage();

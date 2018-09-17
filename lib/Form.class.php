@@ -120,15 +120,15 @@ class Form {
     $count = 0; // used for tabindex attrs
     foreach ($this->_controls as $key => $control) {
       if (is_array($control)) { // radio/checkbox group
-        $controls = $control; // group of controls as array
+        $controls = $control; // group of control(s) as array
         $html .= sprintf('<fieldset>
           <legend>%s</legend>
           <div class="group %s">',
           $this->_labels[$key],
           $this->_arrangements[$key]
         );
-        foreach ($controls as $control) {
-          $html .= $control->getHtml(++ $count);
+        foreach ($controls as $ctrl) {
+          $html .= $ctrl->getHtml(++ $count);
         }
         $html .= '</div>
           </fieldset>';

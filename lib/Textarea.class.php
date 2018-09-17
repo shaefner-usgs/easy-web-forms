@@ -76,6 +76,7 @@ class Textarea {
    */
   public function getHtml ($tabindex=NULL) {
     $attrs = '';
+    $value = $this->getValue();
 
     if ($this->_data['disabled']) {
       $attrs .= ' disabled="disabled"';
@@ -88,12 +89,6 @@ class Textarea {
     }
     if ($tabindex) {
       $attrs .= sprintf(' tabindex="%d"', $tabindex);
-    }
-
-    // Set value: data entered by user overrides if validation fails
-    $value = $this->_data['value'];
-    if (isSet($_POST[$this->_data['name']])) {
-      $value = safeParam($this->_data['name']);
     }
 
     if ($this->_data['id']) {
@@ -139,11 +134,17 @@ class Textarea {
   }
 
   /**
-   * Get form control's value submitted by user
+   * Get form control's value
    *
    * @return {String}
    */
   public function getValue () {
-    return safeParam($this->_data['name']);
+    if (isSet($_POST[$this->_data['name']])) {
+      $value = safeParam($this->_data['name']); // value submitted by user
+    } else {
+      $value = $this->_data['value']; // instantiated value
+    }
+
+    return $value;
   }
 }

@@ -102,10 +102,10 @@ class Select {
       // Set selected option: data entered by user overrides if validation fails
       $selected = '';
       if (isSet($_POST[$this->_data['name']])) {
-        if (safeParam($this->_data['name']) === $key) {
+        if ($key === $this->getValue()) {
           $selected = 'selected="selected"';
         }
-      } else if ($this->_data['selected'] === $key) {
+      } else if ($key === $this->_data['selected']) {
         $selected = 'selected="selected"';
       }
 

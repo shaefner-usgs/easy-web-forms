@@ -100,6 +100,7 @@ class Input {
    */
   public function getHtml ($tabindex=NULL) {
     $attrs = '';
+    $value = $this->getValue();
 
     if ($this->_data['disabled']) {
       $attrs .= ' disabled="disabled"';
@@ -127,18 +128,12 @@ class Input {
       $attrs .= sprintf(' maxLength="%s"', $this->_data['maxLength']);
     }
 
-    // Set value: data entered by user overrides if validation fails
-    $value = $this->_data['value'];
     if ($this->_isCheckboxOrRadio) {
       if ($this->_data['checked']) {
         $attrs .= ' checked="checked"';
       }
       if ($this->_data['type'] === 'checkbox' && !preg_match('/.*\[\]$/', $this->_data['name'])) {
         $this->_data['name'] .= '[]'; // set name to array for checkbox values
-      }
-    } else {
-      if (isSet($_POST[$this->_data['name']])) {
-        $value = safeParam($this->_data['name']);
       }
     }
 
@@ -196,11 +191,17 @@ class Input {
   }
 
   /**
-   * Get form control's value submitted by user
+   * Get form control's value
    *
    * @return {String}
    */
   public function getValue () {
-    return safeParam($this->_data['name']);
+    if (isSet($_POST[$this->_data['name']])) {
+      $value = safeParam($this->_data['name']); // value submitted by user
+    } else {
+      $value = $this->_data['value']; // instantiated value
+    }
+
+    return $value;
   }
 }

@@ -196,7 +196,7 @@ class Input {
    * @return {String}
    */
   public function getValue () {
-    if (isSet($_POST[$this->_data['name']])) {
+    if (isSet($_POST['submit'])) {
       $value = safeParam($this->_data['name']); // value submitted by user
     } else {
       $value = $this->_data['value']; // instantiated value

@@ -53,6 +53,10 @@ class Input {
     // Set instantiated values
     if (is_array($params)) {
       foreach ($params as $key => $value) {
+        // Strip off '[]' from name values; added programmatically to checkbox inputs
+        if ($key === 'name' && preg_match('/\[\]$/', $value)) {
+          $value = preg_replace('/(\w+)\[\]$/', '$1', $value);
+        }
         $this->__set($key, $value);
       }
     }
@@ -92,6 +96,34 @@ class Input {
   }
 
   /**
+   * Assess if radio / checkbox should be checked
+   *
+   * @return $checked {Boolean}
+   */
+  private function _isChecked () {
+    $checked = false;
+    $instantiatedValue = $this->_data['value'];
+
+    if (isSet($_POST['submit'])) {
+      $submittedValue = $this->getValue(); // value(s) submitted by user
+      if ($this->_data['type'] === 'checkbox') {
+        $submittedValues = preg_split('/,\s*/', $submittedValue);
+        foreach ($submittedValues as $thisValue) {
+          if ($thisValue === $instantiatedValue) {
+            $checked = true;
+          }
+        }
+      } else if ($submittedValue === $instantiatedValue) { // radio
+        $checked = true;
+      }
+    } else if ($this->_data['checked']) { // set to initial state
+      $checked = true;
+    }
+
+    return $checked;
+  }
+
+  /**
    * Get HTML for element
    *
    * @param $tabindex {Integer}
@@ -100,7 +132,7 @@ class Input {
    */
   public function getHtml ($tabindex=NULL) {
     $attrs = '';
-    $value = $this->getValue();
+    $value = $this->getValue(); // use instantiated or user-entered value depending on form state
 
     if ($this->_data['disabled']) {
       $attrs .= ' disabled="disabled"';
@@ -129,11 +161,9 @@ class Input {
     }
 
     if ($this->_isCheckboxOrRadio) {
-      if ($this->_data['checked']) {
+      $value = $this->_data['value']; // must explicitly use instantiated value
+      if ($this->_isChecked()) {
         $attrs .= ' checked="checked"';
-      }
-      if ($this->_data['type'] === 'checkbox' && !preg_match('/.*\[\]$/', $this->_data['name'])) {
-        $this->_data['name'] .= '[]'; // set name to array for checkbox values
       }
     }
 
@@ -153,9 +183,14 @@ class Input {
       }
     }
 
+    $name = $this->_data['name'];
+    if ($this->_data['type'] === 'checkbox') {
+      $name .= '[]'; // set name to array in HTML for checkbox values
+    }
+
     $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
       $id,
-      $this->_data['name'],
+      $name,
       $this->_data['type'],
       $value,
       $attrs

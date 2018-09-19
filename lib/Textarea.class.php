@@ -15,23 +15,26 @@
  *       required {Boolean}
  *       rows {Integer}
  *
- *     other supported properties:
+ *     other properties:
  *
  *       class {String}
+ *       isValid {Boolean}
  *       label {String}
+ *       value {String}
  */
 class Textarea {
   private $_data = array(),
           $_defaults = array(
             'class' => '',
             'cols' => 60,
-            'disabled' => '',
+            'disabled' => false,
             'id' => '',
+            'isValid' => true,
             'label' => '',
             'maxLength' => '',
             'name' => '',
             'placeholder' => '',
-            'required' => '',
+            'required' => false,
             'rows' => 4,
             'type' => 'textarea',
             'value' => ''
@@ -75,6 +78,7 @@ class Textarea {
    */
   public function getHtml ($tabindex=NULL) {
     $attrs = '';
+    $value = $this->getValue();
 
     if ($this->_data['disabled']) {
       $attrs .= ' disabled="disabled"';
@@ -108,7 +112,7 @@ class Textarea {
       $this->_data['maxLength'],
       $this->_data['rows'],
       $attrs,
-      $this->_data['value']
+      $value
     );
 
     $label = sprintf('<label for="%s">%s</label>',
@@ -121,6 +125,9 @@ class Textarea {
     if ($this->_data['class']) {
       array_push($cssClasses, $this->_data['class']);
     }
+    if (!$this->_data['isValid']) {
+      array_push($cssClasses, 'error');
+    }
 
     $html = sprintf('<div class="%s">%s%s</div>',
       implode(' ', $cssClasses),
@@ -132,11 +139,17 @@ class Textarea {
   }
 
   /**
-   * Get form control's value submitted by user
+   * Get form control's value
    *
    * @return {String}
    */
   public function getValue () {
-    return safeParam($this->_data['name']);
+    if (isSet($_POST['submit'])) {
+      $value = safeParam($this->_data['name']); // value submitted by user
+    } else {
+      $value = $this->_data['value']; // instantiated value
+    }
+
+    return $value;
   }
 }

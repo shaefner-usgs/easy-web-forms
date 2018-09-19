@@ -966,6 +966,8 @@ section.form {
     section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse;
       /* display labels before controls */ }
+  section.form .error > label, section.form .error legend {
+    color: #cc0000 !important; }
   section.form .group {
     display: flex;
     flex-wrap: wrap; }

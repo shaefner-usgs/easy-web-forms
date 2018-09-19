@@ -11,9 +11,10 @@
  *       name {String} - REQUIRED
  *       required {Boolean}
  *
- *     other supported properties:
+ *     other properties:
  *
  *       class {String}
+ *       isValid {Boolean}
  *       label {String}
  *       options {Array} - REQUIRED
  *       selected {String}
@@ -22,12 +23,13 @@ class Select {
   private $_data = array(),
           $_defaults = array(
             'class' => '',
-            'disabled' => '',
+            'disabled' => false,
             'id' => '',
+            'isValid' => true,
             'label' => '',
             'name' => '',
             'options' => '',
-            'required' => '',
+            'required' => false,
             'type' => 'select',
             'selected' => ''
           );
@@ -98,15 +100,21 @@ class Select {
     }
 
     $options = '';
-    foreach ($this->_data['options'] as $key => $option) {
+    foreach ($this->_data['options'] as $key => $value) {
+      // Set selected option: data entered by user overrides if validation fails
       $selected = '';
-      if ($this->_data['selected'] === $key) {
+      if (isSet($_POST[$this->_data['name']])) {
+        if ($key === $this->getValue()) {
+          $selected = 'selected="selected"';
+        }
+      } else if ($key === $this->_data['selected']) {
         $selected = 'selected="selected"';
       }
+
       $options .= sprintf('<option value="%s"%s>%s</option>',
         $key,
         $selected,
-        $option
+        $value
       );
     }
 
@@ -126,6 +134,9 @@ class Select {
     $cssClasses = array('control', $this->_data['type']);
     if ($this->_data['class']) {
       array_push($cssClasses, $this->_data['class']);
+    }
+    if (!$this->_data['isValid']) {
+      array_push($cssClasses, 'error');
     }
 
     $html = sprintf('<div class="%s">%s%s</div>',

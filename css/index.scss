@@ -100,6 +100,10 @@ section.form {
     }
   }
 
+  .error > label, .error legend {
+    color: rgb(204, 0, 0) !important;
+  }
+
   .group {
     display: flex;
     flex-wrap: wrap;

@@ -3,7 +3,6 @@
 /**
  * Create and process html form
  *
- * TODO: Server-side validation (client-side too)
  * TODO: Allow user to set color for form buttons on instantiation (impement via .js?)
  */
 class Form {
@@ -121,9 +120,16 @@ class Form {
     foreach ($this->_controls as $key => $control) {
       if (is_array($control)) { // radio/checkbox group
         $controls = $control; // group of control(s) as array
-        $html .= sprintf('<fieldset>
+        $cssClass = '';
+        if (!$control[0]->isValid) {
+          // 'error' class attached to parent for radio / checkbox controls
+          $cssClass = 'error';
+        }
+
+        $html .= sprintf('<fieldset class="%s">
           <legend>%s</legend>
           <div class="group %s">',
+          $cssClass,
           $this->_labels[$key],
           $this->_arrangements[$key]
         );

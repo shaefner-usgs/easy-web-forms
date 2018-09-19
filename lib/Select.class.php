@@ -11,9 +11,10 @@
  *       name {String} - REQUIRED
  *       required {Boolean}
  *
- *     other supported properties:
+ *     other properties:
  *
  *       class {String}
+ *       isValid {Boolean}
  *       label {String}
  *       options {Array} - REQUIRED
  *       selected {String}
@@ -22,12 +23,13 @@ class Select {
   private $_data = array(),
           $_defaults = array(
             'class' => '',
-            'disabled' => '',
+            'disabled' => false,
             'id' => '',
+            'isValid' => true,
             'label' => '',
             'name' => '',
             'options' => '',
-            'required' => '',
+            'required' => false,
             'type' => 'select',
             'selected' => ''
           );
@@ -132,6 +134,9 @@ class Select {
     $cssClasses = array('control', $this->_data['type']);
     if ($this->_data['class']) {
       array_push($cssClasses, $this->_data['class']);
+    }
+    if (!$this->_data['isValid']) {
+      array_push($cssClasses, 'error');
     }
 
     $html = sprintf('<div class="%s">%s%s</div>',

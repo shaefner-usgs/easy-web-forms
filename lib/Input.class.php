@@ -19,18 +19,20 @@
  *       type {String} default is 'text'
  *       value {String} - REQUIRED for all radio/checkbox inputs
  *
- *     other supported properties:
+ *     other properties:
  *
  *       class {String}
+ *       isValid {Boolean}
  *       label {String}
  */
 class Input {
   private $_data = array(),
           $_defaults = array(
-            'checked' => '',
+            'checked' => false,
             'class' => '',
-            'disabled' => '',
+            'disabled' => false,
             'id' => '',
+            'isValid' => true,
             'label' => '',
             'max' => '',
             'maxLength' => '',
@@ -38,7 +40,7 @@ class Input {
             'name' => '',
             'pattern' => '',
             'placeholder' => '',
-            'required' => '',
+            'required' => false,
             'type' => 'text',
             'value' => ''
           ),
@@ -214,6 +216,11 @@ class Input {
 
       // Wrap label in div elem for pretty checkbox library
       $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
+    }
+    // Add 'error' class for fields that don't validate
+    //   radio / checkbox controls handled in Form class ('error' attached to parent)
+    if (!$this->_data['isValid'] && !$this->_isCheckboxOrRadio) {
+      array_push($cssClasses, 'error');
     }
 
     $html = sprintf('<div class="%s">%s%s</div>',

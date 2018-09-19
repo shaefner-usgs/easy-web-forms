@@ -15,9 +15,10 @@
  *       required {Boolean}
  *       rows {Integer}
  *
- *     other supported properties:
+ *     other properties:
  *
  *       class {String}
+ *       isValid {Boolean}
  *       label {String}
  *       value {String}
  */
@@ -26,13 +27,14 @@ class Textarea {
           $_defaults = array(
             'class' => '',
             'cols' => 60,
-            'disabled' => '',
+            'disabled' => false,
             'id' => '',
+            'isValid' => true,
             'label' => '',
             'maxLength' => '',
             'name' => '',
             'placeholder' => '',
-            'required' => '',
+            'required' => false,
             'rows' => 4,
             'type' => 'textarea',
             'value' => ''
@@ -122,6 +124,9 @@ class Textarea {
     $cssClasses = array('control', $this->_data['type']);
     if ($this->_data['class']) {
       array_push($cssClasses, $this->_data['class']);
+    }
+    if (!$this->_data['isValid']) {
+      array_push($cssClasses, 'error');
     }
 
     $html = sprintf('<div class="%s">%s%s</div>',

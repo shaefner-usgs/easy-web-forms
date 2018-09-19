@@ -14,7 +14,7 @@ class Form {
           $_values = array(); // form control values entered by user
 
   public function __construct () {
-    $this->_isValid = false; // default value; not validated yet
+
   }
 
   /*
@@ -22,7 +22,7 @@ class Form {
    *   sets _isValid flag to true if all form controls are valid
    */
   private function _validate () {
-    $this->_isValid = true; // gets set to false if any controls are invalid
+    $this->_isValid = true; // default; set to false if any controls are invalid
 
     foreach ($this->_values as $key => $value) {
       $control = $this->_controls[$key];
@@ -46,11 +46,11 @@ class Form {
    * Add a radio/checkbox group
    *
    * @param $group {Array}
-   *   [
-   *     arrangement {String} 'horizontal' or 'vertical'
-   *     controls {Array} - Form control instances as an indexed array
-   *     label {String}
-   *   ]
+   *     [
+   *       arrangement {String} 'horizontal' or 'vertical'
+   *       controls {Array} - Form control instances as an indexed array
+   *       label {String}
+   *     ]
    */
   public function addGroup ($group) {
     $controls = $group['controls'];
@@ -175,7 +175,7 @@ class Form {
       }
       $html .= '</dl>';
       $html .= '</section>';
-    } else { // validation failed; show form
+    } else { // validation failed; send back form
       $html = $this->getFormHtml();
     }
 
@@ -186,9 +186,9 @@ class Form {
    * Create an array containing form control values entered by user, then insert into database
    *
    * @param $Database {Object}
-   *    Database instance
+   *     Database instance
    * @param $table {String}
-   *    Table name
+   *     Table name
    */
   public function process ($Database, $table) {
     foreach ($this->_controls as $key => $control) {

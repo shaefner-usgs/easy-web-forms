@@ -2,6 +2,7 @@
 
 /**
  * Get a request parameter from $_GET or $_POST
+ *   flattens checkbox arrays into a comma-separated list of values
  *
  * @param $name {String}
  *     The parameter name
@@ -14,13 +15,13 @@
  */
 function safeParam ($name, $default=NULL, $filter=FILTER_SANITIZE_STRING) {
   $value = NULL;
-  if (isset($_POST[$name]) && $_POST[$name] !== '') {
+  if (isSet($_POST[$name]) && $_POST[$name] !== '') {
     if (is_array($_POST[$name])) { // handle checkbox arrays
       $value = filter_var(implode(', ', $_POST[$name]), $filter);
     } else {
       $value = filter_input(INPUT_POST, $name, $filter);
     }
-  } else if (isset($_GET[$name]) && $_GET[$name] !== '') {
+  } else if (isSet($_GET[$name]) && $_GET[$name] !== '') {
     $value = filter_input(INPUT_GET, $name, $filter);
   } else {
     $value = $default;

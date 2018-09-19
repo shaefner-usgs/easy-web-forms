@@ -113,6 +113,9 @@ class Form {
    */
   public function getFormHtml () {
     $html = '<section class="form">';
+    if (isSet($_POST['submit']) && !$this->_isValid) {
+      $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
+    }
     $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
       $_SERVER['REQUEST_URI']);
 

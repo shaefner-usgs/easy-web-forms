@@ -61,10 +61,10 @@ class Form {
     foreach ($controls as $control) {
       $key = $control->name;
       $required = $control->required;
-      if ($prevKey && $key !== $prevKey) {
+      if ($prevKey !== '' && $key !== $prevKey) {
          print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all inputs in a group</p>';
       }
-      if ($prevRequired && $required !== $prevRequired) {
+      if ($prevRequired !== '' && $required !== $prevRequired) {
         printf ('<p class="error">ERROR: the <em>required</em> attribute must be the same for all inputs in a group (%s)</p>',
           $control->name
         );
@@ -112,6 +112,8 @@ class Form {
    * @return $html {String}
    */
   public function getFormHtml () {
+    $count = 0; // used for tabindex attrs
+
     $html = '<section class="form">';
     if (isSet($_POST['submit']) && !$this->_isValid) {
       $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
@@ -119,7 +121,6 @@ class Form {
     $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
       $_SERVER['REQUEST_URI']);
 
-    $count = 0; // used for tabindex attrs
     foreach ($this->_controls as $key => $control) {
       if (is_array($control)) { // radio/checkbox group
         $controls = $control; // group of control(s) as array

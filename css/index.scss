@@ -42,7 +42,7 @@ section.form {
   input:not([type="submit"]),
   textarea {
     border: 1px solid #dfdfdf;
-    border-radius: 4px;
+    border-radius: $border-radius;
     box-shadow: inset 0 1px 4px 0 hsla(0, 0%, 0%, 0.08);
     outline: none;
     transition: all 0.25s ease-in-out;
@@ -100,8 +100,16 @@ section.form {
     }
   }
 
-  .error > label, .error legend {
-    color: rgb(204, 0, 0) !important;
+  .error {
+    > label,
+    legend {
+      color: $danger !important;
+    }
+    input:not([type="submit"]),
+    textarea {
+      border: 1px solid $danger;
+      box-shadow: 0 0 3px $danger;
+    }
   }
 
   .group {
@@ -133,24 +141,25 @@ section.results {
   }
 }
 
-// Alerts (TODO: set bg colors based on sass calcs. from variable colors)
+// Alerts
 
 .alert {
-  background: rgba(0, 0, 204, .05);
+  background: transparentize($info, .95);
   border: 1px solid $info;
+  border-radius: $border-radius;
   padding: 1rem;
 }
 
 p.error {
   @extend .alert;
-  background: rgba(204, 0, 0, .05);
+  background: transparentize($danger, .95);
   border-color: $danger;
   color: $danger;
 }
 
 p.success {
   @extend .alert;
-  background: rgba(0, 204, 0, .05);
+  background: transparentize($success, .95);
   border-color: $success;
   color: $success;
 }

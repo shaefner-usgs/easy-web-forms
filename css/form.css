@@ -927,7 +927,7 @@ section.form {
   section.form input:not([type="submit"]),
   section.form textarea {
     border: 1px solid #dfdfdf;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
     outline: none;
     transition: all 0.25s ease-in-out; }
@@ -966,8 +966,13 @@ section.form {
     section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse;
       /* display labels before controls */ }
-  section.form .error > label, section.form .error legend {
-    color: #cc0000 !important; }
+  section.form .error > label,
+  section.form .error legend {
+    color: #dc3545 !important; }
+  section.form .error input:not([type="submit"]),
+  section.form .error textarea {
+    border: 1px solid #dc3545;
+    box-shadow: 0 0 3px #dc3545; }
   section.form .group {
     display: flex;
     flex-wrap: wrap; }
@@ -993,17 +998,18 @@ section.results {
     text-transform: uppercase; }
 
 .alert, p.error, p.success {
-  background: rgba(0, 0, 204, 0.05);
+  background: rgba(23, 162, 184, 0.05);
   border: 1px solid #17a2b8;
+  border-radius: 0.25rem;
   padding: 1rem; }
 
 p.error {
-  background: rgba(204, 0, 0, 0.05);
+  background: rgba(220, 53, 69, 0.05);
   border-color: #dc3545;
   color: #dc3545; }
 
 p.success {
-  background: rgba(0, 204, 0, 0.05);
+  background: rgba(40, 167, 69, 0.05);
   border-color: #28a745;
   color: #28a745; }
 

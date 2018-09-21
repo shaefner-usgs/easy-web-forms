@@ -134,6 +134,7 @@ section.form {
     }
   }
 
+  // Add focus styles to pretty checkbox controls
   .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px $primary;
   }

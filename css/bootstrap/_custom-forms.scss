@@ -178,7 +178,7 @@
     border-radius: 0;
   }
   @include box-shadow($custom-select-box-shadow);
-  appearance: none;
+  @include appearance(none);
 
   &:focus {
     border-color: $custom-select-focus-border-color;
@@ -316,7 +316,7 @@
   width: 100%;
   padding-left: 0; // Firefox specific
   background-color: transparent;
-  appearance: none;
+  @include appearance(none);
 
   &:focus {
     outline: none;
@@ -341,7 +341,7 @@
     @include border-radius($custom-range-thumb-border-radius);
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
-    appearance: none;
+    @include appearance(none);
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
@@ -367,7 +367,7 @@
     @include border-radius($custom-range-thumb-border-radius);
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
-    appearance: none;
+    @include appearance(none);
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);

@@ -9,12 +9,14 @@
  *       checked {Boolean}
  *       disabled {Boolean}
  *       id {String} - REQUIRED for all radio/checkbox inputs
+ *       inputmode {String}
  *       max {Integer}
  *       maxLength {Integer}
  *       min {Integer}
  *       name {String} - REQUIRED for all inputs; for radio/checkbox inputs, use the same 'name' for all inputs in group
  *       pattern {RegExp}
  *       placeholder {String}
+ *       readonly {Boolean}
  *       required {Boolean}
  *       type {String} default is 'text'
  *       value {String} - REQUIRED for all radio/checkbox inputs
@@ -32,6 +34,7 @@ class Input {
             'class' => '',
             'disabled' => false,
             'id' => '',
+            'inputmode' => 'none',
             'isValid' => true,
             'label' => '',
             'max' => '',
@@ -40,6 +43,7 @@ class Input {
             'name' => '',
             'pattern' => '',
             'placeholder' => '',
+            'readonly' => false,
             'required' => false,
             'type' => 'text',
             'value' => ''
@@ -148,6 +152,9 @@ class Input {
     if ($this->_data['required']) {
       $attrs .= ' required="required"';
     }
+    if ($this->_data['readonly']) {
+      $attrs .= ' readonly="readonly"';
+    }
     if ($tabindex) {
       $attrs .= sprintf(' tabindex="%d"', $tabindex);
     }
@@ -190,8 +197,9 @@ class Input {
       $name .= '[]'; // set name to array in HTML for checkbox values
     }
 
-    $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
+    $input = sprintf('<input id="%s" inputmode="%s" name="%s" type="%s" value="%s"%s />',
       $id,
+      $this->_data['inputmode'],
       $name,
       $this->_data['type'],
       $value,

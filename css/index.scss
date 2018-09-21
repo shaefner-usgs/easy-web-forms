@@ -1,10 +1,13 @@
-@import 'bootstrap-buttons.scss';
+@import '_vendor.scss';
+@import 'bootstrap.scss'; // buttons, select pulldowns
 @import 'pretty-checkbox.scss';
+
+// Note: Sass variables used below are defined in bootstrap/_variables.scss
 
 @mixin fonts {
   color: #333;
   font: {
-    family: Helvetica, sans-serif;
+    family: $font-family-sans-serif;
     size: 16px;
   }
   line-height: 1.4;
@@ -15,7 +18,7 @@
   font-size: .85rem;
   font-weight: 500;
   margin: 0;
-  padding: 0 0 .15rem;
+  padding: 0 0 .25rem;
   text-transform: uppercase;
 }
 
@@ -23,15 +26,18 @@
 
 section.form,
 section.results {
+  box-sizing: border-box;
   max-width: 35rem;
+
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
 }
 
 // Form
 
 section.form {
   @include fonts;
-
-  // Form controls (TODO: Set :focus styles for radio/checkboxes)
 
   input:not([type="submit"]),
   select,
@@ -43,9 +49,14 @@ section.form {
   textarea {
     border: 1px solid #dfdfdf;
     border-radius: $border-radius;
-    box-shadow: inset 0 1px 4px 0 hsla(0, 0%, 0%, 0.08);
+    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
     outline: none;
     transition: all 0.25s ease-in-out;
+
+    &:focus {
+      border: 1px solid $primary;
+      box-shadow: 0 0 3px $primary;
+    }
   }
 
   input:not([type="submit"]) {
@@ -53,17 +64,15 @@ section.form {
     padding: 6px;
   }
 
-  textarea {
-    padding: 4px 6px;
+  input[disabled="disabled"],
+  input[readonly="readonly"] {
+    background: #eee;
+    color: #999;
   }
 
-  input[type="submit"] {
-    margin-top: 1rem;
-  }
-  input:not([type="submit"]):focus,
-  textarea:focus {
-    border: 1px solid $primary;
-    box-shadow: 0 0 3px $primary;
+  textarea {
+    padding: 4px 6px;
+    resize: vertical;
   }
 
   // Form control/group labels and layout
@@ -75,21 +84,22 @@ section.form {
 
   fieldset,
   .control:not(.checkbox):not(.radio) {
-    margin: 1.25rem 0 0;
+    margin: 1.5rem 0;
   }
 
   label {
     cursor: pointer;
-  }
-
-  .checkbox,
-  .radio {
-    margin: 6px 1rem 3px 0;
+    display: inline-block;
   }
 
   .control:not(.checkbox):not(.radio) label,
   legend {
     @include labels;
+  }
+
+  .checkbox,
+  .radio {
+    margin: 6px 1rem 3px 0;
   }
 
   .control {
@@ -108,6 +118,9 @@ section.form {
     input:not([type="submit"]),
     textarea {
       border: 1px solid $danger;
+    }
+    input:not([type="submit"]):focus,
+    textarea:focus {
       box-shadow: 0 0 3px $danger;
     }
   }
@@ -119,6 +132,10 @@ section.form {
     &.vertical {
       flex-direction: column;
     }
+  }
+
+  .pretty input:focus ~ .state.p-primary-o label:before {
+    box-shadow: 0 0 3px $primary;
   }
 }
 

@@ -110,6 +110,11 @@ section.form {
     }
   }
 
+  // Patch to make bootstrap select menu look like other controls
+  .custom-select:focus {
+    box-shadow: 0 0 3px $primary;
+  }
+
   .error {
     > label,
     legend {
@@ -118,10 +123,18 @@ section.form {
     input:not([type="submit"]),
     textarea {
       border: 1px solid $danger;
+
+      &:focus {
+        box-shadow: 0 0 3px $danger;
+      }
     }
-    input:not([type="submit"]):focus,
-    textarea:focus {
-      box-shadow: 0 0 3px $danger;
+    
+    .custom-select {
+      border: 1px solid $danger;
+
+      &:focus {
+        box-shadow: 0 0 3px $danger;
+      }
     }
   }
 

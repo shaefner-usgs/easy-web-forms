@@ -1256,15 +1256,21 @@ section.form {
     section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse;
       /* display labels before controls */ }
+  section.form .custom-select:focus {
+    box-shadow: 0 0 3px #007bff; }
   section.form .error > label,
   section.form .error legend {
     color: #dc3545 !important; }
   section.form .error input:not([type="submit"]),
   section.form .error textarea {
     border: 1px solid #dc3545; }
-  section.form .error input:not([type="submit"]):focus,
-  section.form .error textarea:focus {
-    box-shadow: 0 0 3px #dc3545; }
+    section.form .error input:not([type="submit"]):focus,
+    section.form .error textarea:focus {
+      box-shadow: 0 0 3px #dc3545; }
+  section.form .error .custom-select {
+    border: 1px solid #dc3545; }
+    section.form .error .custom-select:focus {
+      box-shadow: 0 0 3px #dc3545; }
   section.form .group {
     display: flex;
     flex-wrap: wrap; }

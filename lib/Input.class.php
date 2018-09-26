@@ -102,6 +102,83 @@ class Input {
   }
 
   /**
+   * Get optional html attributes for control
+   *
+   * @param $tabindex {Integer}
+   *
+   * @return $attrs {String}
+   */
+  private function _getAttrs ($tabindex) {
+    $attrs = '';
+
+    if ($this->_data['disabled']) {
+      $attrs .= ' disabled="disabled"';
+    }
+    if ($this->_data['inputmode']) {
+      $attrs .= sprintf(' inputmode="%s"', $this->_data['inputmode']);
+    }
+    if ($this->_data['pattern']) {
+      $attrs .= sprintf(' pattern="%s"', $this->_data['pattern']);
+    }
+    if ($this->_data['placeholder']) {
+      $attrs .= sprintf(' placeholder="%s"', $this->_data['placeholder']);
+    }
+    if ($this->_data['required']) {
+      $attrs .= ' required="required"';
+    }
+    if ($this->_data['readonly']) {
+      $attrs .= ' readonly="readonly"';
+    }
+    if ($tabindex) {
+      $attrs .= sprintf(' tabindex="%d"', $tabindex);
+    }
+
+    if ($this->_data['type'] === 'number') {
+      $attrs .= sprintf(' max="%s" min="%s"',
+        $this->_data['max'],
+        $this->_data['min']
+      );
+    }
+    if ($this->_data['type'] === 'text' && $this->_data['maxLength']) {
+      $attrs .= sprintf(' maxLength="%s"', $this->_data['maxLength']);
+    }
+
+    if ($this->_isCheckboxOrRadio) {
+      if ($this->_isChecked()) {
+        $attrs .= ' checked="checked"';
+      }
+    }
+
+    return $attrs;
+  }
+
+  /**
+   * Get relevant css classes for control
+   *
+   * @return $cssClasses {Array}
+   */
+  private function _getCssClasses () {
+    $cssClasses = array('control', $this->_data['type']);
+    if ($this->_data['class']) {
+      array_push($cssClasses, $this->_data['class']);
+    }
+    // Add classes for pretty checkbox library
+    if ($this->_isCheckboxOrRadio) {
+      array_push($cssClasses, 'pretty', 'p-default', 'p-pulse');
+      if ($this->_data['type'] === 'radio') {
+        array_push($cssClasses, 'p-round');
+      }
+    }
+    // Add 'error' class for fields that don't validate
+    //   radio / checkbox controls handled in Form class ('error' attached to parent)
+    if (!$this->_data['isValid'] && !$this->_isCheckboxOrRadio) {
+      array_push($cssClasses, 'error');
+    }
+
+    return $cssClasses;
+  }
+
+  /**
    * Assess if radio / checkbox should be checked
    *
    * @return $checked {Boolean}
@@ -137,47 +214,9 @@ class Input {
    * @return $html {String}
    */
   public function getHtml ($tabindex=NULL) {
-    $attrs = '';
+    $attrs = $this->_getAttrs($tabindex);
+    $cssClasses = $this->_getCssClasses();
     $value = $this->getValue(); // use instantiated or user-entered value depending on form state
-
-    if ($this->_data['disabled']) {
-      $attrs .= ' disabled="disabled"';
-    }
-    if ($this->_data['inputmode']) {
-      $attrs .= sprintf(' inputmode="%s"', $this->_data['inputmode']);
-    }
-    if ($this->_data['pattern']) {
-      $attrs .= sprintf(' pattern="%s"', $this->_data['pattern']);
-    }
-    if ($this->_data['placeholder']) {
-      $attrs .= sprintf(' placeholder="%s"', $this->_data['placeholder']);
-    }
-    if ($this->_data['required']) {
-      $attrs .= ' required="required"';
-    }
-    if ($this->_data['readonly']) {
-      $attrs .= ' readonly="readonly"';
-    }
-    if ($tabindex) {
-      $attrs .= sprintf(' tabindex="%d"', $tabindex);
-    }
-
-    if ($this->_data['type'] === 'number') {
-      $attrs .= sprintf(' max="%s" min="%s"',
-        $this->_data['max'],
-        $this->_data['min']
-      );
-    }
-    if ($this->_data['type'] === 'text') {
-      $attrs .= sprintf(' maxLength="%s"', $this->_data['maxLength']);
-    }
-
-    if ($this->_isCheckboxOrRadio) {
-      $value = $this->_data['value']; // must explicitly use instantiated value
-      if ($this->_isChecked()) {
-        $attrs .= ' checked="checked"';
-      }
-    }
 
     if ($this->_data['id']) {
       $id = $this->_data['id'];
@@ -195,9 +234,20 @@ class Input {
       }
     }
 
+    $label = sprintf('<label for="%s">%s</label>',
+      $id,
+      $labelText
+    );
+
     $name = $this->_data['name'];
     if ($this->_data['type'] === 'checkbox') {
       $name .= '[]'; // set name to array in HTML for checkbox values
+    }
+
+    if ($this->_isCheckboxOrRadio) {
+      // Wrap label in div elem for pretty checkbox library
+      $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
+      $value = $this->_data['value']; // must explicitly use instantiated value
     }
 
     $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
@@ -207,31 +257,6 @@ class Input {
       $value,
       $attrs
     );
-
-    $label = sprintf('<label for="%s">%s</label>',
-      $id,
-      $labelText
-    );
-
-    // Add relevant css classes
-    $cssClasses = array('control', $this->_data['type']);
-    if ($this->_data['class']) {
-      array_push($cssClasses, $this->_data['class']);
-    }
-    if ($this->_isCheckboxOrRadio) {
-      array_push($cssClasses, 'pretty', 'p-default', 'p-pulse');
-      if ($this->_data['type'] === 'radio') {
-        array_push($cssClasses, 'p-round');
-      }
-
-      // Wrap label in div elem for pretty checkbox library
-      $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
-    }
-    // Add 'error' class for fields that don't validate
-    //   radio / checkbox controls handled in Form class ('error' attached to parent)
-    if (!$this->_data['isValid'] && !$this->_isCheckboxOrRadio) {
-      array_push($cssClasses, 'error');
-    }
 
     $html = sprintf('<div class="%s">%s%s</div>',
       implode(' ', $cssClasses),

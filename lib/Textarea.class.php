@@ -70,18 +70,20 @@ class Textarea {
   }
 
   /**
-   * Get HTML for element
+   * Get optional html attributes for control
    *
    * @param $tabindex {Integer}
    *
-   * @return $html {String}
+   * @return $attrs {String}
    */
-  public function getHtml ($tabindex=NULL) {
+  private function _getAttrs ($tabindex) {
     $attrs = '';
-    $value = $this->getValue();
 
     if ($this->_data['disabled']) {
       $attrs .= ' disabled="disabled"';
+    }
+    if ($this->_data['maxLength']) {
+      $attrs .= sprintf(' maxlength="%s"', $this->_data['maxLength']);
     }
     if ($this->_data['placeholder']) {
       $attrs .= sprintf(' placeholder="%s"', $this->_data['placeholder']);
@@ -92,6 +94,38 @@ class Textarea {
     if ($tabindex) {
       $attrs .= sprintf(' tabindex="%d"', $tabindex);
     }
+
+    return $attrs;
+  }
+
+  /**
+   * Get relevant css classes for control
+   *
+   * @return $cssClasses {Array}
+   */
+  private function _getCssClasses () {
+    $cssClasses = array('control', $this->_data['type']);
+    if ($this->_data['class']) {
+      array_push($cssClasses, $this->_data['class']);
+    }
+    if (!$this->_data['isValid']) {
+      array_push($cssClasses, 'error');
+    }
+
+    return $cssClasses;
+  }
+
+  /**
+   * Get HTML for element
+   *
+   * @param $tabindex {Integer}
+   *
+   * @return $html {String}
+   */
+  public function getHtml ($tabindex=NULL) {
+    $attrs = $this->_getAttrs($tabindex);
+    $cssClasses = $this->_getCssClasses();
+    $value = $this->getValue();
 
     if ($this->_data['id']) {
       $id = $this->_data['id'];
@@ -105,29 +139,19 @@ class Textarea {
       $labelText = $this->_data['name'];
     }
 
-    $textarea = sprintf('<textarea id="%s" name="%s" cols="%s" maxLength="%s" rows="%s"%s>%s</textarea>',
-      $id,
-      $this->_data['name'],
-      $this->_data['cols'],
-      $this->_data['maxLength'],
-      $this->_data['rows'],
-      $attrs,
-      $value
-    );
-
     $label = sprintf('<label for="%s">%s</label>',
       $id,
       $labelText
     );
 
-    // Add relevant css classes
-    $cssClasses = array('control', $this->_data['type']);
-    if ($this->_data['class']) {
-      array_push($cssClasses, $this->_data['class']);
-    }
-    if (!$this->_data['isValid']) {
-      array_push($cssClasses, 'error');
-    }
+    $textarea = sprintf('<textarea id="%s" name="%s" cols="%s" rows="%s"%s>%s</textarea>',
+      $id,
+      $this->_data['name'],
+      $this->_data['cols'],
+      $this->_data['rows'],
+      $attrs,
+      $value
+    );
 
     $html = sprintf('<div class="%s">%s%s</div>',
       implode(' ', $cssClasses),

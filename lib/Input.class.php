@@ -34,7 +34,7 @@ class Input {
             'class' => '',
             'disabled' => false,
             'id' => '',
-            'inputmode' => 'none',
+            'inputmode' => '',
             'isValid' => true,
             'label' => '',
             'max' => '',
@@ -143,6 +143,9 @@ class Input {
     if ($this->_data['disabled']) {
       $attrs .= ' disabled="disabled"';
     }
+    if ($this->_data['inputmode']) {
+      $attrs .= sprintf(' inputmode="%s"', $this->_data['inputmode']);
+    }
     if ($this->_data['pattern']) {
       $attrs .= sprintf(' pattern="%s"', $this->_data['pattern']);
     }
@@ -197,9 +200,8 @@ class Input {
       $name .= '[]'; // set name to array in HTML for checkbox values
     }
 
-    $input = sprintf('<input id="%s" inputmode="%s" name="%s" type="%s" value="%s"%s />',
+    $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
       $id,
-      $this->_data['inputmode'],
       $name,
       $this->_data['type'],
       $value,

@@ -113,6 +113,7 @@ class Form {
    */
   public function getFormHtml () {
     $count = 0; // used for tabindex attrs
+    $hasRequiredFields = false;
 
     $html = '<section class="form">';
     if (isSet($_POST['submit']) && !$this->_isValid) {
@@ -124,18 +125,22 @@ class Form {
     foreach ($this->_controls as $key => $control) {
       if (is_array($control)) { // radio/checkbox group
         $controls = $control; // group of control(s) as array
-        $cssClass = '';
+        // attach error/req'd classes to parent for radio / checkbox controls
+        $cssClasses = array();
         if (!$control[0]->isValid) {
-          // 'error' class attached to parent for radio / checkbox controls
-          $cssClass = 'error';
+          array_push($cssClasses, 'error');
+        }
+        if ($control[0]->required) {
+          array_push($cssClasses, 'required');
+          $hasRequiredFields = true;
         }
 
         $html .= sprintf('<fieldset class="%s">
           <legend>%s</legend>
           <div class="group %s">',
-          $cssClass,
-          $this->_labels[$key],
-          $this->_arrangements[$key]
+            implode(' ', $cssClasses),
+            $this->_labels[$key],
+            $this->_arrangements[$key]
         );
         foreach ($controls as $ctrl) {
           $html .= $ctrl->getHtml(++ $count);
@@ -144,11 +149,17 @@ class Form {
           </fieldset>';
       } else { // single control
         $html .= $control->getHtml(++ $count);
+        if ($control->required) {
+          $hasRequiredFields = true;
+        }
       }
     }
 
     $html .= '<input name="submit" type="submit" class="btn btn-primary" value="Submit" />';
     $html .= '</form>';
+    if ($hasRequiredFields) {
+      $html .= '<p class="required"><span>*</span> = required field</p>';
+    }
     $html .= '</section>';
 
     return $html;

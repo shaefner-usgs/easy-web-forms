@@ -92,6 +92,10 @@ section.form {
     display: inline-block;
   }
 
+  p.required span {
+    color: $danger;
+  }
+
   .control:not(.checkbox):not(.radio) label,
   legend {
     @include labels;
@@ -150,6 +154,11 @@ section.form {
   // Add focus styles to pretty checkbox controls
   .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px $primary;
+  }
+
+  .required legend:after, :required + label:after {
+    color: $danger;
+    content: ' *';
   }
 }
 

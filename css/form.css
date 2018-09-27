@@ -1240,6 +1240,8 @@ section.form {
   section.form label {
     cursor: pointer;
     display: inline-block; }
+  section.form p.required span {
+    color: #dc3545; }
   section.form .control:not(.checkbox):not(.radio) label,
   section.form legend {
     color: #666;
@@ -1278,6 +1280,9 @@ section.form {
       flex-direction: column; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
+  section.form .required legend:after, section.form :required + label:after {
+    color: #dc3545;
+    content: ' *'; }
 
 section.results {
   color: #333;

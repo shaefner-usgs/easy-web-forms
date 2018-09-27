@@ -25,16 +25,14 @@ class Database {
    * @return $stmt {Object}
    *     PDOStatement object
    */
-  private function _execQuery ($sql, $params=NULL) {
+  private function _execQuery ($sql, Array $params=NULL) {
     try {
       $stmt = $this->_db->prepare($sql);
 
       // Bind sql params
-      if (is_array($params)) {
-        foreach ($params as $key => $value) {
-          $type = $this->_getType($value);
-          $stmt->bindValue($key, $value, $type);
-        }
+      foreach ($params as $key => $value) {
+        $type = $this->_getType($value);
+        $stmt->bindValue($key, $value, $type);
       }
 
       $stmt->execute();

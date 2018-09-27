@@ -34,17 +34,15 @@ class Select {
             'selected' => ''
           );
 
-  public function __construct ($params=NULL) {
+  public function __construct (Array $params=NULL) {
     // Set default values
     foreach ($this->_defaults as $key => $value) {
       $this->__set($key, $value);
     }
 
     // Set instantiated values
-    if (is_array($params)) {
-      foreach ($params as $key => $value) {
-        $this->__set($key, $value);
-      }
+    foreach ($params as $key => $value) {
+      $this->__set($key, $value);
     }
 
     // Check for missing req'd params

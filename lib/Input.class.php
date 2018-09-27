@@ -50,21 +50,19 @@ class Input {
           ),
           $_isCheckboxOrRadio;
 
-  public function __construct ($params=NULL) {
+  public function __construct (Array $params=NULL) {
     // Set default values
     foreach ($this->_defaults as $key => $value) {
       $this->__set($key, $value);
     }
 
     // Set instantiated values
-    if (is_array($params)) {
-      foreach ($params as $key => $value) {
-        // Strip off '[]' from name values; added programmatically to checkbox inputs
-        if ($key === 'name' && preg_match('/\[\]$/', $value)) {
-          $value = preg_replace('/(\w+)\[\]$/', '$1', $value);
-        }
-        $this->__set($key, $value);
+    foreach ($params as $key => $value) {
+      // Strip off '[]' from name values; added programmatically to checkbox inputs
+      if ($key === 'name' && preg_match('/\[\]$/', $value)) {
+        $value = preg_replace('/(\w+)\[\]$/', '$1', $value);
       }
+      $this->__set($key, $value);
     }
 
     // Flag to test whether input is a radio/checkbox

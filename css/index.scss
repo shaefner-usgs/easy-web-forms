@@ -146,7 +146,7 @@ section.form {
     display: flex;
     flex-wrap: wrap;
 
-    &.vertical {
+    &.stacked {
       flex-direction: column;
     }
   }

@@ -6,7 +6,7 @@
  * TODO: Allow user to set color for form buttons on instantiation (impement via .js?)
  */
 class Form {
-  private $_arrangements = array(), // positioning of radio/checkbox groups (horizontal or vertical)
+  private $_arrangements = array(), // positioning of radio/checkbox groups (inline or stacked)
           $_controls = array(), // form controls
           $_isValid, // Boolean value (false if form doesn't validate)
           $_labels = array(), // form control labels
@@ -47,7 +47,7 @@ class Form {
    *
    * @param $group {Array}
    *     [
-   *       arrangement {String} 'horizontal' or 'vertical'
+   *       arrangement {String} 'inline' or 'stacked'
    *       controls {Array} - Form control instances as an indexed array
    *       label {String}
    *     ]
@@ -73,7 +73,7 @@ class Form {
       $prevRequired = $required;
     }
 
-    $arrangement = 'horizontal'; // default value
+    $arrangement = 'inline'; // default value
     if (array_key_exists('arrangement', $group)) {
       $arrangement = $group['arrangement'];
     }

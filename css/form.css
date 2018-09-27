@@ -1276,7 +1276,7 @@ section.form {
   section.form .group {
     display: flex;
     flex-wrap: wrap; }
-    section.form .group.vertical {
+    section.form .group.stacked {
       flex-direction: column; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }

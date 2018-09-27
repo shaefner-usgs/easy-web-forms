@@ -46,7 +46,8 @@ section.form {
   }
 
   input:not([type="submit"]),
-  textarea {
+  textarea,
+  .custom-select {
     border: 1px solid #dfdfdf;
     border-radius: $border-radius;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
@@ -112,11 +113,6 @@ section.form {
     &:not(.checkbox):not(.radio) {
       flex-direction: column-reverse; /* display labels before controls */
     }
-  }
-
-  // Patch to make bootstrap select menu look like other controls
-  .custom-select:focus {
-    box-shadow: 0 0 3px $primary;
   }
 
   .error {

@@ -25,7 +25,7 @@ class Database {
    * @return $stmt {Object}
    *     PDOStatement object
    */
-  private function _execQuery ($sql, Array $params=NULL) {
+  private function _execQuery ($sql, Array $params=array()) {
     try {
       $stmt = $this->_db->prepare($sql);
 
@@ -83,7 +83,7 @@ class Database {
     $varType = gettype($var);
 
     $type = $pdoTypes['string']; // default
-    if (isset($pdoTypes[$varType])) {
+    if (isSet($pdoTypes[$varType])) {
       $type = $pdoTypes[$varType];
     }
 

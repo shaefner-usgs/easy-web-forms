@@ -24,79 +24,79 @@
  *     other properties:
  *
  *       class {String}
- *       isValid {Boolean}
  *       label {String}
  */
 class Input {
-  private $_data = array(),
-          $_defaults = array(
-            'checked' => false,
-            'class' => '',
-            'disabled' => false,
-            'id' => '',
-            'inputmode' => '',
-            'isValid' => true,
-            'label' => '',
-            'max' => '',
-            'maxLength' => '',
-            'min' => '',
-            'name' => '',
-            'pattern' => '',
-            'placeholder' => '',
-            'readonly' => false,
-            'required' => false,
-            'type' => 'text',
-            'value' => ''
-          ),
-          $_isCheckboxOrRadio;
+  private $_defaults = array(
+      'checked' => false,
+      'class' => '',
+      'disabled' => false,
+      'id' => '',
+      'inputmode' => '',
+      'label' => '',
+      'max' => '',
+      'maxLength' => '',
+      'min' => '',
+      'name' => '',
+      'pattern' => '',
+      'placeholder' => '',
+      'readonly' => false,
+      'required' => false,
+      'type' => 'text',
+      'value' => ''
+    ),
+    $_instantiatedValue,
+    $_isCheckboxOrRadio = false,
+    $_submittedValue;
 
-  public function __construct (Array $params=NULL) {
-    // Set default values
-    foreach ($this->_defaults as $key => $value) {
-      $this->__set($key, $value);
-    }
+  public $isValid = true;
 
-    // Set instantiated values
-    foreach ($params as $key => $value) {
+  public function __construct (Array $params=array()) {
+    // Merge defaults with user-supplied params and set as class properties
+    $options = array_merge($this->_defaults, $params);
+    foreach ($options as $key => $value) {
       // Strip off '[]' from name values; added programmatically to checkbox inputs
       if ($key === 'name' && preg_match('/\[\]$/', $value)) {
         $value = preg_replace('/(\w+)\[\]$/', '$1', $value);
       }
-      $this->__set($key, $value);
+      if (array_key_exists($key, $this->_defaults)) {
+        $this->$key = $value;
+      }
     }
 
-    // Flag to test whether input is a radio/checkbox
-    $this->_isCheckboxOrRadio = false;
-    if ($this->_data['type'] === 'radio' || $this->_data['type'] === 'checkbox') {
+    if ($this->type === 'radio' || $this->type === 'checkbox') {
       $this->_isCheckboxOrRadio = true;
     }
 
-    // Check for missing req'd params
-    if (!$this->_data['name']) {
+    $this->_checkParams();
+
+    // Cache instantiated/submitted values and set value prop depending on state
+    $this->_instantiatedValue = $this->value;
+    if (isSet($_POST['submit'])) {
+      $this->_submittedValue = safeParam($this->name);
+      $this->value = $this->_submittedValue; // set to user-supplied value
+    }
+  }
+
+  /**
+   * Check for missing required params
+   */
+  private function _checkParams () {
+    if (!$this->name) {
       print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all input elements</p>';
     }
     if ($this->_isCheckboxOrRadio) {
-      if (!$this->_data['id']) {
+      if (!$this->id) {
         printf ('<p class="error">ERROR: the <em>id</em> attribute is <strong>required</strong> for all radio/checkbox inputs (%s)</p>',
-          $this->_data['name']
+          $this->name
         );
       }
-      if (!$this->_data['value']) {
+      if (!$this->value) {
         printf ('<p class="error">ERROR: the <em>value</em> attribute is <strong>required</strong> for all radio/checkbox inputs (%s)</p>',
-          $this->_data['name']
+          $this->name
         );
       }
     }
-  }
-
-  public function __get ($key) {
-    if (isset($this->_data[$key])) {
-      return $this->_data[$key];
-    }
-  }
-
-  public function __set ($key, $value) {
-    $this->_data[$key] = $value;
   }
 
   /**
@@ -109,36 +109,36 @@ class Input {
   private function _getAttrs ($tabindex) {
     $attrs = '';
 
-    if ($this->_data['disabled']) {
+    if ($this->disabled) {
       $attrs .= ' disabled="disabled"';
     }
-    if ($this->_data['inputmode']) {
-      $attrs .= sprintf(' inputmode="%s"', $this->_data['inputmode']);
+    if ($this->inputmode) {
+      $attrs .= sprintf(' inputmode="%s"', $this->inputmode);
     }
-    if ($this->_data['pattern']) {
-      $attrs .= sprintf(' pattern="%s"', $this->_data['pattern']);
+    if ($this->pattern) {
+      $attrs .= sprintf(' pattern="%s"', $this->pattern);
     }
-    if ($this->_data['placeholder']) {
-      $attrs .= sprintf(' placeholder="%s"', $this->_data['placeholder']);
+    if ($this->placeholder) {
+      $attrs .= sprintf(' placeholder="%s"', $this->placeholder);
     }
-    if ($this->_data['required']) {
+    if ($this->required) {
       $attrs .= ' required="required"';
     }
-    if ($this->_data['readonly']) {
+    if ($this->readonly) {
       $attrs .= ' readonly="readonly"';
     }
     if ($tabindex) {
       $attrs .= sprintf(' tabindex="%d"', $tabindex);
     }
 
-    if ($this->_data['type'] === 'number') {
+    if ($this->type === 'number') {
       $attrs .= sprintf(' max="%s" min="%s"',
-        $this->_data['max'],
-        $this->_data['min']
+        $this->max,
+        $this->min
       );
     }
-    if ($this->_data['type'] === 'text' && $this->_data['maxLength']) {
-      $attrs .= sprintf(' maxLength="%s"', $this->_data['maxLength']);
+    if ($this->type === 'text' && $this->maxLength) {
+      $attrs .= sprintf(' maxLength="%s"', $this->maxLength);
     }
 
     if ($this->_isCheckboxOrRadio) {
@@ -156,20 +156,20 @@ class Input {
    * @return $cssClasses {Array}
    */
   private function _getCssClasses () {
-    $cssClasses = array('control', $this->_data['type']);
-    if ($this->_data['class']) {
-      array_push($cssClasses, $this->_data['class']);
+    $cssClasses = array('control', $this->type);
+    if ($this->class) {
+      array_push($cssClasses, $this->class);
     }
     // Add classes for pretty checkbox library
     if ($this->_isCheckboxOrRadio) {
       array_push($cssClasses, 'pretty', 'p-default', 'p-pulse');
-      if ($this->_data['type'] === 'radio') {
+      if ($this->type === 'radio') {
         array_push($cssClasses, 'p-round');
       }
     }
     // Add 'error' class for fields that don't validate
     //   radio / checkbox controls handled in Form class ('error' attached to parent)
-    if (!$this->_data['isValid'] && !$this->_isCheckboxOrRadio) {
+    if (!$this->isValid && !$this->_isCheckboxOrRadio) {
       array_push($cssClasses, 'error');
     }
 
@@ -183,21 +183,21 @@ class Input {
    */
   private function _isChecked () {
     $checked = false;
-    $instantiatedValue = $this->_data['value'];
 
     if (isSet($_POST['submit'])) {
-      $submittedValue = $this->getValue(); // value(s) submitted by user
-      if ($this->_data['type'] === 'checkbox') {
-        $submittedValues = preg_split('/,\s*/', $submittedValue);
-        foreach ($submittedValues as $thisValue) {
-          if ($thisValue === $instantiatedValue) {
+      if ($this->type === 'checkbox') {
+        $submittedValues = preg_split('/,\s*/', $this->_submittedValue);
+        foreach ($submittedValues as $value) {
+          if ($value === $this->_instantiatedValue) {
             $checked = true;
           }
         }
-      } else if ($submittedValue === $instantiatedValue) { // radio
-        $checked = true;
+      } else if ($this->type === 'radio') {
+        if ($this->_submittedValue === $this->_instantiatedValue) {
+          $checked = true;
+        }
       }
-    } else if ($this->_data['checked']) { // set to initial state
+    } else if ($this->checked) { // set to initial state
       $checked = true;
     }
 
@@ -214,21 +214,21 @@ class Input {
   public function getHtml ($tabindex=NULL) {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
-    $value = $this->getValue(); // use instantiated or user-entered value depending on form state
+    $value = $this->value; // instantiated or user-supplied value depending on form state
 
-    if ($this->_data['id']) {
-      $id = $this->_data['id'];
+    if ($this->id) {
+      $id = $this->id;
     } else {
-      $id = $this->_data['name'];
+      $id = $this->name;
     }
 
-    if ($this->_data['label']) {
-      $labelText = $this->_data['label'];
+    if ($this->label) {
+      $labelText = $this->label;
     } else {
       if ($this->_isCheckboxOrRadio) {
-        $labelText = $this->_data['value'];
+        $labelText = $this->value;
       } else {
-        $labelText = $this->_data['name'];
+        $labelText = $this->name;
       }
     }
 
@@ -237,21 +237,21 @@ class Input {
       $labelText
     );
 
-    $name = $this->_data['name'];
-    if ($this->_data['type'] === 'checkbox') {
+    $name = $this->name;
+    if ($this->type === 'checkbox') {
       $name .= '[]'; // set name to array in HTML for checkbox values
     }
 
     if ($this->_isCheckboxOrRadio) {
       // Wrap label in div elem for pretty checkbox library
       $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
-      $value = $this->_data['value']; // must explicitly use instantiated value
+      $value = $this->_instantiatedValue; // always set to instantiated value
     }
 
     $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
       $id,
       $name,
-      $this->_data['type'],
+      $this->type,
       $value,
       $attrs
     );
@@ -263,20 +263,5 @@ class Input {
     );
 
     return $html;
-  }
-
-  /**
-   * Get form control's value
-   *
-   * @return {String}
-   */
-  public function getValue () {
-    if (isSet($_POST['submit'])) {
-      $value = safeParam($this->_data['name']); // value submitted by user
-    } else {
-      $value = $this->_data['value']; // instantiated value
-    }
-
-    return $value;
   }
 }

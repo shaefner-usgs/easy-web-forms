@@ -14,55 +14,53 @@
  *     other properties:
  *
  *       class {String}
- *       isValid {Boolean}
  *       label {String}
  *       options {Array} - REQUIRED
  *       selected {String}
  */
 class Select {
-  private $_data = array(),
-          $_defaults = array(
-            'class' => '',
-            'disabled' => false,
-            'id' => '',
-            'isValid' => true,
-            'label' => '',
-            'name' => '',
-            'options' => '',
-            'required' => false,
-            'type' => 'select',
-            'selected' => ''
-          );
+  private $_defaults = array(
+      'class' => '',
+      'disabled' => false,
+      'id' => '',
+      'label' => '',
+      'name' => '',
+      'options' => '',
+      'required' => false,
+      'selected' => ''
+    );
 
-  public function __construct (Array $params=NULL) {
-    // Set default values
-    foreach ($this->_defaults as $key => $value) {
-      $this->__set($key, $value);
+  public $isValid = true,
+    $type = 'select',
+    $value;
+
+  public function __construct (Array $params=array()) {
+    // Merge defaults with user-supplied params and set as class properties
+    $options = array_merge($this->_defaults, $params);
+    foreach ($options as $key => $value) {
+      if (array_key_exists($key, $this->_defaults)) {
+        $this->$key = $value;
+      }
     }
 
-    // Set instantiated values
-    foreach ($params as $key => $value) {
-      $this->__set($key, $value);
-    }
+    $this->_checkParams();
 
-    // Check for missing req'd params
-    if (!$this->_data['name']) {
+    // Set value prop to user-supplied value when form is submitted
+    if (isSet($_POST['submit'])) {
+      $this->value = safeParam($this->name);
+    }
+  }
+
+  /**
+   * Check for missing required params
+   */
+  private function _checkParams () {
+    if (!$this->name) {
       print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all select elements</p>';
     }
-
-    if (!$this->_data['options'] || !is_array($this->_data['options'])) {
+    if (!$this->options || !is_array($this->options)) {
       print '<p class="error">ERROR: <em>options</em> (array) is <strong>required</strong> for all select elements</p>';
     }
-  }
-
-  public function __get ($key) {
-    if (isset($this->_data[$key])) {
-      return $this->_data[$key];
-    }
-  }
-
-  public function __set ($key, $value) {
-    $this->_data[$key] = $value;
   }
 
   /**
@@ -75,10 +73,10 @@ class Select {
   private function _getAttrs ($tabindex) {
     $attrs = '';
 
-    if ($this->_data['disabled']) {
+    if ($this->disabled) {
       $attrs .= ' disabled="disabled"';
     }
-    if ($this->_data['required']) {
+    if ($this->required) {
       $attrs .= ' required="required"';
     }
     if ($tabindex) {
@@ -94,11 +92,11 @@ class Select {
    * @return $cssClasses {Array}
    */
   private function _getCssClasses () {
-    $cssClasses = array('control', $this->_data['type']);
-    if ($this->_data['class']) {
-      array_push($cssClasses, $this->_data['class']);
+    $cssClasses = array('control', $this->type);
+    if ($this->class) {
+      array_push($cssClasses, $this->class);
     }
-    if (!$this->_data['isValid']) {
+    if (!$this->isValid) {
       array_push($cssClasses, 'error');
     }
 
@@ -116,16 +114,16 @@ class Select {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
 
-    if ($this->_data['id']) {
-      $id = $this->_data['id'];
+    if ($this->id) {
+      $id = $this->id;
     } else {
-      $id = $this->_data['name'];
+      $id = $this->name;
     }
 
-    if ($this->_data['label']) {
-      $labelText = $this->_data['label'];
+    if ($this->label) {
+      $labelText = $this->label;
     } else {
-      $labelText = $this->_data['name'];
+      $labelText = $this->name;
     }
 
     $label = sprintf('<label for="%s">%s</label>',
@@ -134,14 +132,14 @@ class Select {
     );
 
     $options = '';
-    foreach ($this->_data['options'] as $key => $value) {
+    foreach ($this->options as $key => $value) {
       // Set selected option: data entered by user overrides if validation fails
       $selected = '';
-      if (isSet($_POST[$this->_data['name']])) {
-        if ($key === $this->getValue()) {
+      if (isSet($_POST[$this->name])) {
+        if ($key === $this->value) {
           $selected = 'selected="selected"';
         }
-      } else if ($key === $this->_data['selected']) {
+      } else if ($key === $this->selected) {
         $selected = 'selected="selected"';
       }
 
@@ -154,7 +152,7 @@ class Select {
 
     $select = sprintf('<select class="custom-select" id="%s" name="%s"%s>%s</select>',
       $id,
-      $this->_data['name'],
+      $this->name,
       $attrs,
       $options
     );
@@ -166,14 +164,5 @@ class Select {
     );
 
     return $html;
-  }
-
-  /**
-   * Get form control's value submitted by user
-   *
-   * @return {String}
-   */
-  public function getValue () {
-    return safeParam($this->_data['name']);
   }
 }

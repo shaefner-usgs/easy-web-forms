@@ -18,53 +18,51 @@
  *     other properties:
  *
  *       class {String}
- *       isValid {Boolean}
  *       label {String}
  *       value {String}
  */
 class Textarea {
-  private $_data = array(),
-          $_defaults = array(
-            'class' => '',
-            'cols' => 60,
-            'disabled' => false,
-            'id' => '',
-            'isValid' => true,
-            'label' => '',
-            'maxLength' => '',
-            'name' => '',
-            'placeholder' => '',
-            'required' => false,
-            'rows' => 4,
-            'type' => 'textarea',
-            'value' => ''
-          );
+  private $_defaults = array(
+      'class' => '',
+      'cols' => 60,
+      'disabled' => false,
+      'id' => '',
+      'label' => '',
+      'maxLength' => '',
+      'name' => '',
+      'placeholder' => '',
+      'required' => false,
+      'rows' => 4,
+      'value' => ''
+    );
 
-  public function __construct (Array $params=NULL) {
-    // Set default values
-    foreach ($this->_defaults as $key => $value) {
-      $this->__set($key, $value);
+  public $isValid = true,
+    $type = 'textarea';
+
+  public function __construct (Array $params=array()) {
+    // Merge defaults with user-supplied params and set as class properties
+    $options = array_merge($this->_defaults, $params);
+    foreach ($options as $key => $value) {
+      if (array_key_exists($key, $this->_defaults)) {
+        $this->$key = $value;
+      }
     }
 
-    // Set instantiated values
-    foreach ($params as $key => $value) {
-      $this->__set($key, $value);
-    }
+    $this->_checkParams();
 
-    // Check for missing req'd params
-    if (!$this->_data['name']) {
+    // Set value prop to user-supplied value when form is submitted
+    if (isSet($_POST['submit'])) {
+      $this->value = safeParam($this->name);
+    }
+  }
+
+  /**
+   * Check for missing required params
+   */
+  private function _checkParams () {
+    if (!$this->name) {
       print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all textarea elements</p>';
     }
-  }
-
-  public function __get ($key) {
-    if (isset($this->_data[$key])) {
-      return $this->_data[$key];
-    }
-  }
-
-  public function __set ($key, $value) {
-    $this->_data[$key] = $value;
   }
 
   /**
@@ -77,16 +75,16 @@ class Textarea {
   private function _getAttrs ($tabindex) {
     $attrs = '';
 
-    if ($this->_data['disabled']) {
+    if ($this->disabled) {
       $attrs .= ' disabled="disabled"';
     }
-    if ($this->_data['maxLength']) {
-      $attrs .= sprintf(' maxlength="%s"', $this->_data['maxLength']);
+    if ($this->maxLength) {
+      $attrs .= sprintf(' maxlength="%s"', $this->maxLength);
     }
-    if ($this->_data['placeholder']) {
-      $attrs .= sprintf(' placeholder="%s"', $this->_data['placeholder']);
+    if ($this->placeholder) {
+      $attrs .= sprintf(' placeholder="%s"', $this->placeholder);
     }
-    if ($this->_data['required']) {
+    if ($this->required) {
       $attrs .= ' required="required"';
     }
     if ($tabindex) {
@@ -102,11 +100,11 @@ class Textarea {
    * @return $cssClasses {Array}
    */
   private function _getCssClasses () {
-    $cssClasses = array('control', $this->_data['type']);
-    if ($this->_data['class']) {
-      array_push($cssClasses, $this->_data['class']);
+    $cssClasses = array('control', $this->type);
+    if ($this->class) {
+      array_push($cssClasses, $this->class);
     }
-    if (!$this->_data['isValid']) {
+    if (!$this->isValid) {
       array_push($cssClasses, 'error');
     }
 
@@ -123,18 +121,17 @@ class Textarea {
   public function getHtml ($tabindex=NULL) {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
-    $value = $this->getValue();
 
-    if ($this->_data['id']) {
-      $id = $this->_data['id'];
+    if ($this->id) {
+      $id = $this->id;
     } else {
-      $id = $this->_data['name'];
+      $id = $this->name;
     }
 
-    if ($this->_data['label']) {
-      $labelText = $this->_data['label'];
+    if ($this->label) {
+      $labelText = $this->label;
     } else {
-      $labelText = $this->_data['name'];
+      $labelText = $this->name;
     }
 
     $label = sprintf('<label for="%s">%s</label>',
@@ -144,11 +141,11 @@ class Textarea {
 
     $textarea = sprintf('<textarea id="%s" name="%s" cols="%s" rows="%s"%s>%s</textarea>',
       $id,
-      $this->_data['name'],
-      $this->_data['cols'],
-      $this->_data['rows'],
+      $this->name,
+      $this->cols,
+      $this->rows,
       $attrs,
-      $value
+      $this->value
     );
 
     $html = sprintf('<div class="%s">%s%s</div>',
@@ -158,20 +155,5 @@ class Textarea {
     );
 
     return $html;
-  }
-
-  /**
-   * Get form control's value
-   *
-   * @return {String}
-   */
-  public function getValue () {
-    if (isSet($_POST['submit'])) {
-      $value = safeParam($this->_data['name']); // value submitted by user
-    } else {
-      $value = $this->_data['value']; // instantiated value
-    }
-
-    return $value;
   }
 }

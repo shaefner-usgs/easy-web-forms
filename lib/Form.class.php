@@ -7,11 +7,11 @@
  */
 class Form {
   private $_arrangements = array(), // positioning of radio/checkbox groups (inline or stacked)
-          $_controls = array(), // form controls
-          $_isValid, // Boolean value (false if form doesn't validate)
-          $_labels = array(), // form control labels
-          $_msg, // message shown to user upon successful form submission
-          $_values = array(); // form control values entered by user
+    $_controls = array(), // form controls
+    $_isValid = true, // Boolean value (false if form doesn't validate)
+    $_labels = array(), // form control labels
+    $_msg, // message shown to user upon successful form submission
+    $_values = array(); // form control values entered by user
 
   public function __construct () {
 
@@ -19,25 +19,20 @@ class Form {
 
   /*
    * Server-side validation
-   *   sets _isValid flag to true if all form controls are valid
+   *   isValid props all default to true (for form and each control)
    */
   private function _validate () {
-    $this->_isValid = true; // default; set to false if any controls are invalid
-
     foreach ($this->_values as $key => $value) {
       $control = $this->_controls[$key];
-      if (is_array($control)) { // radio/checkbox group, use first control to validate gruop
+      if (is_array($control)) { // radio/checkbox group: use first control to validate gruop
         $control = $control[0];
       }
 
-      if ($control->required && !$value) {
+      if (($control->required && !$value) ||
+        (isSet($control->pattern) && !preg_match("/$control->pattern/", $value))
+      ) {
         $this->_isValid = false; // form (set to false if any conrol is invalid)
         $control->isValid = false; // this control
-      } else if ($control->pattern && !preg_match("/$control->pattern/", $value)) {
-        $this->_isValid = false;
-        $control->isValid = false;
-      } else {
-        $control->isValid = true;
       }
     }
   }
@@ -204,9 +199,9 @@ class Form {
   public function process ($Database, $table) {
     foreach ($this->_controls as $key => $control) {
       if (is_array($control)) { // radio/checkbox group, get value from first control
-        $value = $control[0]->getValue();
+        $value = $control[0]->value;
       } else {
-        $value = $control->getValue();
+        $value = $control->value;
       }
       $this->_values[$key] = $value;
     }

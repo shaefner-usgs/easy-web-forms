@@ -494,7 +494,9 @@ input[type="button"].btn-block {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   -webkit-appearance: none;
+  -moz-appearance: none;
   -ms-appearance: none;
+  -o-appearance: none;
   appearance: none; }
   .custom-select:focus {
     border-color: #80bdff;
@@ -583,7 +585,9 @@ input[type="button"].btn-block {
   padding-left: 0;
   background-color: transparent;
   -webkit-appearance: none;
+  -moz-appearance: none;
   -ms-appearance: none;
+  -o-appearance: none;
   appearance: none; }
   .custom-range:focus {
     outline: none; }
@@ -604,7 +608,9 @@ input[type="button"].btn-block {
     border-radius: 1rem;
     transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     -webkit-appearance: none;
+    -moz-appearance: none;
     -ms-appearance: none;
+    -o-appearance: none;
     appearance: none; }
     @media screen and (prefers-reduced-motion: reduce) {
       .custom-range::-webkit-slider-thumb {
@@ -627,7 +633,9 @@ input[type="button"].btn-block {
     border-radius: 1rem;
     transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     -webkit-appearance: none;
+    -moz-appearance: none;
     -ms-appearance: none;
+    -o-appearance: none;
     appearance: none; }
     @media screen and (prefers-reduced-motion: reduce) {
       .custom-range::-moz-range-thumb {
@@ -1227,9 +1235,15 @@ section.form {
     line-height: 1;
     padding: 6px; }
   section.form input[disabled="disabled"],
-  section.form input[readonly="readonly"] {
-    background: #eee;
-    color: #999; }
+  section.form input[readonly="readonly"],
+  section.form textarea[disabled="disabled"],
+  section.form textarea[readonly="readonly"],
+  section.form .custom-select[disabled="disabled"] {
+    background: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+    -webkit-text-fill-color: #6c757d;
+    opacity: 1; }
   section.form textarea {
     padding: 4px 6px;
     resize: vertical; }

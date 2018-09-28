@@ -66,9 +66,16 @@ section.form {
   }
 
   input[disabled="disabled"],
-  input[readonly="readonly"] {
-    background: #eee;
-    color: #999;
+  input[readonly="readonly"],
+  textarea[disabled="disabled"],
+  textarea[readonly="readonly"],
+  .custom-select[disabled="disabled"] {
+    background: $custom-select-disabled-bg;
+    color: $custom-select-disabled-color;
+    cursor: not-allowed;
+    // https://stackoverflow.com/questions/262158/disabled-input-text-color
+    -webkit-text-fill-color: $custom-select-disabled-color;
+    opacity: 1;
   }
 
   textarea {

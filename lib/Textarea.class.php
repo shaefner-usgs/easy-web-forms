@@ -19,6 +19,7 @@
  *
  *       class {String}
  *       label {String}
+ *       message {String} - text displayed for invalid form control
  *       value {String}
  */
 class Textarea {
@@ -29,6 +30,7 @@ class Textarea {
       'id' => '',
       'label' => '',
       'maxLength' => '',
+      'message' => '',
       'name' => '',
       'placeholder' => '',
       'required' => false,
@@ -81,6 +83,9 @@ class Textarea {
     }
     if ($this->maxLength) {
       $attrs .= sprintf(' maxlength="%s"', $this->maxLength);
+    }
+    if ($this->message) {
+      $attrs .= sprintf(' data-message="%s"', $this->message);
     }
     if ($this->placeholder) {
       $attrs .= sprintf(' placeholder="%s"', $this->placeholder);

@@ -25,6 +25,7 @@
  *
  *       class {String}
  *       label {String}
+ *       message {String} - text displayed for invalid form control
  */
 class Input {
   private $_defaults = array(
@@ -36,6 +37,7 @@ class Input {
       'label' => '',
       'max' => '',
       'maxLength' => '',
+      'message' => '',
       'min' => '',
       'name' => '',
       'pattern' => '',
@@ -114,6 +116,9 @@ class Input {
     }
     if ($this->inputmode) {
       $attrs .= sprintf(' inputmode="%s"', $this->inputmode);
+    }
+    if ($this->message) {
+      $attrs .= sprintf(' data-message="%s"', $this->message);
     }
     if ($this->pattern) {
       $attrs .= sprintf(' pattern="%s"', $this->pattern);

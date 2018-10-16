@@ -15,6 +15,7 @@
  *
  *       class {String}
  *       label {String}
+ *       message {String} - text displayed for invalid form control
  *       options {Array} - REQUIRED
  *       selected {String}
  */
@@ -24,6 +25,7 @@ class Select {
       'disabled' => false,
       'id' => '',
       'label' => '',
+      'message' => '',
       'name' => '',
       'options' => '',
       'required' => false,
@@ -76,6 +78,9 @@ class Select {
 
     if ($this->disabled) {
       $attrs .= ' disabled="disabled"';
+    }
+    if ($this->message) {
+      $attrs .= sprintf(' data-message="%s"', $this->message);
     }
     if ($this->required) {
       $attrs .= ' required="required"';

@@ -54,20 +54,20 @@ class Input {
   public function __construct (Array $params=array()) {
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
+
     foreach ($options as $key => $value) {
       // Strip off '[]' from name values; added programmatically to checkbox inputs
       if ($key === 'name' && preg_match('/\[\]$/', $value)) {
         $value = preg_replace('/(\w+)\[\]$/', '$1', $value);
       }
+      // Only set props that are defined in $_defaults
       if (array_key_exists($key, $this->_defaults)) {
         $this->$key = $value;
       }
     }
-
     if ($this->type === 'radio' || $this->type === 'checkbox') {
       $this->_isCheckboxOrRadio = true;
     }
-
     $this->_checkParams();
 
     // Cache instantiated/submitted values and set value prop depending on state
@@ -214,7 +214,6 @@ class Input {
   public function getHtml ($tabindex=NULL) {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
-    $value = $this->value; // instantiated or user-supplied value depending on form state
 
     if ($this->id) {
       $id = $this->id;
@@ -239,13 +238,14 @@ class Input {
 
     $name = $this->name;
     if ($this->type === 'checkbox') {
-      $name .= '[]'; // set name to array in HTML for checkbox values
+      $name .= '[]'; // set name to type array for checkbox values
     }
 
+    $value = $this->value; // instantiated or user-supplied value depending on form state
     if ($this->_isCheckboxOrRadio) {
       // Wrap label in div elem for pretty checkbox library
       $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
-      $value = $this->_instantiatedValue; // always set to instantiated value
+      $value = $this->_instantiatedValue; // always use instantiated value
     }
 
     $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',

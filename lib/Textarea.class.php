@@ -42,12 +42,13 @@ class Textarea {
   public function __construct (Array $params=array()) {
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
+
     foreach ($options as $key => $value) {
+      // Only set props that are defined in $_defaults
       if (array_key_exists($key, $this->_defaults)) {
         $this->$key = $value;
       }
     }
-
     $this->_checkParams();
 
     // Set value prop to user-supplied value when form is submitted

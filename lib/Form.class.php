@@ -9,12 +9,34 @@ class Form {
   private $_arrangements = array(), // positioning of radio/checkbox groups (inline or stacked)
     $_controls = array(), // form controls
     $_isValid = true, // Boolean value (false if form doesn't validate)
-    $_labels = array(), // form control labels
+    $_labels = array(), // form control/group labels
     $_msg, // message shown to user upon successful form submission
     $_values = array(); // form control values entered by user
 
   public function __construct () {
 
+  }
+
+  /**
+   * Check that all controls in group have matching values for 'name' & 'required'
+   */
+  private function _checkParams ($controls) {
+    $prevKey = '';
+    $prevRequired = '';
+    foreach ($controls as $control) {
+      $key = $control->name;
+      $required = $control->required;
+      if ($prevKey !== '' && $key !== $prevKey) {
+         print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all inputs in a group</p>';
+      }
+      if ($prevRequired !== '' && $required !== $prevRequired) {
+        printf ('<p class="error">ERROR: the <em>required</em> attribute must be the same for all inputs in a group (%s)</p>',
+          $control->name
+        );
+      }
+      $prevKey = $key;
+      $prevRequired = $required;
+    }
   }
 
   /*
@@ -24,7 +46,7 @@ class Form {
   private function _validate () {
     foreach ($this->_values as $key => $value) {
       $control = $this->_controls[$key];
-      if (is_array($control)) { // radio/checkbox group: use first control to validate gruop
+      if (is_array($control)) { // radio/checkbox group: use first control to validate group
         $control = $control[0];
       }
 
@@ -42,38 +64,23 @@ class Form {
    *
    * @param $group {Array}
    *     [
-   *       arrangement {String} 'inline' or 'stacked'
+   *       arrangement {String} - 'inline' or 'stacked'
    *       controls {Array} - Form control instances as an indexed array
    *       label {String}
    *     ]
    */
   public function addGroup ($group) {
     $controls = $group['controls'];
+    $key = $controls[0]->name; // use first control's 'name' attr; value should be same for all
 
-    // Check that all controls in group have matching 'name', 'required' attrs
-    $prevKey = '';
-    $prevRequired = '';
-    foreach ($controls as $control) {
-      $key = $control->name;
-      $required = $control->required;
-      if ($prevKey !== '' && $key !== $prevKey) {
-         print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all inputs in a group</p>';
-      }
-      if ($prevRequired !== '' && $required !== $prevRequired) {
-        printf ('<p class="error">ERROR: the <em>required</em> attribute must be the same for all inputs in a group (%s)</p>',
-          $control->name
-        );
-      }
-      $prevKey = $key;
-      $prevRequired = $required;
-    }
+    $this->_checkParams($controls);
 
     $arrangement = 'inline'; // default value
     if (array_key_exists('arrangement', $group)) {
       $arrangement = $group['arrangement'];
     }
 
-    $label = $control->name; // default to control's 'name' attr, but use 'label' if available
+    $label = $controls[0]->name; // default to first control's 'name' attr, but use 'label' if available
     if (array_key_exists('label', $group)) {
       $label = $group['label'];
     }

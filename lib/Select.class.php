@@ -14,18 +14,20 @@
  *     other properties:
  *
  *       class {String}
+ *       description {String} - explanatory text displayed next to form control
  *       label {String}
- *       message {String} - text displayed for invalid form control
+ *       message {String} - instructions displayed for invalid form control
  *       options {Array} - REQUIRED
  *       selected {String}
  */
 class Select {
   private $_defaults = array(
       'class' => '',
+      'description' => '',
       'disabled' => false,
       'id' => '',
       'label' => '',
-      'message' => '',
+      'message' => 'Please select an option from the menu',
       'name' => '',
       'options' => '',
       'required' => false,
@@ -79,9 +81,6 @@ class Select {
     if ($this->disabled) {
       $attrs .= ' disabled="disabled"';
     }
-    if ($this->message) {
-      $attrs .= sprintf(' data-message="%s"', $this->message);
-    }
     if ($this->required) {
       $attrs .= ' required="required"';
     }
@@ -132,6 +131,11 @@ class Select {
       $labelText = $this->name;
     }
 
+    $description = sprintf('<p class="description" data-message="%s">%s</p>',
+      $this->message,
+      $this->description
+    );
+
     $label = sprintf('<label for="%s">%s</label>',
       $id,
       $labelText
@@ -163,8 +167,9 @@ class Select {
       $options
     );
 
-    $html = sprintf('<div class="%s">%s%s</div>',
+    $html = sprintf('<div class="%s">%s%s%s</div>',
       implode(' ', $cssClasses),
+      $description,
       $select,
       $label
     );

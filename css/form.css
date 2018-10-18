@@ -1224,6 +1224,7 @@ section.form {
     border: 1px solid #dfdfdf;
     border-radius: 0.25rem;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
+    margin: 0;
     outline: none;
     transition: all 0.25s ease-in-out; }
     section.form input:not([type="submit"]):focus,
@@ -1268,12 +1269,14 @@ section.form {
     text-transform: uppercase; }
   section.form .checkbox,
   section.form .radio {
-    margin: 6px 1rem 3px 0; }
+    margin: 3px 1rem 1px 0; }
   section.form .control {
     display: flex; }
     section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse;
       /* display labels before controls */ }
+  section.form .description {
+    margin: .25rem 0 0; }
   section.form .error > label,
   section.form .error legend {
     color: #dc3545 !important; }
@@ -1287,6 +1290,10 @@ section.form {
     border: 1px solid #dc3545; }
     section.form .error .custom-select:focus {
       box-shadow: 0 0 3px #dc3545; }
+  section.form .error .description:before {
+    content: attr(data-message);
+    color: #dc3545;
+    display: block; }
   section.form .group {
     display: flex;
     flex-wrap: wrap; }

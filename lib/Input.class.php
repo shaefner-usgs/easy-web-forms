@@ -24,20 +24,22 @@
  *     other properties:
  *
  *       class {String}
+ *       description {String} - explanatory text displayed next to form control
  *       label {String}
- *       message {String} - text displayed for invalid form control
+ *       message {String} - instructions displayed for invalid form control
  */
 class Input {
   private $_defaults = array(
       'checked' => false,
       'class' => '',
+      'description' => '',
       'disabled' => false,
       'id' => '',
       'inputmode' => '',
       'label' => '',
       'max' => '',
       'maxLength' => '',
-      'message' => '',
+      'message' => 'Please provide a valid {{label}}',
       'min' => '',
       'name' => '',
       'pattern' => '',
@@ -67,9 +69,6 @@ class Input {
         $this->$key = $value;
       }
     }
-    if ($this->type === 'radio' || $this->type === 'checkbox') {
-      $this->_isCheckboxOrRadio = true;
-    }
     $this->_checkParams();
 
     // Cache instantiated/submitted values and set value prop depending on state
@@ -81,13 +80,14 @@ class Input {
   }
 
   /**
-   * Check for missing required params
+   * Check for missing required params; also set default message depending on type
    */
   private function _checkParams () {
     if (!$this->name) {
       print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all input elements</p>';
     }
-    if ($this->_isCheckboxOrRadio) {
+    if ($this->type === 'checkbox' || $this->type === 'radio') {
+      $this->_isCheckboxOrRadio = true;
       if (!$this->id) {
         printf ('<p class="error">ERROR: the <em>id</em> attribute is <strong>required</strong> for all radio/checkbox inputs (%s)</p>',
           $this->name
@@ -98,6 +98,12 @@ class Input {
           $this->name
         );
       }
+    }
+    if ($this->type === 'checkbox' && $this->message === $this->_defaults['message']) {
+      $this->message = 'Please select one or more options';
+    }
+    if ($this->type === 'radio' && $this->message === $this->_defaults['message']) {
+      $this->message = 'Please select an option';
     }
   }
 
@@ -116,9 +122,6 @@ class Input {
     }
     if ($this->inputmode) {
       $attrs .= sprintf(' inputmode="%s"', $this->inputmode);
-    }
-    if ($this->message) {
-      $attrs .= sprintf(' data-message="%s"', $this->message);
     }
     if ($this->pattern) {
       $attrs .= sprintf(' pattern="%s"', $this->pattern);
@@ -246,11 +249,17 @@ class Input {
       $name .= '[]'; // set name to type array for checkbox values
     }
 
+    $description = '';
     $value = $this->value; // instantiated or user-supplied value depending on form state
     if ($this->_isCheckboxOrRadio) {
       // Wrap label in div elem for pretty checkbox library
       $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
       $value = $this->_instantiatedValue; // always use instantiated value
+    } else {
+      $description = sprintf('<p class="description" data-message="%s">%s</p>',
+        preg_replace('/{{label}}/', $labelText, $this->message),
+        $this->description
+      );
     }
 
     $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
@@ -261,8 +270,9 @@ class Input {
       $attrs
     );
 
-    $html = sprintf('<div class="%s">%s%s</div>',
+    $html = sprintf('<div class="%s">%s%s%s</div>',
       implode(' ', $cssClasses),
+      $description,
       $input,
       $label
     );

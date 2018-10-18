@@ -18,19 +18,21 @@
  *     other properties:
  *
  *       class {String}
+ *       description {String} - explanatory text displayed next to form control
  *       label {String}
- *       message {String} - text displayed for invalid form control
+ *       message {String} - instructions displayed for invalid form control
  *       value {String}
  */
 class Textarea {
   private $_defaults = array(
       'class' => '',
       'cols' => 60,
+      'description' => '',
       'disabled' => false,
       'id' => '',
       'label' => '',
       'maxLength' => '',
-      'message' => '',
+      'message' => 'Please provide a valid response',
       'name' => '',
       'placeholder' => '',
       'required' => false,
@@ -83,9 +85,6 @@ class Textarea {
     }
     if ($this->maxLength) {
       $attrs .= sprintf(' maxlength="%s"', $this->maxLength);
-    }
-    if ($this->message) {
-      $attrs .= sprintf(' data-message="%s"', $this->message);
     }
     if ($this->placeholder) {
       $attrs .= sprintf(' placeholder="%s"', $this->placeholder);
@@ -140,6 +139,11 @@ class Textarea {
       $labelText = $this->name;
     }
 
+    $description = sprintf('<p class="description" data-message="%s">%s</p>',
+      $this->message,
+      $this->description
+    );
+
     $label = sprintf('<label for="%s">%s</label>',
       $id,
       $labelText
@@ -154,8 +158,9 @@ class Textarea {
       $this->value
     );
 
-    $html = sprintf('<div class="%s">%s%s</div>',
+    $html = sprintf('<div class="%s">%s%s%s</div>',
       implode(' ', $cssClasses),
+      $description,
       $textarea,
       $label
     );

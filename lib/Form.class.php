@@ -6,12 +6,9 @@
  * TODO: Allow user to set color for form buttons on instantiation (impement via .js?)
  */
 class Form {
-  private $_arrangements = array(), // positioning of radio/checkbox groups (inline or stacked)
-    $_controls = array(), // form controls
-    $_isValid = true, // Boolean value (false if form doesn't validate)
-    $_labels = array(), // form control/group labels
-    $_msg, // message shown to user upon successful form submission
-    $_values = array(); // form control values entered by user
+  private $_isValid = true, // Boolean value (set to false if form doesn't validate)
+    $_items = array(), // form controls/groups and associated props
+    $_msg; // message shown to user upon successful form submission
 
   public function __construct () {
 
@@ -44,14 +41,14 @@ class Form {
    *   isValid props all default to true (for form and each control)
    */
   private function _validate () {
-    foreach ($this->_values as $key => $value) {
-      $control = $this->_controls[$key];
+    foreach ($this->_items as $key => $item) {
+      $control = $item['control'];
       if (is_array($control)) { // radio/checkbox group: use first control to validate group
         $control = $control[0];
       }
 
-      if (($control->required && !$value) ||
-        (isSet($control->pattern) && !preg_match("/$control->pattern/", $value))
+      if (($control->required && !$control->value) ||
+        (isSet($control->pattern) && !preg_match("/$control->pattern/", $control->value))
       ) {
         $this->_isValid = false; // form (set to false if any conrol is invalid)
         $control->isValid = false; // this control
@@ -66,7 +63,9 @@ class Form {
    *     [
    *       arrangement {String} - 'inline' or 'stacked'
    *       controls {Array} - Form control instances as an indexed array
-   *       label {String}
+   *       description {String} - explanatory text displayed next to form control
+   *       label {String} - input label
+   *       message {String} - instructions displayed for invalid form control
    *     ]
    */
   public function addGroup ($group) {
@@ -80,14 +79,28 @@ class Form {
       $arrangement = $group['arrangement'];
     }
 
+     $description = '';
+     if (array_key_exists('description', $group)) {
+       $description = $group['description'];
+     }
+
     $label = $controls[0]->name; // default to first control's 'name' attr, but use 'label' if available
     if (array_key_exists('label', $group)) {
       $label = $group['label'];
     }
 
-    $this->_arrangements[$key] = $arrangement;
-    $this->_controls[$key] = $controls; // array
-    $this->_labels[$key] = $label;
+    $message = $controls[0]->message;
+    if (array_key_exists('message', $group)) {
+      $message = $group['message'];
+    }
+
+    $this->_items[$key] = array(
+      'arrangement' => $arrangement,
+      'control' => $controls, // array
+      'description' => $description,
+      'label' => $label,
+      'message' => $message
+    );
   }
 
   /**
@@ -96,7 +109,7 @@ class Form {
    * @param $control {Object}
    *     Form control instance
    */
-  public function addItem ($control) {
+  public function addControl ($control) {
     $key = $control->name;
 
     $label = $control->name; // default to control's 'name' attr, but use 'label' if available
@@ -104,8 +117,10 @@ class Form {
       $label = $control->label;
     }
 
-    $this->_controls[$key] = $control;
-    $this->_labels[$key] = $label;
+    $this->_items[$key] = array(
+      'control' => $control,
+      'label' => $label
+    );
   }
 
   /**
@@ -124,15 +139,16 @@ class Form {
     $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
       $_SERVER['REQUEST_URI']);
 
-    foreach ($this->_controls as $key => $control) {
+    foreach ($this->_items as $key => $item) {
+      $control = $item['control'];
       if (is_array($control)) { // radio/checkbox group
         $controls = $control; // group of control(s) as array
         // attach error/req'd classes to parent for radio / checkbox controls
         $cssClasses = array();
-        if (!$control[0]->isValid) {
+        if (!$controls[0]->isValid) {
           array_push($cssClasses, 'error');
         }
-        if ($control[0]->required) {
+        if ($controls[0]->required) {
           array_push($cssClasses, 'required');
           $hasRequiredFields = true;
         }
@@ -141,14 +157,18 @@ class Form {
           <legend>%s</legend>
           <div class="group %s">',
             implode(' ', $cssClasses),
-            $this->_labels[$key],
-            $this->_arrangements[$key]
+            $item['label'],
+            $item['arrangement']
         );
         foreach ($controls as $ctrl) {
           $html .= $ctrl->getHtml(++ $count);
         }
-        $html .= '</div>
-          </fieldset>';
+        $html .= '</div>';
+        $html .= sprintf('<p class="description" data-message="%s">%s</p>',
+          $item['message'],
+          $item['description']
+        );
+        $html .= '</fieldset>';
       } else { // single control
         $html .= $control->getHtml(++ $count);
         if ($control->required) {
@@ -182,9 +202,13 @@ class Form {
       }
 
       $html .= '<dl>';
-      foreach ($this->_values as $key => $value) {
-        $html .= '<dt>' . ucfirst($this->_labels[$key]) . '</dt>';
-        $html .= '<dd>' . htmlentities(stripslashes($value)) . '</dd>';
+      foreach ($this->_items as $key => $item) {
+        $control = $item['control'];
+        if (is_array($control)) { // radio/checkbox group: get value from first control
+          $control = $control[0];
+        }
+        $html .= '<dt>' . ucfirst($item['label']) . '</dt>';
+        $html .= '<dd>' . htmlentities(stripslashes($control->value)) . '</dd>';
       }
       $html .= '</dl>';
       $html .= '</section>';
@@ -204,19 +228,22 @@ class Form {
    *     Table name
    */
   public function process ($Database, $table) {
-    foreach ($this->_controls as $key => $control) {
+    $values = array();
+
+    foreach ($this->_items as $key => $item) {
+      $control = $item['control'];
       if (is_array($control)) { // radio/checkbox group, get value from first control
         $value = $control[0]->value;
       } else {
         $value = $control->value;
       }
-      $this->_values[$key] = $value;
+      $values[$key] = $value;
     }
 
     // Validate and insert record if valid
     $this->_validate();
     if ($this->_isValid) {
-      //$Database->insertRecord($this->_values, $table);
+      //$Database->insertRecord($values, $table);
     }
   }
 

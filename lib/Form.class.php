@@ -177,7 +177,9 @@ class Form {
       }
     }
 
-    $html .= '<input name="submit" type="submit" class="btn btn-primary" value="Submit" />';
+    $html .= sprintf('<input name="submit" type="submit" class="btn btn-primary" tabindex="%d" value="Submit" />',
+      ++ $count
+    );
     $html .= '</form>';
     if ($hasRequiredFields) {
       $html .= '<p class="required"><span>*</span> = required field</p>';

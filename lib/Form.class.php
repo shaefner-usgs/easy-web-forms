@@ -6,12 +6,21 @@
  * TODO: Allow user to set color for form buttons on instantiation (impement via .js?)
  */
 class Form {
-  private $_isValid = true, // Boolean value (set to false if form doesn't validate)
-    $_items = array(), // form controls/groups and associated props
-    $_msg; // message shown to user upon successful form submission
+  private $_defaults = array(
+      'successMsg' => 'Thank you for your input.'
+    ),
+    $_isValid = true, // Boolean value (set to false if form doesn't validate)
+    $_items = array(); // form controls/groups and associated props
 
-  public function __construct () {
+  public function __construct (Array $params=array()) {
+    // Merge defaults with user-supplied params and set as class properties
+    $options = array_merge($this->_defaults, $params);
 
+    foreach ($options as $key => $value) {
+      if (array_key_exists($key, $this->_defaults)) {
+        $this->$key = $value;
+      }
+    }
   }
 
   /**
@@ -54,6 +63,26 @@ class Form {
         $control->isValid = false; // this control
       }
     }
+  }
+
+  /**
+   * Add a single form control (input, select, textarea) instance
+   *
+   * @param $control {Object}
+   *     Form control instance
+   */
+  public function addControl ($control) {
+    $key = $control->name;
+
+    $label = $control->name; // default to control's 'name' attr, but use 'label' if available
+    if ($control->label) {
+      $label = $control->label;
+    }
+
+    $this->_items[$key] = array(
+      'control' => $control,
+      'label' => $label
+    );
   }
 
   /**
@@ -100,26 +129,6 @@ class Form {
       'description' => $description,
       'label' => $label,
       'message' => $message
-    );
-  }
-
-  /**
-   * Add a single form control (input, select, textarea) instance
-   *
-   * @param $control {Object}
-   *     Form control instance
-   */
-  public function addControl ($control) {
-    $key = $control->name;
-
-    $label = $control->name; // default to control's 'name' attr, but use 'label' if available
-    if ($control->label) {
-      $label = $control->label;
-    }
-
-    $this->_items[$key] = array(
-      'control' => $control,
-      'label' => $label
     );
   }
 
@@ -198,10 +207,7 @@ class Form {
   public function getResultsHtml () {
     if ($this->_isValid) {
       $html = '<section class="results">';
-
-      if ($this->_msg) {
-        $html .= '<p class="success">' . $this->_msg . '</p>';
-      }
+      $html .= '<p class="success">' . $this->successMsg . '</p>';
 
       $html .= '<dl>';
       foreach ($this->_items as $key => $item) {
@@ -247,14 +253,5 @@ class Form {
     if ($this->_isValid) {
       //$Database->insertRecord($values, $table);
     }
-  }
-
-  /**
-   * Set message shown to user upon successful form submission
-   *
-   * @param $msg {String}
-   */
-  public function setSuccessMsg ($msg) {
-    $this->_msg = $msg;
   }
 }

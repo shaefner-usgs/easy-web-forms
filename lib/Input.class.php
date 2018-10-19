@@ -257,7 +257,7 @@ class Input {
       $value = $this->_instantiatedValue; // always use instantiated value
     } else {
       $description = sprintf('<p class="description" data-message="%s">%s</p>',
-        preg_replace('/{{label}}/', $labelText, $this->message),
+        preg_replace('/{{label}}/', strtoupper($labelText), $this->message),
         $this->description
       );
     }

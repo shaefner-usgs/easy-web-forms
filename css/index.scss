@@ -168,9 +168,18 @@ section.form {
       color: $danger;
       display: block;
     }
+
+    // Focus styles for invalid pretty checkbox controls
+    .pretty input:focus ~ .state.p-primary-o label:before {
+      box-shadow: 0 0 3px $danger;
+    }
+
+    .pretty label:before {
+      border-color: $danger;
+    }
   }
 
-  // Add focus styles to pretty checkbox controls
+  // Focus styles for pretty checkbox controls
   .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px $primary;
   }

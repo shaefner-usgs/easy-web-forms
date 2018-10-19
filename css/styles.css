@@ -1303,6 +1303,10 @@ section.form {
     content: attr(data-message);
     color: #dc3545;
     display: block; }
+  section.form .invalid .pretty input:focus ~ .state.p-primary-o label:before {
+    box-shadow: 0 0 3px #dc3545; }
+  section.form .invalid .pretty label:before {
+    border-color: #dc3545; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
   section.form .required legend:after, section.form :required + label:after {

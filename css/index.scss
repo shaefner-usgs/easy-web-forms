@@ -15,7 +15,7 @@
 
 @mixin labels {
   color: #666;
-  font-size: .85rem;
+  font-size: .95rem;
   font-weight: 500;
   margin: 0;
   padding: 0 0 .25rem;
@@ -109,10 +109,13 @@ section.form {
   legend {
     @include labels;
   }
+  legend {
+    padding-bottom: 0;
+  }
 
   .checkbox,
   .radio {
-    margin: 3px 1rem 1px 0;
+    margin: 5px 1rem 2px 0;
   }
 
   .control {
@@ -124,7 +127,9 @@ section.form {
   }
 
   .description {
-    margin: .25rem 0 0;
+    color: #666;
+    font-size: .95rem;
+    margin: .2rem 0 0;
   }
 
   .error {
@@ -186,7 +191,6 @@ section.results {
   }
 
   dd {
-    color: #000;
     margin: 0 0 1.5rem 0;
   }
 

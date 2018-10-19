@@ -1262,21 +1262,25 @@ section.form {
   section.form .control:not(.checkbox):not(.radio) label,
   section.form legend {
     color: #666;
-    font-size: .85rem;
+    font-size: .95rem;
     font-weight: 500;
     margin: 0;
     padding: 0 0 .25rem;
     text-transform: uppercase; }
+  section.form legend {
+    padding-bottom: 0; }
   section.form .checkbox,
   section.form .radio {
-    margin: 3px 1rem 1px 0; }
+    margin: 5px 1rem 2px 0; }
   section.form .control {
     display: flex; }
     section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse;
       /* display labels before controls */ }
   section.form .description {
-    margin: .25rem 0 0; }
+    color: #666;
+    font-size: .95rem;
+    margin: .2rem 0 0; }
   section.form .error > label,
   section.form .error legend {
     color: #dc3545 !important; }
@@ -1313,11 +1317,10 @@ section.results {
   section.results dl {
     margin-top: 2rem; }
   section.results dd {
-    color: #000;
     margin: 0 0 1.5rem 0; }
   section.results dt {
     color: #666;
-    font-size: .85rem;
+    font-size: .95rem;
     font-weight: 500;
     margin: 0;
     padding: 0 0 .25rem;

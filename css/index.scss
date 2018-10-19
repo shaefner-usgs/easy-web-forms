@@ -132,7 +132,16 @@ section.form {
     margin: .2rem 0 0;
   }
 
-  .error {
+  .group {
+    display: flex;
+    flex-wrap: wrap;
+
+    &.stacked {
+      flex-direction: column;
+    }
+  }
+
+  .invalid {
     > label,
     legend {
       color: $danger !important;
@@ -158,15 +167,6 @@ section.form {
       content: attr(data-message);
       color: $danger;
       display: block;
-    }
-  }
-
-  .group {
-    display: flex;
-    flex-wrap: wrap;
-
-    &.stacked {
-      flex-direction: column;
     }
   }
 

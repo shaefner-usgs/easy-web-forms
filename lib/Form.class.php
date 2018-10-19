@@ -143,10 +143,10 @@ class Form {
       $control = $item['control'];
       if (is_array($control)) { // radio/checkbox group
         $controls = $control; // group of control(s) as array
-        // attach error/req'd classes to parent for radio / checkbox controls
+        // attach invalid/req'd classes to parent for radio / checkbox controls
         $cssClasses = array();
         if (!$controls[0]->isValid) {
-          array_push($cssClasses, 'error');
+          array_push($cssClasses, 'invalid');
         }
         if ($controls[0]->required) {
           array_push($cssClasses, 'required');

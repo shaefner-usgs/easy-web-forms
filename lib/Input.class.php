@@ -175,10 +175,9 @@ class Input {
         array_push($cssClasses, 'p-round');
       }
     }
-    // Add 'error' class for fields that don't validate
-    //   radio / checkbox controls handled in Form class ('error' attached to parent)
+    // Invalid radio / checkbox controls handled in Form class (class attached to parent)
     if (!$this->isValid && !$this->_isCheckboxOrRadio) {
-      array_push($cssClasses, 'error');
+      array_push($cssClasses, 'invalid');
     }
 
     return $cssClasses;

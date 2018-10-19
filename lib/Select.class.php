@@ -102,7 +102,7 @@ class Select {
       array_push($cssClasses, $this->class);
     }
     if (!$this->isValid) {
-      array_push($cssClasses, 'error');
+      array_push($cssClasses, 'invalid');
     }
 
     return $cssClasses;

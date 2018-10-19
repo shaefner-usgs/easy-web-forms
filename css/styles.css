@@ -1281,28 +1281,28 @@ section.form {
     color: #666;
     font-size: .95rem;
     margin: .2rem 0 0; }
-  section.form .error > label,
-  section.form .error legend {
-    color: #dc3545 !important; }
-  section.form .error input:not([type="submit"]),
-  section.form .error textarea {
-    border: 1px solid #dc3545; }
-    section.form .error input:not([type="submit"]):focus,
-    section.form .error textarea:focus {
-      box-shadow: 0 0 3px #dc3545; }
-  section.form .error .custom-select {
-    border: 1px solid #dc3545; }
-    section.form .error .custom-select:focus {
-      box-shadow: 0 0 3px #dc3545; }
-  section.form .error .description:before {
-    content: attr(data-message);
-    color: #dc3545;
-    display: block; }
   section.form .group {
     display: flex;
     flex-wrap: wrap; }
     section.form .group.stacked {
       flex-direction: column; }
+  section.form .invalid > label,
+  section.form .invalid legend {
+    color: #dc3545 !important; }
+  section.form .invalid input:not([type="submit"]),
+  section.form .invalid textarea {
+    border: 1px solid #dc3545; }
+    section.form .invalid input:not([type="submit"]):focus,
+    section.form .invalid textarea:focus {
+      box-shadow: 0 0 3px #dc3545; }
+  section.form .invalid .custom-select {
+    border: 1px solid #dc3545; }
+    section.form .invalid .custom-select:focus {
+      box-shadow: 0 0 3px #dc3545; }
+  section.form .invalid .description:before {
+    content: attr(data-message);
+    color: #dc3545;
+    display: block; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
   section.form .required legend:after, section.form :required + label:after {

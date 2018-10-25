@@ -9,19 +9,24 @@ var Validator = function (options) {
   var _this,
       _intialize,
 
+      _allControls,
       _el,
       _inputs,
+      _isFormValid,
       _selects,
+      _submitButtion,
       _textareas,
 
       _addEventHandlers,
       _getControls,
-      _validate;
+      _validate,
+      _validateAll;
 
   _this = {};
 
   _initialize = function (options) {
     _el = options.el;
+    _isFormValid = true; // default value; set by _validate()
 
     _getControls();
     _addEventHandlers();
@@ -52,10 +57,38 @@ var Validator = function (options) {
     });
 
     _selects.forEach(function(select) {
-      if (select.hasAttribute('pattern') || select.hasAttribute('required')) {
+      if (select.hasAttribute('required')) {
         select.addEventListener('change', function() {
           _validate(select);
         });
+      }
+    });
+
+    _submitButtion.addEventListener('click', function(e) {
+      var errorMsg,
+          form,
+          section;
+
+      form = _el.querySelector('section.form form');
+
+      e.preventDefault();
+      _validateAll();
+
+      if (_isFormValid) {
+        form.submit();
+      } else { // stop form submission and alert user
+        errorMsg = document.querySelector('.form p.error');
+        section = document.querySelector('section.form');
+
+        if (!errorMsg) {
+          errorMsg = document.createElement('p');
+          errorMsg.classList.add('error');
+          errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
+
+          section.insertBefore(errorMsg, form);
+        }
+
+        _isFormValid = true; // reset to default
       }
     });
 
@@ -72,13 +105,16 @@ var Validator = function (options) {
    * Get a NodeList of form controls by type
    */
   _getControls = function () {
+    _allControls = _el.querySelectorAll('input:not([type="submit"])', 'select', 'textarea');
     _inputs = _el.querySelectorAll('input:not([type="submit"])');
     _selects = _el.querySelectorAll('select');
     _textareas = _el.querySelectorAll('textarea');
+
+    _submitButtion = _el.querySelector('input[type="submit"]');
   };
 
   /**
-   * Validate user input
+   * Validate user input on a given element
    *
    * @param el {Element}
    */
@@ -125,7 +161,23 @@ var Validator = function (options) {
     }
     parent.classList.remove('invalid', 'valid');
     parent.classList.add(state);
+
+    // Flag form state as invalid
+    if (state === 'invalid') {
+      _isFormValid = false;
+    }
   }
+
+  /**
+   * Validate all form controls (useful when user submits the form)
+   */
+  _validateAll = function () {
+    _allControls.forEach(function(el) {
+      if (el.hasAttribute('pattern') || el.hasAttribute('required')) {
+        _validate(el);
+      }
+    });
+  };
 
   _initialize(options);
   options = null;

@@ -27,6 +27,9 @@ var Validator = function (options) {
     _addEventHandlers();
   };
 
+  /**
+   * Add event listeners to form controls for validating user input
+   */
   _addEventHandlers = function () {
     var el,
         i,
@@ -65,12 +68,20 @@ var Validator = function (options) {
     });
   };
 
+  /**
+   * Get a NodeList of form controls by type
+   */
   _getControls = function () {
     _inputs = _el.querySelectorAll('input:not([type="submit"])');
     _selects = _el.querySelectorAll('select');
     _textareas = _el.querySelectorAll('textarea');
   };
 
+  /**
+   * Validate user input
+   *
+   * @param el {Element}
+   */
   _validate = function (el) {
     var name,
         parent,
@@ -84,10 +95,11 @@ var Validator = function (options) {
     type = el.getAttribute('type');
     value = el.value;
 
+    // Get validation state
     if (type === 'checkbox') { // checkboxes
       name = el.getAttribute('name');
       controls = _el.querySelectorAll('input[name="' + name + '"]');
-      state = 'invalid';
+      state = 'invalid'; // flip default
 
       controls.forEach(function(control) {
         if (control.checked) {
@@ -106,6 +118,7 @@ var Validator = function (options) {
       }
     }
 
+    // Set validation state on parent node
     parent = el.closest('.control');
     if (parent.classList.contains('checkbox') || parent.classList.contains('radio')) {
       parent = parent.closest('fieldset');

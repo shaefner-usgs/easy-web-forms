@@ -69,7 +69,7 @@ var Validator = function (options) {
           form,
           section;
 
-      form = _el.querySelector('section.form form');
+      form = _el;
 
       e.preventDefault();
       _validateAll();
@@ -105,7 +105,7 @@ var Validator = function (options) {
    * Get a NodeList of form controls by type
    */
   _getControls = function () {
-    _allControls = _el.querySelectorAll('input:not([type="submit"])', 'select', 'textarea');
+    _allControls = _el.querySelectorAll('input:not([type="submit"]), select, textarea');
     _inputs = _el.querySelectorAll('input:not([type="submit"])');
     _selects = _el.querySelectorAll('select');
     _textareas = _el.querySelectorAll('textarea');

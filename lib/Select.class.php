@@ -51,7 +51,7 @@ class Select {
     $this->_checkParams();
 
     // Set value prop to user-supplied value when form is submitted
-    if (isSet($_POST['submit'])) {
+    if (isSet($_POST['submitbutton'])) {
       $this->value = safeParam($this->name);
     }
   }

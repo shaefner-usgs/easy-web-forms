@@ -142,7 +142,7 @@ class Form {
     $hasRequiredFields = false;
 
     $html = '<section class="form">';
-    if (isSet($_POST['submit']) && !$this->_isValid) {
+    if (isSet($_POST['submitbutton']) && !$this->_isValid) {
       $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
     }
     $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
@@ -186,7 +186,7 @@ class Form {
       }
     }
 
-    $html .= sprintf('<input name="submit" type="submit" class="btn btn-primary" tabindex="%d" value="Submit" />',
+    $html .= sprintf('<input id="submitbutton" name="submitbutton" type="submit" class="btn btn-primary" tabindex="%d" value="Submit" />',
       ++ $count
     );
     $html .= '</form>';

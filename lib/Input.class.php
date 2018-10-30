@@ -73,7 +73,7 @@ class Input {
 
     // Cache instantiated/submitted values and set value prop depending on state
     $this->_instantiatedValue = $this->value;
-    if (isSet($_POST['submit'])) {
+    if (isSet($_POST['submitbutton'])) {
       $this->_submittedValue = safeParam($this->name);
       $this->value = $this->_submittedValue; // set to user-supplied value
     }
@@ -191,7 +191,7 @@ class Input {
   private function _isChecked () {
     $checked = false;
 
-    if (isSet($_POST['submit'])) {
+    if (isSet($_POST['submitbutton'])) {
       if ($this->type === 'checkbox') {
         $submittedValues = preg_split('/,\s*/', $this->_submittedValue);
         foreach ($submittedValues as $value) {

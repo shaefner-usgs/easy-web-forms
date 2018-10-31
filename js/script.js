@@ -14,7 +14,7 @@ var Validator = function (options) {
       _inputs,
       _isFormValid,
       _selects,
-      _submitButtion,
+      _submitButton,
       _textareas,
 
       _addEventHandlers,
@@ -65,7 +65,7 @@ var Validator = function (options) {
       }
     });
 
-    _submitButtion.addEventListener('click', function(e) {
+    _submitButton.addEventListener('click', function(e) {
       e.preventDefault();
       _handleSubmit();
     });
@@ -88,7 +88,7 @@ var Validator = function (options) {
     _selects = _el.querySelectorAll('select');
     _textareas = _el.querySelectorAll('textarea');
 
-    _submitButtion = _el.querySelector('input[type="submit"]');
+    _submitButton = _el.querySelector('input[type="submit"]');
   };
 
   /**

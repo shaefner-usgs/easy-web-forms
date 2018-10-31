@@ -19,6 +19,7 @@ var Validator = function (options) {
 
       _addEventHandlers,
       _getControls,
+      _handleSubmit,
       _validate,
       _validateAll;
 
@@ -65,39 +66,8 @@ var Validator = function (options) {
     });
 
     _submitButtion.addEventListener('click', function(e) {
-      var errorMsg,
-          form,
-          section,
-          submitButton;
-
-      form = _el;
-
       e.preventDefault();
-      _validateAll();
-
-      if (_isFormValid) {
-        // Submit button is not set when form is submitted via js; set it here
-        submitButton = document.createElement('input');
-        submitButton.setAttribute('name', 'submitbutton');
-        submitButton.setAttribute('type', 'hidden');
-        submitButton.setAttribute('value', 'Submit');
-        form.appendChild(submitButton);
-
-        form.submit();
-      } else { // stop form submission and alert user
-        errorMsg = document.querySelector('.form p.error');
-        section = document.querySelector('section.form');
-
-        if (!errorMsg) {
-          errorMsg = document.createElement('p');
-          errorMsg.classList.add('error');
-          errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
-
-          section.insertBefore(errorMsg, form);
-        }
-
-        _isFormValid = true; // reset to default
-      }
+      _handleSubmit();
     });
 
     _textareas.forEach(function(textarea) {
@@ -120,6 +90,44 @@ var Validator = function (options) {
 
     _submitButtion = _el.querySelector('input[type="submit"]');
   };
+
+  /**
+   * Show validation errors or submit form depending on validation state
+   */
+  _handleSubmit = function () {
+    var errorMsg,
+        form,
+        section,
+        submitButton;
+
+    form = _el;
+
+    _validateAll();
+
+    if (_isFormValid) {
+      // Submit button is not set when form is submitted via js; set it here
+      submitButton = document.createElement('input');
+      submitButton.setAttribute('name', 'submitbutton');
+      submitButton.setAttribute('type', 'hidden');
+      submitButton.setAttribute('value', 'Submit');
+      form.appendChild(submitButton);
+
+      form.submit();
+    } else { // stop form submission and alert user
+      errorMsg = document.querySelector('.form p.error');
+      section = document.querySelector('section.form');
+
+      if (!errorMsg) {
+        errorMsg = document.createElement('p');
+        errorMsg.classList.add('error');
+        errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
+
+        section.insertBefore(errorMsg, form);
+      }
+
+      _isFormValid = true; // reset to default
+    }
+  }
 
   /**
    * Validate user input on a given element

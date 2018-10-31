@@ -67,7 +67,8 @@ var Validator = function (options) {
     _submitButtion.addEventListener('click', function(e) {
       var errorMsg,
           form,
-          section;
+          section,
+          submitButton;
 
       form = _el;
 
@@ -75,6 +76,13 @@ var Validator = function (options) {
       _validateAll();
 
       if (_isFormValid) {
+        // Submit button is not set when form is submitted via js; set it here
+        submitButton = document.createElement('input');
+        submitButton.setAttribute('name', 'submitbutton');
+        submitButton.setAttribute('type', 'hidden');
+        submitButton.setAttribute('value', 'Submit');
+        form.appendChild(submitButton);
+
         form.submit();
       } else { // stop form submission and alert user
         errorMsg = document.querySelector('.form p.error');

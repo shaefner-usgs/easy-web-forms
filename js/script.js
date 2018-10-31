@@ -140,7 +140,7 @@ var Validator = function (options) {
     value = el.value;
 
     // Get validation state
-    if (type === 'checkbox') { // checkboxes
+    if (type === 'checkbox' || type === 'radio') { // checkboxes and radios
       name = el.getAttribute('name');
       controls = _el.querySelectorAll('input[name="' + name + '"]');
       state = 'invalid'; // flip default

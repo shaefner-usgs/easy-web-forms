@@ -55,9 +55,13 @@ class Form {
       if (is_array($control)) { // radio/checkbox group: use first control to validate group
         $control = $control[0];
       }
+      $pattern = '';
+      if (isSet($control->pattern)) {
+        $pattern = preg_replace('@/@', '\/', $control->pattern);
+      }
 
       if (($control->required && !$control->value) ||
-        (isSet($control->pattern) && !preg_match("/$control->pattern/", $control->value))
+        (isSet($pattern) && !preg_match("/$pattern/", $control->value))
       ) {
         $this->_isValid = false; // form (set to false if any conrol is invalid)
         $control->isValid = false; // this control

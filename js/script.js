@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   Validator({
-    el: document.querySelector('form')
+    form: document.querySelector('section.form form')
   });
 });
 
@@ -10,7 +10,7 @@ var Validator = function (options) {
       _intialize,
 
       _allControls,
-      _el,
+      _form,
       _inputs,
       _isFormValid,
       _selects,
@@ -26,8 +26,8 @@ var Validator = function (options) {
   _this = {};
 
   _initialize = function (options) {
-    _el = options.el;
-    _isFormValid = true; // default value; set by _validate()
+    _form = options.form;
+    _isFormValid = true; // default value; set to false by _validate()
 
     _getControls();
     _addEventHandlers();
@@ -83,12 +83,11 @@ var Validator = function (options) {
    * Get a NodeList of form controls by type
    */
   _getControls = function () {
-    _allControls = _el.querySelectorAll('input:not([type="submit"]), select, textarea');
-    _inputs = _el.querySelectorAll('input:not([type="submit"])');
-    _selects = _el.querySelectorAll('select');
-    _textareas = _el.querySelectorAll('textarea');
-
-    _submitButton = _el.querySelector('input[type="submit"]');
+    _allControls = _form.querySelectorAll('input:not([type="submit"]), select, textarea');
+    _inputs = _form.querySelectorAll('input:not([type="submit"])');
+    _selects = _form.querySelectorAll('select');
+    _textareas = _form.querySelectorAll('textarea');
+    _submitButton = _form.querySelector('input[type="submit"]');
   };
 
   /**
@@ -96,11 +95,8 @@ var Validator = function (options) {
    */
   _handleSubmit = function () {
     var errorMsg,
-        form,
         section,
         submitButton;
-
-    form = _el;
 
     _validateAll();
 
@@ -110,9 +106,9 @@ var Validator = function (options) {
       submitButton.setAttribute('name', 'submitbutton');
       submitButton.setAttribute('type', 'hidden');
       submitButton.setAttribute('value', 'Submit');
-      form.appendChild(submitButton);
 
-      form.submit();
+      _form.appendChild(submitButton);
+      _form.submit();
     } else { // stop form submission and alert user
       errorMsg = document.querySelector('.form p.error');
       section = document.querySelector('section.form');
@@ -122,7 +118,7 @@ var Validator = function (options) {
         errorMsg.classList.add('error');
         errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
 
-        section.insertBefore(errorMsg, form);
+        section.insertBefore(errorMsg, _form);
       }
 
       _isFormValid = true; // reset to default
@@ -150,7 +146,7 @@ var Validator = function (options) {
     // Get validation state
     if (type === 'checkbox' || type === 'radio') { // checkboxes and radios
       name = el.getAttribute('name');
-      controls = _el.querySelectorAll('input[name="' + name + '"]');
+      controls = _form.querySelectorAll('input[name="' + name + '"]');
       state = 'invalid'; // flip default
 
       controls.forEach(function(control) {

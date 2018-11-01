@@ -61,7 +61,7 @@ class Form {
       }
 
       if (($control->required && !$control->value) ||
-        (isSet($pattern) && !preg_match("/$pattern/", $control->value))
+        (isSet($pattern) && !preg_match("/$pattern/", $control->value) && $control->value)
       ) {
         $this->_isValid = false; // form (set to false if any conrol is invalid)
         $control->isValid = false; // this control

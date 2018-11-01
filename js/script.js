@@ -157,7 +157,7 @@ var Validator = function (options) {
     } else { // everything else
       if (el.hasAttribute('pattern')) {
         pattern = new RegExp(el.getAttribute('pattern'));
-        if (!pattern.test(value)) {
+        if (!pattern.test(value) && value !== '') {
           state = 'invalid';
         }
       }

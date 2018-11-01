@@ -56,6 +56,12 @@ class Input {
   public $isValid = true;
 
   public function __construct (Array $params=array()) {
+    if (isSet($params['type']) && $params['type'] === 'email') {
+      $this->_defaults['pattern'] = '[^@]+@[^@]+\.[^@]+';
+    }
+    if (isSet($params['type']) && $params['type'] === 'url') {
+      $this->_defaults['pattern'] = '^(https?|ftp)://[^\s/$.?#].[^\s]*$';
+    }
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
 

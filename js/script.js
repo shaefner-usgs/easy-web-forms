@@ -50,8 +50,10 @@ var Validator = function (options) {
             _validate(input);
           });
         } else {
-          input.addEventListener('input', function() {
-            _validate(input);
+          ['blur', 'input'].forEach(function(evt) { // blur evt caputres autocompleted fields
+            input.addEventListener(evt, function() {
+              _validate(input);
+            });
           });
         }
       }

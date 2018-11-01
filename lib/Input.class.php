@@ -56,12 +56,8 @@ class Input {
   public $isValid = true;
 
   public function __construct (Array $params=array()) {
-    if (isSet($params['type']) && $params['type'] === 'email') {
-      $this->_defaults['pattern'] = '[^@]+@[^@]+\.[^@]+';
-    }
-    if (isSet($params['type']) && $params['type'] === 'url') {
-      $this->_defaults['pattern'] = '^(https?|ftp)://[^\s/$.?#].[^\s]*$';
-    }
+    $this->_setDefaults($params);
+
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
 
@@ -86,7 +82,7 @@ class Input {
   }
 
   /**
-   * Check for missing required params; also set default message depending on type
+   * Check for missing required params
    */
   private function _checkParams () {
     if (!$this->name) {
@@ -104,12 +100,6 @@ class Input {
           $this->name
         );
       }
-    }
-    if ($this->type === 'checkbox' && $this->message === $this->_defaults['message']) {
-      $this->message = 'Please select one or more options';
-    }
-    if ($this->type === 'radio' && $this->message === $this->_defaults['message']) {
-      $this->message = 'Please select an option';
     }
   }
 
@@ -215,6 +205,28 @@ class Input {
     }
 
     return $checked;
+  }
+
+  /**
+   * Set defaults that depend on type
+   *
+   * @param $params {Array}
+   */
+  private function _setDefaults ($params) {
+    if (isSet($params['type'])) {
+      if ($params['type'] === 'email') {
+        $this->_defaults['pattern'] = '[^@]+@[^@]+\.[^@]+';
+      }
+      if ($params['type'] === 'url') {
+        $this->_defaults['pattern'] = '^(https?|ftp)://[^\s/$.?#].[^\s]*$';
+      }
+      if ($params['type'] === 'checkbox') {
+        $this->_defaults['message'] = 'Please select one or more options';
+      }
+      if ($params['type'] === 'radio') {
+        $this->_defaults['message'] = 'Please select an option';
+      }
+    }
   }
 
   /**

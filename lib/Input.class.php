@@ -250,7 +250,7 @@ class Input {
       $labelText = $this->label;
     } else {
       if ($this->_isCheckboxOrRadio) {
-        $labelText = ucfirst($this->value);
+        $labelText = ucfirst($this->_instantiatedValue);
       } else {
         $labelText = ucfirst($this->name);
       }

@@ -103,7 +103,7 @@ class Form {
    */
   public function addGroup ($group) {
     $controls = $group['controls'];
-    $key = $controls[0]->name; // use first control's 'name' attr; value should be same for all
+    $key = $controls[0]->name; // get shared 'name' attr from first control
 
     $this->_checkParams($controls);
 
@@ -117,7 +117,7 @@ class Form {
        $description = $group['description'];
      }
 
-    $label = $controls[0]->name; // default to first control's 'name' attr, but use 'label' if available
+    $label = ucfirst($controls[0]->name); // default to 'name' attr
     if (array_key_exists('label', $group)) {
       $label = $group['label'];
     }

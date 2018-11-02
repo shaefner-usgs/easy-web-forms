@@ -128,7 +128,7 @@ class Select {
     if ($this->label) {
       $labelText = $this->label;
     } else {
-      $labelText = $this->name;
+      $labelText = ucfirst($this->name);
     }
 
     $description = sprintf('<p class="description" data-message="%s">%s</p>',

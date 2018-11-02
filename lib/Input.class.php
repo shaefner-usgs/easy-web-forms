@@ -250,9 +250,9 @@ class Input {
       $labelText = $this->label;
     } else {
       if ($this->_isCheckboxOrRadio) {
-        $labelText = $this->value;
+        $labelText = ucfirst($this->value);
       } else {
-        $labelText = $this->name;
+        $labelText = ucfirst($this->name);
       }
     }
 
@@ -271,7 +271,7 @@ class Input {
     if ($this->_isCheckboxOrRadio) {
       // Wrap label in div elem for pretty checkbox library
       $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
-      $value = $this->_instantiatedValue; // always use instantiated value
+      $value = $this->_instantiatedValue; // use instantiated value for html attr
     } else {
       $description = sprintf('<p class="description" data-message="%s">%s</p>',
         preg_replace('/{{label}}/', strtoupper($labelText), $this->message),

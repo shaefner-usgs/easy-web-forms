@@ -1,16 +1,23 @@
 <?php
 
 /**
- * Create and process html form
+ * Create and process HTML form
  *
- * TODO: Allow user to set color for form buttons on instantiation (impement via .js?)
+ * @param $params {Array}
+ *
+ *     adminEmail {String} - Where to send results of successful form submission
+ *     emailSubject {String} - Subject of email results
+ *     successMsg {String} - Message shown upon successful form submission
  */
 class Form {
   private $_defaults = array(
+      'adminEmail' => '',
+      'emailSubject' => 'Form submitted',
       'successMsg' => 'Thank you for your input.'
     ),
     $_isValid = true, // Boolean value (set to false if form doesn't validate)
-    $_items = array(); // form controls/groups and associated props
+    $_items = array(), // form controls/groups and associated props
+    $_results = ''; // Summary of user input
 
   public function __construct (Array $params=array()) {
     // Merge defaults with user-supplied params and set as class properties
@@ -42,6 +49,31 @@ class Form {
       }
       $prevKey = $key;
       $prevRequired = $required;
+    }
+  }
+
+  /**
+   * Send email to admin when user successfully submits form
+   */
+  private function _sendEmail () {
+    if ($this->adminEmail) {
+      $headers = array(
+        'Content-type: text/html; charset=iso-8859-1',
+        'From: webmaster@' . $_SERVER['SERVER_NAME'],
+        'MIME-Version: 1.0'
+      );
+      $placeholders = '/\{\{([^}]+)\}\}/';
+      $subject = $this->emailSubject;
+
+      // Replace any placeholders in subject with submitted values
+      preg_match_all($placeholders, $subject, $matches, PREG_SET_ORDER);
+      foreach ($matches as $match) {
+        $pattern = '/' . $match[0] . '/';
+        $replacement = $_POST[$match[1]];
+        $subject = preg_replace($pattern, $replacement, $subject);
+      }
+
+      mail($this->adminEmail, $subject, $this->_results, implode("\r\n", $headers));
     }
   }
 
@@ -150,7 +182,8 @@ class Form {
       $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
     }
     $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
-      $_SERVER['REQUEST_URI']);
+      $_SERVER['REQUEST_URI']
+    );
 
     foreach ($this->_items as $key => $item) {
       $control = $item['control'];
@@ -203,27 +236,20 @@ class Form {
   }
 
   /**
-   * Get html for results summary (values entered by user)
+   * Get html for results summary returned to user after successful form submission
    *   if form does not validate, send back form instead
    *
    * @return $html {String}
    */
   public function getResultsHtml () {
     if ($this->_isValid) {
-      $html = '<section class="results">';
-      $html .= '<p class="success">' . $this->successMsg . '</p>';
-
-      $html .= '<dl>';
-      foreach ($this->_items as $key => $item) {
-        $control = $item['control'];
-        if (is_array($control)) { // radio/checkbox group: get value from first control
-          $control = $control[0];
-        }
-        $html .= '<dt>' . ucfirst($item['label']) . '</dt>';
-        $html .= '<dd>' . htmlentities(stripslashes($control->value)) . '</dd>';
-      }
-      $html .= '</dl>';
-      $html .= '</section>';
+      $html = sprintf('<section class="results">
+          <p class="success">%s</p>
+          %s
+        </section>',
+        $this->successMsg,
+        $this->_results
+      );
     } else { // validation failed; send back form
       $html = $this->getFormHtml();
     }
@@ -232,7 +258,8 @@ class Form {
   }
 
   /**
-   * Create an array containing form control values entered by user, then insert into database
+   * Create an array and html description list containing values entered by user
+   *   If validation passes, insert record into database and email results to admin
    *
    * @param $Database {Object}
    *     Database instance
@@ -241,21 +268,24 @@ class Form {
    */
   public function process ($Database, $table) {
     $values = array();
+    $this->_results = '<dl>';
 
     foreach ($this->_items as $key => $item) {
       $control = $item['control'];
-      if (is_array($control)) { // radio/checkbox group, get value from first control
-        $value = $control[0]->value;
-      } else {
-        $value = $control->value;
+      if (is_array($control)) { // radio/checkbox group, use first control
+        $control = $control[0];
       }
-      $values[$key] = $value;
+      $values[$key] = $control->value;
+      $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
+      $this->_results .= '<dd>' . htmlentities(stripslashes($control->value)) . '</dd>';
     }
+    $this->_results .= '</dl>';
 
-    // Validate and insert record if valid
+    // Validate and insert/email record if valid
     $this->_validate();
     if ($this->_isValid) {
       //$Database->insertRecord($values, $table);
+      $this->_sendEmail();
     }
   }
 }

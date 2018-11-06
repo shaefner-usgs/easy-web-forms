@@ -104,15 +104,16 @@ var Validator = function (options) {
     isFormInvalid = _form.querySelector('.invalid');
     if (isFormInvalid) { // stop form submission and alert user
       errorMsg = document.querySelector('.form p.error');
+      section = document.querySelector('section.form');
 
       if (!errorMsg) {
         errorMsg = document.createElement('p');
         errorMsg.classList.add('error');
         errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
 
-        section = document.querySelector('section.form');
         section.insertBefore(errorMsg, _form);
       }
+      section.scrollIntoView();
     } else {
       // Submit button is not set when form is submitted via js; set it here
       submitButton = document.createElement('input');

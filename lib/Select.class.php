@@ -15,7 +15,7 @@
  *
  *       class {String}
  *       description {String} - explanatory text displayed next to form control
- *       label {String}
+ *       label {String} - label element for control
  *       message {String} - instructions displayed for invalid form control
  *       options {Array} - REQUIRED
  *       selected {String}
@@ -41,13 +41,13 @@ class Select {
   public function __construct (Array $params=array()) {
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
-
     foreach ($options as $key => $value) {
       // Only set props that are defined in $_defaults
       if (array_key_exists($key, $this->_defaults)) {
         $this->$key = $value;
       }
     }
+
     $this->_checkParams();
 
     // Set value prop to user-supplied value when form is submitted
@@ -57,7 +57,7 @@ class Select {
   }
 
   /**
-   * Check for missing required params
+   * Check for missing required params; set id, label params if not already set
    */
   private function _checkParams () {
     if (!$this->name) {
@@ -65,6 +65,14 @@ class Select {
     }
     if (!$this->options || !is_array($this->options)) {
       print '<p class="error">ERROR: <em>options</em> (array) is <strong>required</strong> for all select elements</p>';
+    }
+
+    // Set id and label if not set during instantiation
+    if (!$this->id) {
+      $this->id = $this->name;
+    }
+    if (!$this->label) {
+      $this->label = ucfirst($this->name);
     }
   }
 
@@ -119,26 +127,14 @@ class Select {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
 
-    if ($this->id) {
-      $id = $this->id;
-    } else {
-      $id = $this->name;
-    }
-
-    if ($this->label) {
-      $labelText = $this->label;
-    } else {
-      $labelText = ucfirst($this->name);
-    }
-
     $description = sprintf('<p class="description" data-message="%s">%s</p>',
       $this->message,
       $this->description
     );
 
     $label = sprintf('<label for="%s">%s</label>',
-      $id,
-      $labelText
+      $this->id,
+      $this->label
     );
 
     $options = '';
@@ -161,7 +157,7 @@ class Select {
     }
 
     $select = sprintf('<select class="custom-select" id="%s" name="%s"%s>%s</select>',
-      $id,
+      $this->id,
       $this->name,
       $attrs,
       $options

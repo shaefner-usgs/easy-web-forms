@@ -110,14 +110,9 @@ class Form {
   public function addControl ($control) {
     $key = $control->name;
 
-    $label = $control->name; // default to control's 'name' attr, but use 'label' if available
-    if ($control->label) {
-      $label = $control->label;
-    }
-
     $this->_items[$key] = array(
       'control' => $control,
-      'label' => $label
+      'label' => $control->label
     );
   }
 
@@ -144,10 +139,10 @@ class Form {
       $arrangement = $group['arrangement'];
     }
 
-     $description = '';
-     if (array_key_exists('description', $group)) {
-       $description = $group['description'];
-     }
+    $description = '';
+    if (array_key_exists('description', $group)) {
+      $description = $group['description'];
+    }
 
     $label = ucfirst($controls[0]->name); // default to 'name' attr
     if (array_key_exists('label', $group)) {

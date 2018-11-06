@@ -25,7 +25,7 @@
  *
  *       class {String}
  *       description {String} - explanatory text displayed next to form control
- *       label {String}
+ *       label {String} - label element for control
  *       message {String} - instructions displayed for invalid form control
  */
 class Input {
@@ -60,7 +60,6 @@ class Input {
 
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
-
     foreach ($options as $key => $value) {
       // Strip off '[]' from name values; added programmatically to checkbox inputs
       if ($key === 'name' && preg_match('/\[\]$/', $value)) {
@@ -71,6 +70,7 @@ class Input {
         $this->$key = $value;
       }
     }
+
     $this->_checkParams();
 
     // Cache instantiated/submitted values and set value prop depending on state
@@ -82,7 +82,7 @@ class Input {
   }
 
   /**
-   * Check for missing required params
+   * Check for missing required params; set id, label params if not already set
    */
   private function _checkParams () {
     if (!$this->name) {
@@ -101,6 +101,20 @@ class Input {
         );
       }
     }
+
+    // Set id and label if not set during instantiation
+    if (!$this->id) {
+      $this->id = $this->name;
+    }
+    if (!$this->label) {
+      $this->label = ucfirst($this->name);
+      if ($this->_isCheckboxOrRadio) {
+        $this->label = ucfirst($this->value);
+      }
+    }
+
+    // Substitute label's value in template
+    $this->message = preg_replace('/{{label}}/', strtoupper($this->label), $this->message);
   }
 
   /**
@@ -240,25 +254,9 @@ class Input {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
 
-    if ($this->id) {
-      $id = $this->id;
-    } else {
-      $id = $this->name;
-    }
-
-    if ($this->label) {
-      $labelText = $this->label;
-    } else {
-      if ($this->_isCheckboxOrRadio) {
-        $labelText = ucfirst($this->_instantiatedValue);
-      } else {
-        $labelText = ucfirst($this->name);
-      }
-    }
-
     $label = sprintf('<label for="%s">%s</label>',
-      $id,
-      $labelText
+      $this->id,
+      $this->label
     );
 
     $name = $this->name;
@@ -271,16 +269,16 @@ class Input {
     if ($this->_isCheckboxOrRadio) {
       // Wrap label in div elem for pretty checkbox library
       $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
-      $value = $this->_instantiatedValue; // use instantiated value for html attr
+      $value = $this->_instantiatedValue; // always use instantiated value here
     } else {
       $description = sprintf('<p class="description" data-message="%s">%s</p>',
-        preg_replace('/{{label}}/', strtoupper($labelText), $this->message),
+        $this->message,
         $this->description
       );
     }
 
     $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
-      $id,
+      $this->id,
       $name,
       $this->type,
       $value,

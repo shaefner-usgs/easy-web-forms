@@ -12,7 +12,6 @@ var Validator = function (options) {
       _allControls,
       _form,
       _inputs,
-      _isFormValid,
       _selects,
       _submitButton,
       _textareas,
@@ -27,7 +26,6 @@ var Validator = function (options) {
 
   _initialize = function (options) {
     _form = options.form;
-    _isFormValid = true; // default value; set to false by _validate()
 
     _getControls();
     _addEventHandlers();
@@ -97,12 +95,25 @@ var Validator = function (options) {
    */
   _handleSubmit = function () {
     var errorMsg,
+        isFormValid,
         section,
         submitButton;
 
     _validateAll();
 
-    if (_isFormValid) {
+    isFormInvalid = _form.querySelector('.invalid');
+    if (isFormInvalid) { // stop form submission and alert user
+      errorMsg = document.querySelector('.form p.error');
+
+      if (!errorMsg) {
+        errorMsg = document.createElement('p');
+        errorMsg.classList.add('error');
+        errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
+
+        section = document.querySelector('section.form');
+        section.insertBefore(errorMsg, _form);
+      }
+    } else {
       // Submit button is not set when form is submitted via js; set it here
       submitButton = document.createElement('input');
       submitButton.setAttribute('name', 'submitbutton');
@@ -111,19 +122,6 @@ var Validator = function (options) {
 
       _form.appendChild(submitButton);
       _form.submit();
-    } else { // stop form submission and alert user
-      errorMsg = document.querySelector('.form p.error');
-      section = document.querySelector('section.form');
-
-      if (!errorMsg) {
-        errorMsg = document.createElement('p');
-        errorMsg.classList.add('error');
-        errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
-
-        section.insertBefore(errorMsg, _form);
-      }
-
-      _isFormValid = true; // reset to default
     }
   }
 
@@ -175,11 +173,6 @@ var Validator = function (options) {
     }
     parent.classList.remove('invalid', 'valid');
     parent.classList.add(state);
-
-    // Flag form state as invalid
-    if (state === 'invalid') {
-      _isFormValid = false;
-    }
   }
 
   /**

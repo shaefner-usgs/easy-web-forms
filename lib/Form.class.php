@@ -262,24 +262,38 @@ class Form {
    *     Table name
    */
   public function process ($Database, $table) {
-    $values = array();
+    $sqlValues = array();
     $this->_results = '<dl>';
 
     foreach ($this->_items as $key => $item) {
       $control = $item['control'];
-      if (is_array($control)) { // radio/checkbox group, use first control
-        $control = $control[0];
+      $prettyValues = array();
+      if (is_array($control)) { // radio/checkbox group
+        $sqlValue = $control[0]->value; // use first control in group
+        $controls = $control;
+        foreach ($controls as $control) {
+          if ($control->isChecked()) {
+            $prettyValues[] = $control->label;
+          }
+        }
+        $prettyValue = implode(', ', $prettyValues);
+      } else if ($control->type === 'select') { // select menu
+        $prettyValue = $control->options[$control->value];
+        $sqlValue = $control->value;
+      } else { // everything else
+        $prettyValue = $sqlValue = $control->value;
       }
-      $values[$key] = $control->value;
+      $sqlValues[$key] = $sqlValue;
+
       $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
-      $this->_results .= '<dd>' . htmlentities(stripslashes($control->value)) . '</dd>';
+      $this->_results .= '<dd>' . htmlentities(stripslashes($prettyValue)) . '</dd>';
     }
     $this->_results .= '</dl>';
 
     // Validate and insert/email record if valid
     $this->_validate();
     if ($this->_isValid) {
-      //$Database->insertRecord($values, $table);
+      //$Database->insertRecord($sqlValues, $table);
       $this->_sendEmail();
     }
   }

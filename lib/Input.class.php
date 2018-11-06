@@ -160,7 +160,7 @@ class Input {
     }
 
     if ($this->_isCheckboxOrRadio) {
-      if ($this->_isChecked()) {
+      if ($this->isChecked()) {
         $attrs .= ' checked="checked"';
       }
     }
@@ -191,34 +191,6 @@ class Input {
     }
 
     return $cssClasses;
-  }
-
-  /**
-   * Assess if radio / checkbox should be checked
-   *
-   * @return $checked {Boolean}
-   */
-  private function _isChecked () {
-    $checked = false;
-
-    if (isSet($_POST['submitbutton'])) {
-      if ($this->type === 'checkbox') {
-        $submittedValues = preg_split('/,\s*/', $this->_submittedValue);
-        foreach ($submittedValues as $value) {
-          if ($value === $this->_instantiatedValue) {
-            $checked = true;
-          }
-        }
-      } else if ($this->type === 'radio') {
-        if ($this->_submittedValue === $this->_instantiatedValue) {
-          $checked = true;
-        }
-      }
-    } else if ($this->checked) { // set to initial state
-      $checked = true;
-    }
-
-    return $checked;
   }
 
   /**
@@ -293,5 +265,33 @@ class Input {
     );
 
     return $html;
+  }
+
+  /**
+   * Assess if radio / checkbox is / should be checked
+   *
+   * @return $checked {Boolean}
+   */
+  public function isChecked () {
+    $checked = false;
+
+    if (isSet($_POST['submitbutton'])) {
+      if ($this->type === 'checkbox') {
+        $submittedValues = preg_split('/,\s*/', $this->_submittedValue);
+        foreach ($submittedValues as $value) {
+          if ($value === $this->_instantiatedValue) {
+            $checked = true;
+          }
+        }
+      } else if ($this->type === 'radio') {
+        if ($this->_submittedValue === $this->_instantiatedValue) {
+          $checked = true;
+        }
+      }
+    } else if ($this->checked) { // set to initial state
+      $checked = true;
+    }
+
+    return $checked;
   }
 }

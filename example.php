@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="css/form.css" />
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
 
@@ -20,86 +20,109 @@ include_once 'lib/Textarea.class.php';
 include_once 'conf/config.inc.php';
 
 // 2. Create form controls
-$fname = new Input(array(
-  'name' => 'fname',
-  'value' => 'Scott',
-  'label' => 'First name',
+$name = new Input(array(
+  'name' => 'name',
   'required' => true,
-  'pattern' => '^[a-zA-Z0-9]+$'
+  'message' => 'NAME is required'
 ));
-$lname = new Input(array(
-  'name' => 'lname',
-  'value' => 'Haefner',
-  'label' => 'Last name'
+$email = new Input(array(
+  'type' => 'email',
+  'name' => 'email',
+  'label' => 'Email Address',
+  'required' => true
 ));
-$vanilla = new Input(array(
-  'type' => 'radio',
-  'name' => 'flavor',
-  'id' => 'vanilla',
-  'value' => 'vanilla',
-  'label' => 'Vanilla',
-  'checked' => true
-));
-$chocolate = new Input(array(
-  'type' => 'radio',
-  'name' => 'flavor',
-  'id' => 'chocolate',
-  'value' => 'chocolate',
-  'label' => 'Chocolate'
-));
-$nuts = new Input(array(
-  'type' => 'checkbox',
-  'name' => 'toppings',
-  'id' => 'nuts',
-  'value' => 'nuts',
-  'label' => 'Nuts',
-  'checked' => true
-));
-$sprinkles = new Input(array(
-  'type' => 'checkbox',
-  'name' => 'toppings',
-  'id' => 'sprinkles',
-  'value' => 'sprinkles',
-  'label' => 'Sprinkles',
-  'checked' => true
-));
-$cone = new Select(array(
-  'name' => 'cone',
+$crust = new Select(array(
+  'name' => 'crust',
   'options' => array(
-    'cake' => 'Cake cone',
-    'waffle' => 'Waffle cone'
-  )
+    '' => 'Choose a crust',
+    'thin' => 'Thin &amp; Crispy',
+    'deep' => 'Chicago Deep Dish',
+    'glutenfree' => 'Gluten Free'
+  ),
+  'required' => true
+));
+$mozzarella = new Input(array(
+  'type' => 'radio',
+  'name' => 'cheese',
+  'id' => 'mozzarella',
+  'value' => 'mozzarella',
+  'checked' => true
+));
+$soy = new Input(array(
+  'type' => 'radio',
+  'name' => 'cheese',
+  'id' => 'soy',
+  'value' => 'soy',
+  'label' => 'Soy (vegan)',
+  'checked' => false
+));
+$sausage = new Input(array(
+  'type' => 'checkbox',
+  'name' => 'toppings',
+  'id' => 'sausage',
+  'value' => 'sausage'
+));
+$pepperoni = new Input(array(
+  'type' => 'checkbox',
+  'name' => 'toppings',
+  'id' => 'pepperoni',
+  'value' => 'pepperoni'
+));
+$peppers = new Input(array(
+  'type' => 'checkbox',
+  'name' => 'toppings',
+  'id' => 'peppers',
+  'value' => 'peppers',
+  'label' => 'Bell peppers'
+));
+$tomato = new Input(array(
+  'type' => 'checkbox',
+  'name' => 'toppings',
+  'id' => 'tomato',
+  'value' => 'tomato'
+));
+$onion = new Input(array(
+  'type' => 'checkbox',
+  'name' => 'toppings',
+  'id' => 'onion',
+  'value' => 'onion'
 ));
 $instructions = new Textarea(array(
-  'label' => 'Instructions',
+  'label' => 'Special Instructions',
   'name' => 'instructions'
 ));
 
 // 3. Add form controls to Form
-$Form = new Form();
-$Form->addItem($fname);
-$Form->addItem($lname);
-$Form->addItem($cone);
+$Form = new Form(array(
+  'adminEmail' => '',
+  'emailSubject' => 'Order form submitted by {{name}}',
+  'successMsg' => 'Thanks for your order.'
+));
+$Form->addControl($name);
+$Form->addControl($email);
+$Form->addControl($crust);
 $Form->addGroup(array(
   'controls' => array(
-    $vanilla,
-    $chocolate
+    $mozzarella,
+    $soy
   ),
-  'label' => 'Flavor'
+  'label' => 'Type of Cheese'
 ));
 $Form->addGroup(array(
-  'arrangement' => 'vertical',
+  'arrangement' => 'stacked',
   'controls' => array(
-    $nuts,
-    $sprinkles
+    $sausage,
+    $pepperoni,
+    $peppers,
+    $tomato,
+    $onion
   )
 ));
-$Form->addItem($instructions);
+$Form->addControl($instructions);
 
 // Check if form is being submitted. If so, process it; if not, display form
-if (isSet($_POST['submit'])) {
+if (isSet($_POST['submitbutton'])) {
   $Database = new Database($db);
-  $Form->setSuccessMsg('Thanks for your order.');
   $Form->process($Database, $dbTable);
 
   print $Form->getResultsHtml();
@@ -109,5 +132,6 @@ if (isSet($_POST['submit'])) {
 
 ?>
 
+    <script src="js/script.js"></script>
   </body>
 </html>

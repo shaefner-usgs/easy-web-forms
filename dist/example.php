@@ -9,12 +9,7 @@
 <?php
 
 // Dependencies
-include_once 'lib/functions.inc.php';
-include_once 'lib/Database.class.php';
-include_once 'lib/Form.class.php';
-include_once 'lib/Input.class.php';
-include_once 'lib/Select.class.php';
-include_once 'lib/Textarea.class.php';
+include_once 'lib/dependencies.php';
 
 // 1. Set config parameters (vars $db, $dbTable, others are set here)
 include_once 'conf/config.inc.php';

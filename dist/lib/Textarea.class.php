@@ -69,7 +69,7 @@ class Textarea {
       print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all textarea elements</p>';
     }
 
-    // Set id and label if not set during instantiation
+    // Set id and label to name value if not set during instantiation
     if (!$this->id) {
       $this->id = $this->name;
     }

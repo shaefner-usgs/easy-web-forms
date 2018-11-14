@@ -67,7 +67,7 @@ class Select {
       print '<p class="error">ERROR: <em>options</em> (array) is <strong>required</strong> for all select elements</p>';
     }
 
-    // Set id and label if not set during instantiation
+    // Set id and label to name value if not set during instantiation
     if (!$this->id) {
       $this->id = $this->name;
     }

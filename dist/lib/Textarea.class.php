@@ -9,7 +9,7 @@
  *       cols {Integer}
  *       disabled {Boolean}
  *       id {String}
- *       maxLength {Integer}
+ *       maxlength {Integer}
  *       name {String} - REQUIRED
  *       placeholder {String}
  *       required {Boolean}
@@ -31,7 +31,7 @@ class Textarea {
       'disabled' => false,
       'id' => '',
       'label' => '',
-      'maxLength' => null,
+      'maxlength' => null,
       'message' => 'Please provide a valid response',
       'name' => '',
       'placeholder' => '',
@@ -91,8 +91,8 @@ class Textarea {
     if ($this->disabled) {
       $attrs .= ' disabled="disabled"';
     }
-    if ($this->maxLength) {
-      $attrs .= sprintf(' maxlength="%s"', $this->maxLength);
+    if ($this->maxlength) {
+      $attrs .= sprintf(' maxlength="%s"', $this->maxlength);
     }
     if ($this->placeholder) {
       $attrs .= sprintf(' placeholder="%s"', $this->placeholder);

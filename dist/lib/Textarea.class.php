@@ -31,7 +31,7 @@ class Textarea {
       'disabled' => false,
       'id' => '',
       'label' => '',
-      'maxLength' => '',
+      'maxLength' => null,
       'message' => 'Please provide a valid response',
       'name' => '',
       'placeholder' => '',

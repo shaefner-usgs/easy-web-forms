@@ -203,6 +203,9 @@ class Input {
       if ($params['type'] === 'email') {
         $this->_defaults['pattern'] = '[^@]+@[^@]+\.[^@]+';
       }
+      if ($params['type'] === 'number') {
+        $this->_defaults['pattern'] = '^[0-9.-]+$';
+      }
       if ($params['type'] === 'url') {
         $this->_defaults['pattern'] = '^(https?|ftp)://[^\s/$.?#].[^\s]*$';
       }

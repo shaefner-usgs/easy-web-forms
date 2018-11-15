@@ -1,0 +1,25 @@
+@mixin appearance($property) {
+  -webkit-appearance: $property;
+     -moz-appearance: $property;
+      -ms-appearance: $property;
+       -o-appearance: $property;
+          appearance: $property;
+}
+
+@mixin fonts {
+  color: #333;
+  font: {
+    family: $font-family-sans-serif;
+    size: 16px;
+  }
+  line-height: 1.4;
+}
+
+@mixin labels {
+  color: #666;
+  font-size: .95rem;
+  font-weight: 500;
+  margin: 0;
+  padding: 0 0 .25rem;
+  text-transform: uppercase;
+}

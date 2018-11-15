@@ -29,7 +29,7 @@ class Select {
       'label' => '',
       'message' => 'Please select an option from the menu',
       'name' => '',
-      'options' => '',
+      'options' => [],
       'required' => false,
       'selected' => ''
     );
@@ -63,7 +63,7 @@ class Select {
     if (!$this->name) {
       print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all select elements</p>';
     }
-    if (!$this->options || !is_array($this->options)) {
+    if (count($this->options) < 1 || !is_array($this->options)) {
       print '<p class="error">ERROR: <em>options</em> (array) is <strong>required</strong> for all select elements</p>';
     }
 

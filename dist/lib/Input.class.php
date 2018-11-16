@@ -13,6 +13,7 @@
  *       max {Integer}
  *       maxlength {Integer}
  *       min {Integer}
+ *       minlength {Integer}
  *       name {String} - REQUIRED for all inputs; for radio/checkbox inputs, use the same 'name' for all inputs in group
  *       pattern {RegExp}
  *       placeholder {String}
@@ -41,6 +42,7 @@ class Input {
       'maxlength' => null,
       'message' => 'Please provide a valid {{label}}',
       'min' => null,
+      'minlength' => null,
       'name' => '',
       'pattern' => '',
       'placeholder' => '',
@@ -157,6 +159,9 @@ class Input {
     }
     if ($this->type === 'text' && $this->maxlength) {
       $attrs .= sprintf(' maxlength="%s"', $this->maxlength);
+    }
+    if ($this->type === 'text' && $this->minlength) {
+      $attrs .= sprintf(' minlength="%s"', $this->minlength);
     }
 
     if ($this->_isCheckboxOrRadio) {

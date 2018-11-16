@@ -10,6 +10,7 @@
  *       disabled {Boolean}
  *       id {String}
  *       maxlength {Integer}
+ *       minlength {Integer}
  *       name {String} - REQUIRED
  *       placeholder {String}
  *       required {Boolean}
@@ -32,6 +33,7 @@ class Textarea {
       'id' => '',
       'label' => '',
       'maxlength' => null,
+      'minlength' => null,
       'message' => 'Please provide a valid response',
       'name' => '',
       'placeholder' => '',
@@ -93,6 +95,9 @@ class Textarea {
     }
     if ($this->maxlength) {
       $attrs .= sprintf(' maxlength="%s"', $this->maxlength);
+    }
+    if ($this->minlength) {
+      $attrs .= sprintf(' minlength="%s"', $this->minlength);
     }
     if ($this->placeholder) {
       $attrs .= sprintf(' placeholder="%s"', $this->placeholder);

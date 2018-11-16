@@ -73,7 +73,7 @@ class Input {
       }
     }
 
-    $this->_checkParams();
+    $this->_checkParams($params);
 
     // Cache instantiated/submitted values and set value prop depending on state
     $this->_instantiatedValue = $this->value;
@@ -86,7 +86,7 @@ class Input {
   /**
    * Check for missing required params; set id, label params if not already set
    */
-  private function _checkParams () {
+  private function _checkParams ($params) {
     if (!$this->name) {
       print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all input elements</p>';
     }
@@ -99,6 +99,15 @@ class Input {
       }
       if (!$this->value) {
         printf ('<p class="error">ERROR: the <em>value</em> attribute is <strong>required</strong> for all radio/checkbox inputs (%s)</p>',
+          $this->name
+        );
+      }
+    }
+
+    // Alert user to set message/description when adding radio/checkbox group to form
+    if ($this->_isCheckboxOrRadio) {
+      if (isSet($params['description']) || isSet($params['message'])) {
+        printf ('<p class="error">ERROR: the <em>description</em> and <em>message</em> properties should be set when adding a radio/checkbox group of controls to the form, using Form&rsquo;s addGroup() method (%s)',
           $this->name
         );
       }

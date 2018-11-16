@@ -149,7 +149,7 @@ class Form {
       $label = $group['label'];
     }
 
-    $message = $controls[0]->message;
+    $message = '';
     if (array_key_exists('message', $group)) {
       $message = $group['message'];
     }

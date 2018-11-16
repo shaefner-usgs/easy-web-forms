@@ -76,7 +76,7 @@ $form = new Form([
 | Method | Returns | Description |
 | ------ | ------ | ------ |
 | addControl([`<Control>`](#form-controls) control) | null | Adds the given control to the form. |
-| addGroup([<addGroup options>](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. |
+| addGroup([`<addGroup options>`](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. |
 | getFormHtml() | String | Returns an HTML form. |
 | getResultsHtml() | String | Returns an HTML definition list containing a summary of user-entered data. |
 | process() | null | Processes the form. Handles server-side validation, database insert, and optionally sending a summary email. |
@@ -86,9 +86,9 @@ $form = new Form([
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
 | arrangement | String | 'inline' | Form control layout: 'inline' or 'stacked'. |
-| **controls** | Array | undefined | Indexed array of [<Control>](#form-controls)s |
+| **controls** | Array | undefined | Indexed array of [`<Control>`](#form-controls)s |
 | description | String | '' | Explanatory text displayed next to form control group |
-| label | String | 'name' attribute value of [<Control>](#form-controls)s in group | <legend> for <fieldset> group |
+| label | String | 'name' attribute value of [`<Control>`](#form-controls)s in group | <legend> for <fieldset> group |
 | message | String | '' | Message shown when form control(s) in group is(are) invalid. |
 
 Options in **bold** are required.

@@ -75,7 +75,7 @@ $form = new Form([
 
 | Method | Returns | Description |
 | ------ | ------ | ------ |
-| addControl([<Control>](#form-controls) control) | null | Adds the given control to the form. |
+| addControl([Control](#form-controls) control) | null | Adds the given control to the form. |
 | addGroup([<addGroup options>](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. |
 | getFormHtml() | String | Returns an HTML form. |
 | getResultsHtml() | String | Returns an HTML definition list containing a summary of user-entered data. |

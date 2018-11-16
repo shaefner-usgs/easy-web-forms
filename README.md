@@ -38,7 +38,7 @@ PHP and MySQL
     $form->addControl($name);
     ```
 
-See [example.php](example.php) for additional details, including example code to display and process the form.
+See [example.php](dist/example.php) for additional details, including example code to display and process the form.
 
 You will also need to create a table in MySQL with field names that correspond to the name attributes for each form control/group.
 

@@ -25,27 +25,27 @@
  *       value {String}
  */
 class Textarea {
-  private $_defaults = array(
-      'class' => '',
-      'cols' => 60,
-      'description' => '',
-      'disabled' => false,
-      'id' => '',
-      'label' => '',
-      'maxlength' => null,
-      'minlength' => null,
-      'message' => 'Please provide a valid response',
-      'name' => '',
-      'placeholder' => '',
-      'required' => false,
-      'rows' => 4,
-      'value' => ''
-    );
+  private $_defaults = [
+    'class' => '',
+    'cols' => 60,
+    'description' => '',
+    'disabled' => false,
+    'id' => '',
+    'label' => '',
+    'maxlength' => null,
+    'minlength' => null,
+    'message' => 'Please provide a valid response',
+    'name' => '',
+    'placeholder' => '',
+    'required' => false,
+    'rows' => 4,
+    'value' => ''
+  ];
 
   public $isValid = true,
     $type = 'textarea';
 
-  public function __construct (Array $params=array()) {
+  public function __construct (Array $params=[]) {
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
     foreach ($options as $key => $value) {
@@ -118,12 +118,12 @@ class Textarea {
    * @return $cssClasses {Array}
    */
   private function _getCssClasses () {
-    $cssClasses = array('control', $this->type);
+    $cssClasses = ['control', $this->type];
     if ($this->class) {
-      array_push($cssClasses, $this->class);
+      $cssClasses[] = $this->class;
     }
     if (!$this->isValid) {
-      array_push($cssClasses, 'invalid');
+      $cssClasses[] = 'invalid';
     }
 
     return $cssClasses;

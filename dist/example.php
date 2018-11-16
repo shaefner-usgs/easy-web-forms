@@ -15,104 +15,104 @@ include_once 'lib/dependencies.php';
 include_once 'conf/config.inc.php';
 
 // 2. Create form controls
-$name = new Input(array(
+$name = new Input([
   'name' => 'name',
   'required' => true,
   'message' => 'NAME is required'
-));
-$email = new Input(array(
+]);
+$email = new Input([
   'type' => 'email',
   'name' => 'email',
   'label' => 'Email Address',
   'required' => true
-));
-$crust = new Select(array(
+]);
+$crust = new Select([
   'name' => 'crust',
-  'options' => array(
+  'options' => [
     '' => 'Choose a crust',
     'thin' => 'Thin &amp; Crispy',
     'deep' => 'Chicago Deep Dish',
     'glutenfree' => 'Gluten Free'
-  ),
+  ],
   'required' => true
-));
-$mozzarella = new Input(array(
+]);
+$mozzarella = new Input([
   'type' => 'radio',
   'name' => 'cheese',
   'id' => 'mozzarella',
   'value' => 'mozzarella',
   'checked' => true
-));
-$soy = new Input(array(
+]);
+$soy = new Input([
   'type' => 'radio',
   'name' => 'cheese',
   'id' => 'soy',
   'value' => 'soy',
   'label' => 'Soy (vegan)',
   'checked' => false
-));
-$sausage = new Input(array(
+]);
+$sausage = new Input([
   'type' => 'checkbox',
   'name' => 'toppings',
   'id' => 'sausage',
   'value' => 'sausage'
-));
-$pepperoni = new Input(array(
+]);
+$pepperoni = new Input([
   'type' => 'checkbox',
   'name' => 'toppings',
   'id' => 'pepperoni',
   'value' => 'pepperoni'
-));
-$peppers = new Input(array(
+]);
+$peppers = new Input([
   'type' => 'checkbox',
   'name' => 'toppings',
   'id' => 'peppers',
   'value' => 'peppers',
   'label' => 'Bell peppers'
-));
-$tomato = new Input(array(
+]);
+$tomato = new Input([
   'type' => 'checkbox',
   'name' => 'toppings',
   'id' => 'tomato',
   'value' => 'tomato'
-));
-$onion = new Input(array(
+]);
+$onion = new Input([
   'type' => 'checkbox',
   'name' => 'toppings',
   'id' => 'onion',
   'value' => 'onion'
-));
-$instructions = new Textarea(array(
+]);
+$instructions = new Textarea([
   'label' => 'Special Instructions',
   'name' => 'instructions'
-));
+]);
 
 // 3. Add form controls to Form
-$Form = new Form(array(
+$Form = new Form([
   'adminEmail' => '',
   'emailSubject' => 'Order form submitted by {{name}}',
   'successMsg' => 'Thanks for your order.'
-));
+]);
 $Form->addControl($name);
 $Form->addControl($email);
 $Form->addControl($crust);
-$Form->addGroup(array(
-  'controls' => array(
+$Form->addGroup([
+  'controls' => [
     $mozzarella,
     $soy
-  ),
+  ],
   'label' => 'Type of Cheese'
-));
-$Form->addGroup(array(
+]);
+$Form->addGroup([
   'arrangement' => 'stacked',
-  'controls' => array(
+  'controls' => [
     $sausage,
     $pepperoni,
     $peppers,
     $tomato,
     $onion
-  )
-));
+  ]
+]);
 $Form->addControl($instructions);
 
 // Check if form is being submitted. If so, process it; if not, display form

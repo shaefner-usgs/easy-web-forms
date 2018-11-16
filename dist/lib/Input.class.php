@@ -30,7 +30,7 @@
  *       message {String} - instructions displayed for invalid form control
  */
 class Input {
-  private $_defaults = array(
+  private $_defaults = [
       'checked' => false,
       'class' => '',
       'description' => '',
@@ -50,14 +50,14 @@ class Input {
       'required' => false,
       'type' => 'text',
       'value' => ''
-    ),
+    ],
     $_instantiatedValue,
     $_isCheckboxOrRadio = false,
     $_submittedValue;
 
   public $isValid = true;
 
-  public function __construct (Array $params=array()) {
+  public function __construct (Array $params=[]) {
     $this->_setDefaults($params);
 
     // Merge defaults with user-supplied params and set as class properties
@@ -188,20 +188,20 @@ class Input {
    * @return $cssClasses {Array}
    */
   private function _getCssClasses () {
-    $cssClasses = array('control', $this->type);
+    $cssClasses = ['control', $this->type];
     if ($this->class) {
-      array_push($cssClasses, $this->class);
+      $cssClasses[] = $this->class;
     }
     // Add classes for pretty checkbox library
     if ($this->_isCheckboxOrRadio) {
       array_push($cssClasses, 'pretty', 'p-default', 'p-pulse');
       if ($this->type === 'radio') {
-        array_push($cssClasses, 'p-round');
+        $cssClasses[] = 'p-round';
       }
     }
     // Invalid radio / checkbox controls handled in Form class (class attached to parent)
     if (!$this->isValid && !$this->_isCheckboxOrRadio) {
-      array_push($cssClasses, 'invalid');
+      $cssClasses[] = 'invalid';
     }
 
     return $cssClasses;

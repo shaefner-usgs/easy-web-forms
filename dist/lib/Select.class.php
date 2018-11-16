@@ -21,24 +21,24 @@
  *       selected {String}
  */
 class Select {
-  private $_defaults = array(
-      'class' => '',
-      'description' => '',
-      'disabled' => false,
-      'id' => '',
-      'label' => '',
-      'message' => 'Please select an option from the menu',
-      'name' => '',
-      'options' => [],
-      'required' => false,
-      'selected' => ''
-    );
+  private $_defaults = [
+    'class' => '',
+    'description' => '',
+    'disabled' => false,
+    'id' => '',
+    'label' => '',
+    'message' => 'Please select an option from the menu',
+    'name' => '',
+    'options' => [],
+    'required' => false,
+    'selected' => ''
+  ];
 
   public $isValid = true,
     $type = 'select',
     $value;
 
-  public function __construct (Array $params=array()) {
+  public function __construct (Array $params=[]) {
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
     foreach ($options as $key => $value) {
@@ -105,12 +105,12 @@ class Select {
    * @return $cssClasses {Array}
    */
   private function _getCssClasses () {
-    $cssClasses = array('control', $this->type);
+    $cssClasses = ['control', $this->type];
     if ($this->class) {
-      array_push($cssClasses, $this->class);
+      $cssClasses[] = $this->class;
     }
     if (!$this->isValid) {
-      array_push($cssClasses, 'invalid');
+      $cssClasses[] = 'invalid';
     }
 
     return $cssClasses;

@@ -10,16 +10,16 @@
  *     successMsg {String} - Message shown upon successful form submission
  */
 class Form {
-  private $_defaults = array(
+  private $_defaults = [
       'adminEmail' => '',
       'emailSubject' => 'Form submitted',
       'successMsg' => 'Thank you for your input.'
-    ),
+    ],
     $_isValid = true, // Boolean value (set to false if form doesn't validate)
-    $_items = array(), // form controls/groups and associated props
+    $_items = [], // form controls/groups and associated props
     $_results = ''; // Summary of user input
 
-  public function __construct (Array $params=array()) {
+  public function __construct (Array $params=[]) {
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
 
@@ -57,11 +57,11 @@ class Form {
    */
   private function _sendEmail () {
     if ($this->adminEmail) {
-      $headers = array(
+      $headers = [
         'Content-type: text/html; charset=iso-8859-1',
         'From: webmaster@' . $_SERVER['SERVER_NAME'],
         'MIME-Version: 1.0'
-      );
+      ];
       $placeholders = '/\{\{([^}]+)\}\}/';
       $subject = $this->emailSubject;
 
@@ -110,10 +110,10 @@ class Form {
   public function addControl ($control) {
     $key = $control->name;
 
-    $this->_items[$key] = array(
+    $this->_items[$key] = [
       'control' => $control,
       'label' => $control->label
-    );
+    ];
   }
 
   /**
@@ -154,13 +154,13 @@ class Form {
       $message = $group['message'];
     }
 
-    $this->_items[$key] = array(
+    $this->_items[$key] = [
       'arrangement' => $arrangement,
       'control' => $controls, // array
       'description' => $description,
       'label' => $label,
       'message' => $message
-    );
+    ];
   }
 
   /**
@@ -185,12 +185,12 @@ class Form {
       if (is_array($control)) { // radio/checkbox group
         $controls = $control; // group of control(s) as array
         // attach invalid/req'd classes to parent for radio / checkbox controls
-        $cssClasses = array();
+        $cssClasses = [];
         if (!$controls[0]->isValid) {
-          array_push($cssClasses, 'invalid');
+          $cssClasses[] = 'invalid';
         }
         if ($controls[0]->required) {
-          array_push($cssClasses, 'required');
+          $cssClasses[] = 'required';
           $hasRequiredFields = true;
         }
 
@@ -262,12 +262,12 @@ class Form {
    *     Table name
    */
   public function process ($Database, $table) {
-    $sqlValues = array();
+    $sqlValues = [];
     $this->_results = '<dl>';
 
     foreach ($this->_items as $key => $item) {
       $control = $item['control'];
-      $prettyValues = array();
+      $prettyValues = [];
       if (is_array($control)) { // radio/checkbox group
         $sqlValue = $control[0]->value; // use first control in group
         $controls = $control;

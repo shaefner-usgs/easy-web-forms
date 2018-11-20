@@ -107,6 +107,7 @@ $form->addGroup([
   'controls' => [
     $sausage,
     $pepperoni,
+    $peppers,
     $tomato,
     $onion
   ]

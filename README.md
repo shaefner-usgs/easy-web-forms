@@ -141,7 +141,7 @@ Options in **bold** are required; * = required for all radio/checkbox controls.
 
 ### Select
 
-Used to create an html `<select>`
+Used to create an html `<select>`.
 
 #### Usage example
 
@@ -181,7 +181,7 @@ Options in **bold** are required.
 
 ### Textarea
 
-Used to create an html `<textarea>`
+Used to create an html `<textarea>`.
 
 #### Usage example
 

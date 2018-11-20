@@ -40,7 +40,7 @@ class Database {
       return $stmt;
     }
     catch(Exception $e) {
-      print '<p class="error">ERROR 2: ' . $e->getMessage() . '</p>';
+      print '<p class="error">ERROR: ' . $e->getMessage() . '</p>';
     }
   }
 

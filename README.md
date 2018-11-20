@@ -42,14 +42,13 @@ See [example.php](dist/example.php) for additional details, including example co
 
 You will also need to create a table in MySQL with field names that correspond to the name attributes for each form control/group.
 
-## Documentation
+# Documentation
 
-#### Form
----
+### Form
 
 Used to create an HTML <form> including the back-end PHP routines to process and post the form data in MySQL.
 
-##### Usage example
+#### Usage example
 
 ```php
 $form = new Form([
@@ -57,13 +56,13 @@ $form = new Form([
 ]);
 ```
 
-##### Creation
+#### Creation
 
 | Factory | Description |
 | ------ | ------ |
 | Form(options?) | Instantiates a new html form given an optional options Array |
 
-##### Options
+#### Options
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
@@ -71,7 +70,7 @@ $form = new Form([
 | emailSubject | String | 'Form submitted' | Subject of form submission email notification. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
 
-##### Methods
+#### Methods
 
 | Method | Returns | Description |
 | ------ | ------ | ------ |
@@ -81,7 +80,7 @@ $form = new Form([
 | getResultsHtml() | String | Returns an HTML definition list containing a summary of user-entered data. |
 | process() | null | Processes the form. Handles server-side validation, database insert, and optionally sending a summary email. |
 
-##### addGroup options
+#### addGroup options
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
@@ -93,14 +92,13 @@ $form = new Form([
 
 Options in **bold** are required.
 
-### Form Controls
+## Form Controls
 
-#### Input
----
+### Input
 
 Used to create an html <input>.
 
-##### Usage example
+#### Usage example
 
 ```php
 $name = new Input([
@@ -109,13 +107,13 @@ $name = new Input([
 ]);
 ```
 
-##### Creation
+#### Creation
 
 | Factory | Description |
 | ------ | ------ |
 | Input(options) | Instantiates a new html <input> control given an options Array |
 
-##### Options
+#### Options
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
@@ -141,12 +139,11 @@ $name = new Input([
 
 Options in **bold** are required; * = required for all radio/checkbox controls.
 
-#### Select
----
+### Select
 
 Used to create an html <select>
 
-##### Usage example
+#### Usage example
 
 ```php
 $name = new Select([
@@ -159,13 +156,13 @@ $name = new Select([
 ]);
 ```
 
-##### Creation
+#### Creation
 
 | Factory | Description |
 | ------ | ------ |
 | Select(options) | Instantiates a new html <select> control given an options Array |
 
-##### Options
+#### Options
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
@@ -182,12 +179,11 @@ $name = new Select([
 
 Options in **bold** are required.
 
-#### Textarea
----
+### Textarea
 
 Used to create an html <textarea>
 
-##### Usage example
+#### Usage example
 
 ```php
 $name = new Textarea([
@@ -195,13 +191,13 @@ $name = new Textarea([
 ]);
 ```
 
-##### Creation
+#### Creation
 
 | Factory | Description |
 | ------ | ------ |
 | Textarea(options) | Instantiates a new html <textarea> control given an options Array |
 
-##### Options
+#### Options
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |

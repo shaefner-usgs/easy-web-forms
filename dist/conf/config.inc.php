@@ -23,6 +23,6 @@ try {
 */
 
 // Option 2: External database connector (sets $db)
-include_once $_SERVER['DOCUMENT_ROOT'] . '/conf/dbConnect.inc.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/conf/dbConnect.inc.php';
 
 ?>

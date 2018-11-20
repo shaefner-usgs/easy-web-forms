@@ -8,13 +8,12 @@
 
 <?php
 
-// Dependencies
+// 1. Include php dependencies and configuration
+//  (be sure to set MySQL configuration for your environment in conf/config.inc.php)
 include_once 'lib/dependencies.php';
-
-// 1. Set config parameters (vars $db, $dbTable, others are set here)
 include_once 'conf/config.inc.php';
 
-// 2. Create form controls
+// 2. Create the form controls
 $name = new Input([
   'name' => 'name',
   'required' => true,
@@ -87,43 +86,35 @@ $instructions = new Textarea([
   'name' => 'instructions'
 ]);
 
-// 3. Add form controls to Form
-$Form = new Form([
+// 3. Add the form controls to Form
+$form = new Form([
   'adminEmail' => '',
   'emailSubject' => 'Order form submitted by {{name}}',
   'successMsg' => 'Thanks for your order.'
 ]);
-$Form->addControl($name);
-$Form->addControl($email);
-$Form->addControl($crust);
-$Form->addGroup([
+$form->addControl($name);
+$form->addControl($email);
+$form->addControl($crust);
+$form->addGroup([
   'controls' => [
     $mozzarella,
     $soy
   ],
   'label' => 'Type of Cheese'
 ]);
-$Form->addGroup([
+$form->addGroup([
   'arrangement' => 'stacked',
   'controls' => [
     $sausage,
     $pepperoni,
-    $peppers,
     $tomato,
     $onion
   ]
 ]);
-$Form->addControl($instructions);
+$form->addControl($instructions);
 
-// Check if form is being submitted. If so, process it; if not, display form
-if (isSet($_POST['submitbutton'])) {
-  $Database = new Database($db);
-  $Form->process($Database, $dbTable);
-
-  print $Form->getResultsHtml();
-} else {
-  print $Form->getFormHtml();
-}
+// 4. Render the form
+$form->render();
 
 ?>
 

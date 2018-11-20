@@ -38,7 +38,13 @@ PHP and MySQL
     $form->addControl($name);
     ```
 
-See [example.php](dist/example.php) for additional details, including example code to display and process the form.
+4. **Render** the form:
+
+    ```php
+    $form->render();
+    ```
+
+See [example.php](dist/example.php) for additional details.
 
 You will also need to create a table in MySQL with field names that correspond to the name attributes for each form control/group.
 
@@ -76,9 +82,7 @@ $form = new Form([
 | ------ | ------ | ------ |
 | addControl([`<Control>`](#form-controls) control) | null | Adds the given control to the form. |
 | addGroup([`<addGroup options>`](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. |
-| getFormHtml() | String | Returns an HTML form. |
-| getResultsHtml() | String | Returns an HTML definition list containing a summary of user-entered data. |
-| process() | null | Processes the form. Handles server-side validation, database insert, and optionally sending a summary email. |
+| render() | null | Displays either the web form or the results after submitting. |
 
 #### addGroup options
 

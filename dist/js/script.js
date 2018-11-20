@@ -101,13 +101,13 @@ var Validator = function (options) {
         section,
         submitButton;
 
+    errorMsg = document.querySelector('.form p.error');
+    section = document.querySelector('section.form');
+
     _validateAll();
 
     isFormInvalid = _form.querySelector('.invalid');
     if (isFormInvalid) { // stop form submission and alert user
-      errorMsg = document.querySelector('.form p.error');
-      section = document.querySelector('section.form');
-
       if (!errorMsg) {
         errorMsg = document.createElement('p');
         errorMsg.classList.add('error');
@@ -117,6 +117,9 @@ var Validator = function (options) {
       }
       section.scrollIntoView();
     } else {
+      // Remove error message
+      section.removeChild(errorMsg);
+
       // Submit button is not set when form is submitted via js; set it here
       submitButton = document.createElement('input');
       submitButton.setAttribute('name', 'submitbutton');

@@ -46,7 +46,7 @@ PHP and MySQL
 
 See [example.php](dist/example.php) for additional details.
 
-You will also need to create a table in MySQL with field names that correspond to the name attributes for each form control/group.
+You will also need to create a table in MySQL with field names that correspond to the name attributes for each form control/group. In addition, two extra fields are required for storing metadata for each record: 'datetime' (Type DATETIME) and 'ip' (Type VARCHAR). An auto-incrementing 'id' field is recommended.
 
 # Documentation
 
@@ -72,7 +72,7 @@ $form = new Form([
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
-| adminEmail | String | '' | Email address where a summary of user-entered data is sent when form is submitted. Comma separate multiple addresses if desired. |
+| adminEmail | String | '' | If supplied, the email address where a summary of user-entered data is sent when the form is submitted successfully. Comma separate multiple addresses if desired. |
 | emailSubject | String | 'Form submitted' | Subject of form submission email notification. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
 
@@ -80,8 +80,8 @@ $form = new Form([
 
 | Method | Returns | Description |
 | ------ | ------ | ------ |
-| addControl([`<Control>`](#form-controls) control) | null | Adds the given control to the form. |
-| addGroup([`<addGroup options>`](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. |
+| addControl([`<Control>`](#form-controls) control) | null | Adds the given control to the form. Form controls are rendered in the order added. |
+| addGroup([`<addGroup options>`](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. Form controls are rendered in the order added. |
 | render() | null | Displays either the web form or the results after submitting. |
 
 #### addGroup options

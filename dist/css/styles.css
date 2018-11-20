@@ -1309,6 +1309,8 @@ section.form {
     border-color: #dc3545; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
+  section.form .pretty label:before {
+    border-color: #d2d2d2; }
   section.form .required legend:after, section.form :required + label:after {
     color: #dc3545;
     content: ' *'; }

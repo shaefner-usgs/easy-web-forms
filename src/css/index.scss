@@ -2,7 +2,9 @@
 @import 'bootstrap/bootstrap.scss'; // buttons, select pulldowns
 @import 'pretty-checkbox/pretty-checkbox.scss';
 
-// Note: Sass variables used below are defined in bootstrap/_variables.scss
+$formcontrol-border-color: #dfdfdf;
+
+// Note: Sass variables not defined above are defined in bootstrap/_variables.scss
 
 // Parent containers
 
@@ -30,7 +32,7 @@ section.form {
   input:not([type="submit"]),
   textarea,
   .custom-select {
-    border: 1px solid #dfdfdf;
+    border: 1px solid $formcontrol-border-color;
     border-radius: $border-radius;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
     margin: 0;
@@ -164,6 +166,10 @@ section.form {
   // Focus styles for pretty checkbox controls
   .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px $primary;
+  }
+
+  .pretty label:before {
+    border-color: darken($formcontrol-border-color, 5%);
   }
 
   .required legend:after, :required + label:after {

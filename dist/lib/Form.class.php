@@ -180,7 +180,6 @@ class Form {
     // Validate and insert/email record if valid
     $this->_validate();
     if ($this->_isValid) {
-      // Note: $db and $dbTable are set in conf/config.inc.php
       $Database = new Database($this->_db);
       $Database->insertRecord($sqlValues, $this->_dbTable);
       $this->_sendEmail();

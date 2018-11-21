@@ -69,7 +69,7 @@ class Form {
     $hasRequiredFields = false;
 
     $html = '<section class="form">';
-    if (isSet($_POST['submitbutton']) && !$this->_isValid) {
+    if ($this->isPosting() && !$this->_isValid) {
       $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
     }
     $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
@@ -297,8 +297,34 @@ class Form {
     ];
   }
 
+  /**
+   * Determine if form is being submitted or not
+   *
+   * @return $posting {Boolean}
+   */
+  public function isPosting () {
+    $posting = false;
+    if (isSet($_POST['submitbutton'])) {
+      $posting = true;
+    }
+
+    return $posting;
+  }
+
+  /**
+   * Determine if form passed server-side validation or not
+   *
+   * @return {Boolean}
+   */
+  public function isValid () {
+    return $this->_isValid;
+  }
+
+  /**
+   * Render form or results depending on current state
+   */
   public function render () {
-    if (isSet($_POST['submitbutton'])) { // user submitting form
+    if ($this->isPosting()) { // user submitting form
       $this->_process();
 
       if ($this->_isValid) {

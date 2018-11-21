@@ -82,6 +82,8 @@ $form = new Form([
 | ------ | ------ | ------ |
 | addControl([`<Control>`](#form-controls) control) | null | Adds the given control to the form. Form controls are rendered in the order added. |
 | addGroup([`<addGroup options>`](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. Form controls are rendered in the order added. |
+| isPosting() | Boolean | Checks if form is being posted. |
+| isValid() | Boolean | Checks if form passed server-side validation. |
 | render() | null | Displays either the web form or the results after submitting. |
 
 #### addGroup options

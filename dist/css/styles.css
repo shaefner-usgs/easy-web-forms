@@ -1246,6 +1246,7 @@ section.form {
     -webkit-text-fill-color: #6c757d;
     opacity: 1; }
   section.form textarea {
+    height: auto !important;
     padding: 4px 6px;
     resize: vertical; }
   section.form fieldset {

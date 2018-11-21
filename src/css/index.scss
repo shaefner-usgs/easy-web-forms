@@ -64,6 +64,7 @@ section.form {
   }
 
   textarea {
+    height: auto !important; // override web page template's defaults
     padding: 4px 6px;
     resize: vertical;
   }

@@ -1199,7 +1199,7 @@ input[type="button"].btn-block {
 section.form,
 section.results {
   box-sizing: border-box;
-  max-width: 35rem; }
+  max-width: 35em; }
   section.form *, section.form *:before, section.form *:after,
   section.results *,
   section.results *:before,
@@ -1253,25 +1253,28 @@ section.form {
     padding: 0; }
   section.form fieldset,
   section.form .control:not(.checkbox):not(.radio) {
-    margin: 1.75rem 0; }
+    margin: 1.75em 0; }
   section.form label {
     cursor: pointer;
     display: inline-block; }
   section.form p.required span {
     color: #dc3545; }
+  section.form .btn {
+    font-size: 1em;
+    padding: 0.375em 0.75em; }
   section.form .control:not(.checkbox):not(.radio) label,
   section.form legend {
     color: #666;
-    font-size: .95rem;
+    font-size: .95em;
     font-weight: 500;
     margin: 0;
-    padding: 0 0 .25rem;
+    padding: 0 0 .25em;
     text-transform: uppercase; }
   section.form legend {
     padding-bottom: 0; }
   section.form .checkbox,
   section.form .radio {
-    margin: 5px 1rem 2px 0; }
+    margin: 5px 1em 2px 0; }
   section.form .control {
     display: flex; }
     section.form .control:not(.checkbox):not(.radio) {
@@ -1279,8 +1282,8 @@ section.form {
       /* display labels before controls */ }
   section.form .description {
     color: #666;
-    font-size: .95rem;
-    margin: .2rem 0 0; }
+    font-size: .95em;
+    margin: .2em 0 0; }
   section.form .group {
     display: flex;
     flex-wrap: wrap; }
@@ -1321,28 +1324,28 @@ section.results {
   font-size: 16px;
   line-height: 1.4; }
   section.results dl {
-    margin-top: 2rem; }
+    margin-top: 2em; }
   section.results dd {
-    margin: 0 0 1.5rem 0; }
+    margin: 0 0 1.5em 0; }
   section.results dt {
     color: #666;
-    font-size: .95rem;
+    font-size: .95em;
     font-weight: 500;
     margin: 0;
-    padding: 0 0 .25rem;
+    padding: 0 0 .25em;
     text-transform: uppercase; }
 
 p.alert, p.error, p.success {
   background-color: rgba(23, 162, 184, 0.05);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='20' height='20' viewBox='0 0 20 20'%3E %3Cpath d='M10,0.4c-5.303,0-9.601,4.298-9.601,9.6c0,5.303,4.298,9.601,9.601,9.601c5.301,0,9.6-4.298,9.6-9.601 C19.6,4.698,15.301,0.4,10,0.4z M10.896,3.866c0.936,0,1.211,0.543,1.211,1.164c0,0.775-0.62,1.492-1.679,1.492 c-0.886,0-1.308-0.445-1.282-1.182C9.146,4.719,9.665,3.866,10.896,3.866z M8.498,15.75c-0.64,0-1.107-0.389-0.66-2.094l0.733-3.025 c0.127-0.484,0.148-0.678,0-0.678c-0.191,0-1.022,0.334-1.512,0.664L6.74,10.094c1.555-1.299,3.343-2.061,4.108-2.061 c0.64,0,0.746,0.756,0.427,1.92l-0.84,3.18c-0.149,0.562-0.085,0.756,0.064,0.756c0.192,0,0.82-0.232,1.438-0.719l0.362,0.486 C10.786,15.168,9.137,15.75,8.498,15.75z' fill='#17a2b8'/%3E %3C/svg%3E");
-  background-position: .75rem 1rem;
+  background-position: .75em 1em;
   background-repeat: no-repeat;
   background-size: 16px 16px;
   border: 1px solid #17a2b8;
   border-radius: 0.25rem;
   color: #17a2b8;
   line-height: 1;
-  padding: 1rem .75rem;
+  padding: 1em .75em;
   padding-left: 35px; }
 
 p.error {

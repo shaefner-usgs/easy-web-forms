@@ -1,8 +1,8 @@
 <?php
 
-include_once 'lib/functions.inc.php';
-include_once 'lib/Database.class.php';
-include_once 'lib/Form.class.php';
-include_once 'lib/Input.class.php';
-include_once 'lib/Select.class.php';
-include_once 'lib/Textarea.class.php';
+include_once 'functions.inc.php';
+include_once 'Database.class.php';
+include_once 'Form.class.php';
+include_once 'Input.class.php';
+include_once 'Select.class.php';
+include_once 'Textarea.class.php';

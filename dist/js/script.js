@@ -117,8 +117,10 @@ var Validator = function (options) {
       }
       section.scrollIntoView();
     } else {
-      // Remove error message
-      section.removeChild(errorMsg);
+      // Remove error message if it exists
+      if (errorMsg) {
+        section.removeChild(errorMsg);
+      }
 
       // Submit button is not set when form is submitted via js; set it here
       submitButton = document.createElement('input');

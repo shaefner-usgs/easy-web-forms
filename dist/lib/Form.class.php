@@ -172,8 +172,10 @@ class Form {
       }
       $sqlValues[$key] = $sqlValue;
 
-      $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
-      $this->_results .= '<dd>' . htmlentities(stripslashes($prettyValue)) . '</dd>';
+      if ($control->type !== 'hidden') {
+        $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
+        $this->_results .= '<dd>' . htmlentities(stripslashes($prettyValue)) . '</dd>';
+      }
     }
     $this->_results .= '</dl>';
 

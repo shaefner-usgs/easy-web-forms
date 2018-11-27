@@ -13,7 +13,8 @@ PHP and MySQL
 1. **Include** the php dependencies, configuration file (be sure to set the configuration parameters for your environment in conf/config.inc.php), css, and javascript:
 
     ```php
-    include_once 'lib/dependencies.php';
+    include_once 'lib/functions.inc.php';
+    include_once 'lib/classes.inc.php';
     include_once 'conf/config.inc.php';
     ```
     ```html

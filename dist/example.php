@@ -10,7 +10,8 @@
 
 // 1. Include php dependencies and configuration
 //  (be sure to set MySQL configuration for your environment in conf/config.inc.php)
-include_once 'lib/dependencies.php';
+include_once 'lib/functions.inc.php';
+include_once 'lib/classes.inc.php';
 include_once 'conf/config.inc.php';
 
 // 2. Create the form controls

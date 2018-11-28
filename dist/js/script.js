@@ -44,7 +44,7 @@ var Validator = function (options) {
             _validate(input);
           });
         } else {
-          ['blur', 'input'].forEach(function(evt) { // blur: caputre autocompleted fields
+          ['blur', 'input'].forEach(function(evt) { // blur: capture autocompleted fields
             input.addEventListener(evt, function() {
               _validate(input);
             });

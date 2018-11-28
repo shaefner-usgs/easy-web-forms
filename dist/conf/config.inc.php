@@ -24,5 +24,3 @@ try {
 
 // Option 2: External database connector (sets $db)
 include 'dbConnect.inc.php';
-
-?>

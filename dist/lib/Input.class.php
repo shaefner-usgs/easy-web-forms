@@ -125,7 +125,7 @@ class Input {
     }
 
     // Substitute label's value in template
-    $this->message = preg_replace('/{{label}}/', strtoupper($this->label), $this->message);
+    $this->message = preg_replace('/{{(label|name)}}/', strtoupper($this->label), $this->message);
   }
 
   /**

@@ -134,7 +134,7 @@ $name = new Input([
 | label | String | '' | `<label>` for `<input>` |
 | max | Integer | null | `<input>` max attribute |
 | maxlength | Integer | null | `<input>` maxlength attribute |
-| message | String | 'Please provide a valid {{label}}' | Message shown when form control is invalid. Uses [mustache templates](https://mustache.github.io) to insert control's `<label>` into the message. |
+| message | String | 'Please provide a valid {{label}}' | Message shown when form control is invalid. Use [mustache templates](https://mustache.github.io) to insert control's `<label>` or `<name>` into the message. |
 | min | Integer | null | `<input>` min attribute |
 | minlength | Integer | null | `<input>` minlength attribute |
 | **name** | String | '' | `<input>` name attribute |

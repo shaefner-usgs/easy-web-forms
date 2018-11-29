@@ -6,13 +6,15 @@
  * @param $params {Array}
  *
  *     adminEmail {String} - Where to send results of successful form submission
- *     emailSubject {String} - Subject of email results
+ *     emailSubject {String} - Subject of form submission email notification
+ *     submitButtonText {String} - Submit button text
  *     successMsg {String} - Message shown upon successful form submission
  */
 class Form {
   private $_defaults = [
       'adminEmail' => '',
       'emailSubject' => 'Form submitted',
+      'submitButtonText' => 'Submit',
       'successMsg' => 'Thank you for your input.'
     ],
     $_db,
@@ -114,8 +116,9 @@ class Form {
       }
     }
 
-    $html .= sprintf('<input id="submitbutton" name="submitbutton" type="submit" class="btn btn-primary" tabindex="%d" value="Submit" />',
-      ++ $count
+    $html .= sprintf('<input id="submitbutton" name="submitbutton" type="submit" class="btn btn-primary" tabindex="%d" value="%s" />',
+      ++ $count,
+      $this->submitButtonText
     );
     $html .= '</form>';
     if ($hasRequiredFields) {

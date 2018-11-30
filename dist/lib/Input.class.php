@@ -160,6 +160,9 @@ class Input {
       $attrs .= sprintf(' tabindex="%d"', $tabindex);
     }
 
+    if ($this->type === 'address') {
+      $attrs .= ' data-type="address"';
+    }
     if ($this->type === 'number') {
       $attrs .= sprintf(' max="%s" min="%s"',
         $this->max,
@@ -253,6 +256,11 @@ class Input {
       $name .= '[]'; // set name to type array for checkbox values
     }
 
+    $type = $this->type;
+    if ($type === 'address') { // set type to 'search' for MapQuest PlaceSearch.js
+      $type = 'search';
+    }
+
     $description = '';
     $value = $this->value; // instantiated or user-supplied value depending on form state
     if ($this->_isCheckboxOrRadio) {
@@ -269,7 +277,7 @@ class Input {
     $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
       $this->id,
       $name,
-      $this->type,
+      $type,
       $value,
       $attrs
     );

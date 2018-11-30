@@ -36,12 +36,14 @@ PHP and MySQL
     $male = new Input([
         'name' => 'gender',
         'id' => 'male',
+        'required' => true,
         'type' => 'radio',
         'value' => 'male'
     ]);
     $female = new Input([
         'name' => 'gender',
         'id' => 'female',
+        'required' => true,
         'type' => 'radio',
         'value' => 'female'
     ]);

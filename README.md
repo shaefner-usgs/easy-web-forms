@@ -51,14 +51,15 @@ PHP and MySQL
 
     ```php
     $form = new Form(); // initialize Form instance
+
     $form->addControl($name);
     $form->addGroup([
-      controls => [
-        $male,
-        $female
-      ],
-      label => 'Gender'
-    ])
+        controls => [
+            $male,
+            $female
+        ],
+        label => 'Gender'
+    ]);
     ```
 
 4. **Render** the form:
@@ -217,7 +218,7 @@ Used to create an html `<textarea>`.
 
 ```php
 $name = new Textarea([
-  'name' => 'comments'
+    'name' => 'comments'
 ]);
 ```
 

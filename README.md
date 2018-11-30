@@ -30,15 +30,35 @@ PHP and MySQL
     $name = new Input([
         'label' => 'Full Name'
         'name' => 'name',
-        'required' => true //sets up validation for this control
+        'required' => true // sets up validation for this control
+    ]);
+
+    $male = new Input([
+        'name' => 'gender',
+        'id' => 'male',
+        'type' => 'radio',
+        'value' => 'male'
+    ]);
+    $female = new Input([
+        'name' => 'gender',
+        'id' => 'female',
+        'type' => 'radio',
+        'value' => 'female'
     ]);
     ```
 
 3. **Add** the form controls to Form:
 
     ```php
-    $form = new Form();
+    $form = new Form(); // initialize Form instance
     $form->addControl($name);
+    $form->addGroup([
+      controls => [
+        $male,
+        $female
+      ],
+      label => 'Gender'
+    ])
     ```
 
 4. **Render** the form:

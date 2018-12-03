@@ -177,11 +177,7 @@ var Validator = function (options) {
             addressField = placeSearch({
               key: MAPQUESTKEY,
               container: input,
-              useDeviceLocation: true,
-              collection: [
-                'poi',
-                'address'
-              ]
+              useDeviceLocation: true
             });
             addressField.on('change', function(e) { // set hidden fields to returned values
               _setAddressFields(e);

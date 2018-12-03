@@ -17,6 +17,7 @@ var Validator = function (options) {
       _getControls,
       _handleSubmit,
       _initAddressFields,
+      _setAddressFields,
       _validate,
       _validateAll;
 
@@ -153,15 +154,15 @@ var Validator = function (options) {
    * Set up MapQuest PlaceSearch.js for autocomplete Address fields
    */
   _initAddressFields = function () {
-    var coords,
+    var addressField,
+        coords,
         css,
         hasAddressFields,
-        js,
-        psField;
+        js;
 
     hasAddressFields = _checkForAddressFields();
 
-    if (hasAddressFields) { // add library's css and js to DOM
+    if (hasAddressFields) { // add library's css and js to DOM; set up listeners
       css = document.createElement('link');
       css.href = 'https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css';
       css.rel = 'stylesheet';
@@ -173,7 +174,7 @@ var Validator = function (options) {
       js.onload = function () { // initialize PlaceSearch after script is loaded
         _inputs.forEach(function(input) {
           if (input.getAttribute('data-type') === 'address') {
-            psField = placeSearch({
+            addressField = placeSearch({
               key: MAPQUESTKEY,
               container: input,
               useDeviceLocation: true,
@@ -182,15 +183,11 @@ var Validator = function (options) {
                 'address'
               ]
             });
-            psField.on('change', function(e) { // set returned values to hidden fields
-              coords = e.result.latlng.lat + ', ' + e.result.latlng.lng;
-
-              _form.querySelector('input[name="city"]').value = e.result.city;
-              _form.querySelector('input[name="coordinates"]').value = coords;
-              _form.querySelector('input[name="countryCode"]').value = e.result.countryCode;
-              _form.querySelector('input[name="postalCode"]').value = e.result.postalCode;
-              _form.querySelector('input[name="state"]').value = e.result.state;
-              _form.querySelector('input[name="street"]').value = e.result.name;
+            addressField.on('change', function(e) { // set hidden fields to returned values
+              _setAddressFields(e);
+            });
+            addressField.on('clear', function(e) { // clear hidden fields
+              _setAddressFields(e);
             });
           }
         });
@@ -198,6 +195,41 @@ var Validator = function (options) {
       document.head.appendChild(js);
     }
   };
+
+  /**
+   * Store constituent address values from PlaceSearch-enhanced Address field in hidden form fields
+   *
+   * @param e {Event}
+   */
+  _setAddressFields = function (e) {
+    var hiddenFields,
+        el,
+        value;
+
+    hiddenFields = [
+      'city',
+      'countryCode',
+      'latlng',
+      'postalCode',
+      'state',
+      'street'
+    ];
+
+    hiddenFields.forEach(function(field) {
+      el = _form.querySelector('input[name="' + field + '"]');
+
+      if (e) { // e is empty if user is clearing out previous value
+        value = e.result[field];
+        if (field === 'latlng') { // flatten coord. pair
+          value = e.result.latlng.lat + ', ' + e.result.latlng.lng
+        }
+      } else {
+        value = '';
+      }
+
+      el.value = value;
+    });
+  }
 
   /**
    * Validate user input on a given element

@@ -219,6 +219,9 @@ var Validator = function (options) {
         if (field === 'latlng') { // flatten coord. pair
           value = e.result.latlng.lat + ', ' + e.result.latlng.lng
         }
+        if (field === 'street') { // using custom name for field that differs from library
+          value = e.result.name;
+        }
       } else {
         value = '';
       }

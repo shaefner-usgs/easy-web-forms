@@ -97,6 +97,7 @@ $instructions = new Textarea([
 $form = new Form([
   'adminEmail' => '',
   'emailSubject' => 'Order form submitted by {{name}}',
+  'submitButtonText' => 'Order Now',
   'successMsg' => 'Thanks for your order.'
 ]);
 $form->addControl($name);

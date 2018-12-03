@@ -82,8 +82,8 @@ class Form {
 
     $fields = [
       'city',
-      'coordinates',
       'countryCode',
+      'latlng',
       'postalCode',
       'state',
       'street'

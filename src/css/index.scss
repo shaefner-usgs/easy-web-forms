@@ -187,7 +187,9 @@ section.form {
     border-color: darken($formcontrol-border-color, 5%);
   }
 
-  .required legend:after, :required + label:after {
+  .required + label:after, // MapQuest PlaceSearch address field
+  .required legend:after, // radio/checkbox group
+  :required + label:after {
     color: $danger;
     content: ' *';
   }

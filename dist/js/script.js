@@ -185,6 +185,11 @@ var Validator = function (options) {
             addressField.on('clear', function(e) { // clear hidden fields
               _setAddressFields(e);
             });
+
+            // Add 'required' class to parent for CSS to flag required field in UI
+            if (input.hasAttribute('required')) {
+              input.closest('.mq-place-search').classList.add('required');
+            }
           }
         });
       };

@@ -1311,11 +1311,17 @@ section.form {
     box-shadow: 0 0 3px #dc3545; }
   section.form .invalid .pretty label:before {
     border-color: #dc3545; }
+  section.form .mq-input {
+    height: auto; }
+  section.form .mq-input-icon {
+    right: 6px; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
   section.form .pretty label:before {
     border-color: #d2d2d2; }
-  section.form .required legend:after, section.form :required + label:after {
+  section.form .required + label:after,
+  section.form .required legend:after,
+  section.form :required + label:after {
     color: #dc3545;
     content: ' *'; }
 

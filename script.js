@@ -13,8 +13,11 @@ var Validator = function (options) {
       _textareas,
 
       _addEventHandlers,
+      _checkForAddressFields,
       _getControls,
       _handleSubmit,
+      _initAddressFields,
+      _setAddressFields,
       _validate,
       _validateAll;
 
@@ -26,6 +29,7 @@ var Validator = function (options) {
     if (_form) {
       _getControls();
       _addEventHandlers();
+      _initAddressFields(); // Address autocomplete
     }
   };
 
@@ -75,6 +79,23 @@ var Validator = function (options) {
         });
       }
     });
+  };
+
+  /**
+   * Checks if form has any Address fields
+   *
+   * @return hasFields {Boolean}
+   */
+  _checkForAddressFields = function () {
+    var hasFields = false;
+
+    _inputs.forEach(function(input) {
+      if (input.getAttribute('data-type') === 'address') {
+        hasFields = true;
+      }
+    });
+
+    return hasFields;
   };
 
   /**
@@ -128,6 +149,90 @@ var Validator = function (options) {
       _form.submit();
     }
   };
+
+  /**
+   * Set up MapQuest PlaceSearch.js for autocomplete Address fields
+   */
+  _initAddressFields = function () {
+    var addressField,
+        coords,
+        css,
+        hasAddressFields,
+        js;
+
+    hasAddressFields = _checkForAddressFields();
+
+    if (hasAddressFields) { // add library's css and js to DOM; set up listeners
+      css = document.createElement('link');
+      css.href = 'https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css';
+      css.rel = 'stylesheet';
+      css.type = 'text/css';
+      document.head.appendChild(css);
+
+      js = document.createElement('script');
+      js.src = 'https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js';
+      js.onload = function () { // initialize PlaceSearch after script is loaded
+        _inputs.forEach(function(input) {
+          if (input.getAttribute('data-type') === 'address') {
+            addressField = placeSearch({
+              key: MAPQUESTKEY,
+              container: input,
+              useDeviceLocation: true
+            });
+            addressField.on('change', function(e) { // set hidden fields to returned values
+              _setAddressFields(e);
+            });
+            addressField.on('clear', function(e) { // clear hidden fields
+              _setAddressFields(e);
+            });
+
+            // Add 'required' class to parent for CSS to flag required field in UI
+            if (input.hasAttribute('required')) {
+              input.closest('.mq-place-search').classList.add('required');
+            }
+          }
+        });
+      };
+      document.head.appendChild(js);
+    }
+  };
+
+  /**
+   * Store constituent address values from PlaceSearch-enhanced Address field in hidden form fields
+   *
+   * @param e {Event}
+   */
+  _setAddressFields = function (e) {
+    var hiddenFields,
+        el,
+        value;
+
+    hiddenFields = [
+      'city',
+      'countryCode',
+      'latlng',
+      'postalCode',
+      'state',
+      'street'
+    ];
+
+    hiddenFields.forEach(function(field) {
+      el = _form.querySelector('input[name="' + field + '"]');
+
+      value = '';
+      if (e) { // e is empty if user is clearing out previous value
+        if (field === 'latlng' && e.result.latlng) { // flatten coord. pair
+          value = e.result.latlng.lat + ', ' + e.result.latlng.lng
+        } else if (field === 'street') { // using custom name for field that differs from library
+          value = e.result.name || '';
+        } else {
+          value = e.result[field] || '';
+        }
+      }
+
+      el.value = value;
+    });
+  }
 
   /**
    * Validate user input on a given element

@@ -59,9 +59,11 @@ var Validator = function (options) {
 
     _selects.forEach(function(select) {
       if (select.hasAttribute('required')) {
-        select.addEventListener('change', function() {
-          _validate(select);
-        });
+        ['blur', 'change'].forEach(function(evt) { // blur: consistent with input
+          select.addEventListener(evt, function() {
+            _validate(select);
+          });
+        })
       }
     });
 

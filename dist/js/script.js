@@ -219,15 +219,15 @@ var Validator = function (options) {
     hiddenFields.forEach(function(field) {
       el = _form.querySelector('input[name="' + field + '"]');
 
+      value = '';
       if (e) { // e is empty if user is clearing out previous value
-        value = e.result[field];
-        if (field === 'latlng') { // flatten coord. pair
+        if (field === 'latlng' && e.result.latlng) { // flatten coord. pair
           value = e.result.latlng.lat + ', ' + e.result.latlng.lng
         } else if (field === 'street') { // using custom name for field that differs from library
-          value = e.result.name;
+          value = e.result.name || '';
+        } else {
+          value = e.result[field] || '';
         }
-      } else {
-        value = '';
       }
 
       el.value = value;

@@ -46,6 +46,8 @@ class Form {
 
   /**
    * Check that all controls in group have matching values for 'name' & 'required'
+   *
+   * @param $controls {Array}
    */
   private function _checkParams ($controls) {
     $prevKey = '';
@@ -64,39 +66,6 @@ class Form {
       $prevKey = $key;
       $prevRequired = $required;
     }
-  }
-
-  /**
-   * Get hidden fields for storing address components
-   *   javascript populates values from MapQuest PlaceSearch json
-   *
-   * @return $html {String}
-   */
-  private function _getAddressFieldsHtml () {
-    $this->_countAddressFields ++;
-
-    $suffix = ''; // append field names with count if more than 1 address field on page
-    if ($this->_countAddressFields > 1) {
-      $suffix = $this->_countAddressFields;
-    }
-
-    $fields = [
-      'city',
-      'countryCode',
-      'latlng',
-      'postalCode',
-      'state',
-      'street'
-    ];
-
-    $html = '';
-    foreach ($fields as $field) {
-      $html .= sprintf ('<input type="hidden" name="%s" />',
-        $field . $suffix
-      );
-    }
-
-    return $html;
   }
 
   /**
@@ -148,10 +117,6 @@ class Form {
         $html .= '</fieldset>';
       } else { // single control
         $html .= $control->getHtml(++ $count);
-
-        if ($control->type === 'address') {
-          $html .= $this->_getAddressFieldsHtml();
-        }
 
         if ($control->required) {
           $hasRequiredFields = true;
@@ -301,6 +266,39 @@ class Form {
       'control' => $control,
       'label' => $control->label
     ];
+
+    // Add additional hidden fields for storing constituent values of address
+    //   javascript populates values from MapQuest's PlaceSearch.js json
+    if ($control->type === 'address') {
+      $fieldNames = [
+        'city',
+        'countryCode',
+        'latlng',
+        'postalCode',
+        'state',
+        'street'
+      ];
+
+      $suffix = ''; // append count to field names if more than 1 address field on page
+      $this->_countAddressFields ++;
+      if ($this->_countAddressFields > 1) {
+        $suffix = $this->_countAddressFields;
+      }
+
+      foreach ($fieldNames as $fieldName) {
+        $name = $fieldName . $suffix;
+        $input = new Input([
+          'name' => $name,
+          'type' => 'hidden',
+          'value' => ''
+        ]);
+
+        $this->_items[$name] = [
+          'control' => $input,
+          'label' => $input->label
+        ];
+      }
+    }
   }
 
   /**

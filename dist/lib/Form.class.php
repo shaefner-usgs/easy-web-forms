@@ -11,7 +11,8 @@
  *     successMsg {String} - Message shown upon successful form submission
  */
 class Form {
-  private $_defaults = [
+  private $_countAddressFields = 0,
+    $_defaults = [
       'adminEmail' => '',
       'emailSubject' => 'Form submitted',
       'submitButtonText' => 'Submit',
@@ -21,6 +22,7 @@ class Form {
     $_dbTable,
     $_isValid = true, // Boolean value (set to false if form doesn't validate)
     $_items = [], // form controls/groups and associated props
+    $_mapQuestApiKey,
     $_results = ''; // Summary of user input
 
   public function __construct (Array $params=[]) {
@@ -33,14 +35,19 @@ class Form {
       }
     }
 
-    // Get db connection / table info from config
+    // Get db connection / table info, apikey from config
     include  __DIR__ . '/../conf/config.inc.php';
     $this->_db = $db;
     $this->_dbTable = $dbTable;
+    if (isSet($mapQuestApiKey)) {
+      $this->_mapQuestApiKey = $mapQuestApiKey;
+    }
   }
 
   /**
    * Check that all controls in group have matching values for 'name' & 'required'
+   *
+   * @param $controls {Array}
    */
   private function _checkParams ($controls) {
     $prevKey = '';
@@ -82,7 +89,7 @@ class Form {
       $control = $item['control'];
       if (is_array($control)) { // radio/checkbox group
         $controls = $control; // group of control(s) as array
-        // attach invalid/req'd classes to parent for radio / checkbox controls
+
         $cssClasses = [];
         if (!$controls[0]->isValid) {
           $cssClasses[] = 'invalid';
@@ -95,7 +102,7 @@ class Form {
         $html .= sprintf('<fieldset class="%s">
           <legend>%s</legend>
           <div class="group %s">',
-            implode(' ', $cssClasses),
+            implode(' ', $cssClasses), // attach radio / checkbox classes to parent
             $item['label'],
             $item['arrangement']
         );
@@ -110,6 +117,7 @@ class Form {
         $html .= '</fieldset>';
       } else { // single control
         $html .= $control->getHtml(++ $count);
+
         if ($control->required) {
           $hasRequiredFields = true;
         }
@@ -125,6 +133,11 @@ class Form {
       $html .= '<p class="required"><span>*</span> = required field</p>';
     }
     $html .= '</section>';
+
+    // Set MapQuest API key as global JS var if supplied by user
+    if ($this->_mapQuestApiKey) {
+      $html .= "<script>var MAPQUESTKEY = '$this->_mapQuestApiKey';</script>";
+    }
 
     return $html;
   }
@@ -253,6 +266,39 @@ class Form {
       'control' => $control,
       'label' => $control->label
     ];
+
+    // Add additional hidden fields for storing constituent values of address
+    //   javascript populates values from MapQuest's PlaceSearch.js json
+    if ($control->type === 'address') {
+      $fieldNames = [
+        'city',
+        'countryCode',
+        'latlng',
+        'postalCode',
+        'state',
+        'street'
+      ];
+
+      $suffix = ''; // append count to field names if more than 1 address field on page
+      $this->_countAddressFields ++;
+      if ($this->_countAddressFields > 1) {
+        $suffix = $this->_countAddressFields;
+      }
+
+      foreach ($fieldNames as $fieldName) {
+        $name = $fieldName . $suffix;
+        $input = new Input([
+          'name' => $name,
+          'type' => 'hidden',
+          'value' => ''
+        ]);
+
+        $this->_items[$name] = [
+          'control' => $input,
+          'label' => $input->label
+        ];
+      }
+    }
   }
 
   /**

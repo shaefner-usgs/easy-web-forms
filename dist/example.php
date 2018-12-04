@@ -22,8 +22,14 @@ $name = new Input([
 ]);
 $email = new Input([
   'type' => 'email',
-  'name' => 'email',
   'label' => 'Email Address',
+  'name' => 'email',
+  'required' => true
+]);
+$address = new Input([
+  'type' => 'address',
+  'label' => 'Delivery Address',
+  'name' => 'address',
   'required' => true
 ]);
 $crust = new Select([
@@ -91,10 +97,12 @@ $instructions = new Textarea([
 $form = new Form([
   'adminEmail' => '',
   'emailSubject' => 'Order form submitted by {{name}}',
+  'submitButtonText' => 'Order Now',
   'successMsg' => 'Thanks for your order.'
 ]);
 $form->addControl($name);
 $form->addControl($email);
+$form->addControl($address);
 $form->addControl($crust);
 $form->addGroup([
   'controls' => [

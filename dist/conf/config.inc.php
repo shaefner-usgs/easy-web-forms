@@ -6,6 +6,9 @@ date_default_timezone_set('America/Los_Angeles');
 // Database table for form submission results
 $dbTable = 'test';
 
+// MapQuest key for PlaceSearch.js address field autocomplete (required for address type <input>s)
+$mapQuestApiKey = '';
+
 // Option 1: Inline database connector
 
 /*

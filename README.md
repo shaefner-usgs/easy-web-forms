@@ -167,7 +167,7 @@ $name = new Input([
 | placeholder | String | '' | `<input>` placeholder attribute |
 | readonly | Boolean | false | `<input>` readonly attribute |
 | required | Boolean | false | `<input>` required attribute |
-| type | String | 'text' | `<input>` type attribute - types '**email**', '**number**', and '**url**' have automatic pattern matching (validation) built-in. |
+| type | String | 'text' | `<input>` type attribute - types **email**, **number**, and **url** have automatic pattern matching (validation) built-in; also supports type **address** (non-standard) that creates a single-field for address entry with autocomplete suggestions. You will need to create the following extra fields in the database table to store the constituent values: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. You also need a [MapQuest API key](https://developer.mapquest.com) which you set in conf/config.inc.php. |
 | value * | String | '' | `<input>` value attribute |
 
 Options in **bold** are required; * = required for all radio/checkbox controls.
@@ -253,4 +253,4 @@ Options in **bold** are required.
 
 ## Acknowledgements
 
-Portions of [Bootstrap](https://github.com/twbs/bootstrap) and [pretty-checkbox.css](https://github.com/lokesh-coder/pretty-checkbox) are distributed with this library to enhance the user interface.
+Portions of [Bootstrap](https://github.com/twbs/bootstrap) and [pretty-checkbox.css](https://github.com/lokesh-coder/pretty-checkbox) are distributed with this library to enhance the user interface. Also uses a cloud-hosted version of [MapQuest PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/) for single field address type `<input>`s.

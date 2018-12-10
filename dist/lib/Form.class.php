@@ -34,8 +34,8 @@ class Form {
   public function __construct (Array $params=[]) {
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge_recursive_distinct($this->_defaults, $params);
-
     foreach ($options as $key => $value) {
+      // Only set props that are defined in $_defaults
       if (array_key_exists($key, $this->_defaults)) {
         $this->$key = $value;
       }

@@ -51,6 +51,43 @@ class Form {
   }
 
   /**
+   * Add additional hidden fields for storing constituent values of an address
+   *   (javascript populates these values from MapQuest's PlaceSearch.js json)
+   */
+  private function _addAddressFields () {
+    $fieldNames = [
+      'city',
+      'countryCode',
+      'latlng',
+      'postalCode',
+      'state',
+      'street'
+    ];
+
+    // Append count to field names if more than 1 address field on page
+    $this->_countAddressFields ++;
+    $suffix = '';
+    if ($this->_countAddressFields > 1) {
+      $suffix = $this->_countAddressFields;
+    }
+
+    foreach ($fieldNames as $fieldName) {
+      $name = $fieldName . $suffix;
+      $input = new Input([
+        'name' => $name,
+        'type' => 'hidden',
+        'value' => ''
+      ]);
+
+      // Add field
+      $this->_items[$name] = [
+        'control' => $input,
+        'label' => $input->label
+      ];
+    }
+  }
+
+  /**
    * Check that all controls in group have matching values for 'name' & 'required'
    *
    * @param $controls {Array}
@@ -297,37 +334,8 @@ class Form {
       'label' => $control->label
     ];
 
-    // Add additional hidden fields for storing constituent values of address
-    //   javascript populates values from MapQuest's PlaceSearch.js json
     if ($control->type === 'address') {
-      $fieldNames = [
-        'city',
-        'countryCode',
-        'latlng',
-        'postalCode',
-        'state',
-        'street'
-      ];
-
-      $suffix = ''; // append count to field names if more than 1 address field on page
-      $this->_countAddressFields ++;
-      if ($this->_countAddressFields > 1) {
-        $suffix = $this->_countAddressFields;
-      }
-
-      foreach ($fieldNames as $fieldName) {
-        $name = $fieldName . $suffix;
-        $input = new Input([
-          'name' => $name,
-          'type' => 'hidden',
-          'value' => ''
-        ]);
-
-        $this->_items[$name] = [
-          'control' => $input,
-          'label' => $input->label
-        ];
-      }
+      $this->_addAddressFields();
     }
   }
 

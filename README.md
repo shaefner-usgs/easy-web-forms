@@ -72,7 +72,7 @@ PHP and MySQL
 
 See [example.php](dist/example.php) for additional details.
 
-You will also need to create a table in MySQL with field names that correspond to the name attributes for each form control/group. In addition, two extra fields are required for storing metadata for each record: 'datetime' (Type DATETIME) and 'ip' (Type VARCHAR). An auto-incrementing 'id' field is recommended.
+You will also need to create a MySQL table with field names that correspond to the name attribute of each form control/group. Additional fields are needed to store metadata for each record: 'datetime' (Type DATETIME), 'ip' (Type VARCHAR) and browser (Type VARCHAR). All metadata fields are optional, but 'datetime' is set to be included by default. An auto-incrementing 'id' field is recommended.
 
 # Documentation
 
@@ -100,6 +100,7 @@ $form = new Form([
 | ------ | ------ | ------ | ------ |
 | adminEmail | String | '' | If supplied, the email address where a summary of user-entered data is sent when the form is submitted successfully. Comma separate multiple addresses if desired. |
 | emailSubject | String | 'Form submitted' | Subject of form submission email notification. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
+| meta | Array | ['browser' => false, 'datetime' => true, 'ip' => false] | Associative array that dictates which metadata fields to include with each database record. |
 | submitButtonText | String | 'Submit' | Submit button text |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
 

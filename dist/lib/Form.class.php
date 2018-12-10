@@ -7,6 +7,7 @@
  *
  *     adminEmail {String} - Where to send results of successful form submission
  *     emailSubject {String} - Subject of form submission email notification
+ *     meta {Array} - Extra fields to include in MySQL database with each submission
  *     submitButtonText {String} - Submit button text
  *     successMsg {String} - Message shown upon successful form submission
  */
@@ -15,6 +16,11 @@ class Form {
     $_defaults = [
       'adminEmail' => '',
       'emailSubject' => 'Form submitted',
+      'meta' => [
+        'browser' => false,
+        'datetime' => true,
+        'ip' => false
+      ],
       'submitButtonText' => 'Submit',
       'successMsg' => 'Thank you for your input.'
     ],
@@ -27,7 +33,7 @@ class Form {
 
   public function __construct (Array $params=[]) {
     // Merge defaults with user-supplied params and set as class properties
-    $options = array_merge($this->_defaults, $params);
+    $options = array_merge_recursive_distinct($this->_defaults, $params);
 
     foreach ($options as $key => $value) {
       if (array_key_exists($key, $this->_defaults)) {
@@ -143,6 +149,25 @@ class Form {
   }
 
   /**
+   * Get value(s) for meta field(s) to be included in Database record
+   *
+   * @return $meta {Array}
+   */
+  private function _getMetaFieldValues () {
+    if ($this->meta['browser']) {
+      $meta['browser'] = $_SERVER['HTTP_USER_AGENT'];
+    }
+    if ($this->meta['datetime']) {
+      $meta['datetime'] = date('Y-m-d H:i:s');
+    }
+    if ($this->meta['ip']) {
+      $meta['ip'] = $_SERVER['REMOTE_ADDR'];
+    }
+
+    return $meta;
+  }
+
+  /**
    * Get html for results summary after form submitted
    *
    * @return $html {String}
@@ -199,8 +224,12 @@ class Form {
     // Validate and insert/email record if valid
     $this->_validate();
     if ($this->_isValid) {
+      // Add metadata fields to SQL params
+      $metaValues = $this->_getMetaFieldValues();
+      $params = array_merge($metaValues, $sqlValues);
+
       $Database = new Database($this->_db);
-      $Database->insertRecord($sqlValues, $this->_dbTable);
+      $Database->insertRecord($params, $this->_dbTable);
       $this->_sendEmail();
     }
   }

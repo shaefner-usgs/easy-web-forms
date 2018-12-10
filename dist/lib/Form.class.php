@@ -170,8 +170,9 @@ class Form {
 
     foreach ($this->_items as $key => $item) {
       $control = $item['control'];
-      $prettyValues = [];
+
       if (is_array($control)) { // radio/checkbox group
+        $prettyValues = [];
         $sqlValue = $control[0]->value; // use first control in group
         $controls = $control;
         foreach ($controls as $control) {
@@ -188,7 +189,7 @@ class Form {
       }
       $sqlValues[$key] = $sqlValue;
 
-      if ($control->type !== 'hidden') {
+      if ($control->type !== 'hidden') { // don't include hidden fields in results summary
         $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
         $this->_results .= '<dd>' . htmlentities(stripslashes($prettyValue)) . '</dd>';
       }

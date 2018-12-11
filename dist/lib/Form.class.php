@@ -29,7 +29,8 @@ class Form {
     $_isValid = true, // Boolean value (set to false if form doesn't validate)
     $_items = [], // form controls/groups and associated props
     $_mapQuestApiKey,
-    $_results = ''; // Summary of user input
+    $_results = '', // summary of user input
+    $_tabIndexCount = 0; // used for tabindex attrs
 
   public function __construct (Array $params=[]) {
     // Merge defaults with user-supplied params and set as class properties
@@ -112,12 +113,50 @@ class Form {
   }
 
   /**
+   * Get HTML for a group of controls (radio / checkbox group)
+   *
+   * @param $group {Array}
+   *
+   * @return $html {String}
+   */
+  private function _getControlGroupHtml ($group) {
+    $controls = $group['control'];
+
+    $cssClasses = [];
+    if (!$controls[0]->isValid) {
+      $cssClasses[] = 'invalid';
+    }
+    if ($controls[0]->required) {
+      $cssClasses[] = 'required';
+    }
+
+    $html = '';
+    $html .= sprintf('<fieldset class="%s">
+      <legend>%s</legend>
+      <div class="group %s">',
+        implode(' ', $cssClasses), // attach classes to parent for radio / checkbox
+        $group['label'],
+        $group['arrangement']
+    );
+    foreach ($controls as $control) {
+      $html .= $control->getHtml(++ $this->_tabIndexCount);
+    }
+    $html .= '</div>';
+    $html .= sprintf('<p class="description" data-message="%s">%s</p>',
+      $group['message'],
+      $group['description']
+    );
+    $html .= '</fieldset>';
+
+    return $html;
+  }
+
+  /**
    * Get html for form
    *
    * @return $html {String}
    */
   private function _getFormHtml () {
-    $count = 0; // used for tabindex attrs
     $hasRequiredFields = false;
 
     $html = '<section class="form">';
@@ -131,35 +170,13 @@ class Form {
     foreach ($this->_items as $key => $item) {
       $control = $item['control'];
       if (is_array($control)) { // radio/checkbox group
-        $controls = $control; // group of control(s) as array
+        $html .= $this->_getControlGroupHtml($item);
 
-        $cssClasses = [];
-        if (!$controls[0]->isValid) {
-          $cssClasses[] = 'invalid';
-        }
-        if ($controls[0]->required) {
-          $cssClasses[] = 'required';
+        if ($control[0]->required) {
           $hasRequiredFields = true;
         }
-
-        $html .= sprintf('<fieldset class="%s">
-          <legend>%s</legend>
-          <div class="group %s">',
-            implode(' ', $cssClasses), // attach radio / checkbox classes to parent
-            $item['label'],
-            $item['arrangement']
-        );
-        foreach ($controls as $ctrl) {
-          $html .= $ctrl->getHtml(++ $count);
-        }
-        $html .= '</div>';
-        $html .= sprintf('<p class="description" data-message="%s">%s</p>',
-          $item['message'],
-          $item['description']
-        );
-        $html .= '</fieldset>';
       } else { // single control
-        $html .= $control->getHtml(++ $count);
+        $html .= $control->getHtml(++ $this->_tabIndexCount);
 
         if ($control->required) {
           $hasRequiredFields = true;
@@ -168,7 +185,7 @@ class Form {
     }
 
     $html .= sprintf('<input id="submitbutton" name="submitbutton" type="submit" class="btn btn-primary" tabindex="%d" value="%s" />',
-      ++ $count,
+      ++ $this->_tabIndexCount,
       $this->submitButtonText
     );
     $html .= '</form>';

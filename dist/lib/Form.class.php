@@ -385,7 +385,7 @@ class Form {
       $label = $group['label'];
     }
 
-    $message = '';
+    $message = $controls[0]->message; // default to control type's default 'message'
     if (array_key_exists('message', $group)) {
       $message = $group['message'];
     }

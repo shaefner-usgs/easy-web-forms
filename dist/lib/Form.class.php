@@ -42,7 +42,7 @@ class Form {
       }
     }
 
-    // Get db connection / table info, apikey from config
+    // Get db connection/table info, apikey from config
     include  __DIR__ . '/../conf/config.inc.php';
     $this->_db = $db;
     $this->_dbTable = $dbTable;
@@ -82,7 +82,7 @@ class Form {
 
       // Add field
       $this->_items[$name] = [
-        'control' => $input,
+        'controls' => [$input],
         'label' => $input->label
       ];
     }
@@ -113,20 +113,20 @@ class Form {
   }
 
   /**
-   * Get HTML for a group of controls (radio / checkbox group)
+   * Get HTML for a group of controls (radio/checkbox group)
    *
    * @param $group {Array}
    *
    * @return $html {String}
    */
   private function _getControlGroupHtml ($group) {
-    $controls = $group['control'];
+    $controls = $group['controls'];
 
     $cssClasses = [];
-    if (!$controls[0]->isValid) {
+    if (!$controls[0]->isValid) { // only need to check 1st control in group
       $cssClasses[] = 'invalid';
     }
-    if ($controls[0]->required) {
+    if ($controls[0]->required) { // only need to check 1st control in group
       $cssClasses[] = 'required';
     }
 
@@ -134,7 +134,7 @@ class Form {
     $html .= sprintf('<fieldset class="%s">
       <legend>%s</legend>
       <div class="group %s">',
-        implode(' ', $cssClasses), // attach classes to parent for radio / checkbox
+        implode(' ', $cssClasses), // attach classes to parent for radio/checkbox
         $group['label'],
         $group['arrangement']
     );
@@ -168,19 +168,15 @@ class Form {
     );
 
     foreach ($this->_items as $key => $item) {
-      $control = $item['control'];
-      if (is_array($control)) { // radio/checkbox group
+      $controls = $item['controls'];
+      if (count($controls) > 1) { // radio/checkbox group
         $html .= $this->_getControlGroupHtml($item);
-
-        if ($control[0]->required) {
-          $hasRequiredFields = true;
-        }
       } else { // single control
-        $html .= $control->getHtml(++ $this->_tabIndexCount);
+        $html .= $controls[0]->getHtml(++ $this->_tabIndexCount);
+      }
 
-        if ($control->required) {
-          $hasRequiredFields = true;
-        }
+      if ($controls[0]->required) { // required prop same for all controls in group
+        $hasRequiredFields = true;
       }
     }
 
@@ -203,7 +199,7 @@ class Form {
   }
 
   /**
-   * Get value(s) for meta field(s) to be included in Database record
+   * Get value(s) for meta field(s) that are stored in Database record
    *
    * @return $meta {Array}
    */
@@ -248,26 +244,28 @@ class Form {
     $this->_results = '<dl>';
 
     foreach ($this->_items as $key => $item) {
-      $control = $item['control'];
+      $controls = $item['controls'];
+      $control = $controls[0]; // single control instance or first control in group
 
-      if (is_array($control)) { // radio/checkbox group
+      if (count($controls) > 1) { // radio/checkbox group
         $prettyValues = [];
-        $sqlValue = $control[0]->value; // use first control in group
-        $controls = $control;
-        foreach ($controls as $control) {
-          if ($control->isChecked()) {
-            $prettyValues[] = $control->label;
+        $sqlValue = $control->value; // get value from first control in group
+        foreach ($controls as $ctrl) {
+          if ($ctrl->isChecked()) {
+            $prettyValues[] = $ctrl->label;
           }
         }
         $prettyValue = implode(', ', $prettyValues);
-      } else if ($control->type === 'select') { // select menu
-        $prettyValue = $control->options[$control->value];
-        $sqlValue = $control->value;
-      } else { // everything else
-        $prettyValue = $sqlValue = $control->value;
+      } else { // single control
+        if ($control->type === 'select') { // select menu
+          $prettyValue = $control->options[$control->value];
+          $sqlValue = $control->value;
+        } else { // everything else
+          $prettyValue = $sqlValue = $control->value;
+        }
       }
-      $sqlValues[$key] = $sqlValue;
 
+      $sqlValues[$key] = $sqlValue;
       if ($control->type !== 'hidden') { // don't include hidden fields in results summary
         $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
         $this->_results .= '<dd>' . htmlentities(stripslashes($prettyValue)) . '</dd>';
@@ -319,13 +317,11 @@ class Form {
    */
   private function _validate () {
     foreach ($this->_items as $key => $item) {
-      $control = $item['control'];
-      if (is_array($control)) { // radio/checkbox group: use first control to validate group
-        $control = $control[0];
-      }
+      $control = $item['controls'][0]; // single control instance or first control in group
+
       $pattern = '';
       if (isSet($control->pattern)) {
-        $pattern = preg_replace('@/@', '\/', $control->pattern);
+        $pattern = preg_replace('@/@', '\/', $control->pattern); // escape '/' chars
       }
 
       if (($control->required && !$control->value) ||
@@ -347,7 +343,7 @@ class Form {
     $key = $control->name;
 
     $this->_items[$key] = [
-      'control' => $control,
+      'controls' => [$control], // single-item array
       'label' => $control->label
     ];
 
@@ -396,7 +392,7 @@ class Form {
 
     $this->_items[$key] = [
       'arrangement' => $arrangement,
-      'control' => $controls, // array
+      'controls' => $controls,
       'description' => $description,
       'label' => $label,
       'message' => $message

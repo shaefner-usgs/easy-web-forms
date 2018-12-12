@@ -13,6 +13,7 @@
  */
 class Form {
   private $_countAddressFields = 0,
+    $_countTabIndex = 0, // used for tabindex attrs
     $_defaults = [
       'adminEmail' => '',
       'emailSubject' => 'Form submitted',
@@ -26,11 +27,10 @@ class Form {
     ],
     $_db,
     $_dbTable,
-    $_isValid = true, // Boolean value (set to false if form doesn't validate)
+    $_isValid = false, // set to true if form passes validation
     $_items = [], // form controls/groups and associated props
     $_mapQuestApiKey,
-    $_results = '', // summary of user input
-    $_tabIndexCount = 0; // used for tabindex attrs
+    $_results = ''; // summary of user input
 
   public function __construct (Array $params=[]) {
     // Merge defaults with user-supplied params and set as class properties
@@ -139,7 +139,7 @@ class Form {
         $group['arrangement']
     );
     foreach ($controls as $control) {
-      $html .= $control->getHtml(++ $this->_tabIndexCount);
+      $html .= $control->getHtml(++ $this->_countTabIndex);
     }
     $html .= '</div>';
     $html .= sprintf('<p class="description" data-message="%s">%s</p>',
@@ -160,7 +160,7 @@ class Form {
     $hasRequiredFields = false;
 
     $html = '<section class="form">';
-    if ($this->isPosting() && !$this->_isValid) {
+    if ($this->isPosting() && !$this->isValid()) {
       $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
     }
     $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
@@ -172,7 +172,7 @@ class Form {
       if (count($controls) > 1) { // radio/checkbox group
         $html .= $this->_getControlGroupHtml($item);
       } else { // single control
-        $html .= $controls[0]->getHtml(++ $this->_tabIndexCount);
+        $html .= $controls[0]->getHtml(++ $this->_countTabIndex);
       }
 
       if ($controls[0]->required) { // required prop same for all controls in group
@@ -181,7 +181,7 @@ class Form {
     }
 
     $html .= sprintf('<input id="submitbutton" name="submitbutton" type="submit" class="btn btn-primary" tabindex="%d" value="%s" />',
-      ++ $this->_tabIndexCount,
+      ++ $this->_countTabIndex,
       $this->submitButtonText
     );
     $html .= '</form>';
@@ -275,7 +275,7 @@ class Form {
 
     // Validate and insert/email record if valid
     $this->_validate();
-    if ($this->_isValid) {
+    if ($this->isValid()) {
       // Add metadata fields to SQL params
       $metaValues = $this->_getMetaFieldValues();
       $params = array_merge($metaValues, $sqlValues);
@@ -313,9 +313,10 @@ class Form {
 
   /*
    * Server-side validation
-   *   isValid props all default to true (for form and each control)
    */
   private function _validate () {
+    $this->_isValid = true; // set to false below if validation fails
+
     foreach ($this->_items as $key => $item) {
       $control = $item['controls'][0]; // single control instance or first control in group
 
@@ -429,7 +430,7 @@ class Form {
     if ($this->isPosting()) { // user submitting form
       $this->_process();
 
-      if ($this->_isValid) {
+      if ($this->isValid()) {
         print $this->_getResultsHtml();
       } else {
         print $this->_getFormHtml();

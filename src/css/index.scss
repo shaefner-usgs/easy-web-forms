@@ -77,13 +77,19 @@ section.form {
   }
 
   fieldset,
-  .control:not(.checkbox):not(.radio) {
+  .control {
     margin: 1.75em 0;
   }
 
   label {
     cursor: pointer;
     display: inline-block;
+  }
+
+  legend {
+    @include labels;
+
+    padding-bottom: 0;
   }
 
   p.required span {
@@ -96,24 +102,15 @@ section.form {
     padding: 0.375em 0.75em;
   }
 
-  .control:not(.checkbox):not(.radio) label,
-  legend {
-    @include labels;
-  }
-  legend {
-    padding-bottom: 0;
-  }
-
-  .checkbox,
-  .radio {
-    margin: 5px 1em 2px 0;
-  }
-
   .control {
     display: flex;
 
     &:not(.checkbox):not(.radio) {
       flex-direction: column-reverse; /* display labels before controls */
+
+      label {
+        @include labels;
+      }
     }
   }
 
@@ -129,6 +126,11 @@ section.form {
 
     &.stacked {
       flex-direction: column;
+    }
+
+    .checkbox,
+    .radio {
+      margin: 5px 1em 2px 0;
     }
   }
 

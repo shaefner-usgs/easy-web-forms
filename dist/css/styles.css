@@ -1253,34 +1253,36 @@ section.form {
     border: 0;
     padding: 0; }
   section.form fieldset,
-  section.form .control:not(.checkbox):not(.radio) {
+  section.form .control {
     margin: 1.75em 0; }
   section.form label {
     cursor: pointer;
     display: inline-block; }
-  section.form p.required span {
-    color: #dc3545; }
-  section.form .btn {
-    font-size: 1em;
-    padding: 0.375em 0.75em; }
-  section.form .control:not(.checkbox):not(.radio) label,
   section.form legend {
     color: #666;
     font-size: .95em;
     font-weight: 500;
     margin: 0;
     padding: 0 0 .25em;
-    text-transform: uppercase; }
-  section.form legend {
+    text-transform: uppercase;
     padding-bottom: 0; }
-  section.form .checkbox,
-  section.form .radio {
-    margin: 5px 1em 2px 0; }
+  section.form p.required span {
+    color: #dc3545; }
+  section.form .btn {
+    font-size: 1em;
+    padding: 0.375em 0.75em; }
   section.form .control {
     display: flex; }
     section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse;
       /* display labels before controls */ }
+      section.form .control:not(.checkbox):not(.radio) label {
+        color: #666;
+        font-size: .95em;
+        font-weight: 500;
+        margin: 0;
+        padding: 0 0 .25em;
+        text-transform: uppercase; }
   section.form .description {
     color: #666;
     font-size: .95em;
@@ -1290,6 +1292,9 @@ section.form {
     flex-wrap: wrap; }
     section.form .group.stacked {
       flex-direction: column; }
+    section.form .group .checkbox,
+    section.form .group .radio {
+      margin: 5px 1em 2px 0; }
   section.form .invalid > label,
   section.form .invalid legend {
     color: #dc3545 !important; }

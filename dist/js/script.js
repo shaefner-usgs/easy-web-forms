@@ -5,6 +5,7 @@ var Validator = function (options) {
   var _this,
       _initialize,
 
+      _addressInputs,
       _allControls,
       _form,
       _inputs,
@@ -13,7 +14,6 @@ var Validator = function (options) {
       _textareas,
 
       _addEventHandlers,
-      _checkForAddressFields,
       _getControls,
       _handleSubmit,
       _initAddressFields,
@@ -84,27 +84,12 @@ var Validator = function (options) {
   };
 
   /**
-   * Checks if form has any Address fields
-   *
-   * @return hasFields {Boolean}
-   */
-  _checkForAddressFields = function () {
-    var hasFields = false;
-
-    _inputs.forEach(function(input) {
-      if (input.getAttribute('data-type') === 'address') {
-        hasFields = true;
-      }
-    });
-
-    return hasFields;
-  };
-
-  /**
    * Get a NodeList of form controls by type
    */
   _getControls = function () {
     _allControls = _form.querySelectorAll('input:not([type="submit"]), select, textarea');
+
+    _addressInputs = _form.querySelectorAll('input[data-type="address"]');
     _inputs = _form.querySelectorAll('input:not([type="submit"])');
     _selects = _form.querySelectorAll('select');
     _textareas = _form.querySelectorAll('textarea');
@@ -162,9 +147,7 @@ var Validator = function (options) {
         hasAddressFields,
         js;
 
-    hasAddressFields = _checkForAddressFields();
-
-    if (hasAddressFields) { // add library's css and js to DOM; set up listeners
+    if (_addressInputs.length > 0) { // add library's css and js to DOM; set up listeners
       css = document.createElement('link');
       css.href = 'https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css';
       css.rel = 'stylesheet';
@@ -174,24 +157,22 @@ var Validator = function (options) {
       js = document.createElement('script');
       js.src = 'https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js';
       js.onload = function () { // initialize PlaceSearch after script is loaded
-        _inputs.forEach(function(input) {
-          if (input.getAttribute('data-type') === 'address') {
-            addressField = placeSearch({
-              key: MAPQUESTKEY,
-              container: input,
-              useDeviceLocation: true
-            });
-            addressField.on('change', function(e) { // set hidden fields to returned values
-              _setAddressFields(e);
-            });
-            addressField.on('clear', function(e) { // clear hidden fields
-              _setAddressFields(e);
-            });
+        _addressInputs.forEach(function(input, index) {
+          addressField = placeSearch({
+            key: MAPQUESTKEY,
+            container: input,
+            useDeviceLocation: true
+          });
+          addressField.on('change', function(e) { // set hidden fields to returned values
+            _setAddressFields(e, index);
+          });
+          addressField.on('clear', function(e) { // clear hidden fields
+            _setAddressFields(e, index);
+          });
 
-            // Add 'required' class to parent for CSS to flag required field in UI
-            if (input.hasAttribute('required')) {
-              input.closest('.mq-place-search').classList.add('required');
-            }
+          // Add 'required' class to parent for CSS to flag required field in UI
+          if (input.hasAttribute('required')) {
+            input.closest('.mq-place-search').classList.add('required');
           }
         });
       };
@@ -203,10 +184,12 @@ var Validator = function (options) {
    * Store constituent address values from PlaceSearch-enhanced Address field in hidden form fields
    *
    * @param e {Event}
+   * @param index {Integer}
    */
-  _setAddressFields = function (e) {
+  _setAddressFields = function (e, index) {
     var hiddenFields,
         el,
+        suffix,
         value;
 
     hiddenFields = [
@@ -218,8 +201,14 @@ var Validator = function (options) {
       'street'
     ];
 
+    index ++; // zero-based index, but we want to start at 1
+    suffix = '';
+    if (index > 1) {
+      suffix = index;
+    }
+
     hiddenFields.forEach(function(field) {
-      el = _form.querySelector('input[name="' + field + '"]');
+      el = _form.querySelector('input[name="' + field + suffix + '"]');
 
       value = '';
       if (e) { // e is empty if user is clearing out previous value

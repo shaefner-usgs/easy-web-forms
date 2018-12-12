@@ -1234,7 +1234,7 @@ section.form {
       box-shadow: 0 0 3px #007bff; }
   section.form input:not([type="submit"]) {
     line-height: 1;
-    padding: 6px; }
+    padding: 9px; }
   section.form input[disabled="disabled"],
   section.form input[readonly="readonly"],
   section.form textarea[disabled="disabled"],
@@ -1247,7 +1247,7 @@ section.form {
     opacity: 1; }
   section.form textarea {
     height: auto !important;
-    padding: 4px 6px;
+    padding: 6px 9px;
     resize: vertical; }
   section.form fieldset {
     border: 0;
@@ -1283,6 +1283,9 @@ section.form {
         margin: 0;
         padding: 0 0 .25em;
         text-transform: uppercase; }
+  section.form .custom-select {
+    line-height: 1;
+    padding: 9px 28px 9px 9px; }
   section.form .description {
     color: #666;
     font-size: .95em;

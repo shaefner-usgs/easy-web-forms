@@ -31,7 +31,7 @@ section.form {
 
   input:not([type="submit"]),
   textarea,
-  .custom-select {
+  .custom-select { // bootstrap css class attached to select menus
     border: 1px solid $formcontrol-border-color;
     border-radius: $border-radius;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
@@ -47,7 +47,7 @@ section.form {
 
   input:not([type="submit"]) {
     line-height: 1;
-    padding: 6px;
+    padding: 9px;
   }
 
   input[disabled="disabled"],
@@ -65,7 +65,7 @@ section.form {
 
   textarea {
     height: auto !important; // override web page template's defaults
-    padding: 4px 6px;
+    padding: 6px 9px;
     resize: vertical;
   }
 
@@ -112,6 +112,11 @@ section.form {
         @include labels;
       }
     }
+  }
+
+  .custom-select {
+    line-height: 1;
+    padding: 9px 28px 9px 9px;
   }
 
   .description {

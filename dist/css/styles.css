@@ -1259,7 +1259,7 @@ section.form {
     cursor: pointer;
     display: inline-block; }
   section.form legend {
-    color: #666;
+    color: #555;
     font-size: .95em;
     font-weight: 500;
     margin: 0;
@@ -1277,7 +1277,7 @@ section.form {
       flex-direction: column-reverse;
       /* display labels before controls */ }
       section.form .control:not(.checkbox):not(.radio) label {
-        color: #666;
+        color: #555;
         font-size: .95em;
         font-weight: 500;
         margin: 0;
@@ -1326,7 +1326,8 @@ section.form {
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
   section.form .pretty label:before {
-    border-color: #d2d2d2; }
+    border-color: #cbcbcb;
+    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.05); }
   section.form .required + label:after,
   section.form .required legend:after,
   section.form :required + label:after {
@@ -1343,7 +1344,7 @@ section.results {
   section.results dd {
     margin: 0 0 1.5em 0; }
   section.results dt {
-    color: #666;
+    color: #555;
     font-size: .95em;
     font-weight: 500;
     margin: 0;

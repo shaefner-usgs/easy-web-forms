@@ -63,6 +63,10 @@ section.form {
     opacity: 1;
   }
 
+  input[type="search"] {
+    @include appearance(none);
+  }
+
   textarea {
     height: auto !important; // override web page template's defaults
     padding: 6px 9px;
@@ -115,8 +119,7 @@ section.form {
   }
 
   .custom-select {
-    line-height: 1;
-    padding: 9px 28px 9px 9px;
+    padding-left: 9px;
   }
 
   .description {

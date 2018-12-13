@@ -140,14 +140,26 @@ class Textarea {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
 
-    $description = sprintf('<p class="description" data-message="%s">%s</p>',
-      $this->message,
-      $this->description
-    );
-
     $label = sprintf('<label for="%s">%s</label>',
       $this->id,
       $this->label
+    );
+
+    $maxLength = intval($this->maxlength);
+    $minLength = intval($this->minlength);
+    $msgLength = '';
+    if ($minLength && $maxLength) {
+      $msgLength = "(your response must be $minLength&ndash;$maxLength characters)";
+    } else if ($minLength) { // minlength only set
+      $msgLength = "(your response must be at least $minLength characters)";
+    } else if ($maxLength){ // maxlength only set
+      $msgLength = "(your response must be no more than $maxLength characters)";
+    }
+    $message = implode(' ', [$this->message, $msgLength]);
+
+    $description = sprintf('<p class="description" data-message="%s">%s</p>',
+      $message,
+      $this->description
     );
 
     $textarea = sprintf('<textarea id="%s" name="%s" cols="%s" rows="%s"%s>%s</textarea>',

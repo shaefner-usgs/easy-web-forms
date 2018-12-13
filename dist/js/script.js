@@ -42,7 +42,11 @@ var Validator = function (options) {
     _inputs.forEach(function(input) {
       type = input.getAttribute('type');
 
-      if (input.hasAttribute('pattern') || input.hasAttribute('required')) {
+      if (input.hasAttribute('maxlength') ||
+          input.hasAttribute('minlength') ||
+          input.hasAttribute('pattern') ||
+          input.hasAttribute('required')
+      ) {
         if (type === 'checkbox' || type === 'radio') {
           input.addEventListener('change', function() { // input event buggy for radio/checkbox
             _validate(input);
@@ -73,7 +77,11 @@ var Validator = function (options) {
     });
 
     _textareas.forEach(function(textarea) {
-      if (textarea.hasAttribute('pattern') || textarea.hasAttribute('required')) {
+      if (textarea.hasAttribute('maxlength') ||
+          textarea.hasAttribute('minlength') ||
+          textarea.hasAttribute('pattern') ||
+          textarea.hasAttribute('required')
+      ) {
         ['blur', 'input'].forEach(function(evt) { // blur: consistent with input
           textarea.addEventListener(evt, function() {
             _validate(textarea);
@@ -232,6 +240,8 @@ var Validator = function (options) {
    */
   _validate = function (el) {
     var controls,
+        maxLength,
+        minLength,
         name,
         parent,
         pattern,
@@ -255,6 +265,14 @@ var Validator = function (options) {
         }
       });
     } else { // everything else
+      if (el.hasAttribute('minlength') || el.hasAttribute('maxlength')) {
+        maxLength = parseInt(el.getAttribute('maxLength'), 10);
+        minLength = parseInt(el.getAttribute('minLength'), 10);
+
+        if (el.value.length < minLength || el.value.length > maxLength) {
+          state = 'invalid';
+        }
+      }
       if (el.hasAttribute('pattern')) {
         pattern = new RegExp(el.getAttribute('pattern'));
         if (!pattern.test(value) && value !== '') {

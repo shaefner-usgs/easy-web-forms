@@ -160,7 +160,7 @@ $name = new Input([
 | label | String | '' | `<label>` for `<input>` |
 | max | Integer | null | `<input>` max attribute |
 | maxlength | Integer | null | `<input>` maxlength attribute |
-| message | String | 'Please provide a valid {{label}}' | Message shown when form control is invalid. Use [mustache templates](https://mustache.github.io) to insert control's `<label>` or `<name>` into the message. |
+| message | String | 'Please provide a valid {{label}}' | Message shown when form control is invalid. Use [mustache templates](https://mustache.github.io) to insert control's `<label>` or `<name>` into the message. If you set minlength/maxlength properties, a note is automatically appended to message explaining this requirement. |
 | min | Integer | null | `<input>` min attribute |
 | minlength | Integer | null | `<input>` minlength attribute |
 | **name** | String | '' | `<input>` name attribute |
@@ -243,7 +243,7 @@ $name = new Textarea([
 | label | String | '' | `<label>` for `<textarea>` |
 | maxlength | Integer | null | `<textarea>` maxlength attribute |
 | minlength | Integer | null | `<textarea>` minlength attribute |
-| message | String | 'Please provide a valid response' | Message shown when form control is invalid. |
+| message | String | 'Please provide a valid response' | Message shown when form control is invalid. If you set minlength/maxlength properties, a note is automatically appended to message explaining this requirement. |
 | **name** | String | '' | `<textarea>` name attribute |
 | placeholder | String | '' | `<textarea>` placeholder attribute |
 | required | Boolean | false | `<textarea>` required attribute |

@@ -261,17 +261,29 @@ class Input {
       $type = 'search';
     }
 
-    $description = '';
-    $value = $this->value; // instantiated or user-supplied value depending on form state
+    $maxLength = intval($this->maxlength);
+    $minLength = intval($this->minlength);
+    $msgLength = '';
+    if ($minLength && $maxLength) {
+      $msgLength = "(your response must be $minLength&ndash;$maxLength characters)";
+    } else if ($minLength) { // minlength only set
+      $msgLength = "(your response must be at least $minLength characters)";
+    } else if ($maxLength){ // maxlength only set
+      $msgLength = "(your response must be no more than $maxLength characters)";
+    }
+    $message = implode(' ', [$this->message, $msgLength]);
+
     if ($this->_isCheckboxOrRadio) {
+      $description = '';
       // Wrap label in div elem for pretty checkbox library
       $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
-      $value = $this->_instantiatedValue; // always use instantiated value here
+      $value = $this->_instantiatedValue; // always use instantiated value for checkbox/radio
     } else {
       $description = sprintf('<p class="description" data-message="%s">%s</p>',
-        $this->message,
+        $message,
         $this->description
       );
+      $value = $this->value; // instantiated or user-supplied value depending on form state
     }
 
     $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',

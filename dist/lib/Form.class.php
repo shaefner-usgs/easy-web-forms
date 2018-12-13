@@ -320,13 +320,24 @@ class Form {
     foreach ($this->_items as $key => $item) {
       $control = $item['controls'][0]; // single control instance or first control in group
 
+      $length = strlen($control->value);
+      $maxLength = null;
+      $minLength = null;
+      if ($control->type !== 'select') {
+        $maxLength = intval($control->maxlength);
+        $minLength = intval($control->minlength);
+      }
+
       $pattern = '';
       if (isSet($control->pattern)) {
         $pattern = preg_replace('@/@', '\/', $control->pattern); // escape '/' chars
       }
 
-      if (($control->required && !$control->value) ||
-        (isSet($pattern) && !preg_match("/$pattern/", $control->value) && $control->value)
+      if (
+        ($control->required && !$control->value) ||
+        ($minLength && $length < $minLength) ||
+        ($maxLength && $length > $maxLength) ||
+        ($pattern && !preg_match("/$pattern/", $control->value) && $control->value)
       ) {
         $this->_isValid = false; // form (set to false if any conrol is invalid)
         $control->isValid = false; // this control

@@ -168,7 +168,7 @@ $name = new Input([
 | placeholder | String | '' | `<input>` placeholder attribute |
 | readonly | Boolean | false | `<input>` readonly attribute |
 | required | Boolean | false | `<input>` required attribute |
-| type | String | 'text' | `<input>` type attribute - types **email**, **number**, and **url** have automatic pattern matching (validation) built-in; also supports type **address** (non-standard) that creates a single-field for address entry with autocomplete suggestions. You will need to create the following extra fields in the database table to store the constituent values: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. You also need a [MapQuest API key](https://developer.mapquest.com) which you set in conf/config.inc.php. |
+| type | String | 'text' | `<input>` type attribute - types **email**, **number**, and **url** have automatic pattern matching (validation) built-in; also supports type **address** (non-standard) that creates a single-field for address entry with autocomplete suggestions. You need to create the following extra fields in the database table to store the constituent values, which are stored in hidden fields: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. You will also need a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php, if you include address fields. |
 | value * | String | '' | `<input>` value attribute |
 
 Options in **bold** are required; * = required for all radio/checkbox controls.

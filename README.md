@@ -180,7 +180,7 @@ All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML
 * **checkbox**: the default message option is set to 'Please select one or more options'.
 * **email**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value.
 * **number**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value.
-* **radio**: the default message attribute is set to 'Please select an option'.
+* **radio**: the default message option is set to 'Please select an option'.
 * **url**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value. The default description option is set to 'Include “http://” or “https://”'.
 
 In addition, the following non-standard type is also supported:

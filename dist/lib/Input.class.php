@@ -232,6 +232,9 @@ class Input {
       if ($params['type'] === 'radio') {
         $this->_defaults['message'] = 'Please select an option';
       }
+      if ($params['type'] === 'url') {
+        $this->_defaults['description'] = 'Include &ldquo;http://&rdquo; or &ldquo;https://&rdquo;';
+      }
     }
   }
 

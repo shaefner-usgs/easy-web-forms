@@ -160,7 +160,7 @@ $name = new Input([
 | label | String | '' | `<label>` for `<input>` |
 | max | Integer | null | `<input>` max attribute |
 | maxlength | Integer | null | `<input>` maxlength attribute |
-| message | String | 'Please provide a valid {{label}}' | Message shown when form control is invalid. Use [mustache templates](https://mustache.github.io) to insert control's `<label>` or `<name>` into the message. If you set minlength/maxlength properties, a note is automatically appended to message explaining this requirement. |
+| message | String | 'Please provide a valid {{label}}' | Message shown when form control is invalid. Use [mustache templates](https://mustache.github.io) to insert control's `<label>` or `<name>` into the message. If you set minlength/maxlength values, and you haven't set a custom message, a note will be appended to message explaining this requirement. |
 | min | Integer | null | `<input>` min attribute |
 | minlength | Integer | null | `<input>` minlength attribute |
 | **name** | String | '' | `<input>` name attribute |
@@ -168,10 +168,24 @@ $name = new Input([
 | placeholder | String | '' | `<input>` placeholder attribute |
 | readonly | Boolean | false | `<input>` readonly attribute |
 | required | Boolean | false | `<input>` required attribute |
-| type | String | 'text' | `<input>` type attribute - types **email**, **number**, and **url** have automatic pattern matching (validation) built-in; also supports type **address** (non-standard) that creates a single-field for address entry with autocomplete suggestions. You need to create the following extra fields in the database table to store the constituent values, which are stored in hidden fields: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. You will also need a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php, if you include address fields. |
+| type | String | 'text' | `<input>` type attribute |
 | value * | String | '' | `<input>` value attribute |
 
 Options in **bold** are required; * = required for all radio/checkbox controls.
+
+#### Special Types
+
+All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types) are supported (except 'image' and 'file'). Some types have added functionality:
+
+* **checkbox**: the default message option is set to 'Please select one or more options'.
+* **email**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value.
+* **number**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value.
+* **radio**: the default message attribute is set to 'Please select an option'.
+* **url**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value. The default description option is set to 'Include “http://” or “https://”'.
+
+In addition, the following non-standard type is also supported:
+
+* **address**: creates a single field for entering a street address with autocomplete suggestions as you type. You will need to create the following extra fields in the database table to store the constituent values, which are temporarily stored in hidden `<input>` fields: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. This functionality utilizes a 3rd-party library called [PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/), and it requires a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php.
 
 ### Select
 
@@ -243,7 +257,7 @@ $name = new Textarea([
 | label | String | '' | `<label>` for `<textarea>` |
 | maxlength | Integer | null | `<textarea>` maxlength attribute |
 | minlength | Integer | null | `<textarea>` minlength attribute |
-| message | String | 'Please provide a valid response' | Message shown when form control is invalid. If you set minlength/maxlength properties, a note is automatically appended to message explaining this requirement. |
+| message | String | 'Please provide a valid response' | Message shown when form control is invalid. If you set minlength/maxlength values, and you haven't set a custom message, a note will be appended to message explaining this requirement. |
 | **name** | String | '' | `<textarea>` name attribute |
 | placeholder | String | '' | `<textarea>` placeholder attribute |
 | required | Boolean | false | `<textarea>` required attribute |

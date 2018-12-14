@@ -145,15 +145,18 @@ class Textarea {
       $this->label
     );
 
-    $maxLength = intval($this->maxlength);
-    $minLength = intval($this->minlength);
+    // Add note about req'd number of chars. to message if user hasn't customized message
     $msgLength = '';
-    if ($minLength && $maxLength) {
-      $msgLength = "(your response must be $minLength&ndash;$maxLength characters)";
-    } else if ($minLength) { // minlength only set
-      $msgLength = "(your response must be at least $minLength characters)";
-    } else if ($maxLength){ // maxlength only set
-      $msgLength = "(your response must be no more than $maxLength characters)";
+    if ($this->message === $this->_defaults['message']) {
+      $maxLength = intval($this->maxlength);
+      $minLength = intval($this->minlength);
+      if ($minLength && $maxLength) {
+        $msgLength = "(your response must be $minLength&ndash;$maxLength characters)";
+      } else if ($minLength) { // minlength only set
+        $msgLength = "(your response must be at least $minLength characters)";
+      } else if ($maxLength){ // maxlength only set
+        $msgLength = "(your response must be no more than $maxLength characters)";
+      }
     }
     $message = implode(' ', [$this->message, $msgLength]);
 

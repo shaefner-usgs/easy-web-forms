@@ -1221,6 +1221,11 @@ section.form {
   section.form input:not([type="submit"]),
   section.form textarea,
   section.form .custom-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
     border: 1px solid #dfdfdf;
     border-radius: 0.25rem;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
@@ -1245,7 +1250,8 @@ section.form {
     cursor: not-allowed;
     -webkit-text-fill-color: #6c757d;
     opacity: 1; }
-  section.form input[type="search"] {
+  section.form input[type="search"],
+  section.form input[type="submit"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
@@ -1302,7 +1308,7 @@ section.form {
       flex-direction: column; }
     section.form .group .checkbox,
     section.form .group .radio {
-      margin: 5px 1em 2px 0; }
+      margin: 5px 1em 5px 0; }
   section.form .invalid > label,
   section.form .invalid legend {
     color: #dc3545 !important; }
@@ -1325,7 +1331,8 @@ section.form {
   section.form .invalid .pretty label:before {
     border-color: #dc3545; }
   section.form .mq-input {
-    height: auto; }
+    height: auto;
+    padding-right: 30px !important; }
   section.form .mq-input-icon {
     right: 6px; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {

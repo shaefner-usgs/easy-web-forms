@@ -32,6 +32,8 @@ section.form {
   input:not([type="submit"]),
   textarea,
   .custom-select { // bootstrap css class attached to select menus
+    @include appearance(none); // for Safari iOS to display CSS border highlights correctly
+
     border: 1px solid $formcontrol-border-color;
     border-radius: $border-radius;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
@@ -63,7 +65,8 @@ section.form {
     opacity: 1;
   }
 
-  input[type="search"] {
+  input[type="search"],
+  input[type="submit"] {
     @include appearance(none);
   }
 
@@ -100,7 +103,7 @@ section.form {
     color: $danger;
   }
 
-  // override bootsrap's use of rem units for increased compatibility across sites
+  // Override bootsrap's use of rem units for increased compatibility across sites
   .btn {
     font-size: 1em;
     padding: 0.375em 0.75em;
@@ -138,7 +141,7 @@ section.form {
 
     .checkbox,
     .radio {
-      margin: 5px 1em 2px 0;
+      margin: 5px 1em 5px 0;
     }
   }
 
@@ -183,6 +186,7 @@ section.form {
   // Override built-in styles for MapQuest PlaceSearch
   .mq-input {
     height: auto;
+    padding-right: 30px !important; // make room for 'X' button
   }
   .mq-input-icon {
     right: 6px;
@@ -199,6 +203,7 @@ section.form {
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.05);
   }
 
+  // Required field indicators
   .required + label:after, // MapQuest PlaceSearch address field
   .required legend:after, // radio/checkbox group
   :required + label:after {

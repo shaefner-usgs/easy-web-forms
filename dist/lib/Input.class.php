@@ -246,10 +246,36 @@ class Input {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
 
+    // Create note about req'd number of chars. if applicable
+    $maxLength = intval($this->maxlength);
+    $minLength = intval($this->minlength);
+    $msgLength = '';
+    if ($minLength && $maxLength) {
+      $msgLength = "$minLength&ndash;$maxLength characters";
+    } else if ($minLength) { // minlength only set
+      $msgLength = "at least $minLength characters";
+    } else if ($maxLength){ // maxlength only set
+      $msgLength = "no more than $maxLength characters";
+    }
+
+    // If no custom description was set, default to showing min/max-length requirements
+    $description = $this->description;
+    if (!$description && $msgLength) {
+      $description = $msgLength;
+    }
+
     $label = sprintf('<label for="%s">%s</label>',
       $this->id,
       $this->label
     );
+
+    // Substitute values in mustache template
+    $message = preg_replace('/{{(label|name)}}/', strtoupper($this->label), $this->message);
+
+    // If no custom message was set, append min/max-length requirements
+    if ($this->message === $this->_defaults['message'] && $msgLength) {
+      $message .= " ($msgLength)";
+    }
 
     $name = $this->name;
     if ($this->type === 'checkbox') {
@@ -261,33 +287,15 @@ class Input {
       $type = 'search';
     }
 
-    // Add note about req'd number of chars. to message if user hasn't customized message
-    $msgLength = '';
-    if ($this->message === $this->_defaults['message']) {
-      $maxLength = intval($this->maxlength);
-      $minLength = intval($this->minlength);
-      if ($minLength && $maxLength) {
-        $msgLength = "(your response must be $minLength&ndash;$maxLength characters)";
-      } else if ($minLength) { // minlength only set
-        $msgLength = "(your response must be at least $minLength characters)";
-      } else if ($maxLength){ // maxlength only set
-        $msgLength = "(your response must be no more than $maxLength characters)";
-      }
-    }
-
-    // Substitute values in mustache template, then combine messages
-    $this->message = preg_replace('/{{(label|name)}}/', strtoupper($this->label), $this->message);
-    $message = implode(' ', [$this->message, $msgLength]);
-
     if ($this->_isCheckboxOrRadio) {
-      $description = '';
+      $info = '';
       // Wrap label in div elem for pretty checkbox library
       $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
       $value = $this->_instantiatedValue; // always use instantiated value for checkbox/radio
     } else {
-      $description = sprintf('<p class="description" data-message="%s">%s</p>',
+      $info = sprintf('<p class="description" data-message="%s">%s</p>',
         $message,
-        $this->description
+        $description
       );
       $value = $this->value; // instantiated or user-supplied value depending on form state
     }
@@ -302,7 +310,7 @@ class Input {
 
     $html = sprintf('<div class="%s">%s%s%s</div>',
       implode(' ', $cssClasses),
-      $description,
+      $info,
       $input,
       $label
     );

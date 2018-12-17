@@ -1221,6 +1221,11 @@ section.form {
   section.form input:not([type="submit"]),
   section.form textarea,
   section.form .custom-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
     border: 1px solid #dfdfdf;
     border-radius: 0.25rem;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
@@ -1234,7 +1239,7 @@ section.form {
       box-shadow: 0 0 3px #007bff; }
   section.form input:not([type="submit"]) {
     line-height: 1;
-    padding: 6px; }
+    padding: 9px; }
   section.form input[disabled="disabled"],
   section.form input[readonly="readonly"],
   section.form textarea[disabled="disabled"],
@@ -1245,42 +1250,53 @@ section.form {
     cursor: not-allowed;
     -webkit-text-fill-color: #6c757d;
     opacity: 1; }
+  section.form input[type="search"],
+  section.form input[type="submit"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none; }
   section.form textarea {
     height: auto !important;
-    padding: 4px 6px;
+    padding: 6px 9px;
     resize: vertical; }
   section.form fieldset {
     border: 0;
     padding: 0; }
   section.form fieldset,
-  section.form .control:not(.checkbox):not(.radio) {
+  section.form .control {
     margin: 1.75em 0; }
   section.form label {
     cursor: pointer;
     display: inline-block; }
+  section.form legend {
+    color: #555;
+    font-size: .95em;
+    font-weight: 500;
+    margin: 0;
+    padding: 0 0 .25em;
+    text-transform: uppercase;
+    padding-bottom: 0; }
   section.form p.required span {
     color: #dc3545; }
   section.form .btn {
     font-size: 1em;
     padding: 0.375em 0.75em; }
-  section.form .control:not(.checkbox):not(.radio) label,
-  section.form legend {
-    color: #666;
-    font-size: .95em;
-    font-weight: 500;
-    margin: 0;
-    padding: 0 0 .25em;
-    text-transform: uppercase; }
-  section.form legend {
-    padding-bottom: 0; }
-  section.form .checkbox,
-  section.form .radio {
-    margin: 5px 1em 2px 0; }
   section.form .control {
     display: flex; }
     section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse;
       /* display labels before controls */ }
+      section.form .control:not(.checkbox):not(.radio) label {
+        color: #555;
+        font-size: .95em;
+        font-weight: 500;
+        margin: 0;
+        padding: 0 0 .25em;
+        text-transform: uppercase; }
+  section.form .custom-select {
+    padding-left: 9px; }
   section.form .description {
     color: #666;
     font-size: .95em;
@@ -1290,6 +1306,9 @@ section.form {
     flex-wrap: wrap; }
     section.form .group.stacked {
       flex-direction: column; }
+    section.form .group .checkbox,
+    section.form .group .radio {
+      margin: 5px 1em 5px 0; }
   section.form .invalid > label,
   section.form .invalid legend {
     color: #dc3545 !important; }
@@ -1312,13 +1331,15 @@ section.form {
   section.form .invalid .pretty label:before {
     border-color: #dc3545; }
   section.form .mq-input {
-    height: auto; }
+    height: auto;
+    padding-right: 30px !important; }
   section.form .mq-input-icon {
     right: 6px; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
   section.form .pretty label:before {
-    border-color: #d2d2d2; }
+    border-color: #cbcbcb;
+    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.05); }
   section.form .required + label:after,
   section.form .required legend:after,
   section.form :required + label:after {
@@ -1335,7 +1356,7 @@ section.results {
   section.results dd {
     margin: 0 0 1.5em 0; }
   section.results dt {
-    color: #666;
+    color: #555;
     font-size: .95em;
     font-weight: 500;
     margin: 0;

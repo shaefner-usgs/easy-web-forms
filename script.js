@@ -5,6 +5,7 @@ var Validator = function (options) {
   var _this,
       _initialize,
 
+      _addressInputs,
       _allControls,
       _form,
       _inputs,
@@ -13,7 +14,6 @@ var Validator = function (options) {
       _textareas,
 
       _addEventHandlers,
-      _checkForAddressFields,
       _getControls,
       _handleSubmit,
       _initAddressFields,
@@ -42,7 +42,11 @@ var Validator = function (options) {
     _inputs.forEach(function(input) {
       type = input.getAttribute('type');
 
-      if (input.hasAttribute('pattern') || input.hasAttribute('required')) {
+      if (input.hasAttribute('maxlength') ||
+          input.hasAttribute('minlength') ||
+          input.hasAttribute('pattern') ||
+          input.hasAttribute('required')
+      ) {
         if (type === 'checkbox' || type === 'radio') {
           input.addEventListener('change', function() { // input event buggy for radio/checkbox
             _validate(input);
@@ -59,9 +63,11 @@ var Validator = function (options) {
 
     _selects.forEach(function(select) {
       if (select.hasAttribute('required')) {
-        select.addEventListener('change', function() {
-          _validate(select);
-        });
+        ['blur', 'change'].forEach(function(evt) { // blur: consistent with input
+          select.addEventListener(evt, function() {
+            _validate(select);
+          });
+        })
       }
     });
 
@@ -71,7 +77,11 @@ var Validator = function (options) {
     });
 
     _textareas.forEach(function(textarea) {
-      if (textarea.hasAttribute('pattern') || textarea.hasAttribute('required')) {
+      if (textarea.hasAttribute('maxlength') ||
+          textarea.hasAttribute('minlength') ||
+          textarea.hasAttribute('pattern') ||
+          textarea.hasAttribute('required')
+      ) {
         ['blur', 'input'].forEach(function(evt) { // blur: consistent with input
           textarea.addEventListener(evt, function() {
             _validate(textarea);
@@ -82,27 +92,12 @@ var Validator = function (options) {
   };
 
   /**
-   * Checks if form has any Address fields
-   *
-   * @return hasFields {Boolean}
-   */
-  _checkForAddressFields = function () {
-    var hasFields = false;
-
-    _inputs.forEach(function(input) {
-      if (input.getAttribute('data-type') === 'address') {
-        hasFields = true;
-      }
-    });
-
-    return hasFields;
-  };
-
-  /**
    * Get a NodeList of form controls by type
    */
   _getControls = function () {
     _allControls = _form.querySelectorAll('input:not([type="submit"]), select, textarea');
+
+    _addressInputs = _form.querySelectorAll('input[data-type="address"]');
     _inputs = _form.querySelectorAll('input:not([type="submit"])');
     _selects = _form.querySelectorAll('select');
     _textareas = _form.querySelectorAll('textarea');
@@ -160,9 +155,7 @@ var Validator = function (options) {
         hasAddressFields,
         js;
 
-    hasAddressFields = _checkForAddressFields();
-
-    if (hasAddressFields) { // add library's css and js to DOM; set up listeners
+    if (_addressInputs.length > 0) { // add library's css and js to DOM; set up listeners
       css = document.createElement('link');
       css.href = 'https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css';
       css.rel = 'stylesheet';
@@ -172,24 +165,22 @@ var Validator = function (options) {
       js = document.createElement('script');
       js.src = 'https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js';
       js.onload = function () { // initialize PlaceSearch after script is loaded
-        _inputs.forEach(function(input) {
-          if (input.getAttribute('data-type') === 'address') {
-            addressField = placeSearch({
-              key: MAPQUESTKEY,
-              container: input,
-              useDeviceLocation: true
-            });
-            addressField.on('change', function(e) { // set hidden fields to returned values
-              _setAddressFields(e);
-            });
-            addressField.on('clear', function(e) { // clear hidden fields
-              _setAddressFields(e);
-            });
+        _addressInputs.forEach(function(input, index) {
+          addressField = placeSearch({
+            key: MAPQUESTKEY,
+            container: input,
+            useDeviceLocation: true
+          });
+          addressField.on('change', function(e) { // set hidden fields to returned values
+            _setAddressFields(e, index);
+          });
+          addressField.on('clear', function(e) { // clear hidden fields
+            _setAddressFields(e, index);
+          });
 
-            // Add 'required' class to parent for CSS to flag required field in UI
-            if (input.hasAttribute('required')) {
-              input.closest('.mq-place-search').classList.add('required');
-            }
+          // Add 'required' class to parent for CSS to flag required field in UI
+          if (input.hasAttribute('required')) {
+            input.closest('.mq-place-search').classList.add('required');
           }
         });
       };
@@ -201,10 +192,12 @@ var Validator = function (options) {
    * Store constituent address values from PlaceSearch-enhanced Address field in hidden form fields
    *
    * @param e {Event}
+   * @param index {Integer}
    */
-  _setAddressFields = function (e) {
+  _setAddressFields = function (e, index) {
     var hiddenFields,
         el,
+        suffix,
         value;
 
     hiddenFields = [
@@ -216,8 +209,14 @@ var Validator = function (options) {
       'street'
     ];
 
+    index ++; // zero-based index, but we want to start at 1
+    suffix = '';
+    if (index > 1) {
+      suffix = index;
+    }
+
     hiddenFields.forEach(function(field) {
-      el = _form.querySelector('input[name="' + field + '"]');
+      el = _form.querySelector('input[name="' + field + suffix + '"]');
 
       value = '';
       if (e) { // e is empty if user is clearing out previous value
@@ -241,6 +240,8 @@ var Validator = function (options) {
    */
   _validate = function (el) {
     var controls,
+        maxLength,
+        minLength,
         name,
         parent,
         pattern,
@@ -264,6 +265,14 @@ var Validator = function (options) {
         }
       });
     } else { // everything else
+      if (el.hasAttribute('minlength') || el.hasAttribute('maxlength')) {
+        maxLength = parseInt(el.getAttribute('maxLength'), 10);
+        minLength = parseInt(el.getAttribute('minLength'), 10);
+
+        if (el.value.length < minLength || el.value.length > maxLength) {
+          state = 'invalid';
+        }
+      }
       if (el.hasAttribute('pattern')) {
         pattern = new RegExp(el.getAttribute('pattern'));
         if (!pattern.test(value) && value !== '') {
@@ -299,6 +308,31 @@ var Validator = function (options) {
   options = null;
   return _this;
 };
+
+
+/**
+ * Polyfill for Element.closest()
+ */
+if (!Element.prototype.matches) {
+  Element.prototype.matches = Element.prototype.msMatchesSelector ||
+    Element.prototype.webkitMatchesSelector;
+}
+
+if (!Element.prototype.closest) {
+  Element.prototype.closest = function(s) {
+    var el = this;
+    if (!document.documentElement.contains(el)) {
+      return null;
+    }
+    do {
+      if (el.matches(s)) {
+        return el;
+      }
+      el = el.parentElement || el.parentNode;
+    } while (el !== null && el.nodeType === 1);
+    return null;
+  };
+}
 
 
 document.addEventListener('DOMContentLoaded', function() {

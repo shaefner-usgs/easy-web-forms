@@ -91,6 +91,7 @@ section.form {
   label {
     cursor: pointer;
     display: inline-block;
+    transition: color 0.15s ease-in-out;
   }
 
   legend {

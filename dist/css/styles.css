@@ -1269,7 +1269,8 @@ section.form {
     margin: 1.75em 0; }
   section.form label {
     cursor: pointer;
-    display: inline-block; }
+    display: inline-block;
+    transition: color 0.15s ease-in-out; }
   section.form legend {
     color: #555;
     font-size: .95em;

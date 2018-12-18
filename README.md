@@ -74,7 +74,24 @@ See [example.php](dist/example.php) for additional details.
 
 You will also need to create a MySQL table with field names that correspond to the name attribute of each form control/group. Additional fields are needed to store metadata for each record: 'datetime' (Type DATETIME), 'ip' (Type VARCHAR) and browser (Type VARCHAR). All metadata fields are optional, but 'datetime' is set to be included by default. An auto-incrementing 'id' field is recommended.
 
-# Documentation
+## Validation
+
+Both client- and server-side validation are performed automatically, based on standard [HTML5 attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text#Additional_attributes) that you set when creating [form controls](#form-controls). Those attributes are:
+
+* **maxwidth** (some <input> types, <textarea>)
+* **minwidth** (some <input> types, <textarea>)
+* **pattern**  (some <input> types)
+* **required**  (<input>, <textarea>, <select>)
+
+In addition, certain <input> types have automatic validation built-in:
+
+* email
+* number
+* url
+
+These types all use a simple RegExp to validate user input. You can set the 'pattern' attribute when you create a form control to override the built-in test pattern.
+
+# API Documentation
 
 ### Form
 
@@ -153,9 +170,9 @@ $name = new Input([
 | ------ | ------ | ------ | ------ |
 | checked | Boolean | false | `<input>` checked attribute |
 | class | String | '' | CSS class attached to parent `<div>`. |
-| description | String | '' | Explanatory text displayed next to form control. |
+| description | String | '' | Explanatory text displayed next to form control. Automatically set to number of chars. required if minlength/maxlength are set and this option has not been set. |
 | disabled | Boolean | false | `<input>` disabled attribute |
-| id * | String | '' | `<input>` id attribute |
+| *id* | String | '' | `<input>` id attribute |
 | inputmode | String | '' | `<input>` inputmode attribute |
 | label | String | '' | `<label>` for `<input>` |
 | max | Integer | null | `<input>` max attribute |
@@ -164,18 +181,18 @@ $name = new Input([
 | min | Integer | null | `<input>` min attribute |
 | minlength | Integer | null | `<input>` minlength attribute |
 | **name** | String | '' | `<input>` name attribute |
-| pattern | RegExp | '' | `<input>` pattern attribute - **Note:** No forward slashes should be specified around the pattern text. |
+| pattern | RegExp | '' | `<input>` pattern attribute. **Note:** No forward slashes should be specified around the pattern text. |
 | placeholder | String | '' | `<input>` placeholder attribute |
 | readonly | Boolean | false | `<input>` readonly attribute |
 | required | Boolean | false | `<input>` required attribute |
 | type | String | 'text' | `<input>` type attribute |
-| value * | String | '' | `<input>` value attribute |
+| *value* | String | '' | `<input>` value attribute |
 
-Options in **bold** are required; * = required for all radio/checkbox controls.
+Options in **bold** are required; options in *italics* are required for all radio/checkbox controls.
 
 #### Special Types
 
-All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types) are supported (except 'image' and 'file'). Some types have added functionality:
+All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types) are supported (except 'image' and 'file'<sup id="r1">[1](#f1)</sup>). Some types have added functionality:
 
 * **checkbox**: the default message option is set to 'Please select one or more options'.
 * **email**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value.
@@ -186,6 +203,16 @@ All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML
 In addition, the following non-standard type is also supported:
 
 * **address**: creates a single field for entering a street address with autocomplete suggestions as you type. You will need to create the following extra fields in the database table to store the constituent values, which are temporarily stored in hidden `<input>` fields: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. This functionality utilizes a 3rd-party library called [PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/), and it requires a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php.
+
+<b id="f1">1</b> File inputs can be used, but there is no server-side support for handling uploaded files. You will need to process the uploaded in the PHP script that creates the form:
+
+```php
+if ($form->isPosting() && $form->isValid()) {
+  // Handle uploaded file(s) here
+}
+```
+
+[↩](#r1)
 
 ### Select
 
@@ -251,7 +278,7 @@ $name = new Textarea([
 | ------ | ------ | ------ | ------ |
 | class | String | '' | CSS class attached to parent `<div>` |
 | cols | Integer | 60 | `<textarea>` cols attribute |
-| description | String | '' | Explanatory text displayed next to form control. |
+| description | String | '' | Explanatory text displayed next to form control. Automatically set to number of chars. required if minlength/maxlength are set and this option has not been set. |
 | disabled | Boolean | false | `<textarea>` disabled attribute |
 | id | String | '' | `<textarea>` id attribute |
 | label | String | '' | `<label>` for `<textarea>` |

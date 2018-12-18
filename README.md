@@ -78,12 +78,12 @@ You will also need to create a MySQL table with field names that correspond to t
 
 Both client- and server-side validation are performed automatically, based on standard [HTML5 attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text#Additional_attributes) that you set when creating [form controls](#form-controls). Those attributes are:
 
-* **maxwidth** (some <input> types, <textarea>)
-* **minwidth** (some <input> types, <textarea>)
-* **pattern**  (some <input> types)
-* **required**  (<input>, <textarea>, <select>)
+* **maxwidth** (some `<input`> types, `<textarea>`)
+* **minwidth** (some `<input`> types, `<textarea>`)
+* **pattern**  (some `<input>` types)
+* **required**  (`<input>`, `<textarea>`, `<select>`)
 
-In addition, certain <input> types have automatic validation built-in:
+In addition, certain `<input>` types have automatic validation built-in:
 
 * email
 * number

@@ -214,7 +214,7 @@ The following `<input>` attributes will trigger client- and server-side validati
 * pattern
 * required
 
-<b id="f1">1</b> File inputs can be used, but there is no server-side support for handling uploaded files. You will need to process the uploaded in the PHP script that creates the form:
+<b id="f1">1</b> File inputs can be used, but there is no server-side support for handling files. You will need to process the uploaded file in the PHP script that creates the form:
 
 ```php
 if ($form->isPosting() && $form->isValid()) {

@@ -40,6 +40,7 @@ PHP and MySQL
         'type' => 'radio',
         'value' => 'male'
     ]);
+
     $female = new Input([
         'name' => 'gender',
         'id' => 'female',
@@ -80,8 +81,8 @@ Both client- and server-side validation are performed automatically, based on st
 
 * maxwidth (some `<input`> types, `<textarea>`)
 * minwidth (some `<input`> types, `<textarea>`)
-* pattern  (some `<input>` types)
-* required  (`<input>`, `<textarea>`, `<select>`)
+* pattern (some `<input>` types)
+* required (`<input>`, `<textarea>`, `<select>`)
 
 In addition, some `<input>` types have automatic validation built-in:
 
@@ -263,6 +264,12 @@ $name = new Select([
 
 Options in **bold** are required.
 
+#### Special Attributes
+
+The following `<select>` attribute will trigger client- and server-side validation when set:
+
+* required
+
 ### Textarea
 
 Used to create an html `<textarea>`.
@@ -301,6 +308,14 @@ $name = new Textarea([
 | value | String | '' | `<textarea>` value attribute |
 
 Options in **bold** are required.
+
+#### Special Attributes
+
+The following `<textarea>` attributes will trigger client- and server-side validation when set:
+
+* maxwidth
+* minwidth
+* required
 
 ## Acknowledgements
 

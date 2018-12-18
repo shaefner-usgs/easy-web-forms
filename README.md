@@ -83,13 +83,13 @@ Both client- and server-side validation are performed automatically, based on st
 * **pattern**  (some `<input>` types)
 * **required**  (`<input>`, `<textarea>`, `<select>`)
 
-In addition, certain `<input>` types have automatic validation built-in:
+In addition, some `<input>` types have automatic validation built-in:
 
 * email
 * number
 * url
 
-These types all use a simple RegExp to validate user input. You can set the 'pattern' attribute when you create a form control to override the built-in test pattern.
+These types all use a simple RegExp to validate user input.
 
 # API Documentation
 
@@ -203,6 +203,15 @@ All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML
 In addition, the following non-standard type is also supported:
 
 * **address**: creates a single field for entering a street address with autocomplete suggestions as you type. You will need to create the following extra fields in the database table to store the constituent values, which are temporarily stored in hidden `<input>` fields: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. This functionality utilizes a 3rd-party library called [PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/), and it requires a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php.
+
+#### Other Special Attributes
+
+The following `<input>` attributes will trigger client- and server-side validation when set:
+
+* maxwidth
+* minwidth
+* pattern
+* required
 
 <b id="f1">1</b> File inputs can be used, but there is no server-side support for handling uploaded files. You will need to process the uploaded in the PHP script that creates the form:
 

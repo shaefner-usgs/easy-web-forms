@@ -71,7 +71,7 @@ section.form {
   }
 
   textarea {
-    height: auto !important; // override web page template's defaults
+    height: auto !important; // override web page template's defaults (earthquake.usgs.gov)
     padding: 6px 9px;
     resize: vertical;
   }
@@ -191,6 +191,10 @@ section.form {
   }
   .mq-input-icon {
     right: 6px;
+    // Override web page template's defaults (earthquake.usgs.gov)
+    background-image: none !important;
+    box-shadow: none;
+    padding: 2px 6px;
   }
 
   // Add focus styles for pretty checkbox controls

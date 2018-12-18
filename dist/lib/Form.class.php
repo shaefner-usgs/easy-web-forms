@@ -247,6 +247,10 @@ class Form {
       $controls = $item['controls'];
       $control = $controls[0]; // single control instance or first control in group
 
+      if ($control->type === 'file') { // skip file inputs
+        continue;
+      }
+
       if (count($controls) > 1) { // radio/checkbox group
         $prettyValues = [];
         $sqlValue = $control->value; // get value from first control in group
@@ -319,6 +323,10 @@ class Form {
 
     foreach ($this->_items as $key => $item) {
       $control = $item['controls'][0]; // single control instance or first control in group
+
+      if ($control->type === 'file') { // skip file inputs
+        continue;
+      }
 
       $length = strlen($control->value);
       $maxLength = null;

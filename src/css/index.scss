@@ -113,6 +113,10 @@ section.form {
   .control {
     display: flex;
 
+    &:first-of-type {
+      margin-top: .75em;
+    }
+
     &:not(.checkbox):not(.radio) {
       flex-direction: column-reverse; /* display labels before controls */
 
@@ -249,6 +253,7 @@ p.alert {
   border-radius: $border-radius;
   color: $info;
   line-height: 1;
+  margin: 1em 0 1.75em 0;
   padding: 1em .75em;
   padding-left: 35px;
 }

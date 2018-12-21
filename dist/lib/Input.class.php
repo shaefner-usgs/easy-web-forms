@@ -78,8 +78,18 @@ class Input {
     // Cache instantiated/submitted values and set value prop depending on state
     $this->_instantiatedValue = $this->value;
     if (isSet($_POST['submitbutton'])) {
-      $this->_submittedValue = safeParam($this->name);
-      $this->value = $this->_submittedValue; // set to user-supplied value
+      if ($this->type === 'address') {
+        // 'Fish' for input (random string appended to name to disable autocomplete)
+        $pattern = '/^' . $this->name . '\d{5}$/';
+        foreach($_POST as $key => $value) {
+          if (preg_match($pattern, $key)) { // found match
+            $this->_submittedValue = safeParam($key);
+          }
+        }
+      } else {
+        $this->_submittedValue = safeParam($this->name);
+      }
+      $this->value = $this->_submittedValue; // set to user-supplied value when posting
     }
   }
 
@@ -278,13 +288,13 @@ class Input {
     }
 
     $name = $this->name;
-    if ($this->type === 'checkbox') {
-      $name .= '[]'; // set name to type array for checkbox values
-    }
-
     $type = $this->type;
-    if ($type === 'address') { // set type to 'search' for MapQuest PlaceSearch.js
-      $type = 'search';
+    if ($type === 'checkbox') {
+      $name .= '[]'; // set name to type Array for checkbox values
+    } else if ($type === 'address') {
+      $randomNumber = sprintf("%05d", mt_rand(1, 99999));
+      $type = 'search'; // set type to 'search' for MapQuest PlaceSearch.js
+      $name .= $randomNumber; // add random number to disable browser's autocomplete
     }
 
     if ($this->_isCheckboxOrRadio) {

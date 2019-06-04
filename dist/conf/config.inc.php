@@ -25,5 +25,5 @@ try {
 }
 */
 
-// Option 2: External database connector (sets $db)
+// Option 2: External database connector (needs to set $db)
 include 'dbConnect.inc.php';

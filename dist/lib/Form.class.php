@@ -19,7 +19,7 @@ class Form {
       'emailSubject' => 'Form submitted',
       'meta' => [
         'browser' => false,
-        'datetime' => true,
+        'datetime' => false,
         'ip' => false
       ],
       'submitButtonText' => 'Submit',
@@ -204,6 +204,8 @@ class Form {
    * @return $meta {Array}
    */
   private function _getMetaFieldValues () {
+    $meta = [];
+
     if ($this->meta['browser']) {
       $meta['browser'] = $_SERVER['HTTP_USER_AGENT'];
     }

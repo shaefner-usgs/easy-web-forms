@@ -235,7 +235,7 @@ class Form {
   }
 
   /**
-   * Create an array and html description list containing values entered by user
+   * Create an array (for MySQL) and HTML desc. list containing values entered by user
    *
    * If validation passes, insert record into database and email results to admin
    */
@@ -252,27 +252,27 @@ class Form {
       }
 
       if (count($controls) > 1) { // radio/checkbox group
-        $prettyValues = [];
+        $displayValues = [];
         $sqlValue = $control->value; // get value from first control in group
         foreach ($controls as $ctrl) {
           if ($ctrl->isChecked()) {
-            $prettyValues[] = $ctrl->label;
+            $displayValues[] = $ctrl->label;
           }
         }
-        $prettyValue = implode(', ', $prettyValues);
+        $displayValue = implode(', ', $displayValues);
       } else { // single control
         if ($control->type === 'select') { // select menu
-          $prettyValue = $control->options[$control->value];
+          $displayValue = $control->options[$control->value];
           $sqlValue = $control->value;
         } else { // everything else
-          $prettyValue = $sqlValue = $control->value;
+          $displayValue = $sqlValue = $control->value;
         }
       }
 
       $sqlValues[$key] = $sqlValue;
       if ($control->type !== 'hidden') { // don't include hidden fields in results summary
         $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
-        $this->_results .= '<dd>' . htmlentities(stripslashes($prettyValue)) . '</dd>';
+        $this->_results .= '<dd>' . htmlentities(stripslashes($displayValue)) . '</dd>';
       }
     }
     $this->_results .= '</dl>';

@@ -84,13 +84,13 @@ Both client- and server-side validation are performed automatically, based on st
 * pattern (some `<input>` types)
 * required (`<input>`, `<textarea>`, `<select>`)
 
-In addition, some `<input>` types have automatic validation built-in:
+In addition, some `<input>` types have automatic pattern validation built-in, using a simple RegExp to validate user input:
 
 * email
 * number
 * url
 
-These types all use a simple RegExp to validate user input.
+To override built-in pattern matching, set a custom pattern attribute when you create an `<input>`.
 
 # API Documentation
 

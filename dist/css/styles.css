@@ -1123,6 +1123,8 @@ section.form {
     padding: 0.375em 0.75em; }
   section.form .control {
     display: flex; }
+    section.form .control:first-of-type {
+      margin-top: .75em; }
     section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse;
       /* display labels before controls */ }
@@ -1214,6 +1216,7 @@ p.alert, p.error, p.success {
   border-radius: 0.25rem;
   color: #17a2b8;
   line-height: 1;
+  margin: 1em 0 1.75em 0;
   padding: 1em .75em;
   padding-left: 35px; }
 

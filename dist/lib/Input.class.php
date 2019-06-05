@@ -74,23 +74,7 @@ class Input {
     }
 
     $this->_checkParams($params);
-
-    // Cache instantiated/submitted values and set value prop depending on state
-    $this->_instantiatedValue = $this->value;
-    if (isSet($_POST['submitbutton'])) {
-      if ($this->type === 'address') {
-        // 'Fish' for input (random string appended to name to disable autocomplete)
-        $pattern = '/^' . $this->name . '\d{5}$/';
-        foreach($_POST as $key => $value) {
-          if (preg_match($pattern, $key)) { // found match
-            $this->_submittedValue = safeParam($key);
-          }
-        }
-      } else {
-        $this->_submittedValue = safeParam($this->name);
-      }
-      $this->value = $this->_submittedValue; // set to user-supplied value when posting
-    }
+    $this->_setValue();
   }
 
   /**
@@ -242,6 +226,27 @@ class Input {
       if ($params['type'] === 'url') {
         $this->_defaults['description'] = 'Include &ldquo;http://&rdquo; or &ldquo;https://&rdquo;';
       }
+    }
+  }
+
+  /**
+   * Cache instantiated/submitted values and set value prop depending on state
+   */
+  private function _setValue () {
+    $this->_instantiatedValue = $this->value;
+    if (isSet($_POST['submitbutton'])) {
+      if ($this->type === 'address') {
+        // 'Fish' for submitted address input (random string appended to name)
+        $pattern = '/^' . $this->name . '\d{5}$/';
+        foreach($_POST as $key => $value) {
+          if (preg_match($pattern, $key)) { // found match
+            $this->_submittedValue = safeParam($key);
+          }
+        }
+      } else {
+        $this->_submittedValue = safeParam($this->name);
+      }
+      $this->value = $this->_submittedValue; // set to user-supplied value when posting
     }
   }
 

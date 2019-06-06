@@ -26,22 +26,14 @@ var MapQuestPlaceSearch = function (options) {
   _initAddressFields = function () {
     var addressField,
         addressInputs,
+        callback,
         coords,
-        css,
-        hasAddressFields,
-        js;
+        hasAddressFields;
 
     addressInputs = _form.querySelectorAll('input[data-type="address"]');
-    if (addressInputs.length > 0) { // add library's css and js to DOM; set up listeners
-      css = document.createElement('link');
-      css.href = 'https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css';
-      css.rel = 'stylesheet';
-      css.type = 'text/css';
-      document.head.appendChild(css);
 
-      js = document.createElement('script');
-      js.src = 'https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js';
-      js.onload = function () { // initialize PlaceSearch after script is loaded
+    if (addressInputs.length > 0) { // add library's css and js to DOM; set up listeners
+      callback = function () { // initializes PlaceSearch after script is added
         addressInputs.forEach(function(input, index) {
           addressField = placeSearch({
             key: MAPQUESTKEY,
@@ -61,7 +53,9 @@ var MapQuestPlaceSearch = function (options) {
           }
         });
       };
-      document.head.appendChild(js);
+
+      Util.addJsFile('https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js', callback);
+      Util.addCssFile('https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css');
     }
   };
 
@@ -332,37 +326,80 @@ var Validator = function (options) {
 };
 
 
-/**
- * Polyfill for Element.closest()
+/*
+ * Utility functions and initialization code follow
+ * -----------------------------------------------------------------------------
  */
-if (!Element.prototype.matches) {
-  Element.prototype.matches = Element.prototype.msMatchesSelector ||
-    Element.prototype.webkitMatchesSelector;
-}
+var Util = function () {
+};
 
-if (!Element.prototype.closest) {
-  Element.prototype.closest = function(s) {
-    var el = this;
-    if (!document.documentElement.contains(el)) {
-      return null;
-    }
-    do {
-      if (el.matches(s)) {
-        return el;
+/**
+ * Add a new CSS file to the DOM
+ *
+ * @param file {String}
+ */
+Util.addCssFile = function (file) {
+  var css;
+
+  css = document.createElement('link');
+  css.href = file;
+  css.rel = 'stylesheet';
+  css.type = 'text/css';
+
+  document.head.appendChild(css);
+};
+
+/**
+* Add a new JS file to the DOM
+*
+* @param file {String}
+* @param callback {Function}
+*/
+Util.addJsFile = function (file, callback) {
+  var js;
+
+  js = document.createElement('script');
+  js.onload = callback;
+  js.src = file;
+
+  document.head.appendChild(js);
+};
+
+/**
+ * Add Polyfills for Element.closest()
+ */
+Util.addPolyfills = function () {
+  if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector ||
+      Element.prototype.webkitMatchesSelector;
+  }
+
+  if (!Element.prototype.closest) {
+    Element.prototype.closest = function(s) {
+      var el = this;
+      if (!document.documentElement.contains(el)) {
+        return null;
       }
-      el = el.parentElement || el.parentNode;
-    } while (el !== null && el.nodeType === 1);
-    return null;
-  };
-}
+      do {
+        if (el.matches(s)) {
+          return el;
+        }
+        el = el.parentElement || el.parentNode;
+      } while (el !== null && el.nodeType === 1);
+      return null;
+    };
+  }
+};
 
-
+// Initialize
 document.addEventListener('DOMContentLoaded', function() {
   var form = document.querySelector('section.form form');
 
+  Util.addPolyfills();
+
   MapQuestPlaceSearch({
     form: form
-  })
+  });
   Validator({
     form: form
   });

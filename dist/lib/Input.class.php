@@ -8,6 +8,7 @@
  *
  *       checked {Boolean}
  *       disabled {Boolean}
+ *       flatpickrOptions {Array}
  *       id {String} - REQUIRED for all radio/checkbox inputs
  *       inputmode {String}
  *       max {Integer}
@@ -35,6 +36,7 @@ class Input {
       'class' => '',
       'description' => '',
       'disabled' => false,
+      'flatpickrOptions' => [],
       'id' => '',
       'inputmode' => '',
       'label' => '',
@@ -51,10 +53,12 @@ class Input {
       'type' => 'text',
       'value' => ''
     ],
+    $_flatpickrIndex,
     $_instantiatedValue,
     $_isCheckboxOrRadio = false,
     $_submittedValue;
 
+  private static $_numDatetimeFields = 0;
   public $isValid = true;
 
   public function __construct (Array $params=[]) {
@@ -71,6 +75,11 @@ class Input {
       if (array_key_exists($key, $this->_defaults)) {
         $this->$key = $value;
       }
+    }
+
+    if ($this->type === 'datetime') {
+      self::$_numDatetimeFields ++;
+      $this->_flatpickrIndex = self::$_numDatetimeFields - 1; // want 0-based index
     }
 
     $this->_checkParams($params);
@@ -153,6 +162,9 @@ class Input {
 
     if ($this->type === 'address') {
       $attrs .= ' data-type="address"';
+    }
+    if ($this->type === 'datetime') {
+      $attrs .= ' data-type="datetime"';
     }
     if ($this->type === 'number') {
       $attrs .= sprintf(' max="%s" min="%s"',
@@ -261,9 +273,12 @@ class Input {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
 
-    // Create note about req'd number of chars. if applicable
     $maxLength = intval($this->maxlength);
     $minLength = intval($this->minlength);
+    $name = $this->name;
+    $type = $this->type;
+
+    // Create note about req'd number of chars. if applicable
     $msgLength = '';
     if ($minLength && $maxLength) {
       $msgLength = "$minLength&ndash;$maxLength characters";
@@ -284,7 +299,7 @@ class Input {
       $this->label
     );
 
-    // Substitute values in mustache template
+    // Substitute values for mustache placeholders
     $message = preg_replace('/{{(label|name)}}/', strtoupper($this->label), $this->message);
 
     // If no custom message was set, append min/max-length requirements
@@ -292,18 +307,18 @@ class Input {
       $message .= " ($msgLength)";
     }
 
-    $name = $this->name;
-    $type = $this->type;
     if ($type === 'checkbox') {
       $name .= '[]'; // set name to type Array for checkbox values
     } else if ($type === 'address') {
       $randomNumber = sprintf("%05d", mt_rand(1, 99999));
       $type = 'search'; // set type to 'search' for MapQuest PlaceSearch.js
       $name .= $randomNumber; // add random number to disable browser's autocomplete
+    } else if ($type === 'datetime') {
+      $type = 'text'; // set type to text for flatpickr
     }
 
     if ($this->_isCheckboxOrRadio) {
-      $info = '';
+      $info = ''; // message / description set via Form's addGroup() method
       // Wrap label in div elem for pretty checkbox library
       $label = sprintf('<div class="state p-primary-o">%s</div>', $label);
       $value = $this->_instantiatedValue; // always use instantiated value for checkbox/radio
@@ -323,16 +338,31 @@ class Input {
       $attrs
     );
 
-    $html = sprintf('<div class="%s">%s%s%s</div>',
-      implode(' ', $cssClasses),
-      $info,
-      $input,
-      $label
-    );
-
-    // Only include input tag for hidden fields
     if ($this->type === 'hidden') {
-      $html = $input;
+      $html = $input; // only include input tag for hidden fields
+    } else {
+      $html = sprintf('<div class="%s">%s%s%s</div>',
+        implode(' ', $cssClasses),
+        $info,
+        $input,
+        $label
+      );
+
+      // set inline .js var with flatpickr options
+      if ($this->type === 'datetime') {
+        $varInit = '';
+        if ($this->_flatpickrIndex === 0) {
+          $varInit = 'var flatpickrOptions = [];';
+        }
+        $html .= sprintf('<script>
+            %s
+            flatpickrOptions[%d] = %s;
+          </script>',
+          $varInit,
+          $this->_flatpickrIndex,
+          json_encode($this->flatpickrOptions)
+        );
+      }
     }
 
     return $html;

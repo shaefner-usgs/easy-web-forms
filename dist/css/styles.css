@@ -1069,19 +1069,21 @@ section.form {
     margin: 0;
     outline: none;
     transition: all 0.25s ease-in-out; }
-    section.form input:not([type="submit"]):focus,
+    section.form input:not([type="submit"]):focus, section.form input:not([type="submit"]).active,
     section.form textarea:focus,
-    section.form .custom-select:focus {
+    section.form textarea.active,
+    section.form .custom-select:focus,
+    section.form .custom-select.active {
       border: 1px solid #007bff;
       box-shadow: 0 0 3px #007bff; }
   section.form input:not([type="submit"]) {
     line-height: 1;
     padding: 9px; }
-  section.form input[disabled="disabled"],
-  section.form input[readonly="readonly"],
-  section.form textarea[disabled="disabled"],
-  section.form textarea[readonly="readonly"],
-  section.form .custom-select[disabled="disabled"] {
+  section.form input[disabled]:not(.flatpickr-input),
+  section.form input[readonly]:not(.flatpickr-input),
+  section.form textarea[disabled]:not(.flatpickr-input),
+  section.form textarea[readonly]:not(.flatpickr-input),
+  section.form .custom-select[disabled]:not(.flatpickr-input) {
     background: #e9ecef;
     color: #6c757d;
     cursor: not-allowed;
@@ -1231,5 +1233,9 @@ p.success {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='8' height='8' viewBox='0 0 8 8'%3E %3Cpath d='M0 0v7h7v-3.594l-1 1v1.594h-5v-5h3.594l1-1h-5.594zm7 0l-3 3-1-1-1 1 2 2 4-4-1-1z' fill='#28a745'/%3E%3C/svg%3E");
   border-color: #28a745;
   color: #28a745; }
+
+.dayContainer .flatpickr-day.selected, .dayContainer .flatpickr-day.selected:hover {
+  background: #007bff;
+  border-color: #007bff; }
 
 /*# sourceMappingURL=styles.css.map */

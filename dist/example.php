@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="css/styles.css" />
+    <title>Example</title>
   </head>
   <body>
 
@@ -31,6 +32,23 @@ $address = new Input([
   'type' => 'address',
   'label' => 'Delivery Address',
   'name' => 'address',
+  'required' => true
+]);
+$datetime = new Input([
+  'type' => 'datetime',
+  'label' => 'Delivery Time',
+  'name' => 'datetime',
+  'flatpickrOptions' => [
+    //'allowInput' => true,
+    //'altFormat' => 'F j, Y at h:i K',
+    //'altInput' => true,
+    'dateFormat' => 'Y-m-d H:i:00',
+    'defaultHour' => 10,
+    'defaultMinute' => 30,
+    'enableTime' => true,
+    'minDate' => 'today',
+    'minuteIncrement' => 15
+  ],
   'required' => true
 ]);
 $crust = new Select([
@@ -104,6 +122,7 @@ $form = new Form([
 $form->addControl($name);
 $form->addControl($email);
 $form->addControl($address);
+$form->addControl($datetime);
 $form->addControl($crust);
 $form->addGroup([
   'controls' => [

@@ -41,7 +41,7 @@ section.form {
     outline: none;
     transition: all 0.25s ease-in-out;
 
-    &:focus {
+    &:focus, &.active {
       border: 1px solid $primary;
       box-shadow: 0 0 3px $primary;
     }
@@ -52,17 +52,19 @@ section.form {
     padding: 9px;
   }
 
-  input[disabled="disabled"],
-  input[readonly="readonly"],
-  textarea[disabled="disabled"],
-  textarea[readonly="readonly"],
-  .custom-select[disabled="disabled"] {
-    background: $custom-select-disabled-bg;
-    color: $custom-select-disabled-color;
-    cursor: not-allowed;
-    // https://stackoverflow.com/questions/262158/disabled-input-text-color
-    -webkit-text-fill-color: $custom-select-disabled-color;
-    opacity: 1;
+  input[disabled],
+  input[readonly],
+  textarea[disabled],
+  textarea[readonly],
+  .custom-select[disabled] {
+    &:not(.flatpickr-input) { // flatpickr API adds readonly attr but allows changing
+      background: $custom-select-disabled-bg;
+      color: $custom-select-disabled-color;
+      cursor: not-allowed;
+      // https://stackoverflow.com/questions/262158/disabled-input-text-color
+      -webkit-text-fill-color: $custom-select-disabled-color;
+      opacity: 1;
+    }
   }
 
   input[type="search"],
@@ -272,4 +274,10 @@ p.success {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='8' height='8' viewBox='0 0 8 8'%3E %3Cpath d='M0 0v7h7v-3.594l-1 1v1.594h-5v-5h3.594l1-1h-5.594zm7 0l-3 3-1-1-1 1 2 2 4-4-1-1z' fill='#{$success}'/%3E%3C/svg%3E");
   border-color: $success;
   color: $success;
+}
+
+// Flatpickr overrides
+.dayContainer .flatpickr-day.selected, .dayContainer .flatpickr-day.selected:hover {
+  background: $primary;
+  border-color: $primary;
 }

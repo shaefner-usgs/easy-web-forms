@@ -1,6 +1,53 @@
 'use strict';
 
 
+var Flatpickr = function (options) {
+  var _this,
+      _initialize,
+
+      _form,
+
+      _initFlatpickrFields;
+
+  _this = {};
+
+  _initialize = function (options) {
+    _form = options.form;
+
+    if (_form) {
+      _initFlatpickrFields();
+    }
+  };
+
+  /**
+   * Set up 3rd-party Flatpickr datetime picker
+   */
+  _initFlatpickrFields = function () {
+    var callback,
+        inputs,
+        options;
+
+    inputs = _form.querySelectorAll('input[data-type="datetime"]');
+
+    if (inputs.length > 0) {
+      callback = function () { // initializes flatpickr after script is added
+        inputs.forEach(function(input, index) {
+          options = flatpickrOptions[index];
+          flatpickr(input, options);
+        });
+      }
+
+      Util.addCssFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
+      Util.addJsFile('https://cdn.jsdelivr.net/npm/flatpickr', callback);
+    }
+  };
+
+  _initialize(options);
+  options = null;
+  return _this;
+}
+
+
 var MapQuestPlaceSearch = function (options) {
   var _this,
       _initialize,
@@ -25,16 +72,16 @@ var MapQuestPlaceSearch = function (options) {
    */
   _initAddressFields = function () {
     var addressField,
-        addressInputs,
         callback,
         coords,
-        hasAddressFields;
+        hasAddressFields,
+        inputs;
 
-    addressInputs = _form.querySelectorAll('input[data-type="address"]');
+    inputs = _form.querySelectorAll('input[data-type="address"]');
 
-    if (addressInputs.length > 0) { // add library's css and js to DOM; set up listeners
+    if (inputs.length > 0) { // add library's css and js to DOM; set up listeners
       callback = function () { // initializes PlaceSearch after script is added
-        addressInputs.forEach(function(input, index) {
+        inputs.forEach(function(input, index) {
           addressField = placeSearch({
             key: MAPQUESTKEY,
             container: input,
@@ -54,8 +101,8 @@ var MapQuestPlaceSearch = function (options) {
         });
       };
 
-      Util.addJsFile('https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js', callback);
       Util.addCssFile('https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css');
+      Util.addJsFile('https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js', callback);
     }
   };
 
@@ -326,12 +373,10 @@ var Validator = function (options) {
 };
 
 
-/*
- * Utility functions and initialization code follow
- * -----------------------------------------------------------------------------
- */
-var Util = function () {
-};
+/* Utility functions and initialization code follow
+----------------------------------------------------------------------------- */
+
+var Util = {};
 
 /**
  * Add a new CSS file to the DOM
@@ -355,11 +400,11 @@ Util.addCssFile = function (file) {
 * @param file {String}
 * @param callback {Function}
 */
-Util.addJsFile = function (file, callback) {
+Util.addJsFile = function (file, cb) {
   var js;
 
   js = document.createElement('script');
-  js.onload = callback;
+  js.onload = cb;
   js.src = file;
 
   document.head.appendChild(js);
@@ -397,6 +442,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   Util.addPolyfills();
 
+  Flatpickr({
+    form: form
+  });
   MapQuestPlaceSearch({
     form: form
   });

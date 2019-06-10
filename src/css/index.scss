@@ -41,7 +41,8 @@ section.form {
     outline: none;
     transition: all 0.25s ease-in-out;
 
-    &:focus, &.active {
+    &:focus,
+    &.active { // persist flatpickr field's focused state when interacting with widget
       border: 1px solid $primary;
       box-shadow: 0 0 3px $primary;
     }
@@ -166,6 +167,11 @@ section.form {
       }
     }
 
+    .active { // override focus styles (blue) for invalid flatpickr fields (red)
+      border-color: $danger;
+      box-shadow: 0 0 3px $danger !important;
+    }
+
     .custom-select {
       border: 1px solid $danger;
 
@@ -276,8 +282,9 @@ p.success {
   color: $success;
 }
 
-// Flatpickr overrides
-.dayContainer .flatpickr-day.selected, .dayContainer .flatpickr-day.selected:hover {
+// Flatpickr overrides for selected day
+.dayContainer .flatpickr-day.selected,
+.dayContainer .flatpickr-day.selected:hover {
   background: $primary;
   border-color: $primary;
 }

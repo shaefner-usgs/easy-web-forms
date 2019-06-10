@@ -1160,6 +1160,9 @@ section.form {
     section.form .invalid input:not([type="submit"]):focus,
     section.form .invalid textarea:focus {
       box-shadow: 0 0 3px #dc3545; }
+  section.form .invalid .active {
+    border-color: #dc3545;
+    box-shadow: 0 0 3px #dc3545 !important; }
   section.form .invalid .custom-select {
     border: 1px solid #dc3545; }
     section.form .invalid .custom-select:focus {
@@ -1234,7 +1237,8 @@ p.success {
   border-color: #28a745;
   color: #28a745; }
 
-.dayContainer .flatpickr-day.selected, .dayContainer .flatpickr-day.selected:hover {
+.dayContainer .flatpickr-day.selected,
+.dayContainer .flatpickr-day.selected:hover {
   background: #007bff;
   border-color: #007bff; }
 

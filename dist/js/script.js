@@ -33,6 +33,14 @@ var Flatpickr = function (options) {
       callback = function () { // initializes flatpickr after script is added
         inputs.forEach(function(input, index) {
           options = flatpickrOptions[index];
+
+          // Add options for indicating on control elem when calendar is open
+          options.onClose = function () {
+            input.closest('.control').classList.remove('open');
+          };
+          options.onOpen = function () {
+            input.closest('.control').classList.add('open');
+          };
           flatpickr(input, options);
         });
       }

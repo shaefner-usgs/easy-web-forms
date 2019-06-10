@@ -153,7 +153,7 @@ section.form {
     }
   }
 
-  .invalid {
+  .invalid:not(.open) {
     > label,
     legend {
       color: $danger !important;
@@ -282,9 +282,62 @@ p.success {
   color: $success;
 }
 
-// Flatpickr overrides for selected day
+// Flatpickr overrides
+
+// Set selected day to use same $primary color as form controls (for consistency)
 .dayContainer .flatpickr-day.selected,
 .dayContainer .flatpickr-day.selected:hover {
   background: $primary;
   border-color: $primary;
+}
+
+body {
+  // Use the same border styles as form controls for datetime widget
+  .flatpickr-calendar {
+    @include fonts;
+
+    border: 1px solid $primary;
+    box-shadow: 0 0 3px $primary;
+
+    &.arrowBottom:before {
+      border-top-color: $primary;
+    }
+    &.arrowTop:before {
+      border-bottom-color: $primary;
+    }
+  }
+
+  // Display tweaks
+  .flatpickr-current-month .flatpickr-monthDropdown-months {
+    height: 29px;
+  }
+
+  .flatpickr-months {
+    margin-bottom: 10px;
+
+    .flatpickr-month {
+      height: 35px;
+    }
+
+    // Set hover color for prev/next month arrows
+    .flatpickr-prev-month:hover svg,
+    .flatpickr-next-month:hover svg {
+      fill: $primary;
+    }
+  }
+
+  .flatpickr-time {
+    line-height: 39px;
+
+    .flatpickr-am-pm, .flatpickr-hour, .flatpickr-minute {
+      font-size: 1rem;
+    }
+    .flatpickr-am-pm {
+      border-radius: 0 0 5px 0;
+    }
+    .flatpickr-hour {
+      border-radius: 0 0 0 7px;
+      font-weight: normal !important;
+    }
+  }
 }

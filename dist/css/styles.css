@@ -1151,29 +1151,29 @@ section.form {
     section.form .group .checkbox,
     section.form .group .radio {
       margin: 5px 1em 5px 0; }
-  section.form .invalid > label,
-  section.form .invalid legend {
+  section.form .invalid:not(.open) > label,
+  section.form .invalid:not(.open) legend {
     color: #dc3545 !important; }
-  section.form .invalid input:not([type="submit"]),
-  section.form .invalid textarea {
+  section.form .invalid:not(.open) input:not([type="submit"]),
+  section.form .invalid:not(.open) textarea {
     border: 1px solid #dc3545; }
-    section.form .invalid input:not([type="submit"]):focus,
-    section.form .invalid textarea:focus {
+    section.form .invalid:not(.open) input:not([type="submit"]):focus,
+    section.form .invalid:not(.open) textarea:focus {
       box-shadow: 0 0 3px #dc3545; }
-  section.form .invalid .active {
+  section.form .invalid:not(.open) .active {
     border-color: #dc3545;
     box-shadow: 0 0 3px #dc3545 !important; }
-  section.form .invalid .custom-select {
+  section.form .invalid:not(.open) .custom-select {
     border: 1px solid #dc3545; }
-    section.form .invalid .custom-select:focus {
+    section.form .invalid:not(.open) .custom-select:focus {
       box-shadow: 0 0 3px #dc3545; }
-  section.form .invalid .description:before {
+  section.form .invalid:not(.open) .description:before {
     content: attr(data-message);
     color: #dc3545;
     display: block; }
-  section.form .invalid .pretty input:focus ~ .state.p-primary-o label:before {
+  section.form .invalid:not(.open) .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #dc3545; }
-  section.form .invalid .pretty label:before {
+  section.form .invalid:not(.open) .pretty label:before {
     border-color: #dc3545; }
   section.form .mq-input {
     height: auto;
@@ -1241,5 +1241,35 @@ p.success {
 .dayContainer .flatpickr-day.selected:hover {
   background: #007bff;
   border-color: #007bff; }
+
+body .flatpickr-calendar {
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 16px;
+  line-height: 1.4;
+  border: 1px solid #007bff;
+  box-shadow: 0 0 3px #007bff; }
+  body .flatpickr-calendar.arrowBottom:before {
+    border-top-color: #007bff; }
+  body .flatpickr-calendar.arrowTop:before {
+    border-bottom-color: #007bff; }
+body .flatpickr-current-month .flatpickr-monthDropdown-months {
+  height: 29px; }
+body .flatpickr-months {
+  margin-bottom: 10px; }
+  body .flatpickr-months .flatpickr-month {
+    height: 35px; }
+  body .flatpickr-months .flatpickr-prev-month:hover svg,
+  body .flatpickr-months .flatpickr-next-month:hover svg {
+    fill: #007bff; }
+body .flatpickr-time {
+  line-height: 39px; }
+  body .flatpickr-time .flatpickr-am-pm, body .flatpickr-time .flatpickr-hour, body .flatpickr-time .flatpickr-minute {
+    font-size: 1rem; }
+  body .flatpickr-time .flatpickr-am-pm {
+    border-radius: 0 0 5px 0; }
+  body .flatpickr-time .flatpickr-hour {
+    border-radius: 0 0 0 7px;
+    font-weight: normal !important; }
 
 /*# sourceMappingURL=styles.css.map */

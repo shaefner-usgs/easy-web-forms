@@ -8,7 +8,6 @@
  *
  *       checked {Boolean}
  *       disabled {Boolean}
- *       flatpickrOptions {Array}
  *       id {String} - REQUIRED for all radio/checkbox inputs
  *       inputmode {String}
  *       max {Integer}
@@ -27,6 +26,7 @@
  *
  *       class {String}
  *       description {String} - explanatory text displayed next to form control
+ *       flatpickrOptions {Array} - flatpickr datetime picker lib
  *       label {String} - label element for control
  *       message {String} - instructions displayed for invalid form control
  */
@@ -56,6 +56,9 @@ class Input {
     $_flatpickrIndex,
     $_instantiatedValue,
     $_isCheckboxOrRadio = false,
+    $_jsonOptions = [],
+    $_jsonPlaceholders = [],
+    $_jsonValues = [],
     $_submittedValue;
 
   private static $_numDatetimeFields = 0;
@@ -126,6 +129,26 @@ class Input {
         $this->label = ucfirst($this->value);
       }
     }
+  }
+
+  /**
+   * php's json_encode with support for javascript functions passed as strings
+   *
+   * @param $opts {Array}
+   *
+   * @return $json {String}
+   */
+  private function _encode ($opts) {
+    $this->_jsonOptions = $opts;
+
+    foreach ($this->_jsonOptions as $key => $value) {
+      $this->_replaceFunctions($key, $value);
+    }
+
+    $json = json_encode($this->_jsonOptions);
+    $json = str_replace($this->_jsonPlaceholders, $this->_jsonValues, $json);
+
+    return $json;
   }
 
   /**
@@ -238,6 +261,31 @@ class Input {
       if ($params['type'] === 'url') {
         $this->_defaults['description'] = 'Include &ldquo;http://&rdquo; or &ldquo;https://&rdquo;';
       }
+    }
+  }
+
+  /**
+   * Replace javascript functions with a placeholder, and store placeholder
+   *   keys/original values for later substitution after using json_encode()
+   *
+   * @param $key {String}
+   * @param $value {Mixed}
+   */
+  private function _replaceFunctions ($key, $value) {
+    $pattern = '/function\s*\(.*\)\s*\{.*\}/s';
+
+    // Flatten arrays into a string (including the array literal brackets)
+    $jsonValue = $value;
+    if (is_array($value)) {
+      $value = implode(',', $value);
+      $jsonValue = "[$value]";
+    }
+
+    if (preg_match($pattern, $value)) {
+      $placeholder = '{{' . $key . '}}';
+      $this->_jsonOptions[$key] = $placeholder;
+      $this->_jsonPlaceholders[] = '"' . $placeholder . '"';
+      $this->_jsonValues[] = $jsonValue;
     }
   }
 
@@ -360,7 +408,7 @@ class Input {
           </script>',
           $varInit,
           $this->_flatpickrIndex,
-          json_encode($this->flatpickrOptions)
+          $this->_encode($this->flatpickrOptions)
         );
       }
     }

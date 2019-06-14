@@ -24,6 +24,7 @@ var Flatpickr = function (options) {
    */
   _initFlatpickrFields = function () {
     var callback,
+        initOptions,
         inputs,
         options;
 
@@ -32,15 +33,19 @@ var Flatpickr = function (options) {
     if (inputs.length > 0) {
       callback = function () { // initializes flatpickr after script is added
         inputs.forEach(function(input, index) {
+          initOptions = 'initFlatpickrOptions' + index;
+          window[initOptions]();
           options = flatpickrOptions[index];
 
-          // Add options for indicating on control elem when calendar is open
+          // Add class for highlighting form control when calendar is open
           options.onClose = function () {
             input.closest('.control').classList.remove('open');
           };
           options.onOpen = function () {
             input.closest('.control').classList.add('open');
           };
+
+          // Create flatpickr instance
           flatpickr(input, options);
         });
       }

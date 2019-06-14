@@ -410,9 +410,12 @@ class Input {
         }
         $html .= sprintf('<script>
             %s
-            flatpickrOptions[%d] = %s;
+            function initFlatpickrOptions%d() {
+              flatpickrOptions[%d] = %s;
+            }
           </script>',
           $varInit,
+          $this->_flatpickrIndex,
           $this->_flatpickrIndex,
           $this->_encode($this->flatpickrOptions)
         );

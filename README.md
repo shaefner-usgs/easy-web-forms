@@ -73,7 +73,13 @@ PHP and MySQL
 
 See [example.php](dist/example.php) for additional details.
 
-You will also need to create a MySQL table with field names that correspond to the name attribute of each form control/group. Additional fields are needed to store optional metadata for each record if configured: 'datetime' (Type DATETIME), 'ip' (Type VARCHAR) and browser (Type VARCHAR). No metadata fields are set to be included by default. An auto-incrementing 'id' field is recommended.
+You will also need to create a MySQL table with field names that correspond to the name attribute of each form control/group. Additional fields are needed to store optional metadata for each record if configured:
+
+* 'datetime' (Type DATETIME)
+* 'ip' (Type VARCHAR)
+* 'browser' (Type VARCHAR)
+
+No metadata fields will be included by default. An auto-incrementing 'id' field is recommended.
 
 ## Validation
 
@@ -96,7 +102,7 @@ To override built-in pattern matching, set a custom pattern attribute when you c
 
 ### Form
 
-Used to create an HTML `<form>` including the back-end PHP routines to process and post the form data in MySQL.
+Used to create an HTML `<form>`. Back-end routines to process and post the form data in MySQL are configured automatically.
 
 #### Usage example
 

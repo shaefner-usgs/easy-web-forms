@@ -197,6 +197,11 @@ section.form {
   }
 
   // Override built-in styles for MapQuest PlaceSearch
+  .mq-dropdown-menu {
+    border: 1px solid $primary;
+    border-radius: $border-radius;
+    box-shadow: 0 0 3px $primary;
+  }
   .mq-input {
     height: auto;
     padding-right: 30px !important; // make room for 'X' button
@@ -297,6 +302,7 @@ body {
     @include fonts;
 
     border: 1px solid $primary;
+    border-radius: $border-radius;
     box-shadow: 0 0 3px $primary;
 
     &.arrowBottom:before {

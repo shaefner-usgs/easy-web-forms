@@ -1175,6 +1175,10 @@ section.form {
     box-shadow: 0 0 3px #dc3545; }
   section.form .invalid:not(.open) .pretty label:before {
     border-color: #dc3545; }
+  section.form .mq-dropdown-menu {
+    border: 1px solid #007bff;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 3px #007bff; }
   section.form .mq-input {
     height: auto;
     padding-right: 30px !important; }
@@ -1248,6 +1252,7 @@ body .flatpickr-calendar {
   font-size: 16px;
   line-height: 1.4;
   border: 1px solid #007bff;
+  border-radius: 0.25rem;
   box-shadow: 0 0 3px #007bff; }
   body .flatpickr-calendar.arrowBottom:before {
     border-top-color: #007bff; }

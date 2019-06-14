@@ -145,7 +145,7 @@ class Input {
       $this->_replaceExpressions($key, $value);
     }
 
-    $json = json_encode($this->_jsonOptions);
+    $json = json_encode($this->_jsonOptions, JSON_FORCE_OBJECT);
     $json = str_replace($this->_jsonPlaceholders, $this->_jsonValues, $json);
 
     return $json;

@@ -132,7 +132,7 @@ class Input {
   }
 
   /**
-   * php's json_encode with support for javascript functions passed as strings
+   * php's json_encode with support for javascript expressions passed as strings
    *
    * @param $opts {Array}
    *
@@ -142,7 +142,7 @@ class Input {
     $this->_jsonOptions = $opts;
 
     foreach ($this->_jsonOptions as $key => $value) {
-      $this->_replaceFunctions($key, $value);
+      $this->_replaceExpressions($key, $value);
     }
 
     $json = json_encode($this->_jsonOptions);
@@ -265,27 +265,33 @@ class Input {
   }
 
   /**
-   * Replace javascript functions with a placeholder, and store placeholder
+   * Replace javascript expressions with a placeholder, and store placeholder
    *   keys/original values for later substitution after using json_encode()
    *
    * @param $key {String}
    * @param $value {Mixed}
    */
-  private function _replaceFunctions ($key, $value) {
-    $pattern = '/function\s*\(.*\)\s*\{.*\}/s';
+  private function _replaceExpressions ($key, $value) {
+    $patterns = [
+      '/new\s+Date\([^)]*\)/s', // dates
+      '/function\s*\(.*\)\s*\{.*\}/s', // functions
+      '/document\.querySelector\s*\(.*\)/' // elements
+    ];
 
-    // Flatten arrays into a string (including the array literal brackets)
+    // Flatten arrays into a string (including the array brackets)
     $jsonValue = $value;
     if (is_array($value)) {
       $value = implode(',', $value);
       $jsonValue = "[$value]";
     }
 
-    if (preg_match($pattern, $value)) {
-      $placeholder = '{{' . $key . '}}';
-      $this->_jsonOptions[$key] = $placeholder;
-      $this->_jsonPlaceholders[] = '"' . $placeholder . '"';
-      $this->_jsonValues[] = $jsonValue;
+    foreach ($patterns as $pattern) {
+      if (preg_match($pattern, $value)) {
+        $placeholder = '{{' . $key . '}}';
+        $this->_jsonOptions[$key] = $placeholder;
+        $this->_jsonPlaceholders[] = '"' . $placeholder . '"';
+        $this->_jsonValues[] = $jsonValue;
+      }
     }
   }
 

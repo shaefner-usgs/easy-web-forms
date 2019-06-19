@@ -1048,13 +1048,12 @@ section.form {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 16px;
   line-height: 1.4; }
-  section.form input:not([type="submit"]),
-  section.form select,
-  section.form textarea {
-    color: #000;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 16px;
-    line-height: 1.4; }
+  section.form input[type="submit"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none; }
   section.form input:not([type="submit"]),
   section.form textarea,
   section.form .custom-select {
@@ -1063,6 +1062,10 @@ section.form {
     -ms-appearance: none;
     -o-appearance: none;
     appearance: none;
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 16px;
+    line-height: 1.4;
     border: 1px solid #dfdfdf;
     border-radius: 0.25rem;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
@@ -1079,27 +1082,20 @@ section.form {
   section.form input:not([type="submit"]) {
     line-height: 1;
     padding: 9px; }
-  section.form input[disabled]:not(.flatpickr-input),
-  section.form input[readonly]:not(.flatpickr-input),
-  section.form textarea[disabled]:not(.flatpickr-input),
-  section.form textarea[readonly]:not(.flatpickr-input),
-  section.form .custom-select[disabled]:not(.flatpickr-input) {
+  section.form textarea {
+    height: auto !important;
+    padding: 6px 9px;
+    resize: vertical; }
+  section.form div:not(.datetime) input[disabled],
+  section.form div:not(.datetime) input[readonly],
+  section.form div:not(.datetime) textarea[disabled],
+  section.form div:not(.datetime) textarea[readonly],
+  section.form div:not(.datetime) .custom-select[disabled] {
     background: #e9ecef;
     color: #6c757d;
     cursor: not-allowed;
     -webkit-text-fill-color: #6c757d;
     opacity: 1; }
-  section.form input[type="search"],
-  section.form input[type="submit"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    -o-appearance: none;
-    appearance: none; }
-  section.form textarea {
-    height: auto !important;
-    padding: 6px 9px;
-    resize: vertical; }
   section.form fieldset {
     border: 0;
     padding: 0; }
@@ -1128,8 +1124,7 @@ section.form {
     section.form .control:first-of-type {
       margin-top: .75em; }
     section.form .control:not(.checkbox):not(.radio) {
-      flex-direction: column-reverse;
-      /* display labels before controls */ }
+      flex-direction: column-reverse; }
       section.form .control:not(.checkbox):not(.radio) label {
         color: #555;
         font-size: .95em;
@@ -1175,23 +1170,8 @@ section.form {
     box-shadow: 0 0 3px #dc3545; }
   section.form .invalid:not(.open) .pretty label:before {
     border-color: #dc3545; }
-  section.form .mq-dropdown-menu {
-    border: 1px solid #007bff;
-    border-radius: 0.25rem;
-    box-shadow: 0 0 3px #007bff; }
-  section.form .mq-input {
-    height: auto;
-    padding-right: 30px !important; }
-  section.form .mq-input-icon {
-    right: 6px;
-    background-image: none !important;
-    box-shadow: none;
-    padding: 2px 6px; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
-  section.form .pretty label:before {
-    border-color: #cbcbcb;
-    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.05); }
   section.form .required + label:after,
   section.form .required legend:after,
   section.form :required + label:after {
@@ -1215,6 +1195,9 @@ section.results {
     padding: 0 0 .25em;
     text-transform: uppercase; }
 
+/* Alerts
+  - icons from: https://useiconic.com/open and http://www.entypo.com
+  - data uri syntax from: https://codepen.io/tigt/post/optimizing-svgs-in-data-uris */
 p.alert, p.error, p.success {
   background-color: rgba(23, 162, 184, 0.05);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='20' height='20' viewBox='0 0 20 20'%3E %3Cpath d='M10,0.4c-5.303,0-9.601,4.298-9.601,9.6c0,5.303,4.298,9.601,9.601,9.601c5.301,0,9.6-4.298,9.6-9.601 C19.6,4.698,15.301,0.4,10,0.4z M10.896,3.866c0.936,0,1.211,0.543,1.211,1.164c0,0.775-0.62,1.492-1.679,1.492 c-0.886,0-1.308-0.445-1.282-1.182C9.146,4.719,9.665,3.866,10.896,3.866z M8.498,15.75c-0.64,0-1.107-0.389-0.66-2.094l0.733-3.025 c0.127-0.484,0.148-0.678,0-0.678c-0.191,0-1.022,0.334-1.512,0.664L6.74,10.094c1.555-1.299,3.343-2.061,4.108-2.061 c0.64,0,0.746,0.756,0.427,1.92l-0.84,3.18c-0.149,0.562-0.085,0.756,0.064,0.756c0.192,0,0.82-0.232,1.438-0.719l0.362,0.486 C10.786,15.168,9.137,15.75,8.498,15.75z' fill='#17a2b8'/%3E %3C/svg%3E");
@@ -1241,6 +1224,8 @@ p.success {
   border-color: #28a745;
   color: #28a745; }
 
+/* Flatpickr overrides
+----------------------------------------------------------------------------- */
 .dayContainer .flatpickr-day.selected,
 .dayContainer .flatpickr-day.selected:hover {
   background: #007bff;
@@ -1274,7 +1259,30 @@ body .flatpickr-time {
   body .flatpickr-time .flatpickr-am-pm {
     border-radius: 0 0 5px 0; }
   body .flatpickr-time .flatpickr-hour {
-    border-radius: 0 0 0 7px;
+    border-radius: 0 0 0 5px;
     font-weight: normal !important; }
+
+/* MapQuest PlaceSearch overrides
+----------------------------------------------------------------------------- */
+.mq-dropdown-menu {
+  border: 1px solid #007bff;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 3px #007bff; }
+
+.mq-input {
+  height: auto !important;
+  padding-right: 30px !important; }
+
+.mq-input-icon {
+  right: 6px;
+  background-image: none !important;
+  box-shadow: none;
+  padding: 2px 6px; }
+
+/* Pretty-checkbox overrides
+----------------------------------------------------------------------------- */
+.pretty label:before {
+  border-color: #cbcbcb;
+  box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.05); }
 
 /*# sourceMappingURL=styles.css.map */

@@ -126,6 +126,10 @@ section.form {
     padding-left: 9px;
   }
 
+  .datetime input {
+    cursor: pointer; // use pointer for all datetime fields, incl. flatpickr altFormat
+  }
+
   .description {
     color: #777;
     font-size: .95em;

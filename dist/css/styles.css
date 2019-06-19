@@ -1134,6 +1134,8 @@ section.form {
         text-transform: uppercase; }
   section.form .custom-select {
     padding-left: 9px; }
+  section.form .datetime input {
+    cursor: pointer; }
   section.form .description {
     color: #777;
     font-size: .95em;

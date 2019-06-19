@@ -243,23 +243,37 @@ class Input {
    */
   private function _setDefaults ($params) {
     if (isSet($params['type'])) {
-      if ($params['type'] === 'email') {
-        $this->_defaults['pattern'] = '[^@]+@[^@]+\.[^@]+';
-      }
-      if ($params['type'] === 'number') {
-        $this->_defaults['pattern'] = '^[0-9.-]+$';
-      }
-      if ($params['type'] === 'url') {
-        $this->_defaults['pattern'] = '^(https?|ftp)://[^\s/$.?#].[^\s]*$';
-      }
-      if ($params['type'] === 'checkbox') {
+      $type = $params['type'];
+
+      $enableTime = isSet($params['flatpickrOptions']['enableTime']) &&
+        $params['flatpickrOptions']['enableTime'];
+      $noCalendar = isSet($params['flatpickrOptions']['noCalendar']) &&
+        $params['flatpickrOptions']['noCalendar'];
+
+      if ($type === 'checkbox') {
         $this->_defaults['message'] = 'Please select one or more options';
       }
-      if ($params['type'] === 'radio') {
+      else if ($type === 'datetime') {
+        $this->_defaults['pattern'] = '^\d{4}-\d{2}-\d{2}$';
+        if ($enableTime) {
+          $this->_defaults['pattern'] = '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$';
+          if ($noCalendar) {
+            $this->_defaults['pattern'] = '^\d{2}:\d{2}$';
+          }
+        }
+      }
+      else if ($type === 'email') {
+        $this->_defaults['pattern'] = '[^@]+@[^@]+\.[^@]+';
+      }
+      else if ($type === 'number') {
+        $this->_defaults['pattern'] = '^[0-9.-]+$';
+      }
+      else if ($type === 'radio') {
         $this->_defaults['message'] = 'Please select an option';
       }
-      if ($params['type'] === 'url') {
+      else if ($type === 'url') {
         $this->_defaults['description'] = 'Include &ldquo;http://&rdquo; or &ldquo;https://&rdquo;';
+        $this->_defaults['pattern'] = '^(https?|ftp)://[^\s/$.?#].[^\s]*$';
       }
     }
   }

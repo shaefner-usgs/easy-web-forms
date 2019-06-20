@@ -172,7 +172,11 @@ class Form {
       if (count($controls) > 1) { // radio/checkbox group
         $html .= $this->_getControlGroupHtml($item);
       } else { // single control
-        $html .= $controls[0]->getHtml(++ $this->_countTabIndex);
+        if ($controls[0]->type === 'hidden') {
+          $html .= $controls[0]->getHtml(); // no tabindex
+        } else {
+          $html .= $controls[0]->getHtml(++ $this->_countTabIndex);
+        }
       }
 
       if ($controls[0]->required) { // required prop same for all controls in group

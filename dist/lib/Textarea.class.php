@@ -113,7 +113,7 @@ class Textarea {
   }
 
   /**
-   * Get relevant css classes for control
+   * Get relevant css classes for control's parent <div>
    *
    * @return $cssClasses {Array}
    */

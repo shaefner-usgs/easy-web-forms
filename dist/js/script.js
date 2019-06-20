@@ -68,7 +68,7 @@ var MapQuestPlaceSearch = function (options) {
       _form,
 
       _initAddressFields,
-      _setAddressFields;
+      _setHiddenFields;
 
   _this = {};
 
@@ -95,16 +95,18 @@ var MapQuestPlaceSearch = function (options) {
     if (inputs.length > 0) { // add library's css and js to DOM; set up listeners
       callback = function () { // initializes PlaceSearch after script is added
         inputs.forEach(function(input, index) {
+          index ++; // zero-based index, but we want to start at 1
+
           addressField = placeSearch({
             key: MAPQUESTKEY,
             container: input,
             useDeviceLocation: false
           });
           addressField.on('change', function(e) { // set hidden fields to returned values
-            _setAddressFields(e, index);
+            _setHiddenFields(e, index);
           });
           addressField.on('clear', function(e) { // clear hidden fields
-            _setAddressFields(e, index);
+            _setHiddenFields(e, index);
           });
 
           // Add 'required' class to parent for CSS to flag required field in UI
@@ -120,18 +122,18 @@ var MapQuestPlaceSearch = function (options) {
   };
 
   /**
-   * Store constituent address values from PlaceSearch-enhanced Address field in hidden form fields
+   * Store constituent values from PlaceSearch API in hidden form fields
    *
    * @param e {Event}
-   * @param index {Integer}
+   * @param i {Integer}
    */
-  _setAddressFields = function (e, index) {
-    var hiddenFields,
-        el,
-        suffix,
+  _setHiddenFields = function (e, i) {
+    var el,
+        fields,
+        name,
         value;
 
-    hiddenFields = [
+    fields = [
       'city',
       'countryCode',
       'latlng',
@@ -140,14 +142,11 @@ var MapQuestPlaceSearch = function (options) {
       'street'
     ];
 
-    index ++; // zero-based index, but we want to start at 1
-    suffix = '';
-    if (index > 1) {
-      suffix = index;
-    }
-
-    hiddenFields.forEach(function(field) {
-      el = _form.querySelector('input[name="' + field + suffix + '"]');
+    fields.forEach(function(field) {
+      name = field;
+      if (i > 1) {
+        name += i;
+      }
 
       value = '';
       if (e) { // e is empty if user is clearing out previous value
@@ -160,6 +159,7 @@ var MapQuestPlaceSearch = function (options) {
         }
       }
 
+      el = _form.querySelector('input[name="' + name + '"]');
       el.value = value;
     });
   }
@@ -262,7 +262,7 @@ var Validator = function (options) {
   _getControls = function () {
     _allControls = _form.querySelectorAll('input:not([type="submit"]), select, textarea');
 
-    _inputs = _form.querySelectorAll('input:not([type="submit"])');
+    _inputs = _form.querySelectorAll('input:not([type="hidden"]):not([type="submit"])');
     _selects = _form.querySelectorAll('select');
     _textareas = _form.querySelectorAll('textarea');
     _submitButton = _form.querySelector('input[type="submit"]');

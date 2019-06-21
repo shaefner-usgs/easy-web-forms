@@ -1107,7 +1107,7 @@ section.form {
     display: inline-block;
     transition: color 0.15s ease-in-out; }
   section.form legend {
-    color: #555;
+    color: #777;
     font-size: .95em;
     font-weight: 500;
     margin: 0;
@@ -1126,7 +1126,7 @@ section.form {
     section.form .control:not(.checkbox):not(.radio) {
       flex-direction: column-reverse; }
       section.form .control:not(.checkbox):not(.radio) label {
-        color: #555;
+        color: #777;
         font-size: .95em;
         font-weight: 500;
         margin: 0;
@@ -1190,7 +1190,7 @@ section.results {
   section.results dd {
     margin: 0 0 1.5em 0; }
   section.results dt {
-    color: #555;
+    color: #777;
     font-size: .95em;
     font-weight: 500;
     margin: 0;

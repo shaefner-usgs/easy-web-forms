@@ -63,10 +63,13 @@ var easyWebForms = function () {
       inputs = _form.querySelectorAll('input[data-type="datetime"]');
 
       if (inputs.length > 0) {
-        callback = function () { // initializes flatpickr after script is added
+        callback = function () { // initialize flatpickr after script is loaded
           inputs.forEach(function(input, index) {
             options = _getOptions(input, index);
             flatpickr(input, options); // create flatpickr instance
+            if (options.altInput) {
+              _validator.initAltInput(input); // flatpickr altInput (additional field)
+            }
           });
         }
 
@@ -113,7 +116,7 @@ var easyWebForms = function () {
       inputs = _form.querySelectorAll('input[data-type="address"]');
 
       if (inputs.length > 0) { // add library's css and js to DOM; set up listeners
-        callback = function () { // initializes PlaceSearch after script is added
+        callback = function () { // initialize PlaceSearch after script is loaded
           inputs.forEach(function(input, index) {
             index ++; // zero-based index, but we want to start at 1
 
@@ -414,6 +417,32 @@ var easyWebForms = function () {
         }
       });
     };
+
+    /**
+     * Set up validation for flatpickr altInput fields, which display a human-
+     *   readable date in a separate field while returning a different value
+     *   to the server in the original field
+     *
+     * @param el {Element}
+     *     datepicker <input> element
+     */
+    _this.initAltInput = function (el) {
+      var altInput,
+          index;
+
+      altInput = el.nextElementSibling;
+
+      _inputs.forEach(function(input) {
+        if (input === el) {
+          ['blur', 'input'].forEach(function(evt) {
+            altInput.addEventListener(evt, function() {
+              _validate(el);
+            });
+          });
+        }
+      });
+    };
+
 
     _initialize(options);
     options = null;

@@ -203,6 +203,7 @@ var easyWebForms = function () {
 
         _addEventHandlers,
         _getControls,
+        _getState,
         _handleSubmit,
         _validate,
         _validateAll;
@@ -289,6 +290,60 @@ var easyWebForms = function () {
     };
 
     /**
+     * Get validation state of element
+     *
+     * @param el {Element}
+     *
+     * @return state {String}
+     */
+    _getState = function (el) {
+      var controls,
+          maxLength,
+          minLength,
+          name,
+          pattern,
+          state,
+          type,
+          value;
+
+      state = 'valid'; // default state; set to invalid if validation fails
+      type = el.getAttribute('type');
+      value = el.value;
+
+      if (type === 'checkbox' || type === 'radio') { // checkbox/radio input
+        name = el.getAttribute('name');
+        controls = _form.querySelectorAll('input[name="' + name + '"]');
+        state = 'invalid'; // flip default
+
+        controls.forEach(function(control) {
+          if (control.checked) {
+            state = 'valid';
+          }
+        });
+      } else { // everything else
+        if (el.hasAttribute('minlength') || el.hasAttribute('maxlength')) {
+          maxLength = parseInt(el.getAttribute('maxLength'), 10);
+          minLength = parseInt(el.getAttribute('minLength'), 10);
+
+          if (el.value.length < minLength || el.value.length > maxLength) {
+            state = 'invalid';
+          }
+        }
+        if (el.hasAttribute('pattern')) {
+          pattern = new RegExp(el.getAttribute('pattern'));
+          if (!pattern.test(value) && value !== '') {
+            state = 'invalid';
+          }
+        }
+        if (el.hasAttribute('required') && value === '') {
+          state = 'invalid';
+        }
+      }
+
+      return state;
+    };
+
+    /**
      * Show validation errors or submit form depending on validation state
      */
     _handleSubmit = function () {
@@ -335,50 +390,10 @@ var easyWebForms = function () {
      * @param el {Element}
      */
     _validate = function (el) {
-      var controls,
-          maxLength,
-          minLength,
-          name,
-          parent,
-          pattern,
-          state,
-          type,
-          value;
+      var parent,
+          state;
 
-      state = 'valid'; // default state; set to invalid if validation fails
-      type = el.getAttribute('type');
-      value = el.value;
-
-      // Get validation state
-      if (type === 'checkbox' || type === 'radio') { // checkboxes and radios
-        name = el.getAttribute('name');
-        controls = _form.querySelectorAll('input[name="' + name + '"]');
-        state = 'invalid'; // flip default
-
-        controls.forEach(function(control) {
-          if (control.checked) {
-            state = 'valid';
-          }
-        });
-      } else { // everything else
-        if (el.hasAttribute('minlength') || el.hasAttribute('maxlength')) {
-          maxLength = parseInt(el.getAttribute('maxLength'), 10);
-          minLength = parseInt(el.getAttribute('minLength'), 10);
-
-          if (el.value.length < minLength || el.value.length > maxLength) {
-            state = 'invalid';
-          }
-        }
-        if (el.hasAttribute('pattern')) {
-          pattern = new RegExp(el.getAttribute('pattern'));
-          if (!pattern.test(value) && value !== '') {
-            state = 'invalid';
-          }
-        }
-        if (el.hasAttribute('required') && value === '') {
-          state = 'invalid';
-        }
-      }
+      state = _getState(el);
 
       // Set validation state on parent node
       parent = el.closest('.control');

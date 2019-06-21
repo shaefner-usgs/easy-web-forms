@@ -6,13 +6,16 @@ var Flatpickr = function (options) {
       _initialize,
 
       _form,
+      _validator,
 
+      _getOptions,
       _initFlatpickrFields;
 
   _this = {};
 
   _initialize = function (options) {
     _form = options.form;
+    _validator = options.validator;
 
     if (_form) {
       _initFlatpickrFields();
@@ -20,11 +23,38 @@ var Flatpickr = function (options) {
   };
 
   /**
+   * Get flatpickr options which are embedded inline within HTML
+   *
+   * @param i {Integer}
+   *
+   * @return options {Object}
+   */
+  _getOptions = function (input, i) {
+    var options,
+        setOptions;
+
+    // First, execute wrapper function to set options now that lib is loaded
+    setOptions = 'initFlatpickrOptions' + i;
+    window[setOptions]();
+
+    options = flatpickrOptions[i]; // options embedded in HTML as global obj
+
+    // Add CSS class for highlighting form control when calendar is open
+    options.onClose = function () {
+      input.closest('.control').classList.remove('open');
+    };
+    options.onOpen = function () {
+      input.closest('.control').classList.add('open');
+    };
+
+    return options;
+  };
+
+  /**
    * Set up 3rd-party Flatpickr datetime picker
    */
   _initFlatpickrFields = function () {
     var callback,
-        initOptions,
         inputs,
         options;
 
@@ -33,20 +63,8 @@ var Flatpickr = function (options) {
     if (inputs.length > 0) {
       callback = function () { // initializes flatpickr after script is added
         inputs.forEach(function(input, index) {
-          initOptions = 'initFlatpickrOptions' + index;
-          window[initOptions]();
-          options = flatpickrOptions[index];
-
-          // Add class for highlighting form control when calendar is open
-          options.onClose = function () {
-            input.closest('.control').classList.remove('open');
-          };
-          options.onOpen = function () {
-            input.closest('.control').classList.add('open');
-          };
-
-          // Create flatpickr instance
-          flatpickr(input, options);
+          options = _getOptions(input, index);
+          flatpickr(input, options); // create flatpickr instance
         });
       }
 
@@ -451,17 +469,15 @@ Util.addPolyfills = function () {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-  var form = document.querySelector('section.form form');
+  var options;
+
+  options = {
+    form: document.querySelector('section.form form')
+  };
 
   Util.addPolyfills();
 
-  Flatpickr({
-    form: form
-  });
-  MapQuestPlaceSearch({
-    form: form
-  });
-  Validator({
-    form: form
-  });
+  options.validator = Validator(options);
+  MapQuestPlaceSearch(options);
+  Flatpickr(options);
 });

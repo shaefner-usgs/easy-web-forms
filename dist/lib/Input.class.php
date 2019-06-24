@@ -80,11 +80,6 @@ class Input {
       }
     }
 
-    if ($this->type === 'datetime') {
-      self::$_numDatetimeFields ++;
-      $this->_flatpickrIndex = self::$_numDatetimeFields - 1; // want 0-based index
-    }
-
     $this->_checkParams($params);
     $this->_setValue();
   }
@@ -418,6 +413,9 @@ class Input {
 
       // set inline .js var with flatpickr options
       if ($this->type === 'datetime') {
+        self::$_numDatetimeFields ++;
+        $this->_flatpickrIndex = self::$_numDatetimeFields - 1; // want 0-based index
+
         $varInit = '';
         if ($this->_flatpickrIndex === 0) {
           $varInit = 'var flatpickrOptions = [];';

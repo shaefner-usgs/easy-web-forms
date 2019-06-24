@@ -91,7 +91,7 @@ section.form {
   label {
     cursor: pointer;
     display: inline-block;
-    transition: color 0.15s ease-in-out;
+    transition: color 0.25s ease-in-out;
   }
 
   legend {
@@ -155,7 +155,7 @@ section.form {
   }
 
   // Invalid fields
-  .invalid:not(.open) {
+  .invalid {
     > label,
     legend {
       color: $danger !important;
@@ -169,7 +169,7 @@ section.form {
       }
     }
 
-    .active { // override focus styles (blue) for invalid flatpickr fields (red)
+    .active { // override blue focus styles for invalid flatpickr fields
       border-color: $danger;
       box-shadow: 0 0 3px $danger !important;
     }
@@ -284,12 +284,25 @@ body {
     border: 1px solid $primary;
     border-radius: $border-radius;
     box-shadow: 0 0 3px $primary;
+    transition: all 0.25s ease-in-out;
 
     &.arrowBottom:before {
       border-top-color: $primary;
     }
     &.arrowTop:before {
       border-bottom-color: $primary;
+    }
+
+    &.invalid {
+      border-color: $danger;
+      box-shadow: 0 0 3px $danger;
+
+      &.arrowBottom:before {
+        border-top-color: $danger;
+      }
+      &.arrowTop:before {
+        border-bottom-color: $danger;
+      }
     }
   }
 

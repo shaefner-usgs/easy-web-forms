@@ -1107,7 +1107,7 @@ section.form {
   section.form label {
     cursor: pointer;
     display: inline-block;
-    transition: color 0.15s ease-in-out; }
+    transition: color 0.25s ease-in-out; }
   section.form legend {
     color: #777;
     font-size: .95em;
@@ -1150,29 +1150,29 @@ section.form {
     section.form .group .checkbox,
     section.form .group .radio {
       margin: 5px 1em 5px 0; }
-  section.form .invalid:not(.open) > label,
-  section.form .invalid:not(.open) legend {
+  section.form .invalid > label,
+  section.form .invalid legend {
     color: #dc3545 !important; }
-  section.form .invalid:not(.open) input:not([type="submit"]),
-  section.form .invalid:not(.open) textarea {
+  section.form .invalid input:not([type="submit"]),
+  section.form .invalid textarea {
     border: 1px solid #dc3545; }
-    section.form .invalid:not(.open) input:not([type="submit"]):focus,
-    section.form .invalid:not(.open) textarea:focus {
+    section.form .invalid input:not([type="submit"]):focus,
+    section.form .invalid textarea:focus {
       box-shadow: 0 0 3px #dc3545; }
-  section.form .invalid:not(.open) .active {
+  section.form .invalid .active {
     border-color: #dc3545;
     box-shadow: 0 0 3px #dc3545 !important; }
-  section.form .invalid:not(.open) .custom-select {
+  section.form .invalid .custom-select {
     border: 1px solid #dc3545; }
-    section.form .invalid:not(.open) .custom-select:focus {
+    section.form .invalid .custom-select:focus {
       box-shadow: 0 0 3px #dc3545; }
-  section.form .invalid:not(.open) .description:before {
+  section.form .invalid .description:before {
     content: attr(data-message);
     color: #dc3545;
     display: block; }
-  section.form .invalid:not(.open) .pretty input:focus ~ .state.p-primary-o label:before {
+  section.form .invalid .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #dc3545; }
-  section.form .invalid:not(.open) .pretty label:before {
+  section.form .invalid .pretty label:before {
     border-color: #dc3545; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
@@ -1242,11 +1242,19 @@ body .flatpickr-calendar {
   line-height: 1.4;
   border: 1px solid #007bff;
   border-radius: 0.25rem;
-  box-shadow: 0 0 3px #007bff; }
+  box-shadow: 0 0 3px #007bff;
+  transition: all 0.25s ease-in-out; }
   body .flatpickr-calendar.arrowBottom:before {
     border-top-color: #007bff; }
   body .flatpickr-calendar.arrowTop:before {
     border-bottom-color: #007bff; }
+  body .flatpickr-calendar.invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 3px #dc3545; }
+    body .flatpickr-calendar.invalid.arrowBottom:before {
+      border-top-color: #dc3545; }
+    body .flatpickr-calendar.invalid.arrowTop:before {
+      border-bottom-color: #dc3545; }
 body .flatpickr-current-month .flatpickr-monthDropdown-months {
   height: 29px; }
 body .flatpickr-months {

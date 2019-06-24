@@ -426,18 +426,27 @@
      * @param el {Element}
      */
     _validate = function (el) {
-      var parent,
+      var calendars,
+          parent,
           state;
 
       state = _getState(el);
 
-      // Set validation state on parent node
+      // Set validation state on parent node (and flatpickr calendars if applicable)
       parent = el.closest('.control');
       if (parent.classList.contains('checkbox') || parent.classList.contains('radio')) {
         parent = parent.closest('fieldset');
       }
       parent.classList.remove('invalid', 'valid');
       parent.classList.add(state);
+
+      if (el.getAttribute('data-type') === 'datetime') {
+        calendars = document.querySelectorAll('.flatpickr-calendar');
+        calendars.forEach(function(calendar) {
+          calendar.classList.remove('invalid', 'valid');
+          calendar.classList.add(state);
+        });
+      }
     };
 
     /**

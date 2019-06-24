@@ -59,6 +59,7 @@
       var altInput,
           callback,
           inputs,
+          label,
           options;
 
       inputs = _form.querySelectorAll('input[data-type="datetime"]');
@@ -72,7 +73,12 @@
 
             if (options.altInput) { // flatpickr altInput (readable date) field
               altInput = input.nextElementSibling;
+              altInput.setAttribute('id', 'flatpickr' + index);
               altInput.setAttribute('placeholder', 'Select a date');
+
+              // Label text should select new field
+              label = altInput.nextElementSibling;
+              label.setAttribute('for', 'flatpickr' + index);
 
               _validator.initAltInput(input, altInput);
             }

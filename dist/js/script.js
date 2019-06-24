@@ -427,22 +427,16 @@
      *     datepicker <input> element
      */
     _this.initAltInput = function (el) {
-      var altInput,
-          index;
+      var altInput;
 
       altInput = el.nextElementSibling;
 
-      _inputs.forEach(function(input) {
-        if (input === el) {
-          ['blur', 'input'].forEach(function(evt) {
-            altInput.addEventListener(evt, function() {
-              _validate(el);
-            });
-          });
-        }
+      ['blur', 'input'].forEach(function(evt) {
+        altInput.addEventListener(evt, function() {
+          _validate(el);
+        });
       });
     };
-
 
     _initialize(options);
     options = null;

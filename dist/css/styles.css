@@ -1082,6 +1082,8 @@ section.form {
   section.form input:not([type="submit"]) {
     line-height: 1;
     padding: 9px; }
+    section.form input:not([type="submit"])::placeholder {
+      color: #999; }
   section.form textarea {
     height: auto !important;
     padding: 6px 9px;

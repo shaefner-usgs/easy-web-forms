@@ -50,6 +50,10 @@ section.form {
   input:not([type="submit"]) {
     line-height: 1;
     padding: 9px;
+
+    &::placeholder {
+      color: #999;
+    }
   }
 
   textarea {

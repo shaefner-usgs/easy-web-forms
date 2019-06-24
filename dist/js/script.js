@@ -56,7 +56,8 @@
      * Set up 3rd-party Flatpickr datetime picker
      */
     _initFlatpickrFields = function () {
-      var callback,
+      var altInput,
+          callback,
           inputs,
           options;
 
@@ -67,8 +68,13 @@
           inputs.forEach(function(input, index) {
             options = _getOptions(input, index);
             flatpickr(input, options); // create flatpickr instance
-            if (options.altInput) {
-              _validator.initAltInput(input); // flatpickr altInput (additional field)
+            input.setAttribute('placeholder', 'Select a date');
+
+            if (options.altInput) { // flatpickr altInput (readable date) field
+              altInput = input.nextElementSibling;
+              altInput.setAttribute('placeholder', 'Select a date');
+
+              _validator.initAltInput(input, altInput);
             }
           });
         }
@@ -423,17 +429,15 @@
      *   readable date in a separate field while returning a different value
      *   to the server in the original field
      *
-     * @param el {Element}
-     *     datepicker <input> element
+     * @param input {Element}
+     *     original <input> element
+     * @param altInput {Element}
+     *     new <input> element
      */
-    _this.initAltInput = function (el) {
-      var altInput;
-
-      altInput = el.nextElementSibling;
-
+    _this.initAltInput = function (input, altInput) {
       ['blur', 'input'].forEach(function(evt) {
         altInput.addEventListener(evt, function() {
-          _validate(el);
+          _validate(input);
         });
       });
     };

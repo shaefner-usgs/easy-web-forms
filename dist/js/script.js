@@ -78,7 +78,6 @@
               altInput.setAttribute('id', 'flatpickr' + index);
               altInput.setAttribute('placeholder', placeholder);
 
-              // Label text should select new field
               label = altInput.nextElementSibling;
               label.setAttribute('for', 'flatpickr' + index);
 
@@ -100,12 +99,15 @@
      * @param input {Element}
      */
     _setOptions = function (fp, input) {
+      var div;
+
       // Add CSS class for highlighting form control when calendar is open
+      div = input.closest('.control');
       fp.set('onClose', function () {
-        input.closest('.control').classList.remove('open');
+        div.classList.remove('open');
       });
       fp.set('onOpen', function () {
-        input.closest('.control').classList.add('open');
+        div.classList.add('open');
       });
     }
 

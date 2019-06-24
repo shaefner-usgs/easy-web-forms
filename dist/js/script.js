@@ -60,7 +60,8 @@
           callback,
           inputs,
           label,
-          options;
+          options,
+          placeholder;
 
       inputs = _form.querySelectorAll('input[data-type="datetime"]');
 
@@ -69,12 +70,17 @@
           inputs.forEach(function(input, index) {
             options = _getOptions(input, index);
             flatpickr(input, options); // create flatpickr instance
-            input.setAttribute('placeholder', 'Select a date');
+
+            placeholder = 'Select a date';
+            if (options.noCalendar) {
+              placeholder = 'Select a time';
+            }
+            input.setAttribute('placeholder', placeholder);
 
             if (options.altInput) { // flatpickr altInput (readable date) field
               altInput = input.nextElementSibling;
               altInput.setAttribute('id', 'flatpickr' + index);
-              altInput.setAttribute('placeholder', 'Select a date');
+              altInput.setAttribute('placeholder', placeholder);
 
               // Label text should select new field
               label = altInput.nextElementSibling;

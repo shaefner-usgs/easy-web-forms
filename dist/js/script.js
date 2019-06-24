@@ -1,7 +1,7 @@
 'use strict';
 
 
-var easyWebForms = function () {
+(function () {
 
   var Flatpickr = function (options) {
     var _this,
@@ -528,4 +528,4 @@ var easyWebForms = function () {
     Flatpickr(options);
   });
 
-}();
+})();

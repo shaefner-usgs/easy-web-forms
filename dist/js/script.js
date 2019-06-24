@@ -11,7 +11,8 @@
         _validator,
 
         _getOptions,
-        _initFlatpickrFields;
+        _initFlatpickrFields,
+        _setOptions;
 
     _this = {};
 
@@ -31,7 +32,7 @@
      *
      * @return options {Object}
      */
-    _getOptions = function (input, i) {
+    _getOptions = function (i) {
       var options,
           setOptions;
 
@@ -40,14 +41,6 @@
       window[setOptions]();
 
       options = flatpickrOptions[i]; // options embedded in HTML as global obj
-
-      // Add CSS class for highlighting form control when calendar is open
-      options.onClose = function () {
-        input.closest('.control').classList.remove('open');
-      };
-      options.onOpen = function () {
-        input.closest('.control').classList.add('open');
-      };
 
       return options;
     };
@@ -58,6 +51,7 @@
     _initFlatpickrFields = function () {
       var altInput,
           callback,
+          fp,
           inputs,
           label,
           options,
@@ -68,8 +62,10 @@
       if (inputs.length > 0) {
         callback = function () { // initialize flatpickr after script is loaded
           inputs.forEach(function(input, index) {
-            options = _getOptions(input, index);
-            flatpickr(input, options); // create flatpickr instance
+            // Create flatpickr instance and set additional options
+            options = _getOptions(index);
+            fp = flatpickr(input, options);
+            _setOptions(fp, input);
 
             placeholder = 'Select a date';
             if (options.noCalendar) {
@@ -95,6 +91,23 @@
         Util.addJsFile('https://cdn.jsdelivr.net/npm/flatpickr', callback);
       }
     };
+
+    /**
+     * Set addtional options for every flatpickr instance
+     *
+     * @param fp {Object}
+     *     flatpickr instance
+     * @param input {Element}
+     */
+    _setOptions = function (fp, input) {
+      // Add CSS class for highlighting form control when calendar is open
+      fp.set('onClose', function () {
+        input.closest('.control').classList.remove('open');
+      });
+      fp.set('onOpen', function () {
+        input.closest('.control').classList.add('open');
+      });
+    }
 
     _initialize(options);
     options = null;

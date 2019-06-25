@@ -10,6 +10,7 @@
         _form,
         _validator,
 
+        _configFlatpickrField,
         _getOptions,
         _initFlatpickrFields,
         _setOptions;
@@ -24,6 +25,39 @@
         _initFlatpickrFields();
       }
     };
+
+    /**
+     * Additional configuration necessary for flatpickr fields
+     *
+     * @param index {Integer}
+     * @param input {Element}
+     * @param options {Object}
+     *     flatpickr options
+     */
+    _configFlatpickrField = function (index, input, options) {
+      var altInput,
+          label,
+          placeholder;
+
+      placeholder = 'Select a date';
+      if (options.noCalendar) {
+        placeholder = 'Select a time';
+      }
+      input.setAttribute('placeholder', placeholder);
+
+      if (options.altInput) { // flatpickr altInput (readable date) field
+        // Set placeholder and re-assign label text for alt input
+        altInput = input.nextElementSibling;
+        altInput.setAttribute('id', 'flatpickr' + index);
+        altInput.setAttribute('placeholder', placeholder);
+
+        label = altInput.nextElementSibling;
+        label.setAttribute('for', 'flatpickr' + index);
+
+        // Set up validation for alt input
+        _validator.initAltInput(input, altInput);
+      }
+    }
 
     /**
      * Get flatpickr options which are embedded inline within HTML
@@ -49,13 +83,10 @@
      * Set up 3rd-party Flatpickr datetime picker
      */
     _initFlatpickrFields = function () {
-      var altInput,
-          callback,
+      var callback,
           fp,
           inputs,
-          label,
-          options,
-          placeholder;
+          options;
 
       inputs = _form.querySelectorAll('input[data-type="datetime"]');
 
@@ -63,27 +94,10 @@
         callback = function () { // initialize flatpickr after script is loaded
           inputs.forEach(function(input, index) {
             // Create flatpickr instance and set additional options
-            options = _getOptions(index);
+            options = _getOptions(index); // user-set flatpickr options
             fp = flatpickr(input, options);
-            _setOptions(fp, input);
-
-            placeholder = 'Select a date';
-            if (options.noCalendar) {
-              placeholder = 'Select a time';
-            }
-            input.setAttribute('placeholder', placeholder);
-
-            if (options.altInput) { // flatpickr altInput (readable date) field
-              // Set placeholder and re-assign label text for alt input
-              altInput = input.nextElementSibling;
-              altInput.setAttribute('id', 'flatpickr' + index);
-              altInput.setAttribute('placeholder', placeholder);
-
-              label = altInput.nextElementSibling;
-              label.setAttribute('for', 'flatpickr' + index);
-
-              _validator.initAltInput(input, altInput);
-            }
+            _setOptions(fp, input); // options added to all flatpickr instances
+            _configFlatpickrField(index, input, options); // additional configuration
           });
         }
 

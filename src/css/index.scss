@@ -23,10 +23,6 @@ section.results {
 section.form {
   @include fonts;
 
-  input[type="submit"] {
-    @include appearance(none);
-  }
-
   input:not([type="submit"]),
   textarea,
   .custom-select { // bootstrap css class attached to select menus
@@ -45,15 +41,15 @@ section.form {
       border: 1px solid $primary;
       box-shadow: 0 0 3px $primary;
     }
+
+    &::placeholder {
+      color: #999;
+    }
   }
 
   input:not([type="submit"]) {
     line-height: 1;
     padding: 9px;
-
-    &::placeholder {
-      color: #999;
-    }
   }
 
   textarea {
@@ -161,7 +157,8 @@ section.form {
       color: $danger !important;
     }
     input:not([type="submit"]),
-    textarea {
+    textarea,
+    .custom-select {
       border: 1px solid $danger;
 
       &:focus {
@@ -172,14 +169,6 @@ section.form {
     .active { // override blue focus styles for invalid flatpickr fields
       border-color: $danger;
       box-shadow: 0 0 3px $danger !important;
-    }
-
-    .custom-select {
-      border: 1px solid $danger;
-
-      &:focus {
-        box-shadow: 0 0 3px $danger;
-      }
     }
 
     .description:before {
@@ -328,7 +317,9 @@ body {
   .flatpickr-time {
     line-height: 39px;
 
-    .flatpickr-am-pm, .flatpickr-hour, .flatpickr-minute {
+    .flatpickr-am-pm,
+    .flatpickr-hour,
+    .flatpickr-minute {
       font-size: 1rem;
     }
     .flatpickr-am-pm {

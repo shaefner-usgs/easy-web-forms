@@ -1048,12 +1048,6 @@ section.form {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 16px;
   line-height: 1.4; }
-  section.form input[type="submit"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    -o-appearance: none;
-    appearance: none; }
   section.form input:not([type="submit"]),
   section.form textarea,
   section.form .custom-select {
@@ -1079,11 +1073,13 @@ section.form {
     section.form .custom-select.active {
       border: 1px solid #007bff;
       box-shadow: 0 0 3px #007bff; }
+    section.form input:not([type="submit"])::placeholder,
+    section.form textarea::placeholder,
+    section.form .custom-select::placeholder {
+      color: #999; }
   section.form input:not([type="submit"]) {
     line-height: 1;
     padding: 9px; }
-    section.form input:not([type="submit"])::placeholder {
-      color: #999; }
   section.form textarea {
     height: auto !important;
     padding: 6px 9px;
@@ -1154,18 +1150,16 @@ section.form {
   section.form .invalid legend {
     color: #dc3545 !important; }
   section.form .invalid input:not([type="submit"]),
-  section.form .invalid textarea {
+  section.form .invalid textarea,
+  section.form .invalid .custom-select {
     border: 1px solid #dc3545; }
     section.form .invalid input:not([type="submit"]):focus,
-    section.form .invalid textarea:focus {
+    section.form .invalid textarea:focus,
+    section.form .invalid .custom-select:focus {
       box-shadow: 0 0 3px #dc3545; }
   section.form .invalid .active {
     border-color: #dc3545;
     box-shadow: 0 0 3px #dc3545 !important; }
-  section.form .invalid .custom-select {
-    border: 1px solid #dc3545; }
-    section.form .invalid .custom-select:focus {
-      box-shadow: 0 0 3px #dc3545; }
   section.form .invalid .description:before {
     content: attr(data-message);
     color: #dc3545;
@@ -1266,7 +1260,9 @@ body .flatpickr-months {
     fill: #007bff; }
 body .flatpickr-time {
   line-height: 39px; }
-  body .flatpickr-time .flatpickr-am-pm, body .flatpickr-time .flatpickr-hour, body .flatpickr-time .flatpickr-minute {
+  body .flatpickr-time .flatpickr-am-pm,
+  body .flatpickr-time .flatpickr-hour,
+  body .flatpickr-time .flatpickr-minute {
     font-size: 1rem; }
   body .flatpickr-time .flatpickr-am-pm {
     border-radius: 0 0 5px 0; }

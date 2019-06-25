@@ -36,8 +36,13 @@
      */
     _configFlatpickrField = function (index, input, options) {
       var altInput,
+          description,
           label,
           placeholder;
+
+      // Remove format descriptor which isn't necessary with js enabled
+      description = input.previousElementSibling;
+      description.innerText = '';
 
       placeholder = 'Select a date';
       if (options.noCalendar) {

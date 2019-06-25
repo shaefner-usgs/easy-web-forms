@@ -250,10 +250,13 @@ class Input {
       }
       else if ($type === 'datetime') {
         $this->_defaults['pattern'] = '^\d{4}-\d{2}-\d{2}$';
+        $this->_defaults['description'] = 'Please use this format: yyyy-mm-dd';
         if ($enableTime) {
           $this->_defaults['pattern'] = '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$';
+          $this->_defaults['description'] = 'Please use this format: yyyy-mm-dd hh:mm (using 00-23 for hour)';
           if ($noCalendar) {
             $this->_defaults['pattern'] = '^\d{2}:\d{2}$';
+            $this->_defaults['description'] = 'Please use this format: hh:mm (using 00-23 for hour)';
           }
         }
       }

@@ -74,6 +74,7 @@
             input.setAttribute('placeholder', placeholder);
 
             if (options.altInput) { // flatpickr altInput (readable date) field
+              // Set placeholder and re-assign label text for alt input
               altInput = input.nextElementSibling;
               altInput.setAttribute('id', 'flatpickr' + index);
               altInput.setAttribute('placeholder', placeholder);
@@ -99,15 +100,22 @@
      * @param input {Element}
      */
     _setOptions = function (fp, input) {
-      var div;
+      var calendars,
+          div;
 
-      // Add CSS class for highlighting form control when calendar is open
-      div = input.closest('.control');
-      fp.set('onClose', function () {
-        div.classList.remove('open');
-      });
+      // Set intial validity state on datepicker calendar(s) when opened
       fp.set('onOpen', function () {
-        div.classList.add('open');
+        div = input.closest('.control');
+
+        if (input.getAttribute('data-type') === 'datetime') {
+          calendars = document.querySelectorAll('.flatpickr-calendar');
+          calendars.forEach(function(calendar) {
+            calendar.classList.remove('invalid', 'valid'); // remove any 'leftover' classes
+            if (div.classList.contains('invalid')) {
+              calendar.classList.add('invalid');
+            }
+          });
+        }
       });
     }
 
@@ -432,7 +440,7 @@
 
       state = _getState(el);
 
-      // Set validation state on parent node (and flatpickr calendars if applicable)
+      // Set validation state on parent node
       parent = el.closest('.control');
       if (parent.classList.contains('checkbox') || parent.classList.contains('radio')) {
         parent = parent.closest('fieldset');
@@ -440,6 +448,7 @@
       parent.classList.remove('invalid', 'valid');
       parent.classList.add(state);
 
+      // Set validation state on datepicker calendar(s)
       if (el.getAttribute('data-type') === 'datetime') {
         calendars = document.querySelectorAll('.flatpickr-calendar');
         calendars.forEach(function(calendar) {

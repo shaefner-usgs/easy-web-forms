@@ -112,7 +112,7 @@
     };
 
     /**
-     * Set addtional options for every flatpickr instance
+     * Set addtional options for every flatpickr instance for validating field
      *
      * @param fp {Object}
      *     flatpickr instance
@@ -138,6 +138,7 @@
 
       fp.set('onClose', function () {
         div.classList.remove('open');
+        _validator.validate(input);
       });
     }
 
@@ -271,7 +272,6 @@
         _getControls,
         _getState,
         _handleSubmit,
-        _validate,
         _validateAll;
 
     _this = {};
@@ -301,12 +301,12 @@
         ) {
           if (type === 'checkbox' || type === 'radio') {
             input.addEventListener('change', function() { // input event buggy for radio/checkbox
-              _validate(input);
+              _this.validate(input);
             });
           } else {
             ['blur', 'input'].forEach(function(evt) { // blur: capture autocompleted fields
               input.addEventListener(evt, function() {
-                _validate(input);
+                _this.validate(input);
               });
             });
           }
@@ -317,7 +317,7 @@
         if (select.hasAttribute('required')) {
           ['blur', 'change'].forEach(function(evt) { // blur: consistent with input
             select.addEventListener(evt, function() {
-              _validate(select);
+              _this.validate(select);
             });
           })
         }
@@ -336,7 +336,7 @@
         ) {
           ['blur', 'input'].forEach(function(evt) { // blur: consistent with input
             textarea.addEventListener(evt, function() {
-              _validate(textarea);
+              _this.validate(textarea);
             });
           });
         }
@@ -455,7 +455,7 @@
      *
      * @param el {Element}
      */
-    _validate = function (el) {
+    _this.validate = function (el) {
       var calendars,
           parent,
           state;
@@ -491,7 +491,7 @@
     _validateAll = function () {
       _allControls.forEach(function(el) {
         if (el.hasAttribute('pattern') || el.hasAttribute('required')) {
-          _validate(el);
+          _this.validate(el);
         }
       });
     };
@@ -509,7 +509,7 @@
     _this.initAltInput = function (input, altInput) {
       ['blur', 'input'].forEach(function(evt) {
         altInput.addEventListener(evt, function() {
-          _validate(input);
+          _this.validate(input);
         });
       });
     };

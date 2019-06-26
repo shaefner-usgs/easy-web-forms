@@ -139,19 +139,25 @@ class Select {
 
     $options = '';
     foreach ($this->options as $key => $value) {
-      // Set selected option: user's selection overrides if validation fails
-      $selected = '';
+      $optionAttrs = '';
+
+      // Set selected option: show user's selection if form was already submitted
       if (isSet($_POST[$this->name])) {
         if ($key === $this->value) { // user-selected option
-          $selected = ' selected="selected"';
+          $optionAttrs = ' selected="selected"';
         }
       } else if ($key === $this->selected) {
-        $selected = ' selected="selected"';
+        $optionAttrs = ' selected="selected"';
+      }
+
+      // Set additional options for 'placeholder' option
+      if ($this->required && !$key) { // default 'empty' option
+        $optionAttrs .= ' disabled="disabled" hidden="hidden"';
       }
 
       $options .= sprintf('<option value="%s"%s>%s</option>',
         $key,
-        $selected,
+        $optionAttrs,
         $value
       );
     }

@@ -122,19 +122,22 @@
       var calendars,
           div;
 
-      // Set intial validity state on datepicker calendar(s) when opened
-      fp.set('onOpen', function () {
-        div = input.closest('.control');
+      div = input.closest('.control');
 
-        if (input.getAttribute('data-type') === 'datetime') {
-          calendars = document.querySelectorAll('.flatpickr-calendar');
-          calendars.forEach(function(calendar) {
-            calendar.classList.remove('invalid', 'valid'); // remove any 'leftover' classes
-            if (div.classList.contains('invalid')) {
-              calendar.classList.add('invalid');
-            }
-          });
-        }
+      fp.set('onOpen', function () {
+        div.classList.add('open');
+        // Set intial validition state on datepicker widget when opened
+        calendars = document.querySelectorAll('.flatpickr-calendar');
+        calendars.forEach(function(calendar) {
+          calendar.classList.remove('invalid', 'valid');
+          if (div.classList.contains('invalid')) {
+            calendar.classList.add('invalid');
+          }
+        });
+      });
+
+      fp.set('onClose', function () {
+        div.classList.remove('open');
       });
     }
 
@@ -457,23 +460,28 @@
           parent,
           state;
 
-      state = _getState(el);
-
-      // Set validation state on parent node
       parent = el.closest('.control');
       if (parent.classList.contains('checkbox') || parent.classList.contains('radio')) {
         parent = parent.closest('fieldset');
       }
-      parent.classList.remove('invalid', 'valid');
-      parent.classList.add(state);
+      state = _getState(el);
 
-      // Set validation state on datepicker calendar(s)
+      // Set validation state on parent node and any datepicker widget(s)
       if (el.getAttribute('data-type') === 'datetime') {
-        calendars = document.querySelectorAll('.flatpickr-calendar');
-        calendars.forEach(function(calendar) {
-          calendar.classList.remove('invalid', 'valid');
-          calendar.classList.add(state);
-        });
+        // Don't change state to invalid while user is interacting with datepickr widget
+        if (state === 'valid' || !parent.classList.contains('open')) {
+          parent.classList.remove('invalid', 'valid');
+          parent.classList.add(state);
+
+          calendars = document.querySelectorAll('.flatpickr-calendar');
+          calendars.forEach(function(calendar) {
+            calendar.classList.remove('invalid', 'valid');
+            calendar.classList.add(state);
+          });
+        }
+      } else {
+        parent.classList.remove('invalid', 'valid');
+        parent.classList.add(state);
       }
     };
 

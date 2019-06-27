@@ -269,9 +269,13 @@ class Form {
         $displayValue = implode(', ', $displayValues);
       } else { // single control
         if ($control->type === 'datetime') { // datetime field
-          $displayValue = $_POST['altInput' . $numDateTimeFields];
+          // Set display value to altInput value if configured
+          $displayValue = $control->value;
+          if (isSet($_POST['altInput' . $numDateTimeFields])) {
+            $displayValue = $_POST['altInput' . $numDateTimeFields];
+          }
           $sqlValue = $control->value;
-          $numDateTimeFields ++; // increment after b/c it's a 0-based index
+          $numDateTimeFields ++; // increment afterwards b/c it's a 0-based index
         } else if ($control->type === 'select') { // select menu
           $displayValue = $control->options[$control->value];
           $sqlValue = $control->value;

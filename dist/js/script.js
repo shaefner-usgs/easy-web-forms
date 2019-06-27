@@ -10,6 +10,7 @@
         _form,
         _validator,
 
+        _addHiddenAltInput,
         _configFlatpickrField,
         _getOptions,
         _initFlatpickrFields,
@@ -27,14 +28,36 @@
     };
 
     /**
+     * Store altInput value for display in the results summary
+     *
+     * @param input {Element}
+     * @param altInput {Element}
+     * @param i {Integer}
+     */
+    _addHiddenAltInput = function (input, altInput, i) {
+      var hiddenInput;
+
+      hiddenInput = altInput.cloneNode(false);
+      hiddenInput.id = 'altInput' + i;
+      hiddenInput.name = 'altInput' + i;
+      hiddenInput.type = 'hidden';
+
+      altInput.parentNode.appendChild(hiddenInput);
+
+      input.addEventListener('change', function() {
+        hiddenInput.value = altInput.value;
+      });
+    };
+
+    /**
      * Additional configuration necessary for flatpickr fields
      *
-     * @param index {Integer}
+     * @param i {Integer}
      * @param input {Element}
      * @param options {Object}
      *     flatpickr options
      */
-    _configFlatpickrField = function (index, input, options) {
+    _configFlatpickrField = function (i, input, options) {
       var altInput,
           description,
           label,
@@ -53,11 +76,14 @@
       if (options.altInput) { // flatpickr altInput (readable date) field
         // Set placeholder and re-assign label text for alt input
         altInput = input.nextElementSibling;
-        altInput.setAttribute('id', 'flatpickr' + index);
+        altInput.setAttribute('id', 'flatpickr' + i);
         altInput.setAttribute('placeholder', placeholder);
 
         label = altInput.nextElementSibling;
-        label.setAttribute('for', 'flatpickr' + index);
+        label.setAttribute('for', 'flatpickr' + i);
+
+        // Store altInput value for displaying in summary results
+        _addHiddenAltInput(input, altInput, i);
 
         // Set up validation for alt input
         _validator.initAltInput(input, altInput);
@@ -101,7 +127,7 @@
             // Create flatpickr instance and set additional options
             options = _getOptions(index); // user-set flatpickr options
             fp = flatpickr(input, options);
-            _setOptions(fp, input); // options added to all flatpickr instances
+            _setOptions(fp, input); // extra options added to all flatpickr instances
             _configFlatpickrField(index, input, options); // additional configuration
           });
         }

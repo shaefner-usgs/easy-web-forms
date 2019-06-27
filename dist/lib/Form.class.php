@@ -246,6 +246,7 @@ class Form {
    * If validation passes, insert record into database and email results to admin
    */
   private function _process () {
+    $numDateTimeFields = 0;
     $sqlValues = [];
     $this->_results = '<dl>';
 
@@ -267,7 +268,11 @@ class Form {
         }
         $displayValue = implode(', ', $displayValues);
       } else { // single control
-        if ($control->type === 'select') { // select menu
+        if ($control->type === 'datetime') { // datetime field
+          $displayValue = $_POST['altInput' . $numDateTimeFields];
+          $sqlValue = $control->value;
+          $numDateTimeFields ++; // increment after b/c it's a 0-based index
+        } else if ($control->type === 'select') { // select menu
           $displayValue = $control->options[$control->value];
           $sqlValue = $control->value;
         } else { // everything else

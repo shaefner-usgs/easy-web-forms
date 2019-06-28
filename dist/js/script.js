@@ -28,13 +28,12 @@
     };
 
     /**
-     * Store altInput value for display in the results summary
+     * Store altInput value in hidden field for display in results summary
      *
-     * @param input {Element}
      * @param altInput {Element}
      * @param i {Integer}
      */
-    _addHiddenAltInput = function (input, altInput, i) {
+    _addHiddenAltInput = function (altInput, i) {
       var hiddenInput;
 
       hiddenInput = altInput.cloneNode(false);
@@ -43,25 +42,25 @@
       hiddenInput.type = 'hidden';
 
       altInput.parentNode.appendChild(hiddenInput);
-
-      input.addEventListener('change', function() {
-        hiddenInput.value = altInput.value;
-      });
     };
 
     /**
      * Additional configuration necessary for flatpickr fields
      *
+     * @param fp {Object}
+     *     flatpickr instance
      * @param i {Integer}
-     * @param input {Element}
-     * @param options {Object}
-     *     flatpickr options
      */
-    _configFlatpickrField = function (i, input, options) {
+    _configFlatpickrField = function (fp, i) {
       var altInput,
           description,
+          input,
           label,
+          options,
           placeholder;
+
+      input = fp.input;
+      options = fp.config;
 
       // Remove format descriptor which isn't necessary with js enabled
       description = input.previousElementSibling;
@@ -83,11 +82,14 @@
         label.setAttribute('for', 'flatpickr' + i);
 
         // Store altInput value for displaying in summary results
-        _addHiddenAltInput(input, altInput, i);
+        _addHiddenAltInput(altInput, i);
 
         // Set up validation for alt input
         _validator.initAltInput(input, altInput);
       }
+
+      // Extra options added to all flatpickr instances
+      _setOptions(fp, i);
     }
 
     /**
@@ -127,8 +129,7 @@
             // Create flatpickr instance and set additional options
             options = _getOptions(index); // user-set flatpickr options
             fp = flatpickr(input, options);
-            _setOptions(fp, input); // extra options added to all flatpickr instances
-            _configFlatpickrField(index, input, options); // additional configuration
+            _configFlatpickrField(fp, index); // additional configuration
           });
         }
 
@@ -138,17 +139,36 @@
     };
 
     /**
-     * Set addtional options for every flatpickr instance for validating field
+     * Set addtional options (hooks) for every flatpickr instance
      *
      * @param fp {Object}
      *     flatpickr instance
-     * @param input {Element}
+     * @param i {Integer}
      */
-    _setOptions = function (fp, input) {
-      var calendars,
-          div;
+    _setOptions = function (fp, i) {
+      var altInput,
+          calendars,
+          div,
+          hiddenInput,
+          input;
 
+      input = fp.input;
       div = input.closest('.control');
+
+      fp.set('onChange', function() {
+        altInput = div.querySelector('#flatpickr' + i);
+        hiddenInput = div.querySelector('#altInput' + i);
+
+        // Flatpickr briefly sets altInput value to current time (bug?) - add slight delay
+        window.setTimeout(function() {
+          hiddenInput.value = altInput.value;
+        }, 100);
+      });
+
+      fp.set('onClose', function () {
+        div.classList.remove('open');
+        _validator.validate(input); // be certain control is validated
+      });
 
       fp.set('onOpen', function () {
         div.classList.add('open');
@@ -160,11 +180,6 @@
             calendar.classList.add('invalid');
           }
         });
-      });
-
-      fp.set('onClose', function () {
-        div.classList.remove('open');
-        _validator.validate(input);
       });
     }
 

@@ -37,17 +37,15 @@ $address = new Input([
 $datetime = new Input([
   'type' => 'datetime',
   'label' => 'Delivery Time',
-  'name' => 'datetime',
+  'name' => 'deliverytime',
   'flatpickrOptions' => [
-    //'allowInput' => true,
-    //'altFormat' => 'F j, Y at h:i K',
-    //'altInput' => true,
-    'dateFormat' => 'Y-m-d H:i:00',
-    'defaultHour' => 10,
-    'defaultMinute' => 30,
+    'altFormat' => 'h:i K',
+    'altInput' => true,
+    'defaultHour' => date('H') + 1,
+    'defaultMinute' => 00,
     'enableTime' => true,
-    'minDate' => 'today',
-    'minuteIncrement' => 15
+    'minuteIncrement' => 5,
+    'noCalendar' =>true
   ],
   'required' => true
 ]);

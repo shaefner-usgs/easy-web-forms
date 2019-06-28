@@ -92,11 +92,12 @@ Both client- and server-side validation are performed automatically, based on st
 
 In addition, some `<input>` types have automatic pattern validation built-in, using a simple RegExp to validate user input:
 
+* datetime [(custom type)](#special-types)
 * email
 * number
 * url
 
-To override built-in pattern matching, set a custom pattern attribute when you create an `<input>`.
+To override built-in pattern matching, set a custom 'pattern' attribute when you create an `<input>`.
 
 # API Documentation
 
@@ -169,7 +170,7 @@ $name = new Input([
 
 | Factory | Description |
 | ------ | ------ |
-| Input(options) | Instantiates a new html `<input>` control given an options Array |
+| Input(options) | Instantiates a new html `<input>` control given an options Array. |
 
 #### Options
 
@@ -179,6 +180,7 @@ $name = new Input([
 | class | String | '' | CSS class attached to parent `<div>`. |
 | description | String | '' | Explanatory text displayed next to form control. Automatically set to number of chars. required if minlength/maxlength are set and this option has not been set. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
+| flatpickrOptions | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for type datetime fields |
 | *id* | String | '' | `<input>` id attribute. |
 | inputmode | String | '' | `<input>` inputmode attribute. |
 | label | String | '' | `<label>` for `<input>`. |
@@ -199,17 +201,20 @@ Options in **bold** are required; options in *italics* are required for all radi
 
 #### Special Types
 
-All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types) are supported (except 'image' and 'file'<sup id="r1">[1](#f1)</sup>). Some types have added functionality:
+All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types) are supported (except *image* and *file*<sup id="r1">[1](#f1)</sup>).
+
+Some types have added functionality:
 
 * **checkbox**: the default message option is set to 'Please select one or more options'.
-* **email**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value.
-* **number**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value.
+* **email**: user input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value.
+* **number**: user input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value.
 * **radio**: the default message option is set to 'Please select an option'.
-* **url**: user input is automatically validated using simple pattern matching. You can override this by setting the pattern option to a custom value. The default description option is set to 'Include “http://” or “https://”'.
+* **url**: user input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value. The default description option is set to 'Include “http://” or “https://”'.
 
-In addition, the following non-standard type is also supported:
+In addition, the following non-standard **custom types** are also supported:
 
-* **address**: creates a single field for entering a street address with autocomplete suggestions as you type. You will need to create the following extra fields in the database table to store the constituent values, which are temporarily stored in hidden `<input>` fields: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. This functionality utilizes a 3rd-party library called [PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/), and it requires a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php.
+* **address**: creates a single field for entering a street address with autocomplete suggestions as you type. You will need to create the following extra fields in the database table to store the constituent values, which are set in hidden `<input>` fields on the web page: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. This functionality utilizes a 3rd-party library called [PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/), and it requires a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php.
+* **datetime**: Creates a datetime (or date/time only) field with a datepicker calendar widget for simplifying/ensuring valid user input. This functionality utilizes a 3rd-party library called [flatpickr](https://flatpickr.js.org). See the [flatpickr documentation](https://flatpickr.js.org/options/) for details on setting configuration options for the datepicker. All options are supported by setting 'flatpickrOptions[#options-1]', but javascript expressions such as functions and new Date()s need to be passed as strings, which will be parsed into javascript expressions when the page is rendered. User input is automatically validated using formats that conform to MySQL Types DATE, DATETIME, TIME,  depending on how the datepicker is configured. If you override the default format, you will need to set a custom 'pattern' attribute for validating.
 
 #### Other Special Attributes
 
@@ -292,7 +297,7 @@ $name = new Textarea([
 
 | Factory | Description |
 | ------ | ------ |
-| Textarea(options) | Instantiates a new html `<textarea>` control given an options Array |
+| Textarea(options) | Instantiates a new html `<textarea>` control given an options Array. |
 
 #### Options
 
@@ -325,4 +330,4 @@ The following `<textarea>` attributes will trigger client- and server-side valid
 
 ## Acknowledgements
 
-Portions of [Bootstrap](https://github.com/twbs/bootstrap) and [pretty-checkbox.css](https://github.com/lokesh-coder/pretty-checkbox) are distributed with this library to enhance the user interface. This library also uses a cloud-hosted version of [MapQuest PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/) for single field `<input>` controls of type 'address'.
+Portions of [Bootstrap](https://github.com/twbs/bootstrap) and [pretty-checkbox.css](https://github.com/lokesh-coder/pretty-checkbox) are distributed with this library to enhance the user interface. This library also uses cloud-hosted versions of 1) [MapQuest PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/) for single field `<input>` controls of type 'address' and 2) [flatpickr](https://flatpickr.js.org).

@@ -799,136 +799,10 @@ input[type="button"].btn-block {
     box-shadow: 0px 0px 0px 0px #bdc3c7; }
   100% {
     box-shadow: 0px 0px 0px 1.5em rgba(189, 195, 199, 0); } }
-.pretty.p-default.p-fill .state label:after {
-  transform: scale(1); }
-
 .pretty.p-default .state label:after {
   transform: scale(0.6); }
 .pretty.p-default input:checked ~ .state label:after {
   background-color: #bdc3c7 !important; }
-
-.pretty.p-default.p-thick .state label:before, .pretty.p-default.p-thick .state label:after {
-  border-width: calc(1em / 7); }
-.pretty.p-default.p-thick .state label:after {
-  transform: scale(0.4) !important; }
-
-.pretty.p-icon .state .icon {
-  position: absolute;
-  font-size: 1em;
-  width: calc(1em + 2px);
-  height: calc(1em + 2px);
-  left: 0;
-  z-index: 1;
-  text-align: center;
-  line-height: normal;
-  top: calc((0% - (100% - 1em)) - 8%);
-  border: 1px solid transparent;
-  opacity: 0; }
-.pretty.p-icon .state .icon:before {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  line-height: 1; }
-.pretty.p-icon input:checked ~ .state .icon {
-  opacity: 1; }
-.pretty.p-icon input:checked ~ .state label:before {
-  border-color: #5a656b; }
-
-.pretty.p-svg .state .svg {
-  position: absolute;
-  font-size: 1em;
-  width: calc(1em + 2px);
-  height: calc(1em + 2px);
-  left: 0;
-  z-index: 1;
-  text-align: center;
-  line-height: normal;
-  top: calc((0% - (100% - 1em)) - 8%);
-  border: 1px solid transparent;
-  opacity: 0; }
-.pretty.p-svg .state svg {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  line-height: 1; }
-.pretty.p-svg input:checked ~ .state .svg {
-  opacity: 1; }
-
-.pretty.p-image .state img {
-  opacity: 0;
-  position: absolute;
-  width: calc(1em + 2px);
-  height: calc(1em + 2px);
-  top: 0;
-  top: calc((0% - (100% - 1em)) - 8%);
-  left: 0;
-  z-index: 0;
-  text-align: center;
-  line-height: normal;
-  transform: scale(0.8); }
-.pretty.p-image input:checked ~ .state img {
-  opacity: 1; }
-
-.pretty.p-switch input {
-  min-width: 2em; }
-.pretty.p-switch .state {
-  position: relative; }
-  .pretty.p-switch .state:before {
-    content: '';
-    border: 1px solid #bdc3c7;
-    border-radius: 60px;
-    width: 2em;
-    box-sizing: unset;
-    height: calc(1em + 2px);
-    position: absolute;
-    top: 0;
-    top: calc((0% - (100% - 1em)) - 16%);
-    z-index: 0;
-    transition: all 0.5s ease; }
-  .pretty.p-switch .state label {
-    text-indent: 2.5em; }
-    .pretty.p-switch .state label:before, .pretty.p-switch .state label:after {
-      transition: all 0.5s ease;
-      border-radius: 100%;
-      left: 0;
-      border-color: transparent;
-      transform: scale(0.8); }
-    .pretty.p-switch .state label:after {
-      background-color: #bdc3c7 !important; }
-.pretty.p-switch input:checked ~ .state:before {
-  border-color: #343a40; }
-.pretty.p-switch input:checked ~ .state label:before {
-  opacity: 0; }
-.pretty.p-switch input:checked ~ .state label:after {
-  background-color: #343a40 !important;
-  left: 1em; }
-
-.pretty.p-switch.p-fill input:checked ~ .state:before {
-  border-color: #343a40;
-  background-color: #343a40 !important; }
-.pretty.p-switch.p-fill input:checked ~ .state label:before {
-  opacity: 0; }
-.pretty.p-switch.p-fill input:checked ~ .state label:after {
-  background-color: #fff !important;
-  left: 1em; }
-
-.pretty.p-switch.p-slim .state:before {
-  height: 0.1em;
-  background: #bdc3c7 !important;
-  top: calc(50% - 0.1em); }
-.pretty.p-switch.p-slim input:checked ~ .state:before {
-  border-color: #343a40;
-  background-color: #343a40 !important; }
 
 .pretty.p-has-hover input:hover ~ .state:not(.p-is-hover) {
   display: none; }
@@ -947,29 +821,6 @@ input[type="button"].btn-block {
   .pretty.p-has-indeterminate input[type='checkbox']:indeterminate ~ .state.p-is-indeterminate .icon {
     display: block;
     opacity: 1; }
-
-.pretty.p-toggle .state.p-on {
-  opacity: 0;
-  display: none; }
-.pretty.p-toggle .state.p-off,
-.pretty.p-toggle .state .icon,
-.pretty.p-toggle .state .svg,
-.pretty.p-toggle .state img {
-  opacity: 1;
-  display: inherit; }
-.pretty.p-toggle .state.p-off .icon {
-  color: #bdc3c7; }
-.pretty.p-toggle input:checked ~ .state.p-on {
-  opacity: 1;
-  display: inherit; }
-.pretty.p-toggle input:checked ~ .state.p-off {
-  opacity: 0;
-  display: none; }
-
-.pretty.p-plain input:checked ~ .state label:before, .pretty.p-plain.p-toggle .state label:before {
-  content: none; }
-.pretty.p-plain.p-plain .icon {
-  transform: scale(1.1); }
 
 .pretty.p-round .state label:before, .pretty.p-round .state label:after {
   border-radius: 100%; }
@@ -1036,10 +887,6 @@ input[type="button"].btn-block {
   display: none; }
   .pretty input[disabled] ~ * {
     opacity: .5; }
-
-.pretty.p-locked input {
-  display: none;
-  cursor: not-allowed; }
 
 .pretty input:checked ~ .state.p-primary label:after, .pretty.p-toggle .state.p-primary label:after {
   background-color: #007bff !important; }
@@ -1177,16 +1024,6 @@ input[type="button"].btn-block {
   border-color: #921925;
   background-color: #921925 !important; }
 
-.pretty.p-bigger label:before,
-.pretty.p-bigger label:after,
-.pretty.p-bigger .icon,
-.pretty.p-bigger .svg,
-.pretty.p-bigger .img {
-  font-size: 1.2em !important;
-  top: calc((0% - (100% - 1em)) - 35%) !important; }
-.pretty.p-bigger label {
-  text-indent: 1.7em; }
-
 @media print {
   .pretty .state:before,
   .pretty .state label:before,
@@ -1212,13 +1049,6 @@ section.form {
   font-size: 16px;
   line-height: 1.4; }
   section.form input:not([type="submit"]),
-  section.form select,
-  section.form textarea {
-    color: #000;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 16px;
-    line-height: 1.4; }
-  section.form input:not([type="submit"]),
   section.form textarea,
   section.form .custom-select {
     -webkit-appearance: none;
@@ -1226,41 +1056,44 @@ section.form {
     -ms-appearance: none;
     -o-appearance: none;
     appearance: none;
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 16px;
+    line-height: 1.4;
     border: 1px solid #dfdfdf;
     border-radius: 0.25rem;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
     margin: 0;
     outline: none;
     transition: all 0.25s ease-in-out; }
-    section.form input:not([type="submit"]):focus,
+    section.form input:not([type="submit"]):focus, section.form input:not([type="submit"]).active,
     section.form textarea:focus,
-    section.form .custom-select:focus {
+    section.form textarea.active,
+    section.form .custom-select:focus,
+    section.form .custom-select.active {
       border: 1px solid #007bff;
       box-shadow: 0 0 3px #007bff; }
+    section.form input:not([type="submit"])::placeholder,
+    section.form textarea::placeholder,
+    section.form .custom-select::placeholder {
+      color: #999; }
   section.form input:not([type="submit"]) {
     line-height: 1;
     padding: 9px; }
-  section.form input[disabled="disabled"],
-  section.form input[readonly="readonly"],
-  section.form textarea[disabled="disabled"],
-  section.form textarea[readonly="readonly"],
-  section.form .custom-select[disabled="disabled"] {
+  section.form textarea {
+    height: auto !important;
+    padding: 6px 9px;
+    resize: vertical; }
+  section.form div:not(.datetime) input[disabled],
+  section.form div:not(.datetime) input[readonly],
+  section.form div:not(.datetime) textarea[disabled],
+  section.form div:not(.datetime) textarea[readonly],
+  section.form div:not(.datetime) .custom-select[disabled] {
     background: #e9ecef;
     color: #6c757d;
     cursor: not-allowed;
     -webkit-text-fill-color: #6c757d;
     opacity: 1; }
-  section.form input[type="search"],
-  section.form input[type="submit"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    -o-appearance: none;
-    appearance: none; }
-  section.form textarea {
-    height: auto !important;
-    padding: 6px 9px;
-    resize: vertical; }
   section.form fieldset {
     border: 0;
     padding: 0; }
@@ -1269,9 +1102,10 @@ section.form {
     margin: 1.75em 0; }
   section.form label {
     cursor: pointer;
-    display: inline-block; }
+    display: inline-block;
+    transition: color 0.25s ease-in-out; }
   section.form legend {
-    color: #555;
+    color: #777;
     font-size: .95em;
     font-weight: 500;
     margin: 0;
@@ -1285,11 +1119,12 @@ section.form {
     padding: 0.375em 0.75em; }
   section.form .control {
     display: flex; }
+    section.form .control:first-of-type {
+      margin-top: .75em; }
     section.form .control:not(.checkbox):not(.radio) {
-      flex-direction: column-reverse;
-      /* display labels before controls */ }
+      flex-direction: column-reverse; }
       section.form .control:not(.checkbox):not(.radio) label {
-        color: #555;
+        color: #777;
         font-size: .95em;
         font-weight: 500;
         margin: 0;
@@ -1297,8 +1132,10 @@ section.form {
         text-transform: uppercase; }
   section.form .custom-select {
     padding-left: 9px; }
+  section.form .datetime input {
+    cursor: pointer; }
   section.form .description {
-    color: #666;
+    color: #777;
     font-size: .95em;
     margin: .2em 0 0; }
   section.form .group {
@@ -1313,15 +1150,16 @@ section.form {
   section.form .invalid legend {
     color: #dc3545 !important; }
   section.form .invalid input:not([type="submit"]),
-  section.form .invalid textarea {
-    border: 1px solid #dc3545; }
-    section.form .invalid input:not([type="submit"]):focus,
-    section.form .invalid textarea:focus {
-      box-shadow: 0 0 3px #dc3545; }
+  section.form .invalid textarea,
   section.form .invalid .custom-select {
     border: 1px solid #dc3545; }
+    section.form .invalid input:not([type="submit"]):focus,
+    section.form .invalid textarea:focus,
     section.form .invalid .custom-select:focus {
       box-shadow: 0 0 3px #dc3545; }
+  section.form .invalid .active {
+    border-color: #dc3545;
+    box-shadow: 0 0 3px #dc3545 !important; }
   section.form .invalid .description:before {
     content: attr(data-message);
     color: #dc3545;
@@ -1330,16 +1168,8 @@ section.form {
     box-shadow: 0 0 3px #dc3545; }
   section.form .invalid .pretty label:before {
     border-color: #dc3545; }
-  section.form .mq-input {
-    height: auto;
-    padding-right: 30px !important; }
-  section.form .mq-input-icon {
-    right: 6px; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
-  section.form .pretty label:before {
-    border-color: #cbcbcb;
-    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.05); }
   section.form .required + label:after,
   section.form .required legend:after,
   section.form :required + label:after {
@@ -1354,15 +1184,18 @@ section.results {
   section.results dl {
     margin-top: 2em; }
   section.results dd {
-    margin: 0 0 1.5em 0; }
+    margin: 0 0 1.75em 0; }
   section.results dt {
-    color: #555;
+    color: #777;
     font-size: .95em;
     font-weight: 500;
     margin: 0;
     padding: 0 0 .25em;
     text-transform: uppercase; }
 
+/* Alerts
+  - icons from: https://useiconic.com/open and http://www.entypo.com
+  - data uri syntax from: https://codepen.io/tigt/post/optimizing-svgs-in-data-uris */
 p.alert, p.error, p.success {
   background-color: rgba(23, 162, 184, 0.05);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='20' height='20' viewBox='0 0 20 20'%3E %3Cpath d='M10,0.4c-5.303,0-9.601,4.298-9.601,9.6c0,5.303,4.298,9.601,9.601,9.601c5.301,0,9.6-4.298,9.6-9.601 C19.6,4.698,15.301,0.4,10,0.4z M10.896,3.866c0.936,0,1.211,0.543,1.211,1.164c0,0.775-0.62,1.492-1.679,1.492 c-0.886,0-1.308-0.445-1.282-1.182C9.146,4.719,9.665,3.866,10.896,3.866z M8.498,15.75c-0.64,0-1.107-0.389-0.66-2.094l0.733-3.025 c0.127-0.484,0.148-0.678,0-0.678c-0.191,0-1.022,0.334-1.512,0.664L6.74,10.094c1.555-1.299,3.343-2.061,4.108-2.061 c0.64,0,0.746,0.756,0.427,1.92l-0.84,3.18c-0.149,0.562-0.085,0.756,0.064,0.756c0.192,0,0.82-0.232,1.438-0.719l0.362,0.486 C10.786,15.168,9.137,15.75,8.498,15.75z' fill='#17a2b8'/%3E %3C/svg%3E");
@@ -1373,6 +1206,7 @@ p.alert, p.error, p.success {
   border-radius: 0.25rem;
   color: #17a2b8;
   line-height: 1;
+  margin: 1em 0 1.75em 0;
   padding: 1em .75em;
   padding-left: 35px; }
 
@@ -1387,5 +1221,76 @@ p.success {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='8' height='8' viewBox='0 0 8 8'%3E %3Cpath d='M0 0v7h7v-3.594l-1 1v1.594h-5v-5h3.594l1-1h-5.594zm7 0l-3 3-1-1-1 1 2 2 4-4-1-1z' fill='#28a745'/%3E%3C/svg%3E");
   border-color: #28a745;
   color: #28a745; }
+
+/* Flatpickr overrides
+----------------------------------------------------------------------------- */
+.dayContainer .flatpickr-day.selected,
+.dayContainer .flatpickr-day.selected:hover {
+  background: #007bff;
+  border-color: #007bff; }
+
+body .flatpickr-calendar {
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 16px;
+  line-height: 1.4;
+  border: 1px solid #007bff;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 3px #007bff;
+  transition: all 0.25s ease-in-out; }
+  body .flatpickr-calendar.arrowBottom:before {
+    border-top-color: #007bff; }
+  body .flatpickr-calendar.arrowTop:before {
+    border-bottom-color: #007bff; }
+  body .flatpickr-calendar.invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 3px #dc3545; }
+    body .flatpickr-calendar.invalid.arrowBottom:before {
+      border-top-color: #dc3545; }
+    body .flatpickr-calendar.invalid.arrowTop:before {
+      border-bottom-color: #dc3545; }
+body .flatpickr-current-month .flatpickr-monthDropdown-months {
+  height: 29px; }
+body .flatpickr-months {
+  margin-bottom: 10px; }
+  body .flatpickr-months .flatpickr-month {
+    height: 35px; }
+  body .flatpickr-months .flatpickr-prev-month:hover svg,
+  body .flatpickr-months .flatpickr-next-month:hover svg {
+    fill: #007bff; }
+body .flatpickr-time {
+  line-height: 39px; }
+  body .flatpickr-time .flatpickr-am-pm,
+  body .flatpickr-time .flatpickr-hour,
+  body .flatpickr-time .flatpickr-minute {
+    font-size: 1rem; }
+  body .flatpickr-time .flatpickr-am-pm {
+    border-radius: 0 0 5px 0; }
+  body .flatpickr-time .flatpickr-hour {
+    border-radius: 0 0 0 5px;
+    font-weight: normal !important; }
+
+/* MapQuest PlaceSearch overrides
+----------------------------------------------------------------------------- */
+.mq-dropdown-menu {
+  border: 1px solid #007bff;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 3px #007bff; }
+
+.mq-input {
+  height: auto !important;
+  padding-right: 30px !important; }
+
+.mq-input-icon {
+  right: 6px;
+  background-image: none !important;
+  box-shadow: none;
+  padding: 2px 6px; }
+
+/* Pretty-checkbox overrides
+----------------------------------------------------------------------------- */
+.pretty label:before {
+  border-color: #cbcbcb;
+  box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.05); }
 
 /*# sourceMappingURL=styles.css.map */

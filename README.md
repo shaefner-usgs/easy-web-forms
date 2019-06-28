@@ -330,4 +330,4 @@ The following `<textarea>` attributes will trigger client- and server-side valid
 
 ## Acknowledgements
 
-Portions of [Bootstrap](https://github.com/twbs/bootstrap) and [pretty-checkbox.css](https://github.com/lokesh-coder/pretty-checkbox) are distributed with this library to enhance the user interface. This library also uses cloud-hosted versions of 1) [MapQuest PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/) for single field `<input>` controls of type 'address' and 2) [flatpickr](https://flatpickr.js.org).
+Portions of [Bootstrap](https://github.com/twbs/bootstrap) and [pretty-checkbox.css](https://github.com/lokesh-coder/pretty-checkbox) are distributed with this library to enhance the user interface. This library also uses cloud-hosted versions of 1) [MapQuest PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/) for single field 'address' type `<input>` controls and 2) [flatpickr](https://flatpickr.js.org) for 'datetime' type `<input>` controls.

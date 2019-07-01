@@ -1116,7 +1116,7 @@ section.form {
     color: #dc3545; }
   section.form .btn {
     font-size: 1em;
-    padding: 0.375em 0.75em; }
+    padding: .375em .75em; }
   section.form .control {
     display: flex; }
     section.form .control:first-of-type {
@@ -1224,11 +1224,6 @@ p.success {
 
 /* Flatpickr overrides
 ----------------------------------------------------------------------------- */
-.dayContainer .flatpickr-day.selected,
-.dayContainer .flatpickr-day.selected:hover {
-  background: #007bff;
-  border-color: #007bff; }
-
 body .flatpickr-calendar {
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -1249,8 +1244,22 @@ body .flatpickr-calendar {
       border-top-color: #dc3545; }
     body .flatpickr-calendar.invalid.arrowTop:before {
       border-bottom-color: #dc3545; }
+body .flatpickr-day {
+  transition: all 0.25s ease-in-out; }
+  body .flatpickr-day:hover {
+    background: #ebf4ff;
+    border-color: #ebf4ff;
+    transition: all 0.05s ease-in-out; }
+  body .flatpickr-day.nextMonthDay:hover, body .flatpickr-day.prevMonthDay:hover {
+    background: #f6f6f6;
+    border-color: #f6f6f6;
+    color: rgba(57, 57, 57, 0.3); }
+  body .flatpickr-day.selected, body .flatpickr-day.selected:hover {
+    background: #007bff !important;
+    border-color: #007bff !important;
+    color: #fff !important; }
 body .flatpickr-current-month .flatpickr-monthDropdown-months {
-  height: 29px; }
+  height: 30px; }
 body .flatpickr-months {
   margin-bottom: 10px; }
   body .flatpickr-months .flatpickr-month {
@@ -1258,17 +1267,27 @@ body .flatpickr-months {
   body .flatpickr-months .flatpickr-prev-month:hover svg,
   body .flatpickr-months .flatpickr-next-month:hover svg {
     fill: #007bff; }
-body .flatpickr-time {
-  line-height: 39px; }
-  body .flatpickr-time .flatpickr-am-pm,
-  body .flatpickr-time .flatpickr-hour,
-  body .flatpickr-time .flatpickr-minute {
-    font-size: 1rem; }
-  body .flatpickr-time .flatpickr-am-pm {
-    border-radius: 0 0 5px 0; }
-  body .flatpickr-time .flatpickr-hour {
-    border-radius: 0 0 0 5px;
-    font-weight: normal !important; }
+body .flatpickr-time input:focus,
+body .flatpickr-time .flatpickr-am-pm:focus {
+  background-color: #f2f8ff; }
+body .flatpickr-time input:hover,
+body .flatpickr-time .flatpickr-am-pm:hover,
+body .flatpickr-time .numInputWrapper:hover {
+  background-color: #ebf4ff; }
+body .flatpickr-time .numInputWrapper span:hover {
+  background-color: #cce5ff; }
+body .flatpickr-time .flatpickr-am-pm,
+body .flatpickr-time .flatpickr-hour,
+body .flatpickr-time .flatpickr-minute {
+  font-size: 1rem; }
+body .flatpickr-time .flatpickr-am-pm {
+  border-radius: 0 4px 4px 0; }
+body .flatpickr-time .numInputWrapper,
+body .flatpickr-time .flatpickr-hour {
+  border-radius: 4px 0 0 4px;
+  font-weight: normal !important; }
+body .noCalendar .flatpickr-time {
+  border: 0 !important; }
 
 /* MapQuest PlaceSearch overrides
 ----------------------------------------------------------------------------- */

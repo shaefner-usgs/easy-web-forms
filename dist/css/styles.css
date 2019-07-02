@@ -1261,6 +1261,8 @@ body .flatpickr-day {
     color: #fff !important; }
 body .flatpickr-current-month .flatpickr-monthDropdown-months {
   height: 30px; }
+  body .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+    background-color: #ebf4ff; }
 body .flatpickr-months {
   margin-bottom: 10px; }
   body .flatpickr-months .flatpickr-month {
@@ -1275,11 +1277,8 @@ body .flatpickr-time input:focus,
 body .flatpickr-time .flatpickr-am-pm:focus {
   background-color: #f2f8ff; }
 body .flatpickr-time input:hover,
-body .flatpickr-time .flatpickr-am-pm:hover,
-body .flatpickr-time .numInputWrapper:hover {
+body .flatpickr-time .flatpickr-am-pm:hover {
   background-color: #ebf4ff; }
-body .flatpickr-time .numInputWrapper span:hover {
-  background-color: #cce5ff; }
 body .flatpickr-time .flatpickr-am-pm,
 body .flatpickr-time .flatpickr-hour,
 body .flatpickr-time .flatpickr-minute {
@@ -1292,6 +1291,10 @@ body .flatpickr-time .flatpickr-hour {
   font-weight: normal !important; }
 body .noCalendar .flatpickr-time {
   border: 0 !important; }
+body .numInputWrapper:hover {
+  background-color: #ebf4ff; }
+body .numInputWrapper span:hover {
+  background-color: #cce5ff; }
 
 /* MapQuest PlaceSearch overrides
 ----------------------------------------------------------------------------- */

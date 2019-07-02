@@ -317,6 +317,10 @@ body {
   // Display tweaks
   .flatpickr-current-month .flatpickr-monthDropdown-months {
     height: 30px;
+
+    &:hover {
+      background-color: scale-color($primary, $lightness: 92%);
+    }
   }
 
   .flatpickr-months {
@@ -346,13 +350,8 @@ body {
     }
 
     input:hover,
-    .flatpickr-am-pm:hover,
-    .numInputWrapper:hover {
+    .flatpickr-am-pm:hover {
       background-color: scale-color($primary, $lightness: 92%);
-    }
-
-    .numInputWrapper span:hover { // up/down arrows
-      background-color: scale-color($primary, $lightness: 80%);
     }
 
     .flatpickr-am-pm,
@@ -373,6 +372,16 @@ body {
   // Remove extraneous border separating calendar from time controls
   .noCalendar .flatpickr-time {
     border: 0 !important;
+  }
+
+  .numInputWrapper {
+    &:hover {
+      background-color: scale-color($primary, $lightness: 92%);
+    }
+
+    span:hover { // up/down arrows
+      background-color: scale-color($primary, $lightness: 80%);
+    }
   }
 }
 

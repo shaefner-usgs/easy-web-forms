@@ -1245,6 +1245,7 @@ body .flatpickr-calendar {
     body .flatpickr-calendar.invalid.arrowTop:before {
       border-bottom-color: #dc3545; }
 body .flatpickr-day {
+  color: inherit;
   transition: all 0.25s ease-in-out; }
   body .flatpickr-day:hover {
     background: #ebf4ff;
@@ -1263,10 +1264,13 @@ body .flatpickr-current-month .flatpickr-monthDropdown-months {
 body .flatpickr-months {
   margin-bottom: 10px; }
   body .flatpickr-months .flatpickr-month {
+    color: inherit;
     height: 35px; }
   body .flatpickr-months .flatpickr-prev-month:hover svg,
   body .flatpickr-months .flatpickr-next-month:hover svg {
     fill: #007bff; }
+body .flatpickr-time input {
+  color: inherit; }
 body .flatpickr-time input:focus,
 body .flatpickr-time .flatpickr-am-pm:focus {
   background-color: #f2f8ff; }

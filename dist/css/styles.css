@@ -1295,20 +1295,34 @@ body .noCalendar .flatpickr-time {
 
 /* MapQuest PlaceSearch overrides
 ----------------------------------------------------------------------------- */
-.mq-dropdown-menu {
+section.form input.mq-input {
+  height: auto;
+  padding-right: 30px; }
+section.form .mq-dropdown-menu {
   border: 1px solid #007bff;
   border-radius: 0.25rem;
   box-shadow: 0 0 3px #007bff; }
-
-.mq-input {
-  height: auto !important;
-  padding-right: 30px !important; }
-
-.mq-input-icon {
-  right: 6px;
+section.form .mq-input-icon {
+  right: 0;
   background-image: none !important;
   box-shadow: none;
-  padding: 2px 6px; }
+  padding: 2px 15px; }
+  section.form .mq-input-icon svg {
+    right: 8px; }
+section.form .mq-results .mq-address {
+  color: #999; }
+section.form .mq-results .mq-name {
+  color: #000; }
+section.form .mq-results .mq-result {
+  background-color: inherit;
+  transition: all 0.25s ease-in-out; }
+  section.form .mq-results .mq-result .mq-result-icon svg g {
+    fill: #333; }
+  section.form .mq-results .mq-result.mq-cursor {
+    background-color: #ebf4ff;
+    transition: all 0.05s ease-in-out; }
+    section.form .mq-results .mq-result.mq-cursor .mq-result-icon svg g {
+      fill: #007bff; }
 
 /* Pretty-checkbox overrides
 ----------------------------------------------------------------------------- */

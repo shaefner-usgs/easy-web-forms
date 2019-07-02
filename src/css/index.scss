@@ -379,21 +379,57 @@ body {
 /* MapQuest PlaceSearch overrides
 ----------------------------------------------------------------------------- */
 
-.mq-dropdown-menu {
-  border: 1px solid $primary;
-  border-radius: $border-radius;
-  box-shadow: 0 0 3px $primary;
-}
-.mq-input {
-  height: auto !important;
-  padding-right: 30px !important; // make room for 'X' button
-}
-.mq-input-icon {
-  right: 6px;
-  // Override web page template's defaults (earthquake.usgs.gov)
-  background-image: none !important;
-  box-shadow: none;
-  padding: 2px 6px;
+section.form {
+  input.mq-input {
+    height: auto;
+    padding-right: 30px; // make room for 'x' button
+  }
+
+  .mq-dropdown-menu {
+    border: 1px solid $primary;
+    border-radius: $border-radius;
+    box-shadow: 0 0 3px $primary;
+  }
+
+  .mq-input-icon { // 'x' button to clear results
+    right: 0;
+    // Override web page template's defaults (earthquake.usgs.gov)
+    background-image: none !important;
+    box-shadow: none;
+    padding: 2px 15px;
+
+    svg {
+      right: 8px;
+    }
+  }
+
+  .mq-results {
+    .mq-address {
+      color: #999;
+    }
+
+    .mq-name {
+      color: #000;
+    }
+
+    .mq-result {
+      background-color: inherit;
+      transition: all 0.25s ease-in-out;
+
+      .mq-result-icon svg g {
+        fill: #333;
+      }
+
+      &.mq-cursor { // used for highlighting mouseover in results
+        background-color: scale-color($primary, $lightness: 92%);
+        transition: all 0.05s ease-in-out;
+
+        .mq-result-icon svg g {
+          fill: $primary;
+        }
+      }
+    }
+  }
 }
 
 /* Pretty-checkbox overrides

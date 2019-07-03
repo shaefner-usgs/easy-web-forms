@@ -26,7 +26,7 @@ section.form {
   input:not([type="submit"]),
   textarea,
   .custom-select { // bootstrap css class attached to select menus
-    @include appearance(none); // for Safari iOS to display CSS border highlights correctly
+    @include appearance(none); // remove platform-specific built-in styles
     @include fonts; // nested form controls don't apply cascaded font settings
 
     border: 1px solid $formcontrol-border-color;
@@ -128,6 +128,7 @@ section.form {
 
   .datetime input {
     cursor: pointer; // use pointer for all datetime fields, incl. flatpickr altFormat
+    height: auto;
   }
 
   .description {
@@ -185,6 +186,11 @@ section.form {
     .pretty label:before {
       border-color: $danger;
     }
+  }
+
+  // Prevent stacked controls being clickable past label
+  .pretty input {
+    width: auto;
   }
 
   // Add focus styles for pretty checkbox controls

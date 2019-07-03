@@ -692,6 +692,13 @@ input[type="button"].btn-block {
     .custom-select {
       transition: none; } }
 
+[type=reset], [type=submit], button, html [type=button] {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  -ms-appearance: button;
+  -o-appearance: button;
+  appearance: button; }
+
 .pretty * {
   box-sizing: border-box; }
 
@@ -1133,7 +1140,8 @@ section.form {
   section.form .custom-select {
     padding-left: 9px; }
   section.form .datetime input {
-    cursor: pointer; }
+    cursor: pointer;
+    height: auto; }
   section.form .description {
     color: #777;
     font-size: .95em;
@@ -1168,6 +1176,8 @@ section.form {
     box-shadow: 0 0 3px #dc3545; }
   section.form .invalid .pretty label:before {
     border-color: #dc3545; }
+  section.form .pretty input {
+    width: auto; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
   section.form .required + label:after,

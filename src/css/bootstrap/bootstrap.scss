@@ -8,3 +8,7 @@
 @import './mixins/_transition.scss';
 @import './_buttons.scss';
 @import './_custom-forms.scss';
+
+[type=reset], [type=submit], button, html [type=button] {
+  @include appearance(button);
+}

@@ -85,12 +85,12 @@ No metadata fields will be included by default. An auto-incrementing 'id' field 
 
 Both client- and server-side validation are performed automatically, based on standard [HTML5 attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text#Additional_attributes) that you set when creating [form controls](#form-controls). The attributes that trigger validation are:
 
-* maxwidth (some `<input`> types, `<textarea>`)
-* minwidth (some `<input`> types, `<textarea>`)
-* pattern (some `<input>` types)
+* maxwidth (`<input`> types that support this attribute, `<textarea>`)
+* minwidth (`<input`> types that support this attribute, `<textarea>`)
+* pattern (`<input>` types that support this attribute)
 * required (`<input>`, `<textarea>`, `<select>`)
 
-In addition, some `<input>` types have automatic pattern validation built-in, using a simple RegExp to validate user input:
+In addition, the following `<input>` types have automatic pattern matching built-in, using a simple RegExp to validate user input:
 
 * datetime [(custom type)](#special-types)
 * email
@@ -205,7 +205,8 @@ All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML
 
 Some types have added functionality:
 
-* **checkbox**: the default message option is set to 'Please select one or more options'.
+* **checkbox**:
+the default message option is set to 'Please select one or more options'.
 * **email**: user input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value.
 * **number**: user input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value.
 * **radio**: the default message option is set to 'Please select an option'.

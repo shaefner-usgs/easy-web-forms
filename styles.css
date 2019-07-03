@@ -692,6 +692,13 @@ input[type="button"].btn-block {
     .custom-select {
       transition: none; } }
 
+[type=reset], [type=submit], button, html [type=button] {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  -ms-appearance: button;
+  -o-appearance: button;
+  appearance: button; }
+
 .pretty * {
   box-sizing: border-box; }
 
@@ -1116,7 +1123,7 @@ section.form {
     color: #dc3545; }
   section.form .btn {
     font-size: 1em;
-    padding: 0.375em 0.75em; }
+    padding: .375em .75em; }
   section.form .control {
     display: flex; }
     section.form .control:first-of-type {
@@ -1133,7 +1140,8 @@ section.form {
   section.form .custom-select {
     padding-left: 9px; }
   section.form .datetime input {
-    cursor: pointer; }
+    cursor: pointer;
+    height: auto; }
   section.form .description {
     color: #777;
     font-size: .95em;
@@ -1168,6 +1176,8 @@ section.form {
     box-shadow: 0 0 3px #dc3545; }
   section.form .invalid .pretty label:before {
     border-color: #dc3545; }
+  section.form .pretty input {
+    width: auto; }
   section.form .pretty input:focus ~ .state.p-primary-o label:before {
     box-shadow: 0 0 3px #007bff; }
   section.form .required + label:after,
@@ -1224,11 +1234,6 @@ p.success {
 
 /* Flatpickr overrides
 ----------------------------------------------------------------------------- */
-.dayContainer .flatpickr-day.selected,
-.dayContainer .flatpickr-day.selected:hover {
-  background: #007bff;
-  border-color: #007bff; }
-
 body .flatpickr-calendar {
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -1249,43 +1254,88 @@ body .flatpickr-calendar {
       border-top-color: #dc3545; }
     body .flatpickr-calendar.invalid.arrowTop:before {
       border-bottom-color: #dc3545; }
+body .flatpickr-day {
+  color: inherit;
+  transition: all 0.25s ease-in-out; }
+  body .flatpickr-day:hover {
+    background: #ebf4ff;
+    border-color: #ebf4ff;
+    transition: all 0.05s ease-in-out; }
+  body .flatpickr-day.nextMonthDay:hover, body .flatpickr-day.prevMonthDay:hover {
+    background: #f6f6f6;
+    border-color: #f6f6f6;
+    color: rgba(57, 57, 57, 0.3); }
+  body .flatpickr-day.selected, body .flatpickr-day.selected:hover {
+    background: #007bff !important;
+    border-color: #007bff !important;
+    color: #fff !important; }
 body .flatpickr-current-month .flatpickr-monthDropdown-months {
-  height: 29px; }
+  height: 30px; }
+  body .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+    background-color: #ebf4ff; }
 body .flatpickr-months {
   margin-bottom: 10px; }
   body .flatpickr-months .flatpickr-month {
+    color: inherit;
     height: 35px; }
   body .flatpickr-months .flatpickr-prev-month:hover svg,
   body .flatpickr-months .flatpickr-next-month:hover svg {
     fill: #007bff; }
-body .flatpickr-time {
-  line-height: 39px; }
-  body .flatpickr-time .flatpickr-am-pm,
-  body .flatpickr-time .flatpickr-hour,
-  body .flatpickr-time .flatpickr-minute {
-    font-size: 1rem; }
-  body .flatpickr-time .flatpickr-am-pm {
-    border-radius: 0 0 5px 0; }
-  body .flatpickr-time .flatpickr-hour {
-    border-radius: 0 0 0 5px;
-    font-weight: normal !important; }
+body .flatpickr-time input {
+  color: inherit; }
+body .flatpickr-time input:focus,
+body .flatpickr-time .flatpickr-am-pm:focus {
+  background-color: #f2f8ff; }
+body .flatpickr-time input:hover,
+body .flatpickr-time .flatpickr-am-pm:hover {
+  background-color: #ebf4ff; }
+body .flatpickr-time .flatpickr-am-pm,
+body .flatpickr-time .flatpickr-hour,
+body .flatpickr-time .flatpickr-minute {
+  font-size: 1rem; }
+body .flatpickr-time .flatpickr-am-pm {
+  border-radius: 0 4px 4px 0; }
+body .flatpickr-time .numInputWrapper,
+body .flatpickr-time .flatpickr-hour {
+  border-radius: 4px 0 0 4px;
+  font-weight: normal !important; }
+body .noCalendar .flatpickr-time {
+  border: 0 !important; }
+body .numInputWrapper:hover {
+  background-color: #ebf4ff; }
+body .numInputWrapper span:hover {
+  background-color: #cce5ff; }
 
 /* MapQuest PlaceSearch overrides
 ----------------------------------------------------------------------------- */
-.mq-dropdown-menu {
+section.form input.mq-input {
+  height: auto;
+  padding-right: 30px; }
+section.form .mq-dropdown-menu {
   border: 1px solid #007bff;
   border-radius: 0.25rem;
   box-shadow: 0 0 3px #007bff; }
-
-.mq-input {
-  height: auto !important;
-  padding-right: 30px !important; }
-
-.mq-input-icon {
-  right: 6px;
+section.form .mq-input-icon {
+  right: 0;
   background-image: none !important;
   box-shadow: none;
-  padding: 2px 6px; }
+  padding: 2px 15px; }
+  section.form .mq-input-icon svg {
+    right: 8px; }
+section.form .mq-results .mq-address {
+  color: #999; }
+section.form .mq-results .mq-name {
+  color: #000; }
+section.form .mq-results .mq-result {
+  background-color: inherit;
+  transition: all 0.25s ease-in-out; }
+  section.form .mq-results .mq-result .mq-result-icon svg g {
+    fill: #333; }
+  section.form .mq-results .mq-result.mq-cursor {
+    background-color: #ebf4ff;
+    transition: all 0.05s ease-in-out; }
+    section.form .mq-results .mq-result.mq-cursor .mq-result-icon svg g {
+      fill: #007bff; }
 
 /* Pretty-checkbox overrides
 ----------------------------------------------------------------------------- */

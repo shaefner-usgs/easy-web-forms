@@ -75,9 +75,9 @@ See [example.php](dist/example.php) for additional details.
 
 You will also need to create a MySQL table with field names that correspond to the name attribute of each form control/group. Additional fields are needed to store optional [metadata](#options) for each record if configured:
 
-* 'datetime' (Type DATETIME)
-* 'ip' (Type VARCHAR)
-* 'browser' (Type VARCHAR)
+* datetime (Type DATETIME)
+* ip (Type VARCHAR)
+* browser (Type VARCHAR)
 
 No metadata fields will be included by default. An auto-incrementing 'id' field is recommended.
 
@@ -201,7 +201,7 @@ Options in **bold** are required; options in *italics* are required for all radi
 
 #### Special Types
 
-All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types) are supported (except *image* and *file*<sup id="r1">[1](#f1)</sup>).
+All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types) are supported (*except* **image** and **file**<sup id="r1">[1](#f1)</sup>).
 
 Some types have added functionality:
 
@@ -233,11 +233,13 @@ In addition, the following non-standard **custom types** are also supported:
 
 * **datetime**
 
-  Creates a datetime (or date/time only) field with a datepicker calendar widget for simplifying/ensuring valid user input. This functionality utilizes a 3rd-party library called [flatpickr](https://flatpickr.js.org). See the [flatpickr documentation](https://flatpickr.js.org/options/) for details on setting configuration options for the datepicker. All flatpickr options are supported by setting '[flatpickrOptions](#options-1)', but javascript expressions such as `function()`s and `new Date()`s need to be passed as strings. They will be parsed into javascript expressions when the page is rendered. User input is automatically validated using formats that conform to MySQL Types DATE, DATETIME, or TIME,  depending on how the datepicker is configured. If you override the default format, you will need to set a custom 'pattern' attribute for validating.
+  Creates a datetime (or date/time only) field with a datepicker calendar widget for simplifying/ensuring valid user input. This functionality utilizes a 3rd-party library called [flatpickr](https://flatpickr.js.org). See the [flatpickr documentation](https://flatpickr.js.org/options/) for details on setting configuration options for the datepicker. All flatpickr options are supported, and you configure them by setting '[flatpickrOptions](#options-1)'. Javascript expressions such as `function()`s and `new Date()`s need to be passed as strings, and they will be parsed into javascript expressions when the page is rendered.
+
+  User input is automatically validated using formats that conform to MySQL Types DATE, DATETIME, or TIME, depending on how you configure the datepicker. If you override the default format, you will need to set a custom 'pattern' attribute for validating.
 
 #### Special Attributes
 
-The following `<input>` attributes will trigger client- and server-side validation when set:
+The following `<input>` attributes will trigger [validation](#validation) when set:
 
 * maxwidth
 * minwidth
@@ -296,7 +298,7 @@ Options in **bold** are required.
 
 #### Special Attributes
 
-The following `<select>` attribute will trigger client- and server-side validation when set:
+The following `<select>` attribute will trigger [validation](#validation) when set:
 
 * required
 
@@ -341,7 +343,7 @@ Options in **bold** are required.
 
 #### Special Attributes
 
-The following `<textarea>` attributes will trigger client- and server-side validation when set:
+The following `<textarea>` attributes will trigger [validation](#validation) when set:
 
 * maxwidth
 * minwidth

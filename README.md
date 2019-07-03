@@ -205,17 +205,35 @@ All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML
 
 Some types have added functionality:
 
-* **checkbox**:
-the default message option is set to 'Please select one or more options'.
-* **email**: user input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value.
-* **number**: user input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value.
-* **radio**: the default message option is set to 'Please select an option'.
-* **url**: user input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value. The default description option is set to 'Include “http://” or “https://”'.
+* **checkbox**
+
+  The default message option is set to 'Please select one or more options'.
+
+* **email**
+
+  User input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value.
+
+* **number**
+
+  User input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value.
+
+* **radio**
+
+  The default message option is set to 'Please select an option'.
+
+* **url**
+
+  User input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value. The default description option is set to 'Include “http://” or “https://”'.
 
 In addition, the following non-standard **custom types** are also supported:
 
-* **address**: creates a single field for entering a street address with autocomplete suggestions as you type. You will need to create the following extra fields in the database table to store the constituent values, which are set in hidden `<input>` fields on the web page: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. This functionality utilizes a 3rd-party library called [PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/), and it requires a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php.
-* **datetime**: creates a datetime (or date/time only) field with a datepicker calendar widget for simplifying/ensuring valid user input. This functionality utilizes a 3rd-party library called [flatpickr](https://flatpickr.js.org). See the [flatpickr documentation](https://flatpickr.js.org/options/) for details on setting configuration options for the datepicker. All flatpickr options are supported by setting '[flatpickrOptions](#options-1)', but javascript expressions such as `function()`s and `new Date()`s need to be passed as strings. They will be parsed into javascript expressions when the page is rendered. User input is automatically validated using formats that conform to MySQL Types DATE, DATETIME, or TIME,  depending on how the datepicker is configured. If you override the default format, you will need to set a custom 'pattern' attribute for validating.
+* **address**
+
+  Creates a single field for entering a street address with autocomplete suggestions as you type. You will need to create the following extra fields in the database table to store the constituent values, which are set in hidden `<input>` fields on the web page: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. This functionality utilizes a 3rd-party library called [PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/), and it requires a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php.
+
+* **datetime**
+
+  Creates a datetime (or date/time only) field with a datepicker calendar widget for simplifying/ensuring valid user input. This functionality utilizes a 3rd-party library called [flatpickr](https://flatpickr.js.org). See the [flatpickr documentation](https://flatpickr.js.org/options/) for details on setting configuration options for the datepicker. All flatpickr options are supported by setting '[flatpickrOptions](#options-1)', but javascript expressions such as `function()`s and `new Date()`s need to be passed as strings. They will be parsed into javascript expressions when the page is rendered. User input is automatically validated using formats that conform to MySQL Types DATE, DATETIME, or TIME,  depending on how the datepicker is configured. If you override the default format, you will need to set a custom 'pattern' attribute for validating.
 
 #### Special Attributes
 

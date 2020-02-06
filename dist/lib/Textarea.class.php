@@ -162,9 +162,11 @@ class Textarea {
       $this->id,
       $this->label
     );
+    
+    // Substitute values for mustache placeholders
+    $message = preg_replace('/{{(label|name)}}/', strtoupper($this->label), $this->message);
 
     // If no custom message was set, append min/max-length requirements
-    $message = $this->message;
     if ($this->message === $this->_defaults['message'] && $msgLength) {
       $message .= " ($msgLength)";
     }

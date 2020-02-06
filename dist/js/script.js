@@ -161,7 +161,9 @@
 
         // Flatpickr briefly sets altInput value to current time (bug?) - add slight delay
         window.setTimeout(function() {
-          hiddenInput.value = altInput.value;
+          if (hiddenInput && altInput) {
+            hiddenInput.value = altInput.value;
+          }
         }, 100);
       });
 

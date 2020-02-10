@@ -154,35 +154,41 @@
 
       input = fp.input;
       div = input.closest('.control');
+      
+      fp.config.onChange.push(
+        function() {
+          altInput = div.querySelector('#flatpickr' + i);
+          hiddenInput = div.querySelector('#altInput' + i);
 
-      fp.set('onChange', function() {
-        altInput = div.querySelector('#flatpickr' + i);
-        hiddenInput = div.querySelector('#altInput' + i);
+          // Flatpickr briefly sets altInput value to current time (bug?) - add slight delay
+          window.setTimeout(function() {
+            if (hiddenInput && altInput) {
+              hiddenInput.value = altInput.value;
+            }
+          }, 100);
+        }
+      );
 
-        // Flatpickr briefly sets altInput value to current time (bug?) - add slight delay
-        window.setTimeout(function() {
-          if (hiddenInput && altInput) {
-            hiddenInput.value = altInput.value;
-          }
-        }, 100);
-      });
+      fp.config.onClose.push(
+        function() {
+          div.classList.remove('open');
+          _validator.validate(input); // be certain control is validated
+        }
+      );
 
-      fp.set('onClose', function () {
-        div.classList.remove('open');
-        _validator.validate(input); // be certain control is validated
-      });
-
-      fp.set('onOpen', function () {
-        div.classList.add('open');
-        // Set intial validition state on datepicker widget when opened
-        calendars = document.querySelectorAll('.flatpickr-calendar');
-        calendars.forEach(function(calendar) {
-          calendar.classList.remove('invalid', 'valid');
-          if (div.classList.contains('invalid')) {
-            calendar.classList.add('invalid');
-          }
-        });
-      });
+      fp.config.onOpen.push(
+        function() {
+          div.classList.add('open');
+          // Set intial validition state on datepicker widget when opened
+          calendars = document.querySelectorAll('.flatpickr-calendar');
+          calendars.forEach(function(calendar) {
+            calendar.classList.remove('invalid', 'valid');
+            if (div.classList.contains('invalid')) {
+              calendar.classList.add('invalid');
+            }
+          });
+        }
+      );
     }
 
     _initialize(options);

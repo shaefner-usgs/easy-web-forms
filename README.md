@@ -53,7 +53,7 @@ PHP and MySQL
 3. **Add** the form controls:
 
     ```php
-    $form = new Form(); // initialize Form instance
+    $form = new Form(); // instantiate Form instance
 
     $form->addControl($name);
     $form->addGroup([

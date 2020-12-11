@@ -50,7 +50,7 @@ PHP and MySQL
     ]);
     ```
 
-3. **Add** the form controls to Form():
+3. **Add** the form controls:
 
     ```php
     $form = new Form(); // initialize Form instance

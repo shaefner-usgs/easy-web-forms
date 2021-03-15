@@ -37,9 +37,10 @@ class Database {
       $stmt->execute();
 
       return $stmt;
-    }
-    catch(Exception $e) {
+    } catch(Exception $e) {
       print '<p class="error">ERROR: ' . $e->getMessage() . '</p>';
+ 
+      exit;
     }
   }
 

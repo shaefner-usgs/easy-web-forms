@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Easy web forms is a PHP library that simplifies the process of creating web-based forms. The library creates the HTML for the form, processes it, and stores results in a MySQL database. Both client- and server-side validation are built-in and straightforward to configure.
+Easy Web Forms is a PHP library that simplifies the process of creating web-based forms. The library creates the HTML for the form, processes it, and stores results in a MySQL database. Both client- and server-side validation are built-in and straightforward to configure.
 
 [Demo](https://shaefner-usgs.github.io/easy-web-forms/demo.html)
 

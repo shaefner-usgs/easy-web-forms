@@ -8,6 +8,8 @@
  *     adminEmail {String} - Where to send results of successful form submission
  *     emailSubject {String} - Subject of form submission email notification
  *     meta {Array} - Extra fields to include in MySQL database with each submission
+ *     mode {String} - SQL mode: 'insert' (default) or 'update'
+ *     record {Array} - SQL field name (key) and value of record to update (mode must be set to 'update')
  *     submitButtonText {String} - Submit button text
  *     successMsg {String} - Message shown upon successful form submission
  */
@@ -22,13 +24,15 @@ class Form {
         'datetime' => false,
         'ip' => false
       ],
+      'mode' => 'insert',
+      'record' => [],
       'submitButtonText' => 'Submit',
       'successMsg' => 'Thank you for your input.'
     ],
     $_db,
     $_dbTable,
-    $_isValid = false, // set to true if form passes validation
-    $_items = [], // form controls/groups and associated props
+    $_isValid = false, // gets set to true if form passes validation
+    $_items = [], // form controls/groups and their associated props
     $_mapQuestApiKey,
     $_results = ''; // summary of user input
 
@@ -241,9 +245,9 @@ class Form {
   }
 
   /**
-   * Create an array (for MySQL) and HTML desc. list containing values entered by user
+   * Create an array (for MySQL) and HTML (<dl>) with values entered by user
    *
-   * If validation passes, insert record into database and email results to admin
+   * If validation passes, insert/update db record and send (optional) email
    */
   private function _process () {
     $numDateTimeFields = 0;
@@ -300,13 +304,18 @@ class Form {
       $params = array_merge($metaValues, $sqlValues);
 
       $Database = new Database($this->_db);
-      $Database->insertRecord($params, $this->_dbTable);
+      if ($this->mode === 'update') {
+        $Database->updateRecord($params, $this->_dbTable, $this->record);
+      } else {
+        $Database->insertRecord($params, $this->_dbTable);
+      }
+
       $this->_sendEmail();
     }
   }
 
   /**
-   * Send email to admin when user successfully submits form
+   * Send a notification email to admin when a user submits the form
    */
   private function _sendEmail () {
     if ($this->adminEmail) {

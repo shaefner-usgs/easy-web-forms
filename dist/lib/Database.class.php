@@ -104,4 +104,30 @@ class Database {
 
     $this->_execQuery($sql, $params);
   }
+
+  /**
+   * Update record in database
+   *
+   * @param $params {Array}
+   *     Key-value pairs being updated
+   * @param $table {String}
+   *     Table name
+   * @param $record {Array}
+   *     Field name (Array key) and value of record to update
+   */
+  public function updateRecord ($params, $table, $record) {
+    $key = key($record);
+    $value = $record[$key];
+    $setClause = $this->_getSetClause($params);
+    $sql = "UPDATE $table $setClause WHERE $key = $value";
+    
+    if (!$key || !$value) {
+      print '<p class="error">ERROR: <b>record</b> (Array) must be set during
+        Form instantiation when <b>mode</b> is set to &lsquo;update&rsquo;.</p>';
+
+      exit;
+    }
+
+    $this->_execQuery($sql, $params);
+  }
 }

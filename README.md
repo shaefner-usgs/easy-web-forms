@@ -126,6 +126,8 @@ $form = new Form([
 | adminEmail | String | '' | If supplied, the email address where a summary of user-entered data is sent when the form is submitted successfully. Comma separate multiple addresses if desired. |
 | emailSubject | String | 'Form submitted' | Subject of form submission email notification. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
 | meta | Array | ['browser' => false, 'datetime' => false, 'ip' => false] | Associative array that dictates which metadata fields to include with each database record. |
+| mode | String | 'insert' | SQL mode: 'insert' or 'update'. |
+| record | Array | [] | SQL field name (key) and value of record to update (mode must be set to 'update'). |
 | submitButtonText | String | 'Submit' | Submit button text. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
 

@@ -81,7 +81,7 @@ You will also need to create a MySQL table with field names that correspond to t
 * ip (Type VARCHAR)
 * browser (Type VARCHAR)
 
-No metadata fields will be included by default. 
+No metadata fields are included by default. 
 
 Adding an auto-incrementing 'id' field is recommended.
 
@@ -131,7 +131,7 @@ $form = new Form([
 | emailSubject | String | 'Form submitted' | Subject of form submission email notification sent to admin. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
 | meta | Array | ['browser' => false, 'datetime' => false, 'ip' => false] | Associative array of metadata fields to include in each database record. None are included by default. |
 | mode | String | 'insert' | SQL mode: 'insert' or 'update'. |
-| record | Array | [] | Associative array containing details of the record to update. The array key is the SQL field's name, typically an ID; the array value is the corresponding field's value. The mode option must be set to 'update'. |
+| record | Array | [] | Associative array containing details of the record to update. The array key is the SQL field's name, typically an 'id'; the array value is the corresponding field's value. The mode option must be set to 'update'. |
 | submitButtonText | String | 'Submit' | Submit button's text value. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
 

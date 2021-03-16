@@ -12,7 +12,7 @@ PHP and MySQL
 
 ## Getting Started
 
-1. **Include** the php dependencies, configuration file (be sure to set the configuration parameters for your environment in conf/config.inc.php), css, and javascript:
+1. **Include** the php dependencies, configuration file, css and javascript (be sure to set the configuration parameters for your environment in conf/config.inc.php):
 
     ```php
     include_once 'lib/functions.inc.php';
@@ -73,13 +73,17 @@ PHP and MySQL
 
 See [example.php](dist/example.php) for additional details.
 
-You will also need to create a MySQL table with field names that correspond to the name attribute of each form control/group. Additional fields are needed to store optional [metadata](#options) for each record if configured:
+### MySQL
+
+You will also need to create a MySQL table with field names that correspond to the name attribute of each form control/group you add. Additional fields are needed to store optional [metadata](#options) for each record if you enable metadata:
 
 * datetime (Type DATETIME)
 * ip (Type VARCHAR)
 * browser (Type VARCHAR)
 
-No metadata fields will be included by default. An auto-incrementing 'id' field is recommended.
+No metadata fields will be included by default. 
+
+Adding an auto-incrementing 'id' field is recommended.
 
 ## Validation
 
@@ -103,7 +107,7 @@ To override built-in pattern matching, set a custom 'pattern' attribute when you
 
 ### Form
 
-Used to create an HTML `<form>`. Back-end routines process and post the form data in MySQL automatically, without additional configuration.
+Used to create an HTML `<form>`. Back-end routines process and post the form data into the MySQL table you set up and configured in conf/config.inc.php.
 
 #### Usage example
 
@@ -124,11 +128,11 @@ $form = new Form([
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
 | adminEmail | String | '' | If supplied, the email address where a summary of user-entered data is sent when the form is submitted successfully. Comma separate multiple addresses if desired. |
-| emailSubject | String | 'Form submitted' | Subject of form submission email notification. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
-| meta | Array | ['browser' => false, 'datetime' => false, 'ip' => false] | Associative array that dictates which metadata fields to include with each database record. |
+| emailSubject | String | 'Form submitted' | Subject of form submission email notification sent to admin. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
+| meta | Array | ['browser' => false, 'datetime' => false, 'ip' => false] | Associative array of metadata fields to include in each database record. None are included by default. |
 | mode | String | 'insert' | SQL mode: 'insert' or 'update'. |
-| record | Array | [] | SQL field name (key) and value of record to update (mode must be set to 'update'). |
-| submitButtonText | String | 'Submit' | Submit button text. |
+| record | Array | [] | Associative array containing details of the record to update. The array key is the SQL field's name, typically an ID; the array value is the corresponding field's value. The mode option must be set to 'update'. |
+| submitButtonText | String | 'Submit' | Submit button's text value. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
 
 #### Methods
@@ -137,8 +141,8 @@ $form = new Form([
 | ------ | ------ | ------ |
 | addControl([`<Control>`](#form-controls) control) | null | Adds the given control to the form. Form controls are rendered in the order added. |
 | addGroup([`<addGroup options>`](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. Form controls are rendered/processed in the order added. |
-| isPosting() | Boolean | Checks if form is being submitted. |
-| isValid() | Boolean | Checks if form passed server-side validation after submitting. |
+| isPosting() | Boolean | Checks if the form is being submitted. |
+| isValid() | Boolean | Checks if the form passed server-side validation after submitting. |
 | render() | null | Displays either the web form or the results after submitting. |
 
 #### addGroup options
@@ -147,9 +151,9 @@ $form = new Form([
 | ------ | ------ | ------ | ------ |
 | arrangement | String | 'inline' | Form control (radio/checkbox) layout: 'inline' or 'stacked'. |
 | **controls** | Array | undefined | Indexed array of [`<Control>`](#form-controls)s. |
-| description | String | '' | Explanatory text displayed next to form control group. |
+| description | String | '' | Explanatory text displayed next to the form control group. |
 | label | String | 'name' attribute value of [`<Control>`](#form-controls)s in group. | `<legend>` for `<fieldset>` group. |
-| message | String | '' | Message shown when form control(s) in group is(are) invalid. |
+| message | String | '' | Message shown when one or more form controls in a group are invalid. |
 
 Options in **bold** are required.
 
@@ -179,8 +183,8 @@ $name = new Input([
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
 | checked | Boolean | false | `<input>` checked attribute. |
-| class | String | '' | CSS class attached to parent `<div>`. |
-| description | String | '' | Explanatory text displayed next to form control. Automatically set to number of chars. required if minlength/maxlength are set and this option has not been set. |
+| class | String | '' | CSS class attached to the form control's parent `<div>`. |
+| description | String | '' | Explanatory text displayed next to the form control. Automatically set to the number of chars. required if minlength/maxlength are set and this option has not been set. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
 | flatpickrOptions | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for type datetime fields |
 | *id* | String | '' | `<input>` id attribute. |
@@ -188,11 +192,11 @@ $name = new Input([
 | label | String | '' | `<label>` for `<input>`. |
 | max | Integer | null | `<input>` max attribute. |
 | maxlength | Integer | null | `<input>` maxlength attribute. |
-| message | String | 'Please provide a valid {{label}}' | Message shown when form control is invalid. Use [mustache templates](https://mustache.github.io) to insert control's `<label>` or `<name>` into the message. If you set minlength/maxlength values, and you haven't set a custom message, a note will be appended to message explaining this requirement. |
+| message | String | 'Please provide a valid {{label}}' | Message shown when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's `<label>` or `<name>` into the message. If you set minlength/maxlength values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |
 | min | Integer | null | `<input>` min attribute. |
 | minlength | Integer | null | `<input>` minlength attribute. |
 | **name** | String | '' | `<input>` name attribute. |
-| pattern | RegExp | '' | `<input>` pattern attribute. **Note:** No forward slashes should be specified around the pattern text. |
+| pattern | RegExp | '' | `<input>` pattern attribute. **Note:** Do not include delimiters around the pattern text. |
 | placeholder | String | '' | `<input>` placeholder attribute. |
 | readonly | Boolean | false | `<input>` readonly attribute. |
 | required | Boolean | false | `<input>` required attribute. |
@@ -285,16 +289,16 @@ $name = new Select([
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
-| class | String | '' | CSS class attached to parent `<div>`. |
-| description | String | '' | Explanatory text displayed next to form control. |
+| class | String | '' | CSS class attached to the form control's parent `<div>`. |
+| description | String | '' | Explanatory text displayed next to the form control. |
 | disabled | Boolean | false | `<select>` disabled attribute. |
 | id | String | '' | `<select>` id attribute. |
 | label | String | '' | `<label>` for `<select>`. |
-| message | String | 'Please select an option from the menu' | Message shown when form control is invalid. |
+| message | String | 'Please select an option from the menu' | Message shown when the form control is invalid. |
 | **name** | String | '' | `<select>` name attribute. |
 | **options** | Array | [] | Associative array of choices in the select menu. The array key is the data value sent to the server when that option is selected; the array value is the text that is shown in each of the menu choices. |
 | required | Boolean | false | `<select>` required attribute. |
-| selected | String | '' | `<option>` selected attribute - set the value to the Array key of the option to be selected by default when page loads. |
+| selected | String | '' | `<option>` selected attribute. Set the value to the array key of the option to be selected by default when page loads. |
 
 Options in **bold** are required.
 
@@ -326,15 +330,15 @@ $name = new Textarea([
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
-| class | String | '' | CSS class attached to parent `<div>`. |
+| class | String | '' | CSS class attached to the form control's parent `<div>`. |
 | cols | Integer | 60 | `<textarea>` cols attribute. |
-| description | String | '' | Explanatory text displayed next to form control. Automatically set to number of chars. required if minlength/maxlength are set and this option has not been set. |
+| description | String | '' | Explanatory text displayed next to the form control. Automatically set to number of chars. required if minlength/maxlength is set and this option has not been set. |
 | disabled | Boolean | false | `<textarea>` disabled attribute. |
 | id | String | '' | `<textarea>` id attribute. |
 | label | String | '' | `<label>` for `<textarea>`. |
 | maxlength | Integer | null | `<textarea>` maxlength attribute. |
 | minlength | Integer | null | `<textarea>` minlength attribute. |
-| message | String | 'Please provide a valid response' | Message shown when form control is invalid. If you set minlength/maxlength values, and you haven't set a custom message, a note will be appended to message explaining this requirement. |
+| message | String | 'Please provide a valid response' | Message shown when the form control is invalid. If you set minlength/maxlength values, and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |
 | **name** | String | '' | `<textarea>` name attribute. |
 | placeholder | String | '' | `<textarea>` placeholder attribute. |
 | required | Boolean | false | `<textarea>` required attribute. |

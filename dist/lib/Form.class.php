@@ -93,6 +93,29 @@ class Form {
   }
 
   /**
+   * Add metadata field(s) to user input for Database record
+   *
+   * @param $userData {Array}
+   *
+   * @return {Array}
+   */
+  private function _addMetaData ($userData) {
+    $metaData = [];
+
+    if ($this->meta['browser']) {
+      $metaData['browser'] = $_SERVER['HTTP_USER_AGENT'];
+    }
+    if ($this->meta['datetime']) {
+      $metaData['datetime'] = date('Y-m-d H:i:s');
+    }
+    if ($this->meta['ip']) {
+      $metaData['ip'] = $_SERVER['REMOTE_ADDR'];
+    }
+
+    return array_merge($metaData, $userData);
+  }
+
+  /**
    * Check that all controls in group have matching values for 'name' & 'required'
    *
    * @param $controls {Array}
@@ -207,27 +230,6 @@ class Form {
   }
 
   /**
-   * Get value(s) for meta field(s) that are stored in Database record
-   *
-   * @return $meta {Array}
-   */
-  private function _getMetaFieldValues () {
-    $meta = [];
-
-    if ($this->meta['browser']) {
-      $meta['browser'] = $_SERVER['HTTP_USER_AGENT'];
-    }
-    if ($this->meta['datetime']) {
-      $meta['datetime'] = date('Y-m-d H:i:s');
-    }
-    if ($this->meta['ip']) {
-      $meta['ip'] = $_SERVER['REMOTE_ADDR'];
-    }
-
-    return $meta;
-  }
-
-  /**
    * Get html for results summary after form submitted
    *
    * @return $html {String}
@@ -245,9 +247,10 @@ class Form {
   }
 
   /**
-   * Create an array (for MySQL) and HTML <dl> of values entered by user
+   * Process form on submit
    *
-   * If validation passes, insert/update db record and send (optional) email
+   * 1. Create an array (for MySQL) and HTML <dl> of values entered by user
+   * 2. If validation passes, insert/update db record and send (optional) email
    */
   private function _process () {
     $numDateTimeFields = 0;
@@ -263,18 +266,20 @@ class Form {
       }
 
       if (count($controls) > 1) { // radio/checkbox group
-        $displayValues = [];
         $sqlValue = $control->value; // get value from first control in group
+        $values = [];
+
         foreach ($controls as $ctrl) {
           if ($ctrl->isChecked()) {
-            $displayValues[] = $ctrl->label;
+            $values[] = $ctrl->label;
           }
         }
-        $displayValue = implode(', ', $displayValues);
+        $displayValue = implode(', ', $values);
       } else { // single control
         if ($control->type === 'datetime') { // datetime field
           // Set display value to altInput value if configured
           $displayValue = $control->value;
+  
           if (isSet($_POST['altInput' . $numDateTimeFields])) {
             $displayValue = $_POST['altInput' . $numDateTimeFields];
           }
@@ -294,14 +299,13 @@ class Form {
         $this->_results .= '<dd>' . htmlentities(stripslashes($displayValue)) . '</dd>';
       }
     }
-    $this->_results .= '</dl>';
 
-    // Validate and insert/email record if valid
+    $this->_results .= '</dl>';
     $this->_validate();
+ 
+    // Insert/update record and send notification email if valid
     if ($this->_isValid) {
-      // Add metadata fields to SQL params
-      $metaValues = $this->_getMetaFieldValues();
-      $params = array_merge($metaValues, $sqlValues);
+      $params = $this->_addMetaData($sqlValues);
 
       $Database = new Database($this->_db);
       if ($this->mode === 'update') {
@@ -381,7 +385,7 @@ class Form {
   }
 
   /**
-   * Add a single form control (input, select, textarea) instance
+   * Add a single form control (input, select, textarea) instance to Form
    *
    * @param $control {Object}
    *     Form control instance
@@ -400,7 +404,7 @@ class Form {
   }
 
   /**
-   * Add a radio/checkbox group
+   * Add a radio/checkbox group instance to Form
    *
    * @param $group {Array}
    *     [

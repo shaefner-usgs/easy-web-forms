@@ -1,3 +1,4 @@
 .DS_Store
 dist/conf/dbConnect.inc.php
+.nova
 .sass-cache

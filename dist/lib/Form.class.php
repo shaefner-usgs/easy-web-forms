@@ -164,7 +164,7 @@ class Form {
     $hasRequiredFields = false;
 
     $html = '<section class="form">';
-    if ($this->isPosting() && !$this->isValid()) {
+    if ($this->isPosting() && !$this->_isValid) {
       $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
     }
     $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
@@ -245,7 +245,7 @@ class Form {
   }
 
   /**
-   * Create an array (for MySQL) and HTML (<dl>) with values entered by user
+   * Create an array (for MySQL) and HTML <dl> of values entered by user
    *
    * If validation passes, insert/update db record and send (optional) email
    */
@@ -298,7 +298,7 @@ class Form {
 
     // Validate and insert/email record if valid
     $this->_validate();
-    if ($this->isValid()) {
+    if ($this->_isValid) {
       // Add metadata fields to SQL params
       $metaValues = $this->_getMetaFieldValues();
       $params = array_merge($metaValues, $sqlValues);
@@ -341,9 +341,12 @@ class Form {
 
   /*
    * Server-side validation
+   *
+   * Check each form control and set its boolean isValid prop. If any control is 
+   *   invalid, set Form's _isValid prop to false
    */
   private function _validate () {
-    $this->_isValid = true; // set to false below if validation fails
+    $this->_isValid = true; // default; set to false below if validation fails
 
     foreach ($this->_items as $key => $item) {
       $control = $item['controls'][0]; // single control instance or first control in group
@@ -371,7 +374,7 @@ class Form {
         ($maxLength && $length > $maxLength) ||
         ($pattern && !preg_match("/$pattern/", $control->value) && $control->value)
       ) {
-        $this->_isValid = false; // form (set to false if any conrol is invalid)
+        $this->_isValid = false; // form
         $control->isValid = false; // this control
       }
     }
@@ -458,7 +461,8 @@ class Form {
   }
 
   /**
-   * Determine if form passed server-side validation or not
+   * Determine if form passed server-side validation or not (expose private
+   *   _isValid prop)
    *
    * @return {Boolean}
    */
@@ -473,7 +477,7 @@ class Form {
     if ($this->isPosting()) { // user submitting form
       $this->_process();
 
-      if ($this->isValid()) {
+      if ($this->_isValid) {
         print $this->_getResultsHtml();
       } else {
         print $this->_getFormHtml();

@@ -322,7 +322,7 @@ class Input {
           }
         }
       } else {
-        $this->_submittedValue = safeParam($this->name);
+        $this->_submittedValue = safeParam($this->name, $this->type);
       }
       $this->value = $this->_submittedValue; // set to user-supplied value when posting
     }

@@ -184,41 +184,53 @@ class Form {
    * @return $html {String}
    */
   private function _getFormHtml () {
+    $contentType = 'application/x-www-form-urlencoded';
+    $controlsHtml = '';
     $hasRequiredFields = false;
-
     $html = '<section class="form">';
+
     if ($this->isPosting() && !$this->_isValid) {
       $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
     }
-    $html .= sprintf('<form action="%s" accept-charset="utf-8" method="POST" novalidate="novalidate">',
-      $_SERVER['REQUEST_URI']
-    );
 
     foreach ($this->_items as $key => $item) {
       $controls = $item['controls'];
+      $control = $controls[0]; // single control or first control in group
+  
       if (count($controls) > 1) { // radio/checkbox group
-        $html .= $this->_getControlGroupHtml($item);
+        $controlsHtml .= $this->_getControlGroupHtml($item);
       } else { // single control
-        if ($controls[0]->type === 'hidden') {
-          $html .= $controls[0]->getHtml(); // no tabindex
+        if ($control->type === 'hidden') {
+          $controlsHtml .= $control->getHtml(); // no tabindex
         } else {
-          $html .= $controls[0]->getHtml(++ $this->_countTabIndex);
+          $controlsHtml .= $control->getHtml(++ $this->_countTabIndex);
+          
+          if ($control->type === 'file') {
+            $contentType = 'multipart/form-data';
+          }
         }
       }
 
-      if ($controls[0]->required) { // required prop same for all controls in group
+      if ($control->required) {
         $hasRequiredFields = true;
       }
     }
-
+  
+    $html .= sprintf('<form action="%s" accept-charset="utf-8" method="POST" enctype="%s" novalidate="novalidate">',
+      $_SERVER['REQUEST_URI'],
+      $contentType
+    );
+    $html .= $controlsHtml;
     $html .= sprintf('<input id="submitbutton" name="submitbutton" type="submit" class="btn btn-primary" tabindex="%d" value="%s" />',
       ++ $this->_countTabIndex,
       $this->submitButtonText
     );
     $html .= '</form>';
+
     if ($hasRequiredFields) {
       $html .= '<p class="required"><span>*</span> = required field</p>';
     }
+
     $html .= '</section>';
 
     // Set MapQuest API key as global JS var if supplied by user

@@ -296,7 +296,7 @@ class Form {
       $sqlValues[$key] = $sqlValue;
       if ($control->type !== 'hidden') { // don't include hidden fields in results summary
         $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
-        $this->_results .= '<dd>' . htmlentities(stripslashes($displayValue)) . '</dd>';
+        $this->_results .= '<dd>' . htmlspecialchars(stripslashes($displayValue)) . '</dd>';
       }
     }
 

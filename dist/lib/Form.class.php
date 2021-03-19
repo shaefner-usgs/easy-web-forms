@@ -190,7 +190,7 @@ class Form {
     if ($this->isPosting() && !$this->_isValid) {
       $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
     }
-    $html .= sprintf('<form action="%s" method="POST" novalidate="novalidate">',
+    $html .= sprintf('<form action="%s" accept-charset="utf-8" method="POST" novalidate="novalidate">',
       $_SERVER['REQUEST_URI']
     );
 

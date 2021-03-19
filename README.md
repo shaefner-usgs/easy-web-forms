@@ -17,12 +17,13 @@ PHP and MySQL
     ```php
     include_once 'easy-web-forms.inc.php';
     ```
+    
+    Include this line first before any other content on the web page. Be certain to set up configuration parameters for your environment in conf/config.inc.php.
+
     ```html
     <link rel="stylesheet" href="css/styles.css" />
     <script src="js/script.js"></script>
     ```
-    
-    Be certain to set up configuration parameters for your environment in conf/config.inc.php.
 
 2. **Create** the form controls. For example:
 

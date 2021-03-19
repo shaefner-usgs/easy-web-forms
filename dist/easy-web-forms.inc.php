@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: text/html; charset=utf-8');
+
 // Config
 include_once __DIR__ . '/conf/config.inc.php';
 

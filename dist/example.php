@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="css/styles.css" />
-    <title>Example</title>
-  </head>
-  <body>
-
 <?php
 
 // 1. Include the php dependencies/configuration
-//  (remember to set MySQL config for your environment in conf/config.inc.php)
+//  (remember to set config params for your environment in conf/config.inc.php)
 include_once 'easy-web-forms.inc.php';
 
 // 2. Create the form controls
@@ -138,6 +128,20 @@ $form->addGroup([
   ]
 ]);
 $form->addControl($instructions);
+
+?>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>Example</title>
+  </head>
+  <body>
+
+<?php
 
 // 4. Render the form
 $form->render();

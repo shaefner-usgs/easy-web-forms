@@ -10,11 +10,9 @@
 
 <?php
 
-// 1. Include php dependencies and configuration
-//  (be sure to set MySQL configuration for your environment in conf/config.inc.php)
-include_once 'lib/functions.inc.php';
-include_once 'lib/classes.inc.php';
-include_once 'conf/config.inc.php';
+// 1. Include the php dependencies/configuration
+//  (remember to set MySQL config for your environment in conf/config.inc.php)
+include_once 'easy-web-forms.inc.php';
 
 // 2. Create the form controls
 $name = new Input([

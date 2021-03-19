@@ -12,17 +12,17 @@ PHP and MySQL
 
 ## Getting Started
 
-1. **Include** the php dependencies, configuration file, css and javascript (be sure to set the configuration parameters for your environment in conf/config.inc.php):
+1. **Include** the php, css and javascript dependencies:
 
     ```php
-    include_once 'lib/functions.inc.php';
-    include_once 'lib/classes.inc.php';
-    include_once 'conf/config.inc.php';
+    include_once 'easy-web-forms.inc.php';
     ```
     ```html
     <link rel="stylesheet" href="css/styles.css" />
     <script src="js/script.js"></script>
     ```
+    
+    Be certain to set up configuration parameters for your environment in conf/config.inc.php.
 
 2. **Create** the form controls. For example:
 

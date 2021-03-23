@@ -183,6 +183,7 @@ $name = new Input([
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
+| accept | String | 'image/png, image/jpeg' | `<input>` accept attribute. |
 | checked | Boolean | false | `<input>` checked attribute. |
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
 | description | String | '' | Explanatory text displayed next to the form control. Automatically set to the number of chars. required if minlength/maxlength are set and this option has not been set. |
@@ -219,6 +220,10 @@ Some types have added functionality:
 * **email**
 
   User input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value.
+
+* **file**
+
+  The default message option is set to 'Please choose a file'.
 
 * **number**
 

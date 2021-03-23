@@ -6,6 +6,7 @@
  * @param $params {Array}
  *     html input attributes; supported properties are:
  *
+ *       accept {String}
  *       checked {Boolean}
  *       disabled {Boolean}
  *       id {String} - REQUIRED for all radio/checkbox inputs
@@ -32,6 +33,7 @@
  */
 class Input {
   private $_defaults = [
+      'accept' => 'image/png, image/jpeg',
       'checked' => false,
       'class' => '',
       'description' => '',
@@ -128,6 +130,7 @@ class Input {
 
   /**
    * php's json_encode with support for javascript expressions passed as strings
+   *   for configuring flatpickr options
    *
    * @param $opts {Array}
    *
@@ -183,6 +186,9 @@ class Input {
     }
     if ($this->type === 'datetime') {
       $attrs .= ' data-type="datetime"';
+    }
+    if ($this->type === 'file') {
+      $attrs .= sprintf(' accept="%s"', $this->accept);
     }
     if ($this->type === 'number') {
       $attrs .= sprintf(' max="%s" min="%s"',
@@ -262,6 +268,9 @@ class Input {
       }
       else if ($type === 'email') {
         $this->_defaults['pattern'] = '[^@]+@[^@]+\.[^@]+';
+      }
+      else if ($type === 'file') {
+        $this->_defaults['message'] = 'Please choose a file';
       }
       else if ($type === 'number') {
         $this->_defaults['pattern'] = '^[0-9.-]+$';

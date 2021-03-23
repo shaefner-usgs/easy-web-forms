@@ -366,29 +366,29 @@ class Form {
 
     foreach ($this->_items as $key => $item) {
       $control = $item['controls'][0]; // single control instance or first control in group
-
-      if ($control->type === 'file') { // skip file inputs
-        continue;
-      }
-
-      $length = strlen($control->value);
+      $value = $control->value;
+      $length = strlen($value);
       $maxLength = null;
       $minLength = null;
-      if ($control->type !== 'select') {
+      $pattern = '';
+
+      if ($control->type === 'file') {
+        $value = $_FILES[$key]['name'];
+      }
+      else if ($control->type !== 'select') {
         $maxLength = intval($control->maxlength);
         $minLength = intval($control->minlength);
       }
 
-      $pattern = '';
       if (isSet($control->pattern)) {
         $pattern = preg_replace('@/@', '\/', $control->pattern); // escape '/' chars
       }
 
       if (
-        ($control->required && !$control->value) ||
+        ($control->required && !$value) ||
         ($minLength && $length < $minLength) ||
         ($maxLength && $length > $maxLength) ||
-        ($pattern && !preg_match("/$pattern/", $control->value) && $control->value)
+        ($pattern && !preg_match("/$pattern/", $value) && $value)
       ) {
         $this->_isValid = false; // form
         $control->isValid = false; // this control

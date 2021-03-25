@@ -272,6 +272,8 @@ class Form {
     foreach ($this->_items as $key => $item) {
       $controls = $item['controls'];
       $control = $controls[0]; // single control instance or first control in group
+      $displayValue = '';
+      $sqlValue = '';
 
       if ($control->type === 'file') {
         $name = $_FILES['image']['name'];
@@ -288,8 +290,6 @@ class Form {
           $sqlValue = $image; // store full path to image in db
 
           move_uploaded_file($_FILES['image']['tmp_name'], $image);
-        } else {
-          continue; // skip
         }
       } else if (count($controls) > 1) { // radio/checkbox group
         $sqlValue = $control->value; // get value from first control in group
@@ -301,7 +301,7 @@ class Form {
           }
         }
         $displayValue = implode(', ', $values);
-      } else { // single control
+      } else { // single (non-file) control
         if ($control->type === 'datetime') { // datetime field
           // Set display value to altInput value if configured
           $displayValue = $control->value;

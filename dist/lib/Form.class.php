@@ -510,5 +510,7 @@ class Form {
     } else {
       print $this->_getFormHtml();
     }
+    
+    return $this->_db;
   }
 }

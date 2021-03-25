@@ -196,7 +196,7 @@ class Form {
     foreach ($this->_items as $key => $item) {
       $controls = $item['controls'];
       $control = $controls[0]; // single control or first control in group
-  
+
       if (count($controls) > 1) { // radio/checkbox group
         $controlsHtml .= $this->_getControlGroupHtml($item);
       } else { // single control
@@ -204,7 +204,7 @@ class Form {
           $controlsHtml .= $control->getHtml(); // no tabindex
         } else {
           $controlsHtml .= $control->getHtml(++ $this->_countTabIndex);
-          
+
           if ($control->type === 'file') {
             $contentType = 'multipart/form-data';
           }
@@ -215,7 +215,7 @@ class Form {
         $hasRequiredFields = true;
       }
     }
-  
+
     $html .= sprintf('<form action="%s" accept-charset="utf-8" method="POST" enctype="%s" novalidate="novalidate">',
       $_SERVER['REQUEST_URI'],
       $contentType
@@ -276,12 +276,17 @@ class Form {
       if ($control->type === 'file') {
         $name = $_FILES['image']['name'];
         $path = $control->path;
-        
+
         if ($name && $path) { // move uploaded file if path was provided
           $displayValue = basename($name);
-          $image = $path . '/' . basename($name);
+          $ext = pathinfo($name)['extension'];
+          $image = sprintf('%s/%s.%s',
+            $path,
+            time(), // use timestamp for filename (to ensure it's unique)
+            $ext
+          );
           $sqlValue = $image; // store full path to image in db
-  
+
           move_uploaded_file($_FILES['image']['tmp_name'], $image);
         } else {
           continue; // skip
@@ -300,7 +305,7 @@ class Form {
         if ($control->type === 'datetime') { // datetime field
           // Set display value to altInput value if configured
           $displayValue = $control->value;
-  
+
           if (isSet($_POST['altInput' . $numDateTimeFields])) {
             $displayValue = $_POST['altInput' . $numDateTimeFields];
           }
@@ -323,7 +328,7 @@ class Form {
 
     $this->_results .= '</dl>';
     $this->_validate();
- 
+
     // Insert/update record and send notification email if valid
     if ($this->_isValid) {
       $params = $this->_addMetaData($sqlValues);
@@ -367,7 +372,7 @@ class Form {
   /*
    * Server-side validation
    *
-   * Check each form control and set its boolean isValid prop. If any control is 
+   * Check each form control and set its boolean isValid prop. If any control is
    *   invalid, set Form's _isValid prop to false
    */
   private function _validate () {
@@ -510,7 +515,7 @@ class Form {
     } else {
       print $this->_getFormHtml();
     }
-    
+
     return $this->_db;
   }
 }

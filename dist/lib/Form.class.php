@@ -273,11 +273,20 @@ class Form {
       $controls = $item['controls'];
       $control = $controls[0]; // single control instance or first control in group
 
-      if ($control->type === 'file') { // skip file inputs
-        continue;
-      }
-
-      if (count($controls) > 1) { // radio/checkbox group
+      if ($control->type === 'file') {
+        $name = $_FILES['image']['name'];
+        $path = $control->path;
+        
+        if ($name && $path) { // move uploaded file if path was provided
+          $displayValue = basename($name);
+          $image = $path . '/' . basename($name);
+          $sqlValue = $image; // store full path to image in db
+  
+          move_uploaded_file($_FILES['image']['tmp_name'], $image);
+        } else {
+          continue; // skip
+        }
+      } else if (count($controls) > 1) { // radio/checkbox group
         $sqlValue = $control->value; // get value from first control in group
         $values = [];
 

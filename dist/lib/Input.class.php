@@ -30,6 +30,7 @@
  *       flatpickrOptions {Array} - flatpickr datetime picker lib
  *       label {String} - label element for control
  *       message {String} - instructions displayed for invalid form control
+ *       path {String} - full path to file upload directory on server
  */
 class Input {
   private $_defaults = [
@@ -48,6 +49,7 @@ class Input {
       'min' => null,
       'minlength' => null,
       'name' => '',
+      'path' => '',
       'pattern' => '',
       'placeholder' => '',
       'readonly' => false,
@@ -72,10 +74,13 @@ class Input {
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
     foreach ($options as $key => $value) {
-      // Strip off '[]' from name values; added programmatically to checkbox inputs
+      // Strip off '[]' from name values (added programmatically to checkbox inputs)
       if ($key === 'name' && preg_match('/\[\]$/', $value)) {
         $value = preg_replace('/(\w+)\[\]$/', '$1', $value);
+      } else if ($key === 'path') {
+        $value = rtrim($value, '/'); // strip trailing slash
       }
+
       // Only set props that are defined in $_defaults
       if (array_key_exists($key, $this->_defaults)) {
         $this->$key = $value;
@@ -270,7 +275,7 @@ class Input {
         $this->_defaults['pattern'] = '[^@]+@[^@]+\.[^@]+';
       }
       else if ($type === 'file') {
-        $this->_defaults['message'] = 'Please choose a file';
+        $this->_defaults['message'] = 'Please choose a file (.jpg or .png)';
       }
       else if ($type === 'number') {
         $this->_defaults['pattern'] = '^[0-9.-]+$';

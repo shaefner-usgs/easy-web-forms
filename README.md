@@ -198,6 +198,7 @@ $name = new Input([
 | min | Integer | null | `<input>` min attribute. |
 | minlength | Integer | null | `<input>` minlength attribute. |
 | **name** | String | '' | `<input>` name attribute. |
+| path | String | '' | Full (absolute) path to the file upload directory on the server for 'file' type `<input>` controls (a trailing slash is optional). If this option omitted, the uploaded file will not be saved. |
 | pattern | RegExp | '' | `<input>` pattern attribute. **Note:** Do not include delimiters around the pattern text. |
 | placeholder | String | '' | `<input>` placeholder attribute. |
 | readonly | Boolean | false | `<input>` readonly attribute. |
@@ -209,7 +210,7 @@ Options in **bold** are required; options in *italics* are required for all radi
 
 #### Special Types
 
-All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types) are supported (*except* **image** and **file**<sup id="r1">[1](#f1)</sup>).
+All [standard `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_<input>_types) are supported (*except* **image**).
 
 Some types have added functionality:
 
@@ -223,7 +224,15 @@ Some types have added functionality:
 
 * **file**
 
-  The default message option is set to 'Please choose a file'.
+  The default message option is set to 'Please choose a file (.jpg or .png)'. Set the accept option to allow other file types. If the path option is set, the file will be uploaded to the given directory and the full path to the image will be stored in the database. If necessary, you can  manually process uploaded files in the calling PHP script **after** rendering the form:
+
+  ```php
+  $form->render();
+  ...
+  if ($form->isPosting() && $form->isValid()) {
+    // Handle uploaded file(s) here
+  }
+  ```
 
 * **number**
 
@@ -257,18 +266,6 @@ The following `<input>` attributes will trigger [validation](#validation) when s
 * minwidth
 * pattern
 * required
-
-<b id="f1">1</b> File inputs can be used, but there is no server-side support for handling files. You will need to process the uploaded file in the PHP script **after** rendering the form:
-
-```php
-$form->render();
-...
-if ($form->isPosting() && $form->isValid()) {
-  // Handle uploaded file(s) here
-}
-```
-
-[↩](#r1)
 
 ### Select
 

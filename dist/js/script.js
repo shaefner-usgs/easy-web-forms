@@ -139,7 +139,7 @@
     };
 
     /**
-     * Set addtional options (hooks) for every flatpickr instance
+     * Set additional options (hooks) for every flatpickr instance
      *
      * @param fp {Object}
      *     flatpickr instance

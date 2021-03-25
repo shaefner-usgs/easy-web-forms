@@ -2,13 +2,13 @@
 
 ## Introduction
 
-Easy Web Forms is a PHP library that simplifies the process of creating web-based forms. The library creates the HTML for the form, processes it, and stores results in a MySQL database. Both client- and server-side validation are built-in and straightforward to configure.
+Easy Web Forms is a PHP library that simplifies building web-based forms. It creates the form's HTML and processes submits. On success, the results are displayed as HTML and stored in a MySQL database. Both client- and server-side validation are built-in and straightforward to configure.
 
 [Demo](https://shaefner-usgs.github.io/easy-web-forms/demo.html)
 
 ## Requirements
 
-PHP and MySQL
+PHP and MySQL.
 
 ## Getting Started
 
@@ -82,10 +82,9 @@ You will also need to create a MySQL table with field names that correspond to t
 * ip (Type VARCHAR)
 * browser (Type VARCHAR)
 
-No metadata fields are included by default. 
+No metadata fields are included by default. Adding an auto-incrementing 'id' field is recommended.
 
-Adding an auto-incrementing 'id' field is recommended.
-
+<a id="validation"></a>
 ## Validation
 
 Both client- and server-side validation are performed automatically, based on standard [HTML5 attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text#Additional_attributes) that you set when creating [form controls](#form-controls). The attributes that trigger validation are:
@@ -97,14 +96,14 @@ Both client- and server-side validation are performed automatically, based on st
 
 In addition, the following `<input>` types have automatic pattern matching built-in, using a simple RegExp to validate user input:
 
-* datetime [(custom type)](#special-types)
+* datetime [(custom type)](#custom-types)
 * email
 * number
 * url
 
 To override built-in pattern matching, set a custom 'pattern' attribute when you create an `<input>`.
 
-# API Documentation
+## API Documentation
 
 ### Form
 
@@ -124,6 +123,7 @@ $form = new Form([
 | ------ | ------ |
 | Form(options?) | Instantiates a new html form given an optional options Array. |
 
+<a id="options"></a>
 #### Options
 
 | Option | Type | Default | Description |
@@ -146,6 +146,7 @@ $form = new Form([
 | isValid() | Boolean | Checks if the form passed server-side validation after submitting. |
 | render() | null | Displays either the form or the results after submitting. Returns the Database connection so that, for example, you can get the id value of the last inserted row using lastInsertId(). |
 
+<a id="addGroup-options"></a>
 #### addGroup options
 
 | Option | Type | Default | Description |
@@ -158,8 +159,7 @@ $form = new Form([
 
 Options in **bold** are required.
 
-## Form Controls
-
+<a id="form-controls"></a>
 ### Input
 
 Used to create an html `<input>`.
@@ -179,6 +179,7 @@ $name = new Input([
 | ------ | ------ |
 | Input(options) | Instantiates a new html `<input>` control given an options Array. |
 
+<a id="flatpickr"></a>
 #### Options
 
 | Option | Type | Default | Description |
@@ -188,7 +189,7 @@ $name = new Input([
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
 | description | String | '' | Explanatory text displayed next to the form control. Automatically set to the number of chars. required if minlength/maxlength are set and this option has not been set. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
-| flatpickrOptions | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for type datetime fields |
+| flatpickrOptions | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for 'datetime' type `<input>` controls. |
 | *id* | String | '' | `<input>` id attribute. |
 | inputmode | String | '' | `<input>` inputmode attribute. |
 | label | String | '' | `<label>` for `<input>`. |
@@ -246,6 +247,7 @@ Some types have added functionality:
 
   User input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value. The default description option is set to 'Include “http://” or “https://”'.
 
+<a id="custom-types"></a>
 In addition, the following non-standard **custom types** are also supported:
 
 * **address**
@@ -254,7 +256,7 @@ In addition, the following non-standard **custom types** are also supported:
 
 * **datetime**
 
-  Creates a datetime (or date/time only) field with a datepicker calendar widget for simplifying/ensuring valid user input. This functionality utilizes a 3rd-party library called [flatpickr](https://flatpickr.js.org). See the [flatpickr documentation](https://flatpickr.js.org/options/) for details on setting configuration options for the datepicker. All flatpickr options are supported, and you configure them by setting '[flatpickrOptions](#options-1)'. Javascript expressions such as `function()`s and `new Date()`s need to be passed as strings, and they will be parsed into javascript expressions when the page is rendered.
+  Creates a datetime (or date/time only) field with a datepicker calendar widget for simplifying/ensuring valid user input. This functionality utilizes a 3rd-party library called [flatpickr](https://flatpickr.js.org). See the [flatpickr documentation](https://flatpickr.js.org/options/) for details on setting configuration options for the datepicker. All flatpickr options are supported, and you configure them by setting '[flatpickrOptions](#flatpickr)'. Javascript expressions such as `function()`s and `new Date()`s need to be passed as strings, and they will be parsed into javascript expressions when the page is rendered.
 
   User input is automatically validated using formats that conform to MySQL Types DATE, DATETIME, or TIME, depending on how you configure the datepicker. If you override the default format, you will need to set a custom 'pattern' attribute for validating.
 

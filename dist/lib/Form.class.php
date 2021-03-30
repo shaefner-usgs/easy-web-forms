@@ -29,29 +29,19 @@ class Form {
       'submitButtonText' => 'Submit',
       'successMsg' => 'Thank you for your input.'
     ],
-    $_db,
-    $_dbTable,
     $_isValid = false, // gets set to true if form passes validation
     $_items = [], // form controls/groups and their associated props
-    $_mapQuestApiKey,
     $_results = ''; // summary of user input
 
   public function __construct (Array $params=[]) {
     // Merge defaults with user-supplied params and set as class properties
     $options = array_merge_recursive_distinct($this->_defaults, $params);
+
     foreach ($options as $key => $value) {
       // Only set props that are defined in $_defaults
       if (array_key_exists($key, $this->_defaults)) {
         $this->$key = $value;
       }
-    }
-
-    // Get db connection/table info, apikey from config
-    include  __DIR__ . '/../conf/config.inc.php';
-    $this->_db = $db;
-    $this->_dbTable = $dbTable;
-    if (isSet($mapQuestApiKey)) {
-      $this->_mapQuestApiKey = $mapQuestApiKey;
     }
   }
 
@@ -233,9 +223,11 @@ class Form {
 
     $html .= '</section>';
 
-    // Set MapQuest API key as global JS var if supplied by user
-    if ($this->_mapQuestApiKey) {
-      $html .= "<script>var MAPQUESTKEY = '$this->_mapQuestApiKey';</script>";
+    // Set MapQuest API key as global JS var if set in config file
+    if ($GLOBALS['mapQuestApiKey']) {
+      $html .= sprintf("<script>var MAPQUESTKEY = '%s';</script>",
+        $GLOBALS['mapQuestApiKey']
+      );
     }
 
     return $html;
@@ -333,11 +325,11 @@ class Form {
     if ($this->_isValid) {
       $params = $this->_addMetaData($sqlValues);
 
-      $Database = new Database($this->_db);
+      $Database = new Database($GLOBALS['db']);
       if ($this->mode === 'update') {
-        $Database->updateRecord($params, $this->_dbTable, $this->record);
+        $Database->updateRecord($params, $GLOBALS['dbTable'], $this->record);
       } else {
-        $Database->insertRecord($params, $this->_dbTable);
+        $Database->insertRecord($params, $GLOBALS['dbTable']);
       }
 
       $this->_sendEmail();
@@ -515,7 +507,5 @@ class Form {
     } else {
       print $this->_getFormHtml();
     }
-
-    return $this->_db;
   }
 }

@@ -144,7 +144,7 @@ $form = new Form([
 | addGroup([`<addGroup options>`](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. Form controls are rendered/processed in the order added. |
 | isPosting() | Boolean | Checks if the form is being submitted. |
 | isValid() | Boolean | Checks if the form passed server-side validation after submitting. |
-| render() | null | Displays either the form or the results after submitting. Returns the Database connection so that, for example, you can get the id value of the last inserted row using lastInsertId(). |
+| render() | null | Displays either the form or the results if submitting. |
 
 <a id="addGroup-options"></a>
 #### addGroup options

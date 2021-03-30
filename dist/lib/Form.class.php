@@ -279,7 +279,7 @@ class Form {
             time(), // use timestamp for filename (to ensure it's unique)
             $ext
           );
-          $sqlValue = $image; // store full path to image in db
+          $sqlValue = basename($image);
 
           move_uploaded_file($_FILES['image']['tmp_name'], $image);
         }

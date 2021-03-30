@@ -225,7 +225,7 @@ Some types have added functionality:
 
 * **file**
 
-  The default 'message' option is set to 'Please choose a file (.jpg or .png)'. Set the 'accept' option to allow other file types. If the 'path' option is set, the file will be uploaded to the given directory and the full path to the image will be stored in the database. Files are renamed using a timestamp to ensure they're unique. If necessary, you can further process uploaded files in the calling PHP script **after** rendering the form:
+  The default 'message' option is set to 'Please choose a file (.jpg or .png)'. Set the 'accept' option to allow other file types. If the 'path' option is set, the file will be uploaded to the given directory and its filename will be stored in the database. Files are renamed using a timestamp to ensure they're unique. If necessary, you can further process uploaded files in the calling PHP script **after** rendering the form:
 
   ```php
   $form->render();

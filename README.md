@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Easy Web Forms is a PHP library that simplifies building web-based forms. It creates the form's HTML and processes submits. On success, the results are displayed as HTML and stored in a MySQL database. Both client- and server-side validation are built-in and straightforward to configure.
+Easy Web Forms is a PHP library that simplifies building web-based forms. The library creates the form's HTML and processes user submissions. On success, the results are displayed as HTML and stored in a MySQL database. Both client- and server-side validation are built-in and straightforward to configure.
 
 [Demo](https://shaefner-usgs.github.io/easy-web-forms/demo.html)
 
@@ -18,7 +18,7 @@ PHP and MySQL.
     include_once 'easy-web-forms.inc.php';
     ```
     
-    Include this line first before any other content on the web page. Be certain to set up configuration parameters for your environment in conf/config.inc.php.
+    Include this line first before any other content on the web page. Be certain to set configuration parameters for your environment in conf/config.inc.php.
 
     ```html
     <link rel="stylesheet" href="css/styles.css" />
@@ -132,7 +132,7 @@ $form = new Form([
 | emailSubject | String | 'Form submitted' | Subject of form submission email notification sent to admin. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
 | meta | Array | ['browser' => false, 'datetime' => false, 'ip' => false] | Associative array of metadata fields to include in each database record. None are included by default. |
 | mode | String | 'insert' | SQL mode: 'insert' or 'update'. |
-| record | Array | [] | Associative array containing details of the record to update. The array key is the SQL field's name, typically an 'id'; the array value is the corresponding field's value. The mode option must be set to 'update'. |
+| record | Array | [] | Associative array containing details of the record to update. The array key is the SQL field's name, typically an 'id'; the array value is the corresponding field's value. The 'mode' option must be set to 'update'. |
 | submitButtonText | String | 'Submit' | Submit button's text value. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
 
@@ -217,7 +217,7 @@ Some types have added functionality:
 
 * **checkbox**
 
-  The default message option is set to 'Please select one or more options'.
+  The default 'message' option is set to 'Please select one or more options'.
 
 * **email**
 
@@ -225,7 +225,7 @@ Some types have added functionality:
 
 * **file**
 
-  The default message option is set to 'Please choose a file (.jpg or .png)'. Set the accept option to allow other file types. If the path option is set, the file will be uploaded to the given directory and the full path to the image will be stored in the database. If necessary, you can  manually process uploaded files in the calling PHP script **after** rendering the form:
+  The default 'message' option is set to 'Please choose a file (.jpg or .png)'. Set the 'accept' option to allow other file types. If the 'path' option is set, the file will be uploaded to the given directory and the full path to the image will be stored in the database. Files are renamed using a timestamp to ensure they're unique. If necessary, you can further process uploaded files in the calling PHP script **after** rendering the form:
 
   ```php
   $form->render();
@@ -241,11 +241,11 @@ Some types have added functionality:
 
 * **radio**
 
-  The default message option is set to 'Please select an option'.
+  The default 'message' option is set to 'Please select an option'.
 
 * **url**
 
-  User input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value. The default description option is set to 'Include “http://” or “https://”'.
+  User input is automatically validated using simple pattern matching. You can override this by setting the 'pattern' option to a custom value. The default 'description' option is set to 'Include “http://” or “https://”'.
 
 <a id="custom-types"></a>
 In addition, the following non-standard **custom types** are also supported:

@@ -9,7 +9,7 @@
  *       accept {String}
  *       checked {Boolean}
  *       disabled {Boolean}
- *       id {String} - REQUIRED for all radio/checkbox inputs
+ *       id {String} - REQUIRED for radio/checkbox inputs
  *       inputmode {String}
  *       max {Integer}
  *       maxlength {Integer}
@@ -21,9 +21,9 @@
  *       readonly {Boolean}
  *       required {Boolean}
  *       type {String} default is 'text'
- *       value {String} - REQUIRED for all radio/checkbox inputs
+ *       value {String} - REQUIRED for radio/checkbox inputs
  *
- *     other properties:
+ *     other (custom) properties:
  *
  *       class {String}
  *       description {String} - explanatory text displayed next to form control

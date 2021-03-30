@@ -294,6 +294,8 @@ class Form {
         }
         $displayValue = implode(', ', $values);
       } else { // single (non-file) control
+        $sqlValue = $control->value;
+
         if ($control->type === 'datetime') { // datetime field
           // Set display value to altInput value if configured
           $displayValue = $control->value;
@@ -301,17 +303,17 @@ class Form {
           if (isSet($_POST['altInput' . $numDateTimeFields])) {
             $displayValue = $_POST['altInput' . $numDateTimeFields];
           }
-          $sqlValue = $control->value;
           $numDateTimeFields ++; // increment afterwards b/c it's a 0-based index
         } else if ($control->type === 'select') { // select menu
           $displayValue = $control->options[$control->value];
-          $sqlValue = $control->value;
         } else { // everything else
-          $displayValue = $sqlValue = $control->value;
+          $displayValue = $control->value;
         }
       }
 
-      $sqlValues[$key] = $sqlValue;
+      if ($sqlValue) {
+        $sqlValues[$key] = $sqlValue;
+      }
       if ($control->type !== 'hidden') { // don't include hidden fields in results summary
         $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
         $this->_results .= '<dd>' . htmlspecialchars(stripslashes($displayValue)) . '</dd>';

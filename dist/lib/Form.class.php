@@ -268,20 +268,18 @@ class Form {
       $sqlValue = '';
 
       if ($control->type === 'file') {
-        $name = $_FILES['image']['name'];
-        $path = $control->path;
+        $name = $_FILES[$control->name]['name'];
 
-        if ($name && $path) { // move uploaded file if path was provided
+        if ($name && $control->path) { // move uploaded file if path was provided
           $displayValue = basename($name);
-          $ext = pathinfo($name)['extension'];
-          $image = sprintf('%s/%s.%s',
-            $path,
-            time(), // use timestamp for filename (to ensure it's unique)
-            $ext
+          $newName = sprintf('%s/%s.%s',
+            $control->path,
+            time(), // use timestamp for filename to ensure it's unique
+            pathinfo($name)['extension']
           );
-          $sqlValue = basename($image);
+          $sqlValue = basename($newName);
 
-          move_uploaded_file($_FILES['image']['tmp_name'], $image);
+          move_uploaded_file($_FILES[$control->name]['tmp_name'], $newName);
         }
       } else if (count($controls) > 1) { // radio/checkbox group
         $sqlValue = $control->value; // get value from first control in group

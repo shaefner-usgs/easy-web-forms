@@ -3,8 +3,8 @@
 // Timezone
 date_default_timezone_set('America/Los_Angeles');
 
-// Database table for form submission results
-$dbTable = 'test';
+// Database table for form submission results; you can also provide the table during Form instantiation
+$dbTable = '';
 
 // MapQuest key for PlaceSearch.js address field autocomplete (required for address type <input>s)
 $mapQuestApiKey = '';

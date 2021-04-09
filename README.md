@@ -107,13 +107,14 @@ To override built-in pattern matching, set a custom 'pattern' attribute when you
 
 ### Form
 
-Used to create an HTML `<form>`. Back-end routines process and post the form data into the MySQL table you set up and configured in conf/config.inc.php.
+Used to create an HTML `<form>`. Back-end routines process and post the form data into the MySQL table you provided in conf/config.inc.php or during Form instantiation.
 
 #### Usage example
 
 ```php
 $form = new Form([
-    'successMsg' => 'Thanks for your order.'
+    'successMsg' => 'Thanks for your order.',
+    'table' => 'tableName'
 ]);
 ```
 
@@ -121,20 +122,21 @@ $form = new Form([
 
 | Factory | Description |
 | ------ | ------ |
-| Form(options?) | Instantiates a new html form given an optional options Array. |
+| Form(options?) | Instantiates a new Form given an optional options Array. |
 
 <a id="options"></a>
 #### Options
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
-| adminEmail | String | '' | If supplied, the email address where a summary of user-entered data is sent when the form is submitted successfully. Comma separate multiple addresses if desired. |
+| adminEmail | String | '' | If supplied, the email address where a summary of user-entered data is sent when the form is submitted successfully. Comma separate multiple addresses. |
 | emailSubject | String | 'Form submitted' | Subject of form submission email notification sent to admin. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
 | meta | Array | ['browser' => false, 'datetime' => false, 'ip' => false] | Associative array of metadata fields to include in each database record. None are included by default. |
 | mode | String | 'insert' | SQL mode: 'insert' or 'update'. |
 | record | Array | [] | Associative array containing details of the record to update. The array key is the SQL field's name, typically an 'id'; the array value is the corresponding field's value. The 'mode' option must be set to 'update'. |
 | submitButtonText | String | 'Submit' | Submit button's text value. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
+| table | String | '' | Name of MySQL table to insert records into. Takes precedent over table name supplied in config.inc.php |
 
 #### Methods
 

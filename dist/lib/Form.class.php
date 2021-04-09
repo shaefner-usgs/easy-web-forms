@@ -27,7 +27,8 @@ class Form {
       'mode' => 'insert',
       'record' => [],
       'submitButtonText' => 'Submit',
-      'successMsg' => 'Thank you for your input.'
+      'successMsg' => 'Thank you for your input.',
+      'table' => ''
     ],
     $_isValid = false, // gets set to true if form passes validation
     $_items = [], // form controls/groups and their associated props
@@ -259,6 +260,12 @@ class Form {
   private function _process () {
     $numDateTimeFields = 0;
     $sqlValues = [];
+    $table = $GLOBALS['dbTable'];
+
+    if ($this->table) { // override table set in config
+      $table = $this->table;
+    }
+
     $this->_results = '<dl>';
 
     foreach ($this->_items as $key => $item) {
@@ -327,9 +334,9 @@ class Form {
 
       $Database = new Database($GLOBALS['db']);
       if ($this->mode === 'update') {
-        $Database->updateRecord($params, $GLOBALS['dbTable'], $this->record);
+        $Database->updateRecord($params, $table, $this->record);
       } else {
-        $Database->insertRecord($params, $GLOBALS['dbTable']);
+        $Database->insertRecord($params, $table);
       }
 
       $this->_sendEmail();

@@ -11,7 +11,6 @@ $mapQuestApiKey = '';
 
 // Option 1: Inline database connector
 
-/*
 $host = '';
 $dbname = '';
 $username = '';
@@ -23,7 +22,6 @@ try {
 } catch(PDOException $e) {
   print '<p class="error">ERROR: ' . $e->getMessage() . '</p>';
 }
-*/
 
 // Option 2: External database connector (needs to set $db)
-include 'dbConnect.inc.php';
+// include 'dbConnect.inc.php';

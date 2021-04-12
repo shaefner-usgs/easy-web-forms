@@ -154,7 +154,7 @@
 
       input = fp.input;
       div = input.closest('.control');
-      
+
       fp.config.onChange.push(
         function() {
           altInput = div.querySelector('#flatpickr' + i);

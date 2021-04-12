@@ -36,7 +36,7 @@ var MapQuestPlaceSearch = function (options) {
   };
 
   /**
-   * Set up MapQuest PlaceSearch.js for autocomplete Address fields
+   * Initialize PlaceSearch.
    */
   _initAddressFields = function () {
     var addressField,
@@ -75,7 +75,7 @@ var MapQuestPlaceSearch = function (options) {
   };
 
   /**
-   * Store constituent values from PlaceSearch API in hidden form fields
+   * Store constituent values from PlaceSearch API in hidden form fields.
    *
    * @param e {Event}
    * @param i {Integer}

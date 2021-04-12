@@ -2,7 +2,7 @@
 
 
 /**
- * Set up client-side validation.
+ * Set up client-side form validation.
  *
  * @param options {Object}
  *   {
@@ -45,7 +45,7 @@ var Validator = function (options) {
   };
 
   /**
-   * Add event listeners to form controls for validating user input
+   * Add event listeners to form controls for validating user input.
    */
   _addEventHandlers = function () {
     var type;
@@ -103,7 +103,7 @@ var Validator = function (options) {
   };
 
   /**
-   * Get a NodeList of form controls by type
+   * Get a NodeList of form controls by type.
    */
   _getControls = function () {
     _allControls = _form.querySelectorAll('input:not([type="submit"]), select, textarea');
@@ -115,7 +115,7 @@ var Validator = function (options) {
   };
 
   /**
-   * Get validation state of element
+   * Get validation state of element.
    *
    * @param el {Element}
    *
@@ -169,7 +169,7 @@ var Validator = function (options) {
   };
 
   /**
-   * Show validation errors or submit form depending on validation state
+   * Show validation errors or submit form depending on validation state.
    */
   _handleSubmit = function () {
     var errorMsg,
@@ -210,7 +210,7 @@ var Validator = function (options) {
   };
 
   /**
-   * Validate all form controls (useful when user submits the form)
+   * Validate all form controls (useful when user submits the form).
    */
   _validateAll = function () {
     _allControls.forEach(function(el) {
@@ -227,7 +227,7 @@ var Validator = function (options) {
   /**
    * Set up validation for flatpickr altInput fields, which display a human-
    *   readable date in a separate field while returning a different value
-   *   to the server in the original field
+   *   to the server in the original field.
    *
    * @param input {Element}
    *     original <input> element
@@ -243,7 +243,7 @@ var Validator = function (options) {
   };
 
   /**
-   * Validate user input on a given element
+   * Validate user input on a given element.
    *
    * @param el {Element}
    */
@@ -260,7 +260,7 @@ var Validator = function (options) {
 
     // Set validation state on parent node and any datepicker widget(s)
     if (el.getAttribute('data-type') === 'datetime') {
-      // Don't change state to invalid while user is interacting with datepickr widget
+      // Don't change state to invalid while user is interacting with datepicker widget
       if (state === 'valid' || !parent.classList.contains('open')) {
         parent.classList.remove('invalid', 'valid');
         parent.classList.add(state);

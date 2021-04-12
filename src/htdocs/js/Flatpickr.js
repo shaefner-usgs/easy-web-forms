@@ -42,7 +42,7 @@ var Flatpickr = function (options) {
   };
 
   /**
-   * Store altInput value in hidden field for display in results summary
+   * Store altInput value in hidden field for display in results summary.
    *
    * @param altInput {Element}
    * @param i {Integer}
@@ -59,7 +59,7 @@ var Flatpickr = function (options) {
   };
 
   /**
-   * Additional configuration necessary for flatpickr fields
+   * Additional configuration necessary for flatpickr fields.
    *
    * @param fp {Object}
    *     flatpickr instance
@@ -107,7 +107,7 @@ var Flatpickr = function (options) {
   };
 
   /**
-   * Get flatpickr options which are embedded inline within HTML
+   * Get flatpickr options which are embedded inline within HTML.
    *
    * @param i {Integer}
    *
@@ -127,7 +127,7 @@ var Flatpickr = function (options) {
   };
 
   /**
-   * Set up 3rd-party Flatpickr datetime picker
+   * Initialize Flatpickr.
    */
   _initFlatpickrFields = function () {
     var callback,
@@ -153,7 +153,7 @@ var Flatpickr = function (options) {
   };
 
   /**
-   * Set additional options (hooks) for every flatpickr instance
+   * Set additional options (hooks) for every flatpickr instance.
    *
    * @param fp {Object}
    *     flatpickr instance
@@ -193,7 +193,7 @@ var Flatpickr = function (options) {
     fp.config.onOpen.push(
       function() {
         div.classList.add('open');
-        // Set intial validition state on datepicker widget when opened
+        // Set initial validation state on datepicker widget when opened
         calendars = document.querySelectorAll('.flatpickr-calendar');
         calendars.forEach(function(calendar) {
           calendar.classList.remove('invalid', 'valid');

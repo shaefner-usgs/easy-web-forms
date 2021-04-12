@@ -1,3 +1,4 @@
+/* global flatpickr, flatpickrOptions, MAPQUESTKEY, placeSearch */
 'use strict';
 
 
@@ -90,7 +91,7 @@
 
       // Extra options added to all flatpickr instances
       _setOptions(fp, i);
-    }
+    };
 
     /**
      * Get flatpickr options which are embedded inline within HTML
@@ -131,7 +132,7 @@
             fp = flatpickr(input, options);
             _configFlatpickrField(fp, index); // additional configuration
           });
-        }
+        };
 
         Util.addCssFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
         Util.addJsFile('https://cdn.jsdelivr.net/npm/flatpickr', callback);
@@ -189,12 +190,12 @@
           });
         }
       );
-    }
+    };
 
     _initialize(options);
     options = null;
     return _this;
-  }
+  };
 
 
   var MapQuestPlaceSearch = function (options) {
@@ -222,8 +223,6 @@
     _initAddressFields = function () {
       var addressField,
           callback,
-          coords,
-          hasAddressFields,
           inputs;
 
       inputs = _form.querySelectorAll('input[data-type="address"]');
@@ -287,7 +286,7 @@
         value = '';
         if (e) { // e is empty if user is clearing out previous value
           if (field === 'latlng' && e.result.latlng) { // flatten coord. pair
-            value = e.result.latlng.lat + ', ' + e.result.latlng.lng
+            value = e.result.latlng.lat + ', ' + e.result.latlng.lng;
           } else if (field === 'street') { // using custom name for field that differs from library
             value = e.result.name || '';
           } else {
@@ -298,12 +297,12 @@
         el = _form.querySelector('input[name="' + name + '"]');
         el.value = value;
       });
-    }
+    };
 
     _initialize(options);
     options = null;
     return _this;
-  }
+  };
 
 
   var Validator = function (options) {
@@ -368,7 +367,7 @@
             select.addEventListener(evt, function() {
               _this.validate(select);
             });
-          })
+          });
         }
       });
 

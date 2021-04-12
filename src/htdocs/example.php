@@ -136,7 +136,7 @@ $form->addControl($instructions);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/index.css" />
     <title>Example</title>
   </head>
   <body>
@@ -148,6 +148,6 @@ $form->render();
 
 ?>
 
-    <script src="js/script.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>

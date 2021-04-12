@@ -1,4 +1,6 @@
 .DS_Store
-dist/conf/dbConnect.inc.php
+.build
 .nova
-.sass-cache
+dist
+node_modules
+*.sublime-workspace

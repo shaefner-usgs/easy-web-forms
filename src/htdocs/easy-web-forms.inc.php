@@ -6,7 +6,7 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 // Config
-include_once __DIR__ . '/conf/config.inc.php';
+include_once __DIR__ . '/../conf/config.inc.php';
 
 // Classes
 include_once __DIR__ . '/lib/Database.class.php';

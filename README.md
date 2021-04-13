@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Easy Web Forms is a PHP library that simplifies building web-based forms. The library creates the form's HTML and processes user submissions. On success, the results are displayed as HTML and stored in a MySQL database. Both client- and server-side validation are built-in and straightforward to configure.
+Easy Web Forms is a PHP library that simplifies building modern, web-based forms. The library creates the form's HTML and processes user submissions. On success, the results are displayed as HTML and stored in a MySQL database. Both client- and server-side validation are built-in and straightforward to configure.
 
 [Demo](https://shaefner-usgs.github.io/easy-web-forms/demo.html)
 
@@ -18,15 +18,15 @@ PHP and MySQL on the web server that hosts the form.
 
 ## Getting Started
 
-1. **Compile** the CSS and JavaScript:
+1. **Install** dependencies and start the development server:
 
     `npm install`
 
-    `grunt dist`
+    `grunt`
 
-    This creates a 'dist' folder with the compiled code and PHP files.
+    Preview files (with live reload) in src/htdocs at http://localhost:9200/.
 
-2. **Include** the PHP, CSS and JavaScript dependencies in a new document (e.g. form.php) in dist/htdocs:
+2. **Include** the PHP, CSS and JavaScript dependencies in a new document (e.g. form.php) in src/htdocs:
 
     ```php
     include_once '../lib/easy-web-forms.inc.php';
@@ -85,8 +85,12 @@ PHP and MySQL on the web server that hosts the form.
     ```php
     $form->render();
     ```
+    
+6. **Compile** the CSS and JavaScript:
 
-If `grunt dist` is still running, you can preview your new form at http://localhost:9201/form.php.
+    `grunt dist`
+
+    This creates a 'dist' folder with the new form, compiled code and PHP library files. Preview files in dist/htdocs at http://localhost:9201/.
 
 See [example.php](src/htdocs/example.php) for additional details.
 

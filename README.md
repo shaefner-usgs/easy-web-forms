@@ -24,7 +24,7 @@ PHP and MySQL on the web server that hosts the form.
 
     `grunt dist`
 
-  This creates a 'dist' folder with the compiled code and PHP files.
+    This creates a 'dist' folder with the compiled code and PHP files.
 
 2. **Include** the PHP, CSS and JavaScript dependencies in a new document in dist/htdocs:
 

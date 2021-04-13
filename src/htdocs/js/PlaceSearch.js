@@ -15,7 +15,7 @@ var AppUtil = require('AppUtil');
  *
  * @return _this {Object}
  */
-var MapQuestPlaceSearch = function (options) {
+var PlaceSearch = function (options) {
   var _this,
       _initialize,
 
@@ -124,4 +124,4 @@ var MapQuestPlaceSearch = function (options) {
 };
 
 
-module.exports = MapQuestPlaceSearch;
+module.exports = PlaceSearch;

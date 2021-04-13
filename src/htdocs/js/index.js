@@ -3,7 +3,7 @@
 
 var AppUtil = require('AppUtil'),
     Flatpickr = require('Flatpickr'),
-    MapQuestPlaceSearch = require('MapQuestPlaceSearch'),
+    PlaceSearch = require('PlaceSearch'),
     Validator = require('Validator');
 
 
@@ -17,6 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   options.validator = Validator(options);
 
-  MapQuestPlaceSearch(options);
+  PlaceSearch(options);
   Flatpickr(options);
 });

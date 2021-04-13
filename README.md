@@ -20,9 +20,10 @@ PHP and MySQL on the web server that hosts the form.
 
 First, compile the CSS and javascript files. A 'dist' folder will be created with the compiled code and PHP files.
 
-    `npm install`
-
-    `grunt dist`
+    ```
+    npm install
+    grunt dist
+    ```
 
 1. **Include** the PHP, CSS and JavaScript dependencies in a new document:
 

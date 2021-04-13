@@ -26,7 +26,7 @@ PHP and MySQL on the web server that hosts the form.
 
     This creates a 'dist' folder with the compiled code and PHP files.
 
-2. **Include** the PHP, CSS and JavaScript dependencies in a new document in dist/htdocs:
+2. **Include** the PHP, CSS and JavaScript dependencies in a new document (e.g. form.php) in dist/htdocs:
 
     ```php
     include_once '../lib/easy-web-forms.inc.php';
@@ -85,6 +85,8 @@ PHP and MySQL on the web server that hosts the form.
     ```php
     $form->render();
     ```
+
+If `grunt dist` is still running, you can preview your new form at http://localhost:9201/form.php.
 
 See [example.php](src/htdocs/example.php) for additional details.
 

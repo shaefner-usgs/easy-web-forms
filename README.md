@@ -6,23 +6,38 @@ Easy Web Forms is a PHP library that simplifies building web-based forms. The li
 
 [Demo](https://shaefner-usgs.github.io/easy-web-forms/demo.html)
 
+## Dependencies
+
+1. Grunt
+2. Node.js, NPM
+3. PHP with CGI
+
 ## Requirements
 
-PHP and MySQL.
+PHP and MySQL on the web server that hosts the form.
 
 ## Getting Started
 
-1. **Include** the php, css and javascript dependencies:
+First, compile the CSS and javascript files:
+
+    ```
+    npm install
+    grunt dist
+    ```
+
+A 'dist' folder will be created with the compiled code and PHP files.
+
+1. **Include** the PHP, CSS and JavaScript dependencies in a new document:
 
     ```php
-    include_once 'easy-web-forms.inc.php';
+    include_once '../lib/easy-web-forms.inc.php';
     ```
     
     Include this line first before any other content on the web page. Be certain to set configuration parameters for your environment in conf/config.inc.php.
 
     ```html
-    <link rel="stylesheet" href="css/styles.css" />
-    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="js/index.js"></script>
     ```
 
 2. **Create** the form controls. For example:
@@ -72,7 +87,7 @@ PHP and MySQL.
     $form->render();
     ```
 
-See [example.php](dist/example.php) for additional details.
+See [example.php](src/htdocs/example.php) for additional details.
 
 ### MySQL
 
@@ -136,7 +151,7 @@ $form = new Form([
 | record | Array | [] | Associative array containing details of the record to update. The array key is the SQL field's name, typically an 'id'; the array value is the corresponding field's value. The 'mode' option must be set to 'update'. |
 | submitButtonText | String | 'Submit' | Submit button's text value. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
-| table | String | '' | Name of MySQL table to insert records into. Takes precedent over table name supplied in config.inc.php |
+| table | String | '' | Name of MySQL table to insert records into. Takes precedent over table name supplied in conf/config.inc.php |
 
 #### Methods
 

@@ -8,8 +8,8 @@ $formcontrol-border-color: #dfdfdf;
 
 // Parent containers
 
-section.form,
-section.results {
+div.form,
+div.results {
   box-sizing: border-box;
   max-width: 35em;
 
@@ -20,7 +20,7 @@ section.results {
 
 // Form
 
-section.form {
+div.form {
   @include fonts;
 
   input:not([type="submit"]),
@@ -209,7 +209,7 @@ section.form {
 
 // Results
 
-section.results {
+div.results {
   @include fonts;
 
   dl {
@@ -394,7 +394,7 @@ body {
 /* MapQuest PlaceSearch overrides
 ----------------------------------------------------------------------------- */
 
-section.form {
+div.form {
   input.mq-input {
     height: auto;
     padding-right: 30px; // make room for 'x' button

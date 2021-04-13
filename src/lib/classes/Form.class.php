@@ -178,7 +178,7 @@ class Form {
     $contentType = 'application/x-www-form-urlencoded';
     $controlsHtml = '';
     $hasRequiredFields = false;
-    $html = '<section class="form">';
+    $html = '<div class="form">';
 
     if ($this->isPosting() && !$this->_isValid) {
       $html .= '<p class="error">Please fix the following errors and submit the form again.</p>';
@@ -222,7 +222,7 @@ class Form {
       $html .= '<p class="required"><span>*</span> = required field</p>';
     }
 
-    $html .= '</section>';
+    $html .= '</div>';
 
     // Set MapQuest API key as global JS var if set in config file
     if ($GLOBALS['mapQuestApiKey']) {
@@ -240,10 +240,10 @@ class Form {
    * @return $html {String}
    */
   private function _getResultsHtml () {
-    $html = sprintf('<section class="results">
+    $html = sprintf('<div class="results">
         <p class="success">%s</p>
         %s
-      </section>',
+      </div>',
       $this->successMsg,
       $this->_results
     );

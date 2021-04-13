@@ -321,7 +321,10 @@ class Form {
       }
       if ($control->type !== 'hidden') { // don't include hidden fields in results summary
         $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
-        $this->_results .= '<dd>' . htmlspecialchars(stripslashes($displayValue)) . '</dd>';
+        $this->_results .= sprintf('<dd id="%s">%s</dd>',
+          $key,
+          htmlspecialchars(stripslashes($displayValue))
+        );
       }
     }
 

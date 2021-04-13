@@ -114,17 +114,20 @@ class Form {
   private function _checkParams ($controls) {
     $prevKey = '';
     $prevRequired = '';
+
     foreach ($controls as $control) {
       $key = $control->name;
       $required = $control->required;
+
       if ($prevKey !== '' && $key !== $prevKey) {
          print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all inputs in a group</p>';
       }
       if ($prevRequired !== '' && $required !== $prevRequired) {
         printf ('<p class="error">ERROR: the <em>required</em> attribute must be the same for all inputs in a group (%s)</p>',
-          $control->name
+          $key
         );
       }
+
       $prevKey = $key;
       $prevRequired = $required;
     }
@@ -156,9 +159,11 @@ class Form {
         $group['label'],
         $group['arrangement']
     );
+
     foreach ($controls as $control) {
       $html .= $control->getHtml(++ $this->_countTabIndex);
     }
+
     $html .= '</div>';
     $html .= sprintf('<p class="description" data-message="%s">%s</p>',
       $group['message'],
@@ -275,7 +280,7 @@ class Form {
       $sqlValue = '';
 
       if ($control->type === 'file') {
-        $name = $_FILES[$control->name]['name'];
+        $name = $_FILES[$key]['name'];
 
         if ($name && $control->path) { // move uploaded file if path was provided
           $displayValue = basename($name);
@@ -286,7 +291,7 @@ class Form {
           );
           $sqlValue = basename($newName);
 
-          move_uploaded_file($_FILES[$control->name]['tmp_name'], $newName);
+          move_uploaded_file($_FILES[$key]['tmp_name'], $newName);
         }
       } else if (count($controls) > 1) { // radio/checkbox group
         $sqlValue = $control->value; // get value from first control in group
@@ -297,6 +302,7 @@ class Form {
             $values[] = $ctrl->label;
           }
         }
+
         $displayValue = implode(', ', $values);
       } else { // single (non-file) control
         $sqlValue = $control->value;
@@ -308,6 +314,7 @@ class Form {
           if (isSet($_POST['altInput' . $numDateTimeFields])) {
             $displayValue = $_POST['altInput' . $numDateTimeFields];
           }
+
           $numDateTimeFields ++; // increment afterwards b/c it's a 0-based index
         } else if ($control->type === 'select') { // select menu
           $displayValue = $control->options[$control->value];
@@ -361,6 +368,7 @@ class Form {
 
       // Replace any placeholders in subject with submitted values
       preg_match_all($placeholders, $subject, $matches, PREG_SET_ORDER);
+
       foreach ($matches as $match) {
         $pattern = '/' . $match[0] . '/';
         $replacement = $_POST[$match[1]];
@@ -390,8 +398,7 @@ class Form {
 
       if ($control->type === 'file') {
         $value = $_FILES[$key]['name'];
-      }
-      else if ($control->type !== 'select') {
+      } else if ($control->type !== 'select') {
         $maxLength = intval($control->maxlength);
         $minLength = intval($control->minlength);
       }
@@ -399,7 +406,6 @@ class Form {
       if (isSet($control->pattern)) {
         $pattern = preg_replace('@/@', '\/', $control->pattern); // escape '/' chars
       }
-
       if (
         ($control->required && !$value) ||
         ($minLength && $length < $minLength) ||
@@ -444,27 +450,24 @@ class Form {
    *     ]
    */
   public function addGroup ($group) {
+    $arrangement = 'inline'; // default value
     $controls = $group['controls'];
+    $description = '';
     $key = $controls[0]->name; // get shared 'name' attr from first control
+    $label = ucfirst($controls[0]->name); // default to 'name' attr
+    $message = $controls[0]->message; // default to control type's default 'message'
 
     $this->_checkParams($controls);
 
-    $arrangement = 'inline'; // default value
     if (array_key_exists('arrangement', $group)) {
       $arrangement = $group['arrangement'];
     }
-
-    $description = '';
     if (array_key_exists('description', $group)) {
       $description = $group['description'];
     }
-
-    $label = ucfirst($controls[0]->name); // default to 'name' attr
     if (array_key_exists('label', $group)) {
       $label = $group['label'];
     }
-
-    $message = $controls[0]->message; // default to control type's default 'message'
     if (array_key_exists('message', $group)) {
       $message = $group['message'];
     }

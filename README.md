@@ -18,15 +18,15 @@ PHP and MySQL on the web server that hosts the form.
 
 ## Getting Started
 
-First, compile the CSS and JavaScript:
+1. **Compile** the CSS and JavaScript:
 
-`npm install`
+    `npm install`
 
-`grunt dist`
+    `grunt dist`
 
-This creates a 'dist' folder with the compiled code and PHP files.
+  This creates a 'dist' folder with the compiled code and PHP files.
 
-1. **Include** the PHP, CSS and JavaScript dependencies in a new document in dist/htdocs:
+2. **Include** the PHP, CSS and JavaScript dependencies in a new document in dist/htdocs:
 
     ```php
     include_once '../lib/easy-web-forms.inc.php';
@@ -39,7 +39,7 @@ This creates a 'dist' folder with the compiled code and PHP files.
     <script src="js/index.js"></script>
     ```
 
-2. **Create** the form controls. For example:
+3. **Create** the form controls. For example:
 
     ```php
     $name = new Input([
@@ -65,7 +65,7 @@ This creates a 'dist' folder with the compiled code and PHP files.
     ]);
     ```
 
-3. **Add** the form controls:
+4. **Add** the form controls:
 
     ```php
     $form = new Form(); // instantiate Form instance
@@ -80,7 +80,7 @@ This creates a 'dist' folder with the compiled code and PHP files.
     ]);
     ```
 
-4. **Render** the form:
+5. **Render** the form:
 
     ```php
     $form->render();

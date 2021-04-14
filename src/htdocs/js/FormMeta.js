@@ -3,10 +3,15 @@
 
 /**
  * Display items associated with a specific 'field' inline even though they are
- *   rendered after form/results in div.form-meta. The item to be moved should
- *   have a css class that matches the 'id' value of the associated field.
+ *   rendered after the form/results in div.form-meta. The item to be moved
+ *   must have a css class that matches the 'id' value of the associated field.
  *
  * @param options {Object}
+ *   {
+ *     form: {Element}
+ *   }
+ *
+ * @return _this {Object}
  */
 var FormMeta = function(options) {
   var _this,

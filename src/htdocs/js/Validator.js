@@ -38,10 +38,8 @@ var Validator = function (options) {
   _initialize = function (options) {
     _form = options.form;
 
-    if (_form) {
-      _getControls();
-      _addEventHandlers();
-    }
+    _getControls();
+    _addEventHandlers();
   };
 
   /**

@@ -24,9 +24,9 @@ var Flatpickr = function (options) {
       _validator,
 
       _addHiddenAltInput,
-      _configFlatpickrField,
+      _configField,
       _getOptions,
-      _initFlatpickrFields,
+      _initFields,
       _setOptions;
 
 
@@ -36,7 +36,7 @@ var Flatpickr = function (options) {
     _form = options.form;
     _validator = options.validator;
 
-    _initFlatpickrFields();
+    _initFields();
   };
 
   /**
@@ -63,7 +63,7 @@ var Flatpickr = function (options) {
    *     flatpickr instance
    * @param i {Integer}
    */
-  _configFlatpickrField = function (fp, i) {
+  _configField = function (fp, i) {
     var altInput,
         description,
         input,
@@ -127,7 +127,7 @@ var Flatpickr = function (options) {
   /**
    * Initialize Flatpickr.
    */
-  _initFlatpickrFields = function () {
+  _initFields = function () {
     var callback,
         fp,
         inputs,
@@ -141,7 +141,7 @@ var Flatpickr = function (options) {
           // Create flatpickr instance and set additional options
           options = _getOptions(index); // user-set flatpickr options
           fp = flatpickr(input, options);
-          _configFlatpickrField(fp, index); // additional configuration
+          _configField(fp, index); // additional configuration
         });
       };
 

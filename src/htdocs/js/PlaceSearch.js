@@ -21,7 +21,7 @@ var PlaceSearch = function (options) {
 
       _form,
 
-      _initAddressFields,
+      _initFields,
       _setHiddenFields;
 
 
@@ -30,13 +30,13 @@ var PlaceSearch = function (options) {
   _initialize = function (options) {
     _form = options.form;
 
-    _initAddressFields();
+    _initFields();
   };
 
   /**
    * Initialize PlaceSearch.
    */
-  _initAddressFields = function () {
+  _initFields = function () {
     var addressField,
         callback,
         inputs;

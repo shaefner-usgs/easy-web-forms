@@ -24,7 +24,7 @@ PHP and MySQL on the web server that hosts the form.
 
     `grunt`
 
-    Preview files (with live reload) in src/htdocs at http://localhost:9200/.
+    Preview files in src/htdocs at http://localhost:9200/.
 
 2. **Include** the PHP, CSS and JavaScript dependencies in a new document (e.g. form.php) in src/htdocs:
 

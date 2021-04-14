@@ -3,20 +3,29 @@
 
 var AppUtil = require('AppUtil'),
     Flatpickr = require('Flatpickr'),
+    FormMeta = require('FormMeta'),
     PlaceSearch = require('PlaceSearch'),
     Validator = require('Validator');
 
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-  var options = {
-    form: document.querySelector('section.form form')
+  var form,
+      options;
+
+  form = document.querySelector('div.form form');
+  options = {
+    form: form
   };
 
   AppUtil.addPolyfills();
 
-  options.validator = Validator(options);
+  if (form) {
+    options.validator = Validator(options);
 
-  PlaceSearch(options);
-  Flatpickr(options);
+    PlaceSearch(options);
+    Flatpickr(options);
+  }
+
+  FormMeta(options);
 });

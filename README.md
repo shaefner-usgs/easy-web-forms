@@ -212,7 +212,7 @@ $name = new Input([
 | description | String | '' | Explanatory text displayed next to the form control. Automatically set to the number of chars. required if minlength/maxlength are set and this option has not been set. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
 | flatpickrOptions | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for 'datetime' type `<input>` controls. |
-| *id* | String | '' | `<input>` id attribute. |
+| *id* | String | value of 'name' option | `<input>` id attribute. |
 | inputmode | String | '' | `<input>` inputmode attribute. |
 | label | String | '' | `<label>` for `<input>`. |
 | max | Integer | null | `<input>` max attribute. |
@@ -321,7 +321,7 @@ $name = new Select([
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
 | description | String | '' | Explanatory text displayed next to the form control. |
 | disabled | Boolean | false | `<select>` disabled attribute. |
-| id | String | '' | `<select>` id attribute. |
+| id | String | value of 'name' option | `<select>` id attribute. |
 | label | String | '' | `<label>` for `<select>`. |
 | message | String | 'Please select an option from the menu' | Message shown when the form control is invalid. |
 | **name** | String | '' | `<select>` name attribute. |
@@ -363,7 +363,7 @@ $name = new Textarea([
 | cols | Integer | 60 | `<textarea>` cols attribute. |
 | description | String | '' | Explanatory text displayed next to the form control. Automatically set to number of chars. required if minlength/maxlength is set and this option has not been set. |
 | disabled | Boolean | false | `<textarea>` disabled attribute. |
-| id | String | '' | `<textarea>` id attribute. |
+| id | String | value of 'name' option | `<textarea>` id attribute. |
 | label | String | '' | `<label>` for `<textarea>`. |
 | maxlength | Integer | null | `<textarea>` maxlength attribute. |
 | minlength | Integer | null | `<textarea>` minlength attribute. |

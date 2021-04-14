@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (form) {
     options.validator = Validator(options);
 
-    PlaceSearch(options);
     Flatpickr(options);
+    PlaceSearch(options);
   }
 
   FormMeta(options);

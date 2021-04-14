@@ -109,10 +109,10 @@ No metadata fields are included by default. Adding an auto-incrementing 'id' fie
 
 Both client- and server-side validation are performed automatically, based on standard [HTML5 attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text#Additional_attributes) that you set when creating [form controls](#form-controls). The attributes that trigger validation are:
 
-* maxwidth (`<input`> types that support this attribute, `<textarea>`)
-* minwidth (`<input`> types that support this attribute, `<textarea>`)
-* pattern (`<input>` types that support this attribute)
-* required (`<input>`, `<textarea>`, `<select>`)
+* maxwidth - `<input>` types that support this attribute, `<textarea>`
+* minwidth - `<input>` types that support this attribute, `<textarea>`
+* pattern - `<input>` types that have string values
+* required - `<input>`, `<textarea>`, `<select>`
 
 In addition, the following `<input>` types have automatic pattern matching built-in, using a simple RegExp to validate user input:
 

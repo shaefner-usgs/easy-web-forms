@@ -30,9 +30,7 @@ var PlaceSearch = function (options) {
   _initialize = function (options) {
     _form = options.form;
 
-    if (_form) {
-      _initAddressFields(); // Address autocomplete
-    }
+    _initAddressFields();
   };
 
   /**

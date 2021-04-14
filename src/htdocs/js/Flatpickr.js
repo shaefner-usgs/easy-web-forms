@@ -36,9 +36,7 @@ var Flatpickr = function (options) {
     _form = options.form;
     _validator = options.validator;
 
-    if (_form) {
-      _initFlatpickrFields();
-    }
+    _initFlatpickrFields();
   };
 
   /**

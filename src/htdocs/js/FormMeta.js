@@ -46,7 +46,7 @@ var FormMeta = function(options) {
 
     fields = [];
 
-    if (_form) { // displaying form
+    if (_form) {
       controls = document.querySelectorAll('form > .control');
 
       controls.forEach(function(control) {
@@ -103,7 +103,7 @@ var FormMeta = function(options) {
 
       if (_form) {
         control.insertBefore(item, control.firstChild);
-      } else {
+      } else { // displaying results
         el.appendChild(item);
       }
     });

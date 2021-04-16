@@ -29,7 +29,7 @@ PHP and MySQL on the web server that hosts the form.
 2. **Include** the PHP, CSS and JavaScript dependencies in a new document (e.g. form.php) in src/htdocs:
 
     ```php
-    include_once '../lib/easy-web-forms.inc.php';
+    include_once '../lib/index.inc.php';
     ```
     
     Include this line first before any other content on the web page. Be certain to set configuration parameters for your environment in conf/config.inc.php.

@@ -156,7 +156,7 @@ $form = new Form([
 | record | Array | [] | Associative array containing details of the record to update. The array key is the SQL field's name, typically an 'id'; the array value is the corresponding field's value. The 'mode' option must be set to 'update'. |
 | submitButtonText | String | 'Submit' | Submit button's text value. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
-| table | String | '' | Name of MySQL table to insert records into. Takes precedent over table name supplied in conf/config.inc.php |
+| table | String | '' | Name of MySQL table to insert records into. Overrides table name supplied in conf/config.inc.php |
 
 #### Methods
 
@@ -184,7 +184,7 @@ Options in **bold** are required.
 <a id="form-controls"></a>
 ### Input
 
-Used to create an html `<input>`.
+Used to create an HTML `<input>`.
 
 #### Usage example
 
@@ -199,7 +199,7 @@ $name = new Input([
 
 | Factory | Description |
 | ------ | ------ |
-| Input(options) | Instantiates a new html `<input>` control given an options Array. |
+| Input(options) | Instantiates a new HTML `<input>` control given an options Array. |
 
 <a id="flatpickr"></a>
 #### Options
@@ -295,7 +295,7 @@ The following `<input>` attributes will trigger [validation](#validation) when s
 
 ### Select
 
-Used to create an html `<select>`.
+Used to create an HTML `<select>`.
 
 #### Usage example
 
@@ -314,7 +314,7 @@ $name = new Select([
 
 | Factory | Description |
 | ------ | ------ |
-| Select(options) | Instantiates a new html `<select>` control given an options Array. |
+| Select(options) | Instantiates a new HTML `<select>` control given an options Array. |
 
 #### Options
 
@@ -341,7 +341,7 @@ The following `<select>` attribute will trigger [validation](#validation) when s
 
 ### Textarea
 
-Used to create an html `<textarea>`.
+Used to create an HTML `<textarea>`.
 
 #### Usage example
 
@@ -355,7 +355,7 @@ $name = new Textarea([
 
 | Factory | Description |
 | ------ | ------ |
-| Textarea(options) | Instantiates a new html `<textarea>` control given an options Array. |
+| Textarea(options) | Instantiates a new HTML `<textarea>` control given an options Array. |
 
 #### Options
 

@@ -123,6 +123,18 @@ In addition, the following `<input>` types have automatic pattern matching built
 
 To override built-in pattern matching, set a custom 'pattern' attribute when you create an `<input>`.
 
+## Inline Content
+
+To render additional HTML content associated with a form control next to the control, include the content inside a `<div>` with the class '.form-meta' and set the content's class to the 'name' value of the form control. For example:
+
+```html
+<div class="form-meta">
+  <img class="name" src="image.jpg" />
+</div>
+```
+
+This also works for adding inline content to the results following form submission. Note: Form's [isPosting()](#is-posting) and [isValid()](#is-valid) methods might be useful for controlling when the content is displayed. The content will be moved into place after the form/results are rendered.
+
 ## API Documentation
 
 ### Form
@@ -164,7 +176,9 @@ $form = new Form([
 | ------ | ------ | ------ |
 | addControl([`<Control>`](#form-controls) control) | null | Adds the given control to the form. Form controls are rendered in the order added. |
 | addGroup([`<addGroup options>`](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. Form controls are rendered/processed in the order added. |
+<a id="is-posting"></a>
 | isPosting() | Boolean | Checks if the form is being submitted. |
+<a id="is-valid"></a>
 | isValid() | Boolean | Checks if the form passed server-side validation after submitting. |
 | render() | null | Displays either the form or the results if submitting. |
 

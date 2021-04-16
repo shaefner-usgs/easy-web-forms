@@ -47,9 +47,7 @@ var Image = function (options) {
     control = _getControl(id);
     img = document.createElement('img');
 
-    img.onload = function(){
-      console.log(img.width + ', ' + img.height);
-
+    img.onload = function() {
       control.insertBefore(img, control.firstChild);
     };
     img.src = dataUrl;

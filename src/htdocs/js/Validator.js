@@ -170,13 +170,13 @@ var Validator = function (options) {
    * Show validation errors or submit form depending on validation state.
    */
   _handleSubmit = function () {
-    var errorMsg,
+    var div,
+        errorMsg,
         isFormInvalid,
-        section,
         submitButton;
 
+    div = document.querySelector('div.form');
     errorMsg = document.querySelector('.form p.error');
-    section = document.querySelector('section.form');
 
     _validateAll();
 
@@ -187,13 +187,13 @@ var Validator = function (options) {
         errorMsg.classList.add('error');
         errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
 
-        section.insertBefore(errorMsg, _form);
+        div.insertBefore(errorMsg, _form);
       }
-      section.scrollIntoView();
+      div.scrollIntoView();
     } else {
       // Remove error message if it exists
       if (errorMsg) {
-        section.removeChild(errorMsg);
+        div.removeChild(errorMsg);
       }
 
       // Submit button is not set when form is submitted via js; set it here

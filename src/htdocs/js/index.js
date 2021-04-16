@@ -3,6 +3,7 @@
 
 var AppUtil = require('AppUtil'),
     Flatpickr = require('Flatpickr'),
+    Image = require('Image'),
     FormMeta = require('FormMeta'),
     PlaceSearch = require('PlaceSearch'),
     Validator = require('Validator');
@@ -20,12 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   AppUtil.addPolyfills();
 
+  FormMeta(options);
+
   if (form) {
     options.validator = Validator(options);
 
     Flatpickr(options);
+    Image(options);
     PlaceSearch(options);
   }
-
-  FormMeta(options);
 });

@@ -16,6 +16,12 @@ div.results {
   *, *:before, *:after {
     box-sizing: inherit;
   }
+
+  img {
+    display: block;
+    margin: 0;
+    width: 250px;
+  }
 }
 
 // Form
@@ -82,6 +88,10 @@ div.form {
   fieldset,
   .control {
     margin: 1.75em 0;
+  }
+
+  img {
+    margin-top: 1em;
   }
 
   label {

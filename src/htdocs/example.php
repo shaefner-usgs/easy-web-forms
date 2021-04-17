@@ -2,7 +2,7 @@
 
 // 1. Include the php dependencies/configuration
 //  (remember to set config params for your environment in conf/config.inc.php)
-include_once '../lib/easy-web-forms.inc.php';
+include_once '../lib/index.inc.php';
 
 // 2. Create the form controls
 $name = new Input([

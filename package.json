@@ -44,6 +44,7 @@
     "ini": "^2.0.0",
     "load-grunt-tasks": "^5.1.0",
     "postcss": "^8.2.6",
+    "pretty-checkbox": "^3.0.3",
     "sass": "^1.32.8"
   }
 }

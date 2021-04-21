@@ -41,7 +41,7 @@ $crust = new Select([
   'name' => 'crust',
   'options' => [
     '' => 'Choose a crust',
-    'thin' => 'Thin &amp; Crispy',
+    'thin' => 'Thin & Crispy',
     'deep' => 'Chicago Deep Dish',
     'glutenfree' => 'Gluten Free'
   ],

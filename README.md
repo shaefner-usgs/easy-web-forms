@@ -137,7 +137,7 @@ This also works for adding inline content to the results following form submissi
 
 ## Security
 
-All user-supplied input is sanitized using PHP [Data Filtering](http://www.php.net/manual/en/book.filter.php) and prepared statements are used to prevent SQL injection vulnerabilities.
+All user-supplied input is sanitized using PHP [Data Filtering](https://www.php.net/manual/en/book.filter.php) and prepared statements are used to prevent SQL injection vulnerabilities.
 
 ## API Documentation
 

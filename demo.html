@@ -1,142 +1,134 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="styles.css" />
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="stylesheet" href="css/index.css"/>
     <title>Example</title>
-  </head>
-  <body>
-    <section class="form">
-      <form action="" method="POST" novalidate="novalidate">
+</head>
+<body>
 
-        <div class="control text">
-          <p class="description" data-message="NAME is required"></p>
-          <input id="name" name="name" type="text" value="" required="required" tabindex="1" />
-          <label for="name">Name</label>
-        </div>
-
-        <div class="control email">
-          <p class="description" data-message="Please provide a valid EMAIL ADDRESS"></p>
-          <input id="email" name="email" type="email" value="" pattern="[^@]+@[^@]+\.[^@]+" required="required" tabindex="2" />
-          <label for="email">Email Address</label>
-        </div>
-
-        <div class="control address">
-          <p class="description" data-message="Please provide a valid DELIVERY ADDRESS"></p>
-          <input id="address" name="placeSearch69633" type="search" value="" required="required" tabindex="3" data-type="address" />
-          <label for="address">Delivery Address</label>
-        </div>
-
-        <input id="city" name="city" type="hidden" value="" />
-        <input id="countryCode" name="countryCode" type="hidden" value="" />
-        <input id="latlng" name="latlng" type="hidden" value="" />
-        <input id="postalCode" name="postalCode" type="hidden" value="" />
-        <input id="state" name="state" type="hidden" value="" />
-        <input id="street" name="street" type="hidden" value="" />
-
-        <div class="control datetime">
-          <p class="description" data-message="Please provide a valid DELIVERY TIME">Please use this format: hh:mm (using 00-23 for hour)</p>
-          <input id="deliverytime" name="deliverytime" type="text" value="" pattern="^\d{2}:\d{2}$" required="required" tabindex="4" data-type="datetime" />
-          <label for="deliverytime">Delivery Time</label>
-        </div>
-
-        <script>
-          var flatpickrOptions = [];
-          function initFlatpickrOptions0() {
-            flatpickrOptions[0] = {
-              "altFormat":"h:i K",
-              "altInput":true,
-              "defaultHour":11,
-              "defaultMinute":0,
-              "enableTime":true,
-              "minuteIncrement":5,
-              "noCalendar":true
-            };
-          }
-        </script>
-
-        <div class="control select">
-          <p class="description" data-message="Please select an option from the menu"></p>
-          <select class="custom-select" id="crust" name="crust" required="required" tabindex="5">
-            <option value="" selected="selected" disabled="disabled" hidden="hidden">Choose a crust</option>
-            <option value="thin">Thin &amp; Crispy</option>
-            <option value="deep">Chicago Deep Dish</option>
-            <option value="glutenfree">Gluten Free</option>
-          </select>
-          <label for="crust">Crust</label>
-        </div>
-
-        <fieldset class="">
-          <legend>Type of Cheese</legend>
-          <div class="group inline">
-            <div class="control radio pretty p-default p-pulse p-round">
-              <input id="mozzarella" name="cheese" type="radio" value="mozzarella" tabindex="6" checked="checked" />
-              <div class="state p-primary-o">
-                <label for="mozzarella">Mozzarella</label>
-              </div>
+    <div class="form">
+        <form action="" accept-charset="utf-8" method="POST" enctype="application/x-www-form-urlencoded" novalidate="novalidate">
+            <div class="control text">
+                <p class="description" data-message="NAME is required"></p>
+                <input id="name" name="name" type="text" value="" required="required" tabindex="1"/>
+                <label for="name">Name</label>
             </div>
-            <div class="control radio pretty p-default p-pulse p-round">
-              <input id="soy" name="cheese" type="radio" value="soy" tabindex="7" />
-              <div class="state p-primary-o">
-                <label for="soy">Soy (vegan)</label>
-              </div>
+            <div class="control email">
+                <p class="description" data-message="Please provide a valid EMAIL ADDRESS"></p>
+                <input id="email" name="email" type="email" value="" pattern="[^@]+@[^@]+\.[^@]+" required="required" tabindex="2"/>
+                <label for="email">Email Address</label>
             </div>
-          </div>
-          <p class="description" data-message="Please select an option"></p>
-        </fieldset>
-
-        <fieldset class="">
-          <legend>Toppings</legend>
-          <div class="group stacked">
-            <div class="control checkbox pretty p-default p-pulse">
-              <input id="sausage" name="toppings[]" type="checkbox" value="sausage" tabindex="8" />
-              <div class="state p-primary-o">
-                <label for="sausage">Sausage</label>
-              </div>
+            <div class="control address">
+                <p class="description" data-message="Please provide a valid DELIVERY ADDRESS"></p>
+                <input id="address" name="address25183" type="search" value="" required="required" tabindex="3" data-type="address"/>
+                <label for="address">Delivery Address</label>
             </div>
-            <div class="control checkbox pretty p-default p-pulse">
-              <input id="pepperoni" name="toppings[]" type="checkbox" value="pepperoni" tabindex="9" />
-              <div class="state p-primary-o">
-                <label for="pepperoni">Pepperoni</label>
-              </div>
+            <input id="city" name="city" type="hidden" value=""/>
+            <input id="countryCode" name="countryCode" type="hidden" value=""/>
+            <input id="latlng" name="latlng" type="hidden" value=""/>
+            <input id="postalCode" name="postalCode" type="hidden" value=""/>
+            <input id="state" name="state" type="hidden" value=""/>
+            <input id="street" name="street" type="hidden" value=""/>
+            <div class="control datetime">
+                <p class="description" data-message="Please provide a valid DELIVERY TIME">Please use this format: hh:mm (using 00-23 for hour)</p>
+                <input id="deliverytime" name="deliverytime" type="text" value="" pattern="^\d{2}:\d{2}$" required="required" tabindex="4" data-type="datetime"/>
+                <label for="deliverytime">Delivery Time</label>
             </div>
-            <div class="control checkbox pretty p-default p-pulse">
-              <input id="peppers" name="toppings[]" type="checkbox" value="peppers" tabindex="10" />
-              <div class="state p-primary-o">
-                <label for="peppers">Bell peppers</label>
-              </div>
+            <script>
+            var flatpickrOptions = [];
+            function initFlatpickrOptions0() {
+                flatpickrOptions[0] = {
+                    "altFormat": "h:i K",
+                    "altInput": true,
+                    "defaultHour": 13,
+                    "defaultMinute": 0,
+                    "enableTime": true,
+                    "minuteIncrement": 5,
+                    "noCalendar": true
+                };
+            }
+            </script>
+            <div class="control select">
+                <p class="description" data-message="Please select an option from the menu"></p>
+                <select id="crust" name="crust" required="required" tabindex="5">
+                    <option value="" selected="selected" disabled="disabled" hidden="hidden">Choose a crust</option>
+                    <option value="thin">Thin & Crispy</option>
+                    <option value="deep">Chicago Deep Dish</option>
+                    <option value="glutenfree">Gluten Free</option>
+                </select>
+                <label for="crust">Crust</label>
             </div>
-            <div class="control checkbox pretty p-default p-pulse">
-              <input id="tomato" name="toppings[]" type="checkbox" value="tomato" tabindex="11" />
-              <div class="state p-primary-o">
-                <label for="tomato">Tomato</label>
-              </div>
+            <fieldset class="">
+                <legend>Type of Cheese</legend>
+                <div class="group inline">
+                    <div class="control radio pretty p-default p-pulse p-round">
+                        <input id="mozzarella" name="cheese" type="radio" value="mozzarella" tabindex="6" checked="checked"/>
+                        <div class="state p-primary-o">
+                            <label for="mozzarella">Mozzarella</label>
+                        </div>
+                    </div>
+                    <div class="control radio pretty p-default p-pulse p-round">
+                        <input id="soy" name="cheese" type="radio" value="soy" tabindex="7"/>
+                        <div class="state p-primary-o">
+                            <label for="soy">Soy (vegan)</label>
+                        </div>
+                    </div>
+                </div>
+                <p class="description" data-message="Please select an option"></p>
+            </fieldset>
+            <fieldset class="">
+                <legend>Toppings</legend>
+                <div class="group stacked">
+                    <div class="control checkbox pretty p-default p-pulse">
+                        <input id="sausage" name="toppings[]" type="checkbox" value="sausage" tabindex="8"/>
+                        <div class="state p-primary-o">
+                            <label for="sausage">Sausage</label>
+                        </div>
+                    </div>
+                    <div class="control checkbox pretty p-default p-pulse">
+                        <input id="pepperoni" name="toppings[]" type="checkbox" value="pepperoni" tabindex="9"/>
+                        <div class="state p-primary-o">
+                            <label for="pepperoni">Pepperoni</label>
+                        </div>
+                    </div>
+                    <div class="control checkbox pretty p-default p-pulse">
+                        <input id="peppers" name="toppings[]" type="checkbox" value="peppers" tabindex="10"/>
+                        <div class="state p-primary-o">
+                            <label for="peppers">Bell peppers</label>
+                        </div>
+                    </div>
+                    <div class="control checkbox pretty p-default p-pulse">
+                        <input id="tomato" name="toppings[]" type="checkbox" value="tomato" tabindex="11"/>
+                        <div class="state p-primary-o">
+                            <label for="tomato">Tomato</label>
+                        </div>
+                    </div>
+                    <div class="control checkbox pretty p-default p-pulse">
+                        <input id="onion" name="toppings[]" type="checkbox" value="onion" tabindex="12"/>
+                        <div class="state p-primary-o">
+                            <label for="onion">Onion</label>
+                        </div>
+                    </div>
+                </div>
+                <p class="description" data-message="Please select one or more options"></p>
+            </fieldset>
+            <div class="control textarea">
+                <p class="description" data-message="Please provide a valid response"></p>
+                <textarea id="instructions" name="instructions" cols="60" rows="4" tabindex="13"></textarea>
+                <label for="instructions">Special Instructions</label>
             </div>
-            <div class="control checkbox pretty p-default p-pulse">
-              <input id="onion" name="toppings[]" type="checkbox" value="onion" tabindex="12" />
-              <div class="state p-primary-o">
-                <label for="onion">Onion</label>
-              </div>
-            </div>
-          </div>
-          <p class="description" data-message="Please select one or more options"></p>
-        </fieldset>
-
-        <div class="control textarea">
-          <p class="description" data-message="Please provide a valid response"></p>
-          <textarea id="instructions" name="instructions" cols="60" rows="4" tabindex="13"></textarea>
-          <label for="instructions">Special Instructions</label>
-        </div>
-
-        <input id="submitbutton" name="submitbutton" type="submit" class="btn btn-primary" tabindex="14" value="Order Now" />
-
-      </form>
-      <p class="required"><span>*</span> = required field</p>
-    </section>
-
-    <script>var MAPQUESTKEY = 'Fmjtd|luur2h0bn1,2g=o5-9wbnhy';</script>
-    <script src="script.js"></script>
-
-  </body>
+            <input id="submitbutton" name="submitbutton" type="submit" class="btn" tabindex="14" value="Order Now"/>
+        </form>
+        <p class="required">
+            <span>*</span>
+             = required field
+        </p>
+    </div>
+    <script>
+    var MAPQUESTKEY = 'Fmjtd|luur2h0bn1,2g=o5-9wbnhy';
+    </script>
+    <script src="js/index.js"></script>
+</body>
 </html>

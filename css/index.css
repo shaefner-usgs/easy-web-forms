@@ -1,1 +1,1329 @@
+.pretty * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
 
+.pretty input:not([type=checkbox]):not([type=radio]) {
+  display: none;
+}
+
+.pretty {
+  position: relative;
+  display: inline-block;
+  margin-right: 1em;
+  white-space: nowrap;
+  line-height: 1;
+}
+.pretty input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 1em;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.pretty .state label {
+  position: initial;
+  display: inline-block;
+  font-weight: normal;
+  margin: 0;
+  text-indent: 1.5em;
+  min-width: calc(1em + 2px);
+}
+.pretty .state label:before, .pretty .state label:after {
+  content: "";
+  width: calc(1em + 2px);
+  height: calc(1em + 2px);
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 0;
+  border: 1px solid transparent;
+  z-index: 0;
+  position: absolute;
+  left: 0;
+  top: calc((0% - (100% - 1em)) - 8%);
+  background-color: transparent;
+}
+.pretty .state label:before {
+  border-color: #adb5bd;
+}
+.pretty .state.p-is-hover, .pretty .state.p-is-indeterminate {
+  display: none;
+}
+
+@-webkit-keyframes zoom {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+}
+
+@keyframes zoom {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+}
+@-webkit-keyframes tada {
+  0% {
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    opacity: 0;
+    -webkit-transform: scale(7);
+            transform: scale(7);
+  }
+  38% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  55% {
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+  72% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  81% {
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    -webkit-transform: scale(1.24);
+            transform: scale(1.24);
+  }
+  89% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  95% {
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    -webkit-transform: scale(1.04);
+            transform: scale(1.04);
+  }
+  100% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes tada {
+  0% {
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    opacity: 0;
+    -webkit-transform: scale(7);
+            transform: scale(7);
+  }
+  38% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  55% {
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+  72% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  81% {
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    -webkit-transform: scale(1.24);
+            transform: scale(1.24);
+  }
+  89% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  95% {
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    -webkit-transform: scale(1.04);
+            transform: scale(1.04);
+  }
+  100% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@-webkit-keyframes jelly {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+            transform: scale3d(0.75, 1.25, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+            transform: scale3d(1.25, 0.75, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(0.85, 1.15, 1);
+            transform: scale3d(0.85, 1.15, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+            transform: scale3d(1.05, 0.95, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+            transform: scale3d(0.95, 1.05, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes jelly {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+            transform: scale3d(0.75, 1.25, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+            transform: scale3d(1.25, 0.75, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(0.85, 1.15, 1);
+            transform: scale3d(0.85, 1.15, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+            transform: scale3d(1.05, 0.95, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+            transform: scale3d(0.95, 1.05, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+@-webkit-keyframes rotate {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateZ(-200px) rotate(-45deg);
+            transform: translateZ(-200px) rotate(-45deg);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateZ(0) rotate(0);
+            transform: translateZ(0) rotate(0);
+  }
+}
+@keyframes rotate {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateZ(-200px) rotate(-45deg);
+            transform: translateZ(-200px) rotate(-45deg);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateZ(0) rotate(0);
+            transform: translateZ(0) rotate(0);
+  }
+}
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0px 0px 0px 0px #adb5bd;
+            box-shadow: 0px 0px 0px 0px #adb5bd;
+  }
+  100% {
+    -webkit-box-shadow: 0px 0px 0px 1.5em rgba(173, 181, 189, 0);
+            box-shadow: 0px 0px 0px 1.5em rgba(173, 181, 189, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0px 0px 0px 0px #adb5bd;
+            box-shadow: 0px 0px 0px 0px #adb5bd;
+  }
+  100% {
+    -webkit-box-shadow: 0px 0px 0px 1.5em rgba(173, 181, 189, 0);
+            box-shadow: 0px 0px 0px 1.5em rgba(173, 181, 189, 0);
+  }
+}
+.pretty.p-default.p-fill .state label:after {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
+}
+
+.pretty.p-default .state label:after {
+  -webkit-transform: scale(0.6);
+      -ms-transform: scale(0.6);
+          transform: scale(0.6);
+}
+.pretty.p-default input:checked ~ .state label:after {
+  background-color: #adb5bd !important;
+}
+
+.pretty.p-default.p-thick .state label:before, .pretty.p-default.p-thick .state label:after {
+  border-width: calc(1em / 7);
+}
+.pretty.p-default.p-thick .state label:after {
+  -webkit-transform: scale(0.4) !important;
+      -ms-transform: scale(0.4) !important;
+          transform: scale(0.4) !important;
+}
+
+.pretty.p-icon .state .icon {
+  position: absolute;
+  font-size: 1em;
+  width: calc(1em + 2px);
+  height: calc(1em + 2px);
+  left: 0;
+  z-index: 1;
+  text-align: center;
+  line-height: normal;
+  top: calc((0% - (100% - 1em)) - 8%);
+  border: 1px solid transparent;
+  opacity: 0;
+}
+.pretty.p-icon .state .icon:before {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  line-height: 1;
+}
+.pretty.p-icon input:checked ~ .state .icon {
+  opacity: 1;
+}
+.pretty.p-icon input:checked ~ .state label:before {
+  border-color: #5a656b;
+}
+
+.pretty.p-svg .state .svg {
+  position: absolute;
+  font-size: 1em;
+  width: calc(1em + 2px);
+  height: calc(1em + 2px);
+  left: 0;
+  z-index: 1;
+  text-align: center;
+  line-height: normal;
+  top: calc((0% - (100% - 1em)) - 8%);
+  border: 1px solid transparent;
+  opacity: 0;
+}
+.pretty.p-svg .state svg {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  line-height: 1;
+}
+.pretty.p-svg input:checked ~ .state .svg {
+  opacity: 1;
+}
+
+.pretty.p-image .state img {
+  opacity: 0;
+  position: absolute;
+  width: calc(1em + 2px);
+  height: calc(1em + 2px);
+  top: 0;
+  top: calc((0% - (100% - 1em)) - 8%);
+  left: 0;
+  z-index: 0;
+  text-align: center;
+  line-height: normal;
+  -webkit-transform: scale(0.8);
+      -ms-transform: scale(0.8);
+          transform: scale(0.8);
+}
+.pretty.p-image input:checked ~ .state img {
+  opacity: 1;
+}
+
+.pretty.p-switch input {
+  min-width: 2em;
+}
+.pretty.p-switch .state {
+  position: relative;
+}
+.pretty.p-switch .state:before {
+  content: "";
+  border: 1px solid #adb5bd;
+  border-radius: 60px;
+  width: 2em;
+  -webkit-box-sizing: unset;
+          box-sizing: unset;
+  height: calc(1em + 2px);
+  position: absolute;
+  top: 0;
+  top: calc((0% - (100% - 1em)) - 16%);
+  z-index: 0;
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.pretty.p-switch .state label {
+  text-indent: 2.5em;
+}
+.pretty.p-switch .state label:before, .pretty.p-switch .state label:after {
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  border-radius: 100%;
+  left: 0;
+  border-color: transparent;
+  -webkit-transform: scale(0.8);
+      -ms-transform: scale(0.8);
+          transform: scale(0.8);
+}
+.pretty.p-switch .state label:after {
+  background-color: #adb5bd !important;
+}
+.pretty.p-switch input:checked ~ .state:before {
+  border-color: #495057;
+}
+.pretty.p-switch input:checked ~ .state label:before {
+  opacity: 0;
+}
+.pretty.p-switch input:checked ~ .state label:after {
+  background-color: #495057 !important;
+  left: 1em;
+}
+
+.pretty.p-switch.p-fill input:checked ~ .state:before {
+  border-color: #495057;
+  background-color: #495057 !important;
+}
+.pretty.p-switch.p-fill input:checked ~ .state label:before {
+  opacity: 0;
+}
+.pretty.p-switch.p-fill input:checked ~ .state label:after {
+  background-color: #fff !important;
+  left: 1em;
+}
+
+.pretty.p-switch.p-slim .state:before {
+  height: 0.1em;
+  background: #adb5bd !important;
+  top: calc(50% - 0.1em);
+}
+.pretty.p-switch.p-slim input:checked ~ .state:before {
+  border-color: #495057;
+  background-color: #495057 !important;
+}
+
+.pretty.p-has-hover input:hover ~ .state:not(.p-is-hover) {
+  display: none;
+}
+.pretty.p-has-hover input:hover ~ .state.p-is-hover {
+  display: block;
+}
+.pretty.p-has-hover input:hover ~ .state.p-is-hover .icon {
+  display: block;
+}
+
+.pretty.p-has-focus input:focus ~ .state label:before {
+  -webkit-box-shadow: 0px 0px 3px 0px #bdc3c7;
+          box-shadow: 0px 0px 3px 0px #bdc3c7;
+}
+
+.pretty.p-has-indeterminate input[type=checkbox]:indeterminate ~ .state:not(.p-is-indeterminate) {
+  display: none;
+}
+.pretty.p-has-indeterminate input[type=checkbox]:indeterminate ~ .state.p-is-indeterminate {
+  display: block;
+}
+.pretty.p-has-indeterminate input[type=checkbox]:indeterminate ~ .state.p-is-indeterminate .icon {
+  display: block;
+  opacity: 1;
+}
+
+.pretty.p-toggle .state.p-on {
+  opacity: 0;
+  display: none;
+}
+.pretty.p-toggle .state.p-off,
+.pretty.p-toggle .state .icon,
+.pretty.p-toggle .state .svg,
+.pretty.p-toggle .state img {
+  opacity: 1;
+  display: inherit;
+}
+.pretty.p-toggle .state.p-off .icon {
+  color: #adb5bd;
+}
+.pretty.p-toggle input:checked ~ .state.p-on {
+  opacity: 1;
+  display: inherit;
+}
+.pretty.p-toggle input:checked ~ .state.p-off {
+  opacity: 0;
+  display: none;
+}
+
+.pretty.p-plain input:checked ~ .state label:before, .pretty.p-plain.p-toggle .state label:before {
+  content: none;
+}
+.pretty.p-plain.p-plain .icon {
+  -webkit-transform: scale(1.1);
+      -ms-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.pretty.p-round .state label:before, .pretty.p-round .state label:after {
+  border-radius: 100%;
+}
+.pretty.p-round.p-icon .state .icon {
+  border-radius: 100%;
+  overflow: hidden;
+}
+.pretty.p-round.p-icon .state .icon:before {
+  -webkit-transform: scale(0.8);
+      -ms-transform: scale(0.8);
+          transform: scale(0.8);
+}
+
+.pretty.p-curve .state label:before, .pretty.p-curve .state label:after {
+  border-radius: 20%;
+}
+
+.pretty.p-smooth label:before,
+.pretty.p-smooth label:after,
+.pretty.p-smooth .icon,
+.pretty.p-smooth .svg {
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.pretty.p-smooth input:checked + .state label:after {
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.pretty.p-smooth input:checked + .state .icon,
+.pretty.p-smooth input:checked + .state .svg,
+.pretty.p-smooth input:checked + .state img {
+  -webkit-animation: zoom 0.2s ease;
+          animation: zoom 0.2s ease;
+}
+.pretty.p-smooth.p-default input:checked + .state label:after {
+  -webkit-animation: zoom 0.2s ease;
+          animation: zoom 0.2s ease;
+}
+.pretty.p-smooth.p-plain input:checked + .state label:before {
+  content: "";
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0);
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.pretty.p-tada:not(.p-default) input:checked + .state .icon,
+.pretty.p-tada:not(.p-default) input:checked + .state .svg,
+.pretty.p-tada:not(.p-default) input:checked + .state img,
+.pretty.p-tada:not(.p-default) input:checked + .state label:before,
+.pretty.p-tada:not(.p-default) input:checked + .state label:after {
+  -webkit-animation: tada 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1 alternate;
+          animation: tada 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1 alternate;
+  opacity: 1;
+}
+
+.pretty.p-jelly:not(.p-default) input:checked + .state .icon,
+.pretty.p-jelly:not(.p-default) input:checked + .state .svg,
+.pretty.p-jelly:not(.p-default) input:checked + .state img,
+.pretty.p-jelly:not(.p-default) input:checked + .state label:before,
+.pretty.p-jelly:not(.p-default) input:checked + .state label:after {
+  -webkit-animation: jelly 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          animation: jelly 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 1;
+}
+.pretty.p-jelly:not(.p-default) input:checked + .state label:before {
+  border-color: transparent;
+}
+
+.pretty.p-rotate:not(.p-default) input:checked ~ .state .icon,
+.pretty.p-rotate:not(.p-default) input:checked ~ .state .svg,
+.pretty.p-rotate:not(.p-default) input:checked ~ .state img,
+.pretty.p-rotate:not(.p-default) input:checked ~ .state label:before,
+.pretty.p-rotate:not(.p-default) input:checked ~ .state label:after {
+  -webkit-animation: rotate 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          animation: rotate 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 1;
+}
+.pretty.p-rotate:not(.p-default) input:checked ~ .state label:before {
+  border-color: transparent;
+}
+
+.pretty.p-pulse:not(.p-switch) input:checked ~ .state label:before {
+  -webkit-animation: pulse 1s;
+          animation: pulse 1s;
+}
+
+.pretty input[disabled] {
+  cursor: not-allowed;
+  display: none;
+}
+.pretty input[disabled] ~ * {
+  opacity: 0.5;
+}
+
+.pretty.p-locked input {
+  display: none;
+  cursor: not-allowed;
+}
+
+.pretty input:checked ~ .state.p-primary label:after, .pretty.p-toggle .state.p-primary label:after {
+  background-color: #007bff !important;
+}
+.pretty input:checked ~ .state.p-primary .icon,
+.pretty input:checked ~ .state.p-primary .svg, .pretty.p-toggle .state.p-primary .icon,
+.pretty.p-toggle .state.p-primary .svg {
+  color: #fff;
+  stroke: #fff;
+}
+.pretty input:checked ~ .state.p-primary-o label:before, .pretty.p-toggle .state.p-primary-o label:before {
+  border-color: #007bff;
+}
+.pretty input:checked ~ .state.p-primary-o label:after, .pretty.p-toggle .state.p-primary-o label:after {
+  background-color: transparent;
+}
+.pretty input:checked ~ .state.p-primary-o .icon,
+.pretty input:checked ~ .state.p-primary-o .svg,
+.pretty input:checked ~ .state.p-primary-o svg, .pretty.p-toggle .state.p-primary-o .icon,
+.pretty.p-toggle .state.p-primary-o .svg,
+.pretty.p-toggle .state.p-primary-o svg {
+  color: #007bff;
+  stroke: #007bff;
+}
+.pretty.p-default:not(.p-fill) input:checked ~ .state.p-primary-o label:after {
+  background-color: #007bff !important;
+}
+.pretty.p-switch input:checked ~ .state.p-primary:before {
+  border-color: #007bff;
+}
+.pretty.p-switch.p-fill input:checked ~ .state.p-primary:before {
+  background-color: #007bff !important;
+}
+.pretty.p-switch.p-slim input:checked ~ .state.p-primary:before {
+  border-color: #004a99;
+  background-color: #004a99 !important;
+}
+.pretty input:checked ~ .state.p-info label:after, .pretty.p-toggle .state.p-info label:after {
+  background-color: #17a2b8 !important;
+}
+.pretty input:checked ~ .state.p-info .icon,
+.pretty input:checked ~ .state.p-info .svg, .pretty.p-toggle .state.p-info .icon,
+.pretty.p-toggle .state.p-info .svg {
+  color: #fff;
+  stroke: #fff;
+}
+.pretty input:checked ~ .state.p-info-o label:before, .pretty.p-toggle .state.p-info-o label:before {
+  border-color: #17a2b8;
+}
+.pretty input:checked ~ .state.p-info-o label:after, .pretty.p-toggle .state.p-info-o label:after {
+  background-color: transparent;
+}
+.pretty input:checked ~ .state.p-info-o .icon,
+.pretty input:checked ~ .state.p-info-o .svg,
+.pretty input:checked ~ .state.p-info-o svg, .pretty.p-toggle .state.p-info-o .icon,
+.pretty.p-toggle .state.p-info-o .svg,
+.pretty.p-toggle .state.p-info-o svg {
+  color: #17a2b8;
+  stroke: #17a2b8;
+}
+.pretty.p-default:not(.p-fill) input:checked ~ .state.p-info-o label:after {
+  background-color: #17a2b8 !important;
+}
+.pretty.p-switch input:checked ~ .state.p-info:before {
+  border-color: #17a2b8;
+}
+.pretty.p-switch.p-fill input:checked ~ .state.p-info:before {
+  background-color: #17a2b8 !important;
+}
+.pretty.p-switch.p-slim input:checked ~ .state.p-info:before {
+  border-color: #0c525d;
+  background-color: #0c525d !important;
+}
+.pretty input:checked ~ .state.p-success label:after, .pretty.p-toggle .state.p-success label:after {
+  background-color: #28a745 !important;
+}
+.pretty input:checked ~ .state.p-success .icon,
+.pretty input:checked ~ .state.p-success .svg, .pretty.p-toggle .state.p-success .icon,
+.pretty.p-toggle .state.p-success .svg {
+  color: #fff;
+  stroke: #fff;
+}
+.pretty input:checked ~ .state.p-success-o label:before, .pretty.p-toggle .state.p-success-o label:before {
+  border-color: #28a745;
+}
+.pretty input:checked ~ .state.p-success-o label:after, .pretty.p-toggle .state.p-success-o label:after {
+  background-color: transparent;
+}
+.pretty input:checked ~ .state.p-success-o .icon,
+.pretty input:checked ~ .state.p-success-o .svg,
+.pretty input:checked ~ .state.p-success-o svg, .pretty.p-toggle .state.p-success-o .icon,
+.pretty.p-toggle .state.p-success-o .svg,
+.pretty.p-toggle .state.p-success-o svg {
+  color: #28a745;
+  stroke: #28a745;
+}
+.pretty.p-default:not(.p-fill) input:checked ~ .state.p-success-o label:after {
+  background-color: #28a745 !important;
+}
+.pretty.p-switch input:checked ~ .state.p-success:before {
+  border-color: #28a745;
+}
+.pretty.p-switch.p-fill input:checked ~ .state.p-success:before {
+  background-color: #28a745 !important;
+}
+.pretty.p-switch.p-slim input:checked ~ .state.p-success:before {
+  border-color: #145523;
+  background-color: #145523 !important;
+}
+.pretty input:checked ~ .state.p-warning label:after, .pretty.p-toggle .state.p-warning label:after {
+  background-color: #ffc107 !important;
+}
+.pretty input:checked ~ .state.p-warning .icon,
+.pretty input:checked ~ .state.p-warning .svg, .pretty.p-toggle .state.p-warning .icon,
+.pretty.p-toggle .state.p-warning .svg {
+  color: #fff;
+  stroke: #fff;
+}
+.pretty input:checked ~ .state.p-warning-o label:before, .pretty.p-toggle .state.p-warning-o label:before {
+  border-color: #ffc107;
+}
+.pretty input:checked ~ .state.p-warning-o label:after, .pretty.p-toggle .state.p-warning-o label:after {
+  background-color: transparent;
+}
+.pretty input:checked ~ .state.p-warning-o .icon,
+.pretty input:checked ~ .state.p-warning-o .svg,
+.pretty input:checked ~ .state.p-warning-o svg, .pretty.p-toggle .state.p-warning-o .icon,
+.pretty.p-toggle .state.p-warning-o .svg,
+.pretty.p-toggle .state.p-warning-o svg {
+  color: #ffc107;
+  stroke: #ffc107;
+}
+.pretty.p-default:not(.p-fill) input:checked ~ .state.p-warning-o label:after {
+  background-color: #ffc107 !important;
+}
+.pretty.p-switch input:checked ~ .state.p-warning:before {
+  border-color: #ffc107;
+}
+.pretty.p-switch.p-fill input:checked ~ .state.p-warning:before {
+  background-color: #ffc107 !important;
+}
+.pretty.p-switch.p-slim input:checked ~ .state.p-warning:before {
+  border-color: #a07800;
+  background-color: #a07800 !important;
+}
+.pretty input:checked ~ .state.p-danger label:after, .pretty.p-toggle .state.p-danger label:after {
+  background-color: #dc3545 !important;
+}
+.pretty input:checked ~ .state.p-danger .icon,
+.pretty input:checked ~ .state.p-danger .svg, .pretty.p-toggle .state.p-danger .icon,
+.pretty.p-toggle .state.p-danger .svg {
+  color: #fff;
+  stroke: #fff;
+}
+.pretty input:checked ~ .state.p-danger-o label:before, .pretty.p-toggle .state.p-danger-o label:before {
+  border-color: #dc3545;
+}
+.pretty input:checked ~ .state.p-danger-o label:after, .pretty.p-toggle .state.p-danger-o label:after {
+  background-color: transparent;
+}
+.pretty input:checked ~ .state.p-danger-o .icon,
+.pretty input:checked ~ .state.p-danger-o .svg,
+.pretty input:checked ~ .state.p-danger-o svg, .pretty.p-toggle .state.p-danger-o .icon,
+.pretty.p-toggle .state.p-danger-o .svg,
+.pretty.p-toggle .state.p-danger-o svg {
+  color: #dc3545;
+  stroke: #dc3545;
+}
+.pretty.p-default:not(.p-fill) input:checked ~ .state.p-danger-o label:after {
+  background-color: #dc3545 !important;
+}
+.pretty.p-switch input:checked ~ .state.p-danger:before {
+  border-color: #dc3545;
+}
+.pretty.p-switch.p-fill input:checked ~ .state.p-danger:before {
+  background-color: #dc3545 !important;
+}
+.pretty.p-switch.p-slim input:checked ~ .state.p-danger:before {
+  border-color: #921925;
+  background-color: #921925 !important;
+}
+
+.pretty.p-bigger label:before,
+.pretty.p-bigger label:after,
+.pretty.p-bigger .icon,
+.pretty.p-bigger .svg,
+.pretty.p-bigger .img {
+  font-size: 1.2em !important;
+  top: calc((0% - (100% - 1em)) - 35%) !important;
+}
+.pretty.p-bigger label {
+  text-indent: 1.7em;
+}
+
+@media print {
+  .pretty .state:before,
+.pretty .state label:before,
+.pretty .state label:after,
+.pretty .state .icon {
+    color-adjust: exact;
+    /* stylelint-disable */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+/* Alerts
+  - icons from: https://useiconic.com/open and http://www.entypo.com
+  - data uri syntax from: https://codepen.io/tigt/post/optimizing-svgs-in-data-uris */
+p.alert, p.success, p.error {
+  background-color: rgba(23, 162, 184, 0.05);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='20' height='20' viewBox='0 0 20 20'%3E %3Cpath d='M10,0.4c-5.303,0-9.601,4.298-9.601,9.6c0,5.303,4.298,9.601,9.601,9.601c5.301,0,9.6-4.298,9.6-9.601 C19.6,4.698,15.301,0.4,10,0.4z M10.896,3.866c0.936,0,1.211,0.543,1.211,1.164c0,0.775-0.62,1.492-1.679,1.492 c-0.886,0-1.308-0.445-1.282-1.182C9.146,4.719,9.665,3.866,10.896,3.866z M8.498,15.75c-0.64,0-1.107-0.389-0.66-2.094l0.733-3.025 c0.127-0.484,0.148-0.678,0-0.678c-0.191,0-1.022,0.334-1.512,0.664L6.74,10.094c1.555-1.299,3.343-2.061,4.108-2.061 c0.64,0,0.746,0.756,0.427,1.92l-0.84,3.18c-0.149,0.562-0.085,0.756,0.064,0.756c0.192,0,0.82-0.232,1.438-0.719l0.362,0.486 C10.786,15.168,9.137,15.75,8.498,15.75z' fill='#17a2b8'/%3E %3C/svg%3E");
+  background-position: 0.75em 1em;
+  background-repeat: no-repeat;
+  background-size: 1em 1em;
+  border: 1px solid #17a2b8;
+  border-radius: 4px;
+  color: #17a2b8;
+  line-height: 1;
+  margin: 1em 0 1.75em 0;
+  padding: 1em 0.75em;
+  padding-left: 2.25em;
+}
+
+p.error {
+  background-color: rgba(220, 53, 69, 0.05);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='20' height='20' viewBox='0 0 20 20'%3E %3Cpath d='M19.511,17.98L10.604,1.348C10.48,1.133,10.25,1,10,1C9.749,1,9.519,1.133,9.396,1.348L0.49,17.98 c-0.121,0.211-0.119,0.471,0.005,0.68C0.62,18.871,0.847,19,1.093,19h17.814c0.245,0,0.474-0.129,0.598-0.34 C19.629,18.451,19.631,18.191,19.511,17.98z M11,17H9v-2h2V17z M11,13.5H9V7h2V13.5z' fill='#dc3545'/%3E%3C/svg%3E");
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+p.success {
+  background-color: rgba(40, 167, 69, 0.05);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='8' height='8' viewBox='0 0 8 8'%3E %3Cpath d='M0 0v7h7v-3.594l-1 1v1.594h-5v-5h3.594l1-1h-5.594zm7 0l-3 3-1-1-1 1 2 2 4-4-1-1z' fill='#28a745'/%3E%3C/svg%3E");
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.btn {
+  -webkit-appearance: button;
+     -moz-appearance: button;
+          appearance: button;
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 0.375em 0.75em;
+  text-align: center;
+  -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  -o-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.btn:disabled, .btn.disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+.btn:focus {
+  -webkit-box-shadow: 0 0 0 0.2em rgba(0, 123, 255, 0.5);
+          box-shadow: 0 0 0 0.2em rgba(0, 123, 255, 0.5);
+  outline: 0;
+}
+.btn:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+.btn:active {
+  background-color: #0062cc;
+  border-color: #005cbf;
+}
+
+div.form input:not([type=submit]),
+div.form select,
+div.form textarea {
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
+          box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
+  margin: 0;
+  outline: none;
+  -webkit-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+}
+div.form input:not([type=submit]):focus, div.form input:not([type=submit]).active,
+div.form select:focus,
+div.form select.active,
+div.form textarea:focus,
+div.form textarea.active {
+  border: 1px solid #007bff;
+  -webkit-box-shadow: 0 0 3px #007bff;
+          box-shadow: 0 0 3px #007bff;
+}
+div.form input:not([type=submit])::-webkit-input-placeholder, div.form select::-webkit-input-placeholder, div.form textarea::-webkit-input-placeholder {
+  color: #adb5bd;
+}
+div.form input:not([type=submit])::-moz-placeholder, div.form select::-moz-placeholder, div.form textarea::-moz-placeholder {
+  color: #adb5bd;
+}
+div.form input:not([type=submit]):-ms-input-placeholder, div.form select:-ms-input-placeholder, div.form textarea:-ms-input-placeholder {
+  color: #adb5bd;
+}
+div.form input:not([type=submit])::-ms-input-placeholder, div.form select::-ms-input-placeholder, div.form textarea::-ms-input-placeholder {
+  color: #adb5bd;
+}
+div.form input:not([type=submit])::placeholder,
+div.form select::placeholder,
+div.form textarea::placeholder {
+  color: #adb5bd;
+}
+div.form input:not([type=submit]) {
+  line-height: 1;
+  padding: 0.625em 0.5em;
+}
+div.form select {
+  background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+  background-size: 8px 10px;
+  display: inline-block;
+  height: calc(2.25em + 4px);
+  padding: 0.375em 1.75em 0.375em 0.5em;
+  vertical-align: middle;
+}
+div.form select option[value=""] {
+  -webkit-text-fill-color: #adb5bd;
+  opacity: 1;
+  color: #adb5bd;
+}
+div.form textarea {
+  padding: 0.375em 0.5em;
+  resize: vertical;
+}
+div.form input[disabled]:not([type=submit]),
+div.form select[disabled],
+div.form textarea[disabled],
+div.form textarea[readonly] {
+  background: #f8f9fa;
+  color: #ced4da;
+  cursor: not-allowed !important;
+  -webkit-text-fill-color: #ced4da;
+  opacity: 1;
+}
+div.form div:not(.datetime) input[readonly] {
+  background: #f8f9fa;
+  color: #ced4da;
+  cursor: not-allowed !important;
+  -webkit-text-fill-color: #ced4da;
+  opacity: 1;
+}
+div.form fieldset {
+  border: 0;
+  padding: 0;
+}
+div.form fieldset,
+div.form .control {
+  margin: 1.75em 0;
+}
+div.form img {
+  margin-top: 1em !important;
+}
+div.form label {
+  cursor: pointer;
+  display: inline-block;
+}
+div.form legend {
+  color: #495057;
+  font-size: 0.95em;
+  font-weight: 400;
+  margin: 0;
+  padding: 0 0 0.25em;
+  text-transform: uppercase;
+}
+div.form p.required span {
+  color: #dc3545;
+  font-weight: 500;
+}
+div.form .control {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+div.form .control:first-of-type {
+  margin-top: 0.75em;
+}
+div.form .control:not(.checkbox):not(.radio) {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+}
+div.form .control:not(.checkbox):not(.radio) label {
+  color: #495057;
+  font-size: 0.95em;
+  font-weight: 400;
+  margin: 0;
+  padding: 0 0 0.25em;
+  text-transform: uppercase;
+}
+div.form .datetime input {
+  cursor: pointer;
+  height: auto;
+}
+div.form .description {
+  color: #495057;
+  font-size: 0.95em;
+  margin: 0.2em 0 0;
+}
+div.form .group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+div.form .group .checkbox,
+div.form .group .radio {
+  margin: 0.3em 1em 0.3em 0;
+}
+div.form .group.stacked {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+div.form .invalid input:not([type=submit]),
+div.form .invalid select,
+div.form .invalid textarea {
+  border: 1px solid #dc3545;
+}
+div.form .invalid input:not([type=submit]):focus,
+div.form .invalid select:focus,
+div.form .invalid textarea:focus {
+  -webkit-box-shadow: 0 0 3px #dc3545;
+          box-shadow: 0 0 3px #dc3545;
+}
+div.form .invalid > label,
+div.form .invalid legend {
+  color: #dc3545 !important;
+}
+div.form .invalid .active {
+  border-color: #dc3545;
+  -webkit-box-shadow: 0 0 3px #dc3545 !important;
+          box-shadow: 0 0 3px #dc3545 !important;
+}
+div.form .invalid .description:before {
+  color: #dc3545;
+  content: attr(data-message);
+  display: block;
+}
+div.form .invalid .pretty input:focus ~ .state.p-primary-o label:before {
+  -webkit-box-shadow: 0 0 3px #dc3545;
+          box-shadow: 0 0 3px #dc3545;
+}
+div.form .invalid .pretty label:before {
+  border-color: #dc3545;
+}
+div.form .pretty input {
+  width: auto;
+}
+div.form .pretty input:focus ~ .state.p-primary-o label:before {
+  -webkit-box-shadow: 0 0 3px #007bff;
+          box-shadow: 0 0 3px #007bff;
+}
+div.form .required + label:after,
+div.form .required legend:after,
+div.form :required + label:after {
+  color: #dc3545;
+  content: " *";
+  font-weight: 500;
+}
+
+/* Flatpickr
+----------------------------------------------------------------------------- */
+body .flatpickr-calendar {
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 16px;
+  line-height: 1.5;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 0 3px #007bff;
+          box-shadow: 0 0 3px #007bff;
+  -webkit-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+}
+body .flatpickr-calendar.arrowBottom:before {
+  border-top-color: #007bff;
+}
+body .flatpickr-calendar.arrowTop:before {
+  border-bottom-color: #007bff;
+}
+body .flatpickr-calendar.invalid {
+  border-color: #dc3545;
+  -webkit-box-shadow: 0 0 3px #dc3545;
+          box-shadow: 0 0 3px #dc3545;
+}
+body .flatpickr-calendar.invalid.arrowBottom:before {
+  border-top-color: #dc3545;
+}
+body .flatpickr-calendar.invalid.arrowTop:before {
+  border-bottom-color: #dc3545;
+}
+body .flatpickr-day {
+  color: inherit;
+  -webkit-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+}
+body .flatpickr-day:hover {
+  background: #ebf4ff;
+  border-color: #ebf4ff;
+  -webkit-transition: all 0.05s ease-in-out;
+  -o-transition: all 0.05s ease-in-out;
+  transition: all 0.05s ease-in-out;
+}
+body .flatpickr-day.nextMonthDay:hover, body .flatpickr-day.prevMonthDay:hover {
+  background: #f8f9fa;
+  border-color: #f8f9fa;
+  color: #adb5bd;
+}
+body .flatpickr-day.selected, body .flatpickr-day.selected:hover {
+  background: #007bff !important;
+  border-color: #007bff !important;
+  color: #fff !important;
+}
+body .flatpickr-current-month .flatpickr-monthDropdown-months {
+  height: 30px;
+}
+body .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+  background-color: #ebf4ff;
+}
+body .flatpickr-months {
+  margin-bottom: 0.625em;
+}
+body .flatpickr-months .flatpickr-month {
+  color: inherit;
+  height: 36px;
+}
+body .flatpickr-months .flatpickr-prev-month:hover svg,
+body .flatpickr-months .flatpickr-next-month:hover svg {
+  fill: #007bff;
+}
+body .flatpickr-time input {
+  color: inherit;
+}
+body .flatpickr-time input:focus,
+body .flatpickr-time .flatpickr-am-pm:focus {
+  background-color: #f2f8ff;
+}
+body .flatpickr-time input:hover,
+body .flatpickr-time .flatpickr-am-pm:hover {
+  background-color: #ebf4ff;
+}
+body .flatpickr-time .flatpickr-am-pm,
+body .flatpickr-time .flatpickr-hour,
+body .flatpickr-time .flatpickr-minute {
+  font-size: 1em;
+}
+body .flatpickr-time .flatpickr-am-pm {
+  border-radius: 0 4px 4px 0;
+}
+body .flatpickr-time .numInputWrapper,
+body .flatpickr-time .flatpickr-hour {
+  border-radius: 4px 0 0 4px;
+  font-weight: normal !important;
+}
+body .noCalendar .flatpickr-time {
+  border: 0 !important;
+}
+body .numInputWrapper:hover {
+  background-color: #ebf4ff;
+}
+body .numInputWrapper span:hover {
+  background-color: #cce5ff;
+}
+
+/* MapQuest PlaceSearch
+----------------------------------------------------------------------------- */
+div.form input.mq-input {
+  height: auto;
+  padding-right: 2em;
+}
+div.form .mq-dropdown-menu {
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 0 3px #007bff;
+          box-shadow: 0 0 3px #007bff;
+}
+div.form .mq-input-icon {
+  right: 0;
+  background-image: none !important;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  padding: 2px 15px;
+}
+div.form .mq-input-icon svg {
+  right: 8px;
+}
+div.form .mq-results .mq-address {
+  color: #6c757d;
+}
+div.form .mq-results .mq-name {
+  color: #495057;
+}
+div.form .mq-results .mq-result {
+  background-color: inherit;
+  -webkit-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+}
+div.form .mq-results .mq-result .mq-result-icon svg g {
+  fill: #495057;
+}
+div.form .mq-results .mq-result.mq-cursor {
+  background-color: #ebf4ff;
+  -webkit-transition: all 0.05s ease-in-out;
+  -o-transition: all 0.05s ease-in-out;
+  transition: all 0.05s ease-in-out;
+}
+div.form .mq-results .mq-result.mq-cursor .mq-result-icon svg g {
+  fill: #007bff;
+}
+
+/* Pretty-checkbox
+----------------------------------------------------------------------------- */
+.pretty .state label:before {
+  border-color: #d7dde2;
+  -webkit-box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+div.results {
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 16px;
+  line-height: 1.5;
+}
+div.results dd {
+  margin: 0 0 1.75em 0;
+}
+div.results dd:last-child {
+  margin: 0;
+}
+div.results dl {
+  margin: 2em 0 1em;
+}
+div.results dt {
+  color: #495057;
+  font-size: 0.95em;
+  font-weight: 400;
+  margin: 0;
+  padding: 0 0 0.25em;
+  text-transform: uppercase;
+}
+
+div.form,
+div.results {
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  max-width: 35em;
+}
+div.form *, div.form *:before, div.form *:after,
+div.results *,
+div.results *:before,
+div.results *:after {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+div.form img,
+div.results img {
+  display: block;
+  margin: 0;
+  width: 250px;
+}

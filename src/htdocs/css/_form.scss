@@ -1,0 +1,190 @@
+div.form {
+  input:not([type="submit"]),
+  select,
+  textarea {
+    @include fonts; // nested form controls don't apply cascaded font settings
+
+    appearance: none;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
+    margin: 0;
+    outline: none;
+    transition: all 0.25s ease-in-out;
+
+    &:focus,
+    &.active { // persist flatpickr field's focused state while interacting with widget
+      border: 1px solid $primary;
+      box-shadow: 0 0 3px $primary;
+    }
+
+    &::placeholder {
+      color: $gray-500;
+    }
+  }
+
+  input:not([type="submit"]) {
+    line-height: 1;
+    padding: .625em .5em;
+  }
+
+  select {
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right .75rem center;
+    background-size: 8px 10px;
+    display: inline-block;
+    height: calc(2.25em + 4px);
+    padding: .375em 1.75em .375em .5em;
+    vertical-align: middle;
+
+    option[value=""] {
+      -webkit-text-fill-color: $gray-500;
+      opacity: 1;
+      color: $gray-500;
+    }
+  }
+
+  textarea {
+    padding: .375em .5em;
+    resize: vertical;
+  }
+
+  // Disabled/readonly fields
+  input[disabled]:not([type="submit"]),
+  select[disabled],
+  textarea[disabled],
+  textarea[readonly] {
+    @include disabled;
+  }
+  div:not(.datetime) { // flatpickr API adds readonly attr but allows changing
+    input[readonly] {
+      @include disabled;
+    }
+  }
+
+  fieldset {
+    border: 0;
+    padding: 0;
+  }
+
+  fieldset,
+  .control {
+    margin: 1.75em 0;
+  }
+
+  img {
+    margin-top: 1em;
+  }
+
+  label {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  legend {
+    @include labels;
+  }
+
+  p.required span {
+    color: $danger;
+    font-weight: 500;
+  }
+
+  .control {
+    display: flex;
+
+    &:first-of-type {
+      margin-top: .75em;
+    }
+
+    &:not(.checkbox):not(.radio) {
+      flex-direction: column-reverse; // display labels before controls
+
+      label {
+        @include labels;
+      }
+    }
+  }
+
+  .datetime input {
+    cursor: pointer; // use pointer for all datetime fields, incl. flatpickr altFormat
+    height: auto;
+  }
+
+  .description {
+    color: $gray-700;
+    font-size: .95em;
+    margin: .2em 0 0;
+  }
+
+  .group {
+    display: flex;
+    flex-wrap: wrap;
+
+    .checkbox,
+    .radio {
+      margin: .3em 1em .3em 0;
+    }
+
+    &.stacked {
+      flex-direction: column;
+    }
+  }
+
+  // Invalid fields
+  .invalid {
+    input:not([type="submit"]),
+    select,
+    textarea {
+      border: 1px solid $danger;
+
+      &:focus {
+        box-shadow: 0 0 3px $danger;
+      }
+    }
+
+    > label,
+    legend {
+      color: $danger !important;
+    }
+
+    // Override blue focus styles for invalid flatpickr fields
+    .active {
+      border-color: $danger;
+      box-shadow: 0 0 3px $danger !important;
+    }
+
+    .description:before {
+      color: $danger;
+      content: attr(data-message);
+      display: block;
+    }
+
+    // Add focus styles for invalid pretty checkbox controls
+    .pretty input:focus ~ .state.p-primary-o label:before {
+      box-shadow: 0 0 3px $danger;
+    }
+
+    .pretty label:before {
+      border-color: $danger;
+    }
+  }
+
+  // Prevent stacked controls being clickable past label
+  .pretty input {
+    width: auto;
+  }
+
+  // Add focus styles for pretty checkbox controls
+  .pretty input:focus ~ .state.p-primary-o label:before {
+    box-shadow: 0 0 3px $primary;
+  }
+
+  // Required fields '*' label
+  .required + label:after, // MapQuest PlaceSearch address field
+  .required legend:after, // radio/checkbox group
+  :required + label:after {
+    color: $danger;
+    content: ' *';
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,34 @@
+/* Alerts
+  - icons from: https://useiconic.com/open and http://www.entypo.com
+  - data uri syntax from: https://codepen.io/tigt/post/optimizing-svgs-in-data-uris */
+
+p.alert {
+  background-color: transparentize($info, 0.95);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='20' height='20' viewBox='0 0 20 20'%3E %3Cpath d='M10,0.4c-5.303,0-9.601,4.298-9.601,9.6c0,5.303,4.298,9.601,9.601,9.601c5.301,0,9.6-4.298,9.6-9.601 C19.6,4.698,15.301,0.4,10,0.4z M10.896,3.866c0.936,0,1.211,0.543,1.211,1.164c0,0.775-0.62,1.492-1.679,1.492 c-0.886,0-1.308-0.445-1.282-1.182C9.146,4.719,9.665,3.866,10.896,3.866z M8.498,15.75c-0.64,0-1.107-0.389-0.66-2.094l0.733-3.025 c0.127-0.484,0.148-0.678,0-0.678c-0.191,0-1.022,0.334-1.512,0.664L6.74,10.094c1.555-1.299,3.343-2.061,4.108-2.061 c0.64,0,0.746,0.756,0.427,1.92l-0.84,3.18c-0.149,0.562-0.085,0.756,0.064,0.756c0.192,0,0.82-0.232,1.438-0.719l0.362,0.486 C10.786,15.168,9.137,15.75,8.498,15.75z' fill='#{$info}'/%3E %3C/svg%3E");
+  background-position: .75em 1em;
+  background-repeat: no-repeat;
+  background-size: 1em 1em;
+  border: 1px solid $info;
+  border-radius: $border-radius;
+  color: $info;
+  line-height: 1;
+  margin: 1em 0 1.75em 0;
+  padding: 1em .75em;
+  padding-left: 2.25em;
+}
+
+p.error {
+  @extend .alert;
+  background-color: transparentize($danger, 0.95);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='20' height='20' viewBox='0 0 20 20'%3E %3Cpath d='M19.511,17.98L10.604,1.348C10.48,1.133,10.25,1,10,1C9.749,1,9.519,1.133,9.396,1.348L0.49,17.98 c-0.121,0.211-0.119,0.471,0.005,0.68C0.62,18.871,0.847,19,1.093,19h17.814c0.245,0,0.474-0.129,0.598-0.34 C19.629,18.451,19.631,18.191,19.511,17.98z M11,17H9v-2h2V17z M11,13.5H9V7h2V13.5z' fill='#{$danger}'/%3E%3C/svg%3E");
+  border-color: $danger;
+  color: $danger;
+}
+
+p.success {
+  @extend .alert;
+  background-color: transparentize($success, 0.95);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='8' height='8' viewBox='0 0 8 8'%3E %3Cpath d='M0 0v7h7v-3.594l-1 1v1.594h-5v-5h3.594l1-1h-5.594zm7 0l-3 3-1-1-1 1 2 2 4-4-1-1z' fill='#{$success}'/%3E%3C/svg%3E");
+  border-color: $success;
+  color: $success;
+}

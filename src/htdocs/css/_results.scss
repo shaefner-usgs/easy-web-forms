@@ -1,0 +1,19 @@
+div.results {
+  @include fonts;
+
+  dd {
+    margin: 0 0 1.75em 0;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+
+  dl {
+    margin: 2em 0 1em;
+  }
+
+  dt {
+    @include labels;
+  }
+}

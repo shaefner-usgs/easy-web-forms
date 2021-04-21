@@ -1,0 +1,193 @@
+/* Flatpickr
+----------------------------------------------------------------------------- */
+
+body {
+  // Use the same border styles as form controls for datetime widget
+  .flatpickr-calendar {
+    @include fonts;
+
+    border: 1px solid $primary;
+    border-radius: $border-radius;
+    box-shadow: 0 0 3px $primary;
+    transition: all .25s ease-in-out;
+
+    &.arrowBottom:before {
+      border-top-color: $primary;
+    }
+    &.arrowTop:before {
+      border-bottom-color: $primary;
+    }
+
+    &.invalid {
+      border-color: $danger;
+      box-shadow: 0 0 3px $danger;
+
+      &.arrowBottom:before {
+        border-top-color: $danger;
+      }
+      &.arrowTop:before {
+        border-bottom-color: $danger;
+      }
+    }
+  }
+
+  // Use same $primary color as form controls for calendar days
+  .flatpickr-day {
+    color: inherit;
+    transition: all .25s ease-in-out;
+
+    &:hover {
+      background: scale-color($primary, $lightness: 92%);
+      border-color: scale-color($primary, $lightness: 92%);
+      transition: all .05s ease-in-out;
+    }
+
+    &.nextMonthDay:hover,
+    &.prevMonthDay:hover {
+      background: $gray-100;
+      border-color: $gray-100;
+      color: $gray-500;
+    }
+
+    &.selected,
+    &.selected:hover {
+      background: $primary !important;
+      border-color: $primary !important;
+      color: $white !important;
+    }
+  }
+
+  // Display tweaks
+  .flatpickr-current-month .flatpickr-monthDropdown-months {
+    height: 30px;
+
+    &:hover {
+      background-color: scale-color($primary, $lightness: 92%);
+    }
+  }
+
+  .flatpickr-months {
+    margin-bottom: .625em;
+
+    .flatpickr-month {
+      color: inherit;
+      height: 36px;
+    }
+
+    // Set hover color for prev/next month arrows
+    .flatpickr-prev-month:hover svg,
+    .flatpickr-next-month:hover svg {
+      fill: $primary;
+    }
+  }
+
+  .flatpickr-time {
+    input {
+      color: inherit;
+    }
+
+    // Set background colors for focus, hover styles on time picker
+    input:focus,
+    .flatpickr-am-pm:focus {
+      background-color: scale-color($primary, $lightness: 95%);
+    }
+
+    input:hover,
+    .flatpickr-am-pm:hover {
+      background-color: scale-color($primary, $lightness: 92%);
+    }
+
+    .flatpickr-am-pm,
+    .flatpickr-hour,
+    .flatpickr-minute {
+      font-size: 1em;
+    }
+    .flatpickr-am-pm {
+      border-radius: 0 $border-radius $border-radius 0;
+    }
+    .numInputWrapper,
+    .flatpickr-hour {
+      border-radius: $border-radius 0 0 $border-radius;
+      font-weight: normal !important;
+    }
+  }
+
+  // Remove extraneous border separating calendar from time controls
+  .noCalendar .flatpickr-time {
+    border: 0 !important;
+  }
+
+  .numInputWrapper {
+    &:hover {
+      background-color: scale-color($primary, $lightness: 92%);
+    }
+
+    span:hover { // up/down arrows
+      background-color: scale-color($primary, $lightness: 80%);
+    }
+  }
+}
+
+/* MapQuest PlaceSearch
+----------------------------------------------------------------------------- */
+
+div.form {
+  input.mq-input {
+    height: auto;
+    padding-right: 2em; // make room for 'x' button
+  }
+
+  .mq-dropdown-menu {
+    border: 1px solid $primary;
+    border-radius: $border-radius;
+    box-shadow: 0 0 3px $primary;
+  }
+
+  .mq-input-icon { // 'x' button to clear results
+    right: 0;
+    // Override web page template's defaults (earthquake.usgs.gov)
+    background-image: none !important;
+    box-shadow: none;
+    padding: 2px 15px;
+
+    svg {
+      right: 8px;
+    }
+  }
+
+  .mq-results {
+    .mq-address {
+      color: $gray-600;
+    }
+
+    .mq-name {
+      color: $gray-700;
+    }
+
+    .mq-result {
+      background-color: inherit;
+      transition: all .25s ease-in-out;
+
+      .mq-result-icon svg g {
+        fill: $gray-700;
+      }
+
+      &.mq-cursor { // used for highlighting mouseover in results
+        background-color: scale-color($primary, $lightness: 92%);
+        transition: all .05s ease-in-out;
+
+        .mq-result-icon svg g {
+          fill: $primary;
+        }
+      }
+    }
+  }
+}
+
+/* Pretty-checkbox
+----------------------------------------------------------------------------- */
+
+.pretty .state label:before {
+  border-color: darken($border-color, 6%);
+  box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, .05);
+}

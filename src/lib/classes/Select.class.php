@@ -162,7 +162,7 @@ class Select {
       );
     }
 
-    $select = sprintf('<select class="custom-select" id="%s" name="%s"%s>%s</select>',
+    $select = sprintf('<select id="%s" name="%s"%s>%s</select>',
       $this->id,
       $this->name,
       $attrs,

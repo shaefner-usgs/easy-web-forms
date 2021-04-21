@@ -217,7 +217,7 @@ class Form {
       $contentType
     );
     $html .= $controlsHtml;
-    $html .= sprintf('<input id="submitbutton" name="submitbutton" type="submit" class="btn btn-primary" tabindex="%d" value="%s" />',
+    $html .= sprintf('<input id="submitbutton" name="submitbutton" type="submit" class="btn" tabindex="%d" value="%s" />',
       ++ $this->_countTabIndex,
       $this->submitButtonText
     );

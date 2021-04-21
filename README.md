@@ -8,8 +8,8 @@ Easy Web Forms is a PHP library that simplifies building modern, web-based forms
 
 ## Dependencies
 
-1. Grunt
-2. Node.js, NPM
+1. [Grunt](https://gruntjs.com/)
+2. [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/)
 3. PHP with CGI
 
 ## Requirements
@@ -134,6 +134,10 @@ To render additional HTML content associated with a form control next to the con
 ```
 
 This also works for adding inline content to the results following form submission. Note: Form's [isPosting()](#is-posting) and [isValid()](#is-valid) methods might be useful for controlling when the content is displayed. The content will be moved into place after the form/results are rendered.
+
+## Security
+
+All user-supplied input is sanitized using PHP [Data Filtering](http://www.php.net/manual/en/book.filter.php) and prepared statements are used to prevent SQL injection vulnerabilities.
 
 ## API Documentation
 
@@ -400,4 +404,4 @@ The following `<textarea>` attributes will trigger [validation](#validation) whe
 
 ## Acknowledgements
 
-Portions of [Bootstrap](https://github.com/twbs/bootstrap) and [pretty-checkbox.css](https://github.com/lokesh-coder/pretty-checkbox) are distributed with this library to enhance the user interface. This library also uses cloud-hosted versions of 1) [MapQuest PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/) for single field 'address' type `<input>` controls and 2) [flatpickr](https://flatpickr.js.org) for 'datetime' type `<input>` controls.
+[pretty-checkbox.css](https://github.com/lokesh-coder/pretty-checkbox) and code inspired by [Bootstrap](https://github.com/twbs/bootstrap) is used to enhance the user interface of form elements. This library also uses cloud-hosted versions of 1) [MapQuest PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/) for single field 'address' type `<input>` controls and 2) [flatpickr](https://flatpickr.js.org) for 'datetime' type `<input>` controls.

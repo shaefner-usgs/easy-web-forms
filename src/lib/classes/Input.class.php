@@ -275,7 +275,8 @@ class Input {
         $this->_defaults['pattern'] = '[^@]+@[^@]+\.[^@]+';
       }
       else if ($type === 'file') {
-        $this->_defaults['message'] = 'Please choose a file (.jpg or .png)';
+        $this->_defaults['description'] = '.jpg or .png';
+        $this->_defaults['message'] = 'Please choose a file';
       }
       else if ($type === 'number') {
         $this->_defaults['pattern'] = '^[0-9.-]+$';

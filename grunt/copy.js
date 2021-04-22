@@ -9,6 +9,13 @@ var copy = {
     timestamp: true
   },
 
+  autop: {
+    files: [{
+      src: 'vendor/xmeltrut/autop/src/Autop.php',
+      dest: config.build + '/' + config.src + '/lib/dep/Autop.php'
+    }]
+  },
+
   build: {
     cwd: config.src,
     dest: config.build + '/' + config.src,

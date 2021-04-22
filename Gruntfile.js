@@ -20,7 +20,8 @@ module.exports = function (grunt) {
     'browserify',
     'sass',
     'postcss:build',
-    'copy:build'
+    'copy:build',
+    'copy:autop'
   ]);
 
   grunt.registerTask('dist', [

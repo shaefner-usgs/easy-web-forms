@@ -1,0 +1,54 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "304f4a827d08bd22fc57a7e2e56a5c0b",
+    "packages": [
+        {
+            "name": "xmeltrut/autop",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xmeltrut/autop.git",
+                "reference": "b8a32d28f3ee2247a0969880d66903935f86d71b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xmeltrut/autop/zipball/b8a32d28f3ee2247a0969880d66903935f86d71b",
+                "reference": "b8a32d28f3ee2247a0969880d66903935f86d71b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Autop.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Chris Worfolk",
+                    "email": "chris@worfolk.co.uk",
+                    "homepage": "http://www.worfolk.co.uk"
+                }
+            ],
+            "description": "WordPress' excellent wpautop as a standalone library",
+            "support": {
+                "issues": "https://github.com/xmeltrut/autop/issues",
+                "source": "https://github.com/xmeltrut/autop/tree/master"
+            },
+            "time": "2015-06-07T15:12:09+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}

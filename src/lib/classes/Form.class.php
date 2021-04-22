@@ -1,5 +1,7 @@
 <?php
 
+include_once __DIR__ . '/../dep/Autop.php';
+
 /**
  * Create and process HTML form
  *
@@ -308,9 +310,9 @@ class Form {
         $sqlValue = $control->value;
 
         if ($control->type === 'datetime') { // datetime field
-          // Set display value to altInput value if configured
           $displayValue = $control->value;
 
+          // Set display value to altInput value if configured
           if (isSet($_POST['altInput' . $numDateTimeFields])) {
             $displayValue = $_POST['altInput' . $numDateTimeFields];
           }
@@ -327,11 +329,14 @@ class Form {
         $sqlValues[$key] = $sqlValue;
       }
       if ($control->type !== 'hidden') { // don't include hidden fields in results summary
+        $value = htmlspecialchars(stripslashes($displayValue));
+
+        if ($control->type === 'textarea') { // add p, br tags to preserve formatting
+          $value = \Xmeltrut\Autop\Autop::format($value);
+        }
+
         $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
-        $this->_results .= sprintf('<dd id="%s">%s</dd>',
-          $key,
-          htmlspecialchars(stripslashes($displayValue))
-        );
+        $this->_results .= sprintf('<dd id="%s">%s</dd>', $key, $value);
       }
     }
 

@@ -3,4 +3,5 @@
 .nova
 dist
 node_modules
+vendor
 *.sublime-workspace

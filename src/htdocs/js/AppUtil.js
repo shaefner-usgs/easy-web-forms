@@ -34,7 +34,7 @@ AppUtil.addJsFile = function (file, callback) {
 };
 
 /**
- * Add polyfill for Element.closest()
+ * Add polyfill for Element.closest().
  */
 AppUtil.addPolyfills = function () {
   if (!Element.prototype.matches) { // used in El.closest polyfill

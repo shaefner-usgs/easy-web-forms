@@ -6,35 +6,20 @@ Easy Web Forms is a PHP library that simplifies building modern, web-based forms
 
 [Demo](https://shaefner-usgs.github.io/easy-web-forms/demo.html)
 
-## Dependencies
-
-1. [Grunt](https://gruntjs.com/)
-2. [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/)
-3. [Composer](https://getcomposer.org/)
-4. PHP with CGI
-
 ## Requirements
 
-PHP and MySQL on the web server that hosts the form.
+PHP and MySQL are required on the web server that hosts your form.
 
 ## Getting Started
 
-1. **Install** dependencies and start the development server:
+If you just want to use this library to create a web-based form, all the necessary files are located in the 'dist' folder. See below for instructions on building/compiling from source if you want to make modifications to the library.
 
-    `npm install`
-
-    `php composer.phar install`
-
-    `grunt`
-
-    Preview files in src/htdocs at http://localhost:9200/.
-
-2. **Include** the PHP, CSS and JavaScript dependencies in a new document (e.g. form.php) in src/htdocs:
+1. **Include** the PHP, CSS and JavaScript dependencies in a new PHP document in htdocs:
 
     ```php
     include_once '../lib/index.inc.php';
     ```
-    
+
     Include this line first before any other content on the web page. Be certain to set configuration parameters for your environment in conf/config.inc.php.
 
     ```html
@@ -42,7 +27,7 @@ PHP and MySQL on the web server that hosts the form.
     <script src="js/index.js"></script>
     ```
 
-3. **Create** the form controls. For example:
+2. **Create** the form controls. For example:
 
     ```php
     $name = new Input([
@@ -68,7 +53,7 @@ PHP and MySQL on the web server that hosts the form.
     ]);
     ```
 
-4. **Add** the form controls:
+3. **Add** the form controls:
 
     ```php
     $form = new Form(); // instantiate Form instance
@@ -83,17 +68,12 @@ PHP and MySQL on the web server that hosts the form.
     ]);
     ```
 
-5. **Render** the form:
+4. **Render** the form:
 
     ```php
     $form->render();
     ```
     
-6. **Compile** the CSS and JavaScript:
-
-    `grunt dist`
-
-    This creates a 'dist' folder with the new form, compiled code and PHP library files. Preview files in dist/htdocs at http://localhost:9201/.
 
 See [example.php](src/htdocs/example.php) for additional details.
 
@@ -106,6 +86,35 @@ You will also need to create a MySQL table with field names that correspond to t
 * browser (Type VARCHAR)
 
 No metadata fields are included by default. Adding an auto-incrementing 'id' field is recommended.
+
+## Building/Compiling
+
+If you want to make modifications to the library, you will need to build/compile your changes.
+
+1. **Install** dependencies and start the build process and development web server:
+
+    `npm install`
+
+    `php composer.phar install`
+
+    `grunt`
+
+    Preview files in src/htdocs at http://localhost:9200/.
+
+While grunt is running, live reload will automatically run the build process and refresh your browser when you save your changes.
+
+2. **Compile** the CSS and JavaScript:
+
+    `grunt dist`
+
+    This updates the files in the 'dist' folder with your changes. Preview files in dist/htdocs at http://localhost:9201/.
+
+### Dependencies
+
+1. [Grunt](https://gruntjs.com/)
+2. [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/)
+3. [Composer](https://getcomposer.org/)
+4. PHP with CGI
 
 <a id="validation"></a>
 ## Validation

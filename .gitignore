@@ -1,7 +1,6 @@
 .DS_Store
 .build
 .nova
-dist
 node_modules
 vendor
 *.sublime-workspace

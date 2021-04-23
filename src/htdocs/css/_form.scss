@@ -10,12 +10,13 @@ div.form {
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.08);
     margin: 0;
     outline: none;
-    transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in;
 
     &:focus,
     &.active { // persist flatpickr field's focused state while interacting with widget
       border: 1px solid $primary;
       box-shadow: 0 0 3px $primary;
+      transition-timing-function: ease-out;
     }
 
     &::placeholder {

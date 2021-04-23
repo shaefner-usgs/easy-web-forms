@@ -3,19 +3,17 @@
 
 /**
  * Display items associated with a specific 'field' inline even though they are
- *   rendered after the form/results in div.form-meta. The item to be moved
- *   must have a css class that matches the 'id' value of the associated field.
+ *   rendered after the form/results. The item (node) you want to move must be
+ *   nested in a div with the class 'form-meta' have a css class that matches
+ *   the 'id' value of the associated field.
  *
  * @param options {Object}
  *   {
  *     form: {Element}
  *   }
- *
- * @return _this {Object}
  */
 var FormMeta = function(options) {
-  var _this,
-      _initialize,
+  var _initialize,
 
       _form,
 
@@ -23,8 +21,6 @@ var FormMeta = function(options) {
       _getItems,
       _placeItems;
 
-
-  _this = {};
 
   _initialize = function (options) {
     _form = options.form;
@@ -34,9 +30,10 @@ var FormMeta = function(options) {
 
   /**
    * Get all 'fields': either the form controls or results list.
-   *   Note: radio/checkbox form inputs are not currently supported
+   *   Note: radio/checkbox inputs (form controls) are not currently supported.
    *
    * @return fields {Array}
+   *     id values
    */
   _getFields = function() {
     var controls,
@@ -65,9 +62,10 @@ var FormMeta = function(options) {
   };
 
   /**
-   * Get items that need to be moved in DOM.
+   * Get the items that need to be moved in the DOM.
    *
    * @return items {Array}
+   *     id (className) values
    */
   _getItems = function () {
     var fields,
@@ -86,7 +84,7 @@ var FormMeta = function(options) {
   };
 
   /**
-   * Place items inline next to form control or value in results list.
+   * Place the items inline next to the form control or value in results list.
    */
   _placeItems = function() {
     var control,
@@ -112,7 +110,6 @@ var FormMeta = function(options) {
 
   _initialize(options);
   options = null;
-  return _this;
 };
 
 

@@ -61,7 +61,9 @@ var Validator = function (options) {
             _this.validate(input);
           });
         } else {
-          ['blur', 'input'].forEach(function(evt) { // blur: capture autocompleted fields
+          // blur: capture autocompleted fields
+          // change: capture file input in older webkit browsers
+          ['blur', 'change', 'input'].forEach(function(evt) {
             input.addEventListener(evt, function() {
               _this.validate(input);
             });

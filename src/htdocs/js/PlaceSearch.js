@@ -6,26 +6,21 @@ var AppUtil = require('AppUtil');
 
 
 /**
- * Set up MapQuest PlaceSearch.js, a 3rd-party address autocomplete library.
+ * Set up MapQuest PlaceSearch.js, a 3rd-party address-autocomplete library.
  *
  * @param options {Object}
  *   {
  *     form: {Element}
  *   }
- *
- * @return _this {Object}
  */
 var PlaceSearch = function (options) {
-  var _this,
-      _initialize,
+  var _initialize,
 
       _form,
 
       _initFields,
       _setHiddenFields;
 
-
-  _this = {};
 
   _initialize = function (options) {
     _form = options.form;
@@ -34,7 +29,7 @@ var PlaceSearch = function (options) {
   };
 
   /**
-   * Initialize PlaceSearch.
+   * Initialize PlaceSearch on address <input> fields.
    */
   _initFields = function () {
     var addressField,
@@ -43,21 +38,21 @@ var PlaceSearch = function (options) {
 
     inputs = _form.querySelectorAll('input[data-type="address"]');
 
-    if (inputs.length > 0) { // add library's css and js to DOM; set up listeners
+    if (inputs.length > 0) {
       callback = function () { // initialize PlaceSearch after script is loaded
         inputs.forEach(function(input, index) {
-          index ++; // zero-based index, but we want to start at 1
-
           addressField = placeSearch({
             key: MAPQUESTKEY,
             container: input,
             useDeviceLocation: false
           });
-          addressField.on('change', function(e) { // set hidden fields to returned values
-            _setHiddenFields(e, index);
+          index ++; // zero-based index, but we want to start at 1
+
+          addressField.on('change', function(e) {
+            _setHiddenFields(e, index); // set hidden fields to returned values
           });
-          addressField.on('clear', function(e) { // clear hidden fields
-            _setHiddenFields(e, index);
+          addressField.on('clear', function(e) {
+            _setHiddenFields(e, index); // clear hidden fields
           });
 
           // Add 'required' class to parent for CSS to flag required field in UI
@@ -95,11 +90,14 @@ var PlaceSearch = function (options) {
 
     fields.forEach(function(field) {
       name = field;
+      value = '';
+
       if (i > 1) {
         name += i;
       }
 
-      value = '';
+      el = _form.querySelector('input[name="' + name + '"]');
+
       if (e) { // e is empty if user is clearing out previous value
         if (field === 'latlng' && e.result.latlng) { // flatten coord. pair
           value = e.result.latlng.lat + ', ' + e.result.latlng.lng;
@@ -110,7 +108,6 @@ var PlaceSearch = function (options) {
         }
       }
 
-      el = _form.querySelector('input[name="' + name + '"]');
       el.value = value;
     });
   };
@@ -118,7 +115,6 @@ var PlaceSearch = function (options) {
 
   _initialize(options);
   options = null;
-  return _this;
 };
 
 

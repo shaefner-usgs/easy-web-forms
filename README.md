@@ -10,7 +10,8 @@ Easy Web Forms is a PHP library that simplifies building modern, web-based forms
 
 1. [Grunt](https://gruntjs.com/)
 2. [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/)
-3. PHP with CGI
+3. [Composer](https://getcomposer.org/)
+4. PHP with CGI
 
 ## Requirements
 
@@ -21,6 +22,8 @@ PHP and MySQL on the web server that hosts the form.
 1. **Install** dependencies and start the development server:
 
     `npm install`
+
+    `php composer.phar install`
 
     `grunt`
 

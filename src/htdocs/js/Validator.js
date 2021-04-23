@@ -46,7 +46,8 @@ var Validator = function (options) {
    * Add event listeners to form controls for validating user input.
    */
   _addEventHandlers = function () {
-    var type;
+    var events,
+        type;
 
     _inputs.forEach(function(input) {
       type = input.getAttribute('type');
@@ -57,24 +58,25 @@ var Validator = function (options) {
           input.hasAttribute('required')
       ) {
         if (type === 'checkbox' || type === 'radio') {
-          input.addEventListener('change', function() { // input event buggy for radio/checkbox
+          events = ['change']; // input event is buggy for radio/checkbox
+        } else if (type === 'file') {
+          events = ['change', 'input']; // change: older webkit browsers
+        } else {
+          events = ['blur', 'input']; // blur: capture autocompleted fields
+        }
+
+        events.forEach(function(evt) {
+          input.addEventListener(evt, function() {
             _this.validate(input);
           });
-        } else {
-          // blur: capture autocompleted fields
-          // change: capture file input in older webkit browsers
-          ['blur', 'change', 'input'].forEach(function(evt) {
-            input.addEventListener(evt, function() {
-              _this.validate(input);
-            });
-          });
-        }
+        });
       }
     });
 
     _selects.forEach(function(select) {
       if (select.hasAttribute('required')) {
-        ['blur', 'change'].forEach(function(evt) { // blur: consistent with input
+        // blur: capture autocompleted fields
+        ['blur', 'change'].forEach(function(evt) {
           select.addEventListener(evt, function() {
             _this.validate(select);
           });
@@ -93,7 +95,8 @@ var Validator = function (options) {
           textarea.hasAttribute('pattern') ||
           textarea.hasAttribute('required')
       ) {
-        ['blur', 'input'].forEach(function(evt) { // blur: consistent with input
+        ['blur', 'input'].forEach(function(evt) {
+          // blur: capture autocompleted fields
           textarea.addEventListener(evt, function() {
             _this.validate(textarea);
           });

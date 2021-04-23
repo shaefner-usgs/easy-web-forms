@@ -26,7 +26,8 @@ var Validator = function (options) {
       _submitButton,
       _textareas,
 
-      _addEventHandlers,
+      _addEvents,
+      _addListeners,
       _getControls,
       _getState,
       _handleSubmit,
@@ -39,15 +40,31 @@ var Validator = function (options) {
     _form = options.form;
 
     _getControls();
-    _addEventHandlers();
+    _addListeners();
   };
 
   /**
-   * Add event listeners to form controls for validating user input.
+   * Add validate events to a form control.
+   *
+   * @param el {Element}
+   *     Form control
+   * @param types {Array}
+   *     Event types to listen for
    */
-  _addEventHandlers = function () {
-    var events,
-        type;
+  _addEvents = function (el, types) {
+    types.forEach(function(type) {
+      el.addEventListener(type, function() {
+        _this.validate(el);
+      });
+    });
+  };
+
+  /**
+   * Add event listeners to form controls.
+   */
+  _addListeners = function () {
+    var type,
+        types;
 
     _inputs.forEach(function(input) {
       type = input.getAttribute('type');
@@ -58,29 +75,20 @@ var Validator = function (options) {
           input.hasAttribute('required')
       ) {
         if (type === 'checkbox' || type === 'radio') {
-          events = ['change']; // input event is buggy for radio/checkbox
+          types = ['change']; // input event is buggy for radio/checkbox
         } else if (type === 'file') {
-          events = ['change', 'input']; // change: older webkit browsers
+          types = ['change', 'input']; // change: for older webkit browsers
         } else {
-          events = ['blur', 'input']; // blur: capture autocompleted fields
+          types = ['blur', 'input']; // blur: captures autocompleted fields
         }
 
-        events.forEach(function(evt) {
-          input.addEventListener(evt, function() {
-            _this.validate(input);
-          });
-        });
+        _addEvents(input, types);
       }
     });
 
     _selects.forEach(function(select) {
       if (select.hasAttribute('required')) {
-        // blur: capture autocompleted fields
-        ['blur', 'change'].forEach(function(evt) {
-          select.addEventListener(evt, function() {
-            _this.validate(select);
-          });
-        });
+        _addEvents(select, ['blur', 'change']);
       }
     });
 
@@ -95,12 +103,7 @@ var Validator = function (options) {
           textarea.hasAttribute('pattern') ||
           textarea.hasAttribute('required')
       ) {
-        ['blur', 'input'].forEach(function(evt) {
-          // blur: capture autocompleted fields
-          textarea.addEventListener(evt, function() {
-            _this.validate(textarea);
-          });
-        });
+        _addEvents(textarea, ['blur', 'input']);
       }
     });
   };
@@ -118,7 +121,7 @@ var Validator = function (options) {
   };
 
   /**
-   * Get validation state of element.
+   * Get the validation state of a form control.
    *
    * @param el {Element}
    *
@@ -134,11 +137,11 @@ var Validator = function (options) {
         type,
         value;
 
-    state = 'valid'; // default state; set to invalid if validation fails
+    state = 'valid'; // default state
     type = el.getAttribute('type');
     value = el.value;
 
-    if (type === 'checkbox' || type === 'radio') { // checkbox/radio input
+    if (type === 'checkbox' || type === 'radio') {
       name = el.getAttribute('name');
       controls = _form.querySelectorAll('input[name="' + name + '"]');
       state = 'invalid'; // flip default
@@ -148,7 +151,7 @@ var Validator = function (options) {
           state = 'valid';
         }
       });
-    } else { // everything else
+    } else { // everything else (besides checkbox/radio inputs)
       if (el.hasAttribute('minlength') || el.hasAttribute('maxlength')) {
         maxLength = parseInt(el.getAttribute('maxLength'), 10);
         minLength = parseInt(el.getAttribute('minLength'), 10);
@@ -157,12 +160,15 @@ var Validator = function (options) {
           state = 'invalid';
         }
       }
+
       if (el.hasAttribute('pattern')) {
         pattern = new RegExp(el.getAttribute('pattern'));
+
         if (!pattern.test(value) && value !== '') {
           state = 'invalid';
         }
       }
+
       if (el.hasAttribute('required') && value === '') {
         state = 'invalid';
       }
@@ -180,12 +186,12 @@ var Validator = function (options) {
         isFormInvalid,
         submitButton;
 
-    div = document.querySelector('div.form');
-    errorMsg = document.querySelector('.form p.error');
-
     _validateAll();
 
+    div = document.querySelector('div.form');
+    errorMsg = div.querySelector('p.error');
     isFormInvalid = _form.querySelector('.invalid');
+
     if (isFormInvalid) { // stop form submission and alert user
       if (!errorMsg) {
         errorMsg = document.createElement('p');
@@ -194,11 +200,11 @@ var Validator = function (options) {
 
         div.insertBefore(errorMsg, _form);
       }
+
       div.scrollIntoView();
     } else {
-      // Remove error message if it exists
       if (errorMsg) {
-        div.removeChild(errorMsg);
+        div.removeChild(errorMsg); // clean up any pre-existing error message
       }
 
       // Submit button is not set when form is submitted via js; set it here
@@ -213,7 +219,7 @@ var Validator = function (options) {
   };
 
   /**
-   * Validate all form controls (useful when user submits the form).
+   * Validate all form controls.
    */
   _validateAll = function () {
     _allControls.forEach(function(el) {
@@ -246,7 +252,7 @@ var Validator = function (options) {
   };
 
   /**
-   * Validate user input on a given element.
+   * Validate user input on a given form control.
    *
    * @param el {Element}
    */
@@ -256,10 +262,11 @@ var Validator = function (options) {
         state;
 
     parent = el.closest('.control');
+    state = _getState(el);
+
     if (parent.classList.contains('checkbox') || parent.classList.contains('radio')) {
       parent = parent.closest('fieldset');
     }
-    state = _getState(el);
 
     // Set validation state on parent node and any datepicker widget(s)
     if (el.getAttribute('data-type') === 'datetime') {

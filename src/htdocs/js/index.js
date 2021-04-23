@@ -3,8 +3,8 @@
 
 var AppUtil = require('AppUtil'),
     Flatpickr = require('Flatpickr'),
-    Image = require('Image'),
     FormMeta = require('FormMeta'),
+    Image = require('Image'),
     PlaceSearch = require('PlaceSearch'),
     Validator = require('Validator');
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   FormMeta(options);
 
-  if (form) {
+  if (form) { // displaying form (not results)
     options.validator = Validator(options);
 
     Flatpickr(options);

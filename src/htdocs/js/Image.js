@@ -9,27 +9,22 @@
  *   {
  *     form: {Element}
  *   }
- *
- * @return _this {Object}
  */
 var Image = function (options) {
-  var _this,
-      _initialize,
+  var _initialize,
 
       _createImg,
       _getControl,
       _removeImg,
-      _showImage;
+      _showImg;
 
-
-  _this = {};
 
   _initialize = function (options) {
     var inputs = options.form.querySelectorAll('input[type=file]');
 
     inputs.forEach(function(input) {
       if (/image/.test(input.getAttribute('accept'))) { // image file type
-        input.onchange = _showImage;
+        input.onchange = _showImg;
       }
     });
   };
@@ -67,7 +62,7 @@ var Image = function (options) {
   };
 
   /**
-   * Remove an existing <img> from DOM.
+   * Remove an existing <img> from the DOM.
    *
    * @param id {String}
    */
@@ -84,11 +79,11 @@ var Image = function (options) {
   };
 
   /**
-   * Display user-selected image inline below file input control.
+   * Show user-selected image inline below the file input.
    *
    * @param e {Event}
    */
-  _showImage = function (e) {
+  _showImg = function (e) {
     var input,
         reader;
 
@@ -106,7 +101,6 @@ var Image = function (options) {
 
   _initialize(options);
   options = null;
-  return _this;
 };
 
 

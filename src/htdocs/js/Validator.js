@@ -112,12 +112,12 @@ var Validator = function (options) {
    * Get a NodeList of form controls by type.
    */
   _getControls = function () {
-    _allControls = _form.querySelectorAll('input:not([type="submit"]), select, textarea');
+    _allControls = _form.querySelectorAll('input:not([type="hidden"]), select, textarea');
 
-    _inputs = _form.querySelectorAll('input:not([type="hidden"]):not([type="submit"])');
+    _inputs = _form.querySelectorAll('input:not([type="hidden"])');
     _selects = _form.querySelectorAll('select');
     _textareas = _form.querySelectorAll('textarea');
-    _submitButton = _form.querySelector('input[type="submit"]');
+    _submitButton = _form.querySelector('button[type="submit"]');
   };
 
   /**
@@ -184,6 +184,7 @@ var Validator = function (options) {
     var div,
         errorMsg,
         isFormInvalid,
+        loader,
         submitButton;
 
     _validateAll();
@@ -191,6 +192,9 @@ var Validator = function (options) {
     div = document.querySelector('div.form');
     errorMsg = div.querySelector('p.error');
     isFormInvalid = _form.querySelector('.invalid');
+    loader = _form.querySelector('.loader');
+
+    loader.classList.remove('hide');
 
     if (isFormInvalid) { // stop form submission and alert user
       if (!errorMsg) {
@@ -202,12 +206,13 @@ var Validator = function (options) {
       }
 
       div.scrollIntoView();
+      loader.classList.add('hide');
     } else {
       if (errorMsg) {
         div.removeChild(errorMsg); // clean up any pre-existing error message
       }
 
-      // Submit button is not set when form is submitted via js; set it here
+      // Submit button is not set in $_POST when submitted via js; set it here
       submitButton = document.createElement('input');
       submitButton.setAttribute('name', 'submitbutton');
       submitButton.setAttribute('type', 'hidden');

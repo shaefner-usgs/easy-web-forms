@@ -1,5 +1,10 @@
 div.form {
-  input:not([type="submit"]),
+  button {
+    align-items: center;
+    display: flex;
+  }
+
+  input,
   select,
   textarea {
     @include fonts; // nested form controls don't apply cascaded font settings
@@ -24,7 +29,7 @@ div.form {
     }
   }
 
-  input:not([type="submit"]) {
+  input {
     line-height: 1;
     padding: .625em .5em;
   }
@@ -50,7 +55,7 @@ div.form {
   }
 
   // Disabled/readonly fields
-  input[disabled]:not([type="submit"]),
+  input[disabled],
   select[disabled],
   textarea[disabled],
   textarea[readonly] {
@@ -137,7 +142,7 @@ div.form {
 
   // Invalid fields
   .invalid {
-    input:not([type="submit"]),
+    input,
     select,
     textarea {
       border: 1px solid $danger;

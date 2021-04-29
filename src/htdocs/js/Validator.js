@@ -181,33 +181,29 @@ var Validator = function (options) {
    * Show validation errors or submit form depending on validation state.
    */
   _handleSubmit = function () {
-    var div,
+    var button,
+        div,
         errorMsg,
-        isFormInvalid,
+        isValid,
         loader,
         submitButton;
 
     _validateAll();
 
+    button = _form.querySelector('button');
     div = document.querySelector('div.form');
     errorMsg = div.querySelector('p.error');
-    isFormInvalid = _form.querySelector('.invalid');
+    isValid = !_form.querySelector('.invalid');
     loader = _form.querySelector('.loader');
 
+    if (button.classList.contains('disabled')) {
+      return;
+    }
+
+    button.classList.add('disabled');
     loader.classList.remove('hide');
 
-    if (isFormInvalid) { // stop form submission and alert user
-      if (!errorMsg) {
-        errorMsg = document.createElement('p');
-        errorMsg.classList.add('error');
-        errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
-
-        div.insertBefore(errorMsg, _form);
-      }
-
-      div.scrollIntoView();
-      loader.classList.add('hide');
-    } else {
+    if (isValid) {
       if (errorMsg) {
         div.removeChild(errorMsg); // clean up any pre-existing error message
       }
@@ -220,6 +216,18 @@ var Validator = function (options) {
 
       _form.appendChild(submitButton);
       _form.submit();
+    } else { // stop form submission and alert user
+      if (!errorMsg) {
+        errorMsg = document.createElement('p');
+        errorMsg.classList.add('error');
+        errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
+
+        div.insertBefore(errorMsg, _form);
+      }
+
+      div.scrollIntoView();
+      button.classList.remove('disabled');
+      loader.classList.add('hide');
     }
   };
 

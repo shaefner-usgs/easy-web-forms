@@ -181,27 +181,26 @@ var Validator = function (options) {
    * Show validation errors or submit form depending on validation state.
    */
   _handleSubmit = function () {
-    var button,
-        div,
+    var div,
         errorMsg,
+        fauxButton,
         isValid,
-        loader,
-        submitButton;
+        loader;
 
-    _validateAll();
-
-    button = _form.querySelector('button');
     div = document.querySelector('div.form');
     errorMsg = div.querySelector('p.error');
-    isValid = !_form.querySelector('.invalid');
     loader = _form.querySelector('.loader');
 
-    if (button.classList.contains('disabled')) {
+    if (_submitButton.classList.contains('disabled')) {
       return;
     }
 
-    button.classList.add('disabled');
+    _submitButton.classList.add('disabled');
     loader.classList.remove('hide');
+
+    _validateAll();
+
+    isValid = !_form.querySelector('.invalid');
 
     if (isValid) {
       if (errorMsg) {
@@ -209,16 +208,17 @@ var Validator = function (options) {
       }
 
       // Submit button is not set in $_POST when submitted via js; set it here
-      submitButton = document.createElement('input');
-      submitButton.setAttribute('name', 'submitbutton');
-      submitButton.setAttribute('type', 'hidden');
-      submitButton.setAttribute('value', 'Submit');
+      fauxButton = document.createElement('input');
+      fauxButton.setAttribute('name', 'submitbutton');
+      fauxButton.setAttribute('type', 'hidden');
+      fauxButton.setAttribute('value', 'Submit');
 
-      _form.appendChild(submitButton);
+      _form.appendChild(fauxButton);
       _form.submit();
     } else { // stop form submission and alert user
       if (!errorMsg) {
         errorMsg = document.createElement('p');
+
         errorMsg.classList.add('error');
         errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
 
@@ -226,7 +226,7 @@ var Validator = function (options) {
       }
 
       div.scrollIntoView();
-      button.classList.remove('disabled');
+      _submitButton.classList.remove('disabled');
       loader.classList.add('hide');
     }
   };

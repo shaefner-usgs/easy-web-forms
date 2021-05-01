@@ -11,7 +11,6 @@
  *
  * @return _this {Object}
  *   {
- *     initAltInput: {Function},
  *     validate: {Function}
  *   }
  */
@@ -160,7 +159,6 @@ var Validator = function (options) {
           state = 'invalid';
         }
       }
-
       if (el.hasAttribute('pattern')) {
         pattern = new RegExp(el.getAttribute('pattern'));
 
@@ -168,7 +166,6 @@ var Validator = function (options) {
           state = 'invalid';
         }
       }
-
       if (el.hasAttribute('required') && value === '') {
         state = 'invalid';
       }
@@ -247,24 +244,6 @@ var Validator = function (options) {
   // ----------------------------------------------------------
 
   /**
-   * Set up validation for flatpickr altInput fields, which display a human-
-   *   readable date in a separate field while returning a different value
-   *   to the server in the original field.
-   *
-   * @param input {Element}
-   *     original <input> element
-   * @param altInput {Element}
-   *     new <input> element
-   */
-  _this.initAltInput = function (input, altInput) {
-    ['blur', 'input'].forEach(function(evt) {
-      altInput.addEventListener(evt, function() {
-        _this.validate(input);
-      });
-    });
-  };
-
-  /**
    * Validate user input on a given form control.
    *
    * @param el {Element}
@@ -285,10 +264,11 @@ var Validator = function (options) {
     if (el.getAttribute('data-type') === 'datetime') {
       // Don't change state to invalid while user is interacting with datepicker widget
       if (state === 'valid' || !parent.classList.contains('open')) {
+        calendars = document.querySelectorAll('.flatpickr-calendar');
+
         parent.classList.remove('invalid', 'valid');
         parent.classList.add(state);
 
-        calendars = document.querySelectorAll('.flatpickr-calendar');
         calendars.forEach(function(calendar) {
           calendar.classList.remove('invalid', 'valid');
           calendar.classList.add(state);

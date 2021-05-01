@@ -434,18 +434,11 @@ class Input {
         self::$_numDatetimeFields ++;
         $this->_flatpickrIndex = self::$_numDatetimeFields - 1; // want 0-based index
 
-        $varInit = '';
-        if ($this->_flatpickrIndex === 0) {
-          $varInit = 'var flatpickrOptions = [];';
-        }
         $html .= sprintf('<script>
-            %s
-            function initFlatpickrOptions%d() {
-              flatpickrOptions[%d] = %s;
+            function initFlatpickr%d() {
+              return %s;
             }
           </script>',
-          $varInit,
-          $this->_flatpickrIndex,
           $this->_flatpickrIndex,
           $this->_encode($this->flatpickrOptions)
         );

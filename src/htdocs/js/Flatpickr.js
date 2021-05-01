@@ -1,4 +1,4 @@
-/* global flatpickr, flatpickrOptions */
+/* global flatpickr */
 'use strict';
 
 
@@ -13,24 +13,20 @@ var AppUtil = require('AppUtil');
  *     form: {Element},
  *     validator: {Object}
  *   }
- *
- * @return _this {Object}
  */
 var Flatpickr = function (options) {
-  var _this,
-      _initialize,
+  var _initialize,
 
       _form,
       _validator,
 
-      _addHiddenAltInput,
+      _addHiddenInput,
+      _addListeners,
       _configField,
       _getOptions,
       _initFields,
       _setOptions;
 
-
-  _this = {};
 
   _initialize = function (options) {
     _form = options.form;
@@ -40,27 +36,46 @@ var Flatpickr = function (options) {
   };
 
   /**
-   * Store altInput value in hidden field for display in results summary.
+   * Store Flatpickr's altInput value (human-readable date) in a hidden field
+   *   for display in results summary.
    *
    * @param altInput {Element}
    * @param i {Integer}
    */
-  _addHiddenAltInput = function (altInput, i) {
-    var hiddenInput;
+  _addHiddenInput = function (altInput, i) {
+    var hiddenInput = altInput.cloneNode(false);
 
-    hiddenInput = altInput.cloneNode(false);
     hiddenInput.id = 'altInput' + i;
     hiddenInput.name = 'altInput' + i;
     hiddenInput.type = 'hidden';
+    hiddenInput.removeAttribute('tabindex');
 
     altInput.parentNode.appendChild(hiddenInput);
   };
 
   /**
-   * Additional configuration necessary for flatpickr fields.
+   * Add event listeners to validate Flatpickr altInput fields, which display a
+   *   human-readable date in a separate field while returning a different value
+   *   to the server in the original field.
+   *
+   * @param altInput {Element}
+   *     Flatpickr altInput
+   * @param input {Element}
+   *     original <input>
+   */
+  _addListeners = function (altInput, input) {
+    ['blur', 'input'].forEach(function(evt) {
+      altInput.addEventListener(evt, function() {
+        _validator.validate(input);
+      });
+    });
+  };
+
+  /**
+   * Configure Flatpickr field.
    *
    * @param fp {Object}
-   *     flatpickr instance
+   *     Flatpickr instance
    * @param i {Integer}
    */
   _configField = function (fp, i) {
@@ -72,60 +87,50 @@ var Flatpickr = function (options) {
         placeholder;
 
     input = fp.input;
-    options = fp.config;
-
-    // Remove format descriptor which isn't necessary with js enabled
+    altInput = input.nextElementSibling;
     description = input.previousElementSibling;
-    description.innerText = '';
-
+    label = altInput.nextElementSibling;
+    options = fp.config;
     placeholder = 'Select a date';
+
     if (options.noCalendar) {
       placeholder = 'Select a time';
     }
+
+    description.innerText = ''; // explanatory text is superfluous if .js enabled
     input.setAttribute('placeholder', placeholder);
 
-    if (options.altInput) { // flatpickr altInput (readable date) field
-      // Set placeholder and re-assign label text for alt input
-      altInput = input.nextElementSibling;
+    if (options.altInput) { // Flatpickr's altInput field
+      // Set placeholder and re-assign label text to altInput
       altInput.setAttribute('id', 'flatpickr' + i);
       altInput.setAttribute('placeholder', placeholder);
-
-      label = altInput.nextElementSibling;
       label.setAttribute('for', 'flatpickr' + i);
 
-      // Store altInput value for displaying in summary results
-      _addHiddenAltInput(altInput, i);
-
-      // Set up validation for alt input
-      _validator.initAltInput(input, altInput);
+      _addHiddenInput(altInput, i);
+      _addListeners(altInput, input);
     }
 
-    // Extra options added to all flatpickr instances
     _setOptions(fp, i);
   };
 
   /**
-   * Get flatpickr options which are embedded inline within HTML.
+   * Get Flatpickr options which are embedded inline in HTML.
    *
    * @param i {Integer}
    *
    * @return options {Object}
    */
   _getOptions = function (i) {
-    var options,
-        setOptions;
+    var options;
 
-    // First, execute wrapper function to set options now that lib is loaded
-    setOptions = 'initFlatpickrOptions' + i;
-    window[setOptions]();
-
-    options = flatpickrOptions[i]; // options embedded in HTML as global obj
+    // Execute wrapper function which returns options
+    options = window['initFlatpickr' + i]();
 
     return options;
   };
 
   /**
-   * Initialize Flatpickr.
+   * Initialize Flatpickr fields.
    */
   _initFields = function () {
     var callback,
@@ -136,12 +141,12 @@ var Flatpickr = function (options) {
     inputs = _form.querySelectorAll('input[data-type="datetime"]');
 
     if (inputs.length > 0) {
-      callback = function () { // initialize flatpickr after script is loaded
+      callback = function () { // initialize Flatpickr after lib is loaded
         inputs.forEach(function(input, index) {
-          // Create flatpickr instance and set additional options
-          options = _getOptions(index); // user-set flatpickr options
+          options = _getOptions(index);
           fp = flatpickr(input, options);
-          _configField(fp, index); // additional configuration
+
+          _configField(fp, index);
         });
       };
 
@@ -151,10 +156,10 @@ var Flatpickr = function (options) {
   };
 
   /**
-   * Set additional options (hooks) for every flatpickr instance.
+   * Set additional options (hooks) for a Flatpickr instance.
    *
    * @param fp {Object}
-   *     flatpickr instance
+   *     Flatpickr instance
    * @param i {Integer}
    */
   _setOptions = function (fp, i) {
@@ -166,13 +171,13 @@ var Flatpickr = function (options) {
 
     input = fp.input;
     div = input.closest('.control');
+    altInput = div.querySelector('#flatpickr' + i);
+    calendars = document.querySelectorAll('.flatpickr-calendar');
+    hiddenInput = div.querySelector('#altInput' + i);
 
     fp.config.onChange.push(
       function() {
-        altInput = div.querySelector('#flatpickr' + i);
-        hiddenInput = div.querySelector('#altInput' + i);
-
-        // Flatpickr briefly sets altInput value to current time (bug?) - add slight delay
+        // Flatpickr briefly sets altInput value to current time (bug?); add slight delay
         window.setTimeout(function() {
           if (hiddenInput && altInput) {
             hiddenInput.value = altInput.value;
@@ -184,15 +189,15 @@ var Flatpickr = function (options) {
     fp.config.onClose.push(
       function() {
         div.classList.remove('open');
-        _validator.validate(input); // be certain control is validated
+        _validator.validate(input);
       }
     );
 
     fp.config.onOpen.push(
       function() {
         div.classList.add('open');
+
         // Set initial validation state on datepicker widget when opened
-        calendars = document.querySelectorAll('.flatpickr-calendar');
         calendars.forEach(function(calendar) {
           calendar.classList.remove('invalid', 'valid');
           if (div.classList.contains('invalid')) {
@@ -206,7 +211,6 @@ var Flatpickr = function (options) {
 
   _initialize(options);
   options = null;
-  return _this;
 };
 
 

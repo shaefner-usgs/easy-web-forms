@@ -27,7 +27,7 @@
  *
  *       class {String}
  *       description {String} - explanatory text displayed next to form control
- *       flatpickrOptions {Array} - flatpickr datetime picker lib
+ *       fpOpts {Array} - Flatpickr datetime picker lib
  *       label {String} - label element for control
  *       message {String} - instructions displayed for invalid form control
  *       path {String} - full path to file upload directory on server
@@ -39,7 +39,7 @@ class Input {
       'class' => '',
       'description' => '',
       'disabled' => false,
-      'flatpickrOptions' => [],
+      'fpOpts' => [],
       'id' => '',
       'inputmode' => '',
       'label' => '',
@@ -57,7 +57,7 @@ class Input {
       'type' => 'text',
       'value' => ''
     ],
-    $_flatpickrIndex,
+    $_fpIndex,
     $_instantiatedValue,
     $_isCheckboxOrRadio = false,
     $_jsonOptions = [],
@@ -135,7 +135,7 @@ class Input {
 
   /**
    * php's json_encode with support for javascript expressions passed as strings
-   *   for configuring flatpickr options
+   *   for configuring Flatpickr options
    *
    * @param $opts {Array}
    *
@@ -251,10 +251,10 @@ class Input {
     if (isSet($params['type'])) {
       $type = $params['type'];
 
-      $enableTime = isSet($params['flatpickrOptions']['enableTime']) &&
-        $params['flatpickrOptions']['enableTime'];
-      $noCalendar = isSet($params['flatpickrOptions']['noCalendar']) &&
-        $params['flatpickrOptions']['noCalendar'];
+      $enableTime = isSet($params['fpOpts']['enableTime']) &&
+        $params['fpOpts']['enableTime'];
+      $noCalendar = isSet($params['fpOpts']['noCalendar']) &&
+        $params['fpOpts']['noCalendar'];
 
       if ($type === 'checkbox') {
         $this->_defaults['message'] = 'Please select one or more options';
@@ -395,7 +395,7 @@ class Input {
       $type = 'search'; // set type to 'search' for MapQuest PlaceSearch.js
       $name .= $randomNumber; // add random number to disable browser's autocomplete
     } else if ($type === 'datetime') {
-      $type = 'text'; // set type to text for flatpickr
+      $type = 'text'; // set type to text for Flatpickr
     }
 
     if ($this->_isCheckboxOrRadio) {
@@ -429,18 +429,18 @@ class Input {
         $label
       );
 
-      // set inline .js var with flatpickr options
+      // set inline .js var with Flatpickr options
       if ($this->type === 'datetime') {
         self::$_numDatetimeFields ++;
-        $this->_flatpickrIndex = self::$_numDatetimeFields - 1; // want 0-based index
+        $this->_fpIndex = self::$_numDatetimeFields - 1; // want 0-based index
 
         $html .= sprintf('<script>
             function initFlatpickr%d() {
               return %s;
             }
           </script>',
-          $this->_flatpickrIndex,
-          $this->_encode($this->flatpickrOptions)
+          $this->_fpIndex,
+          $this->_encode($this->fpOpts)
         );
       }
     }

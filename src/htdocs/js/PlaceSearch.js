@@ -41,12 +41,12 @@ var PlaceSearch = function (options) {
     if (inputs.length > 0) {
       callback = function () { // initialize PlaceSearch after script is loaded
         inputs.forEach(function(input, index) {
+          index ++; // zero-based index, but we want to start at 1
           addressField = placeSearch({
             key: MAPQUESTKEY,
             container: input,
             useDeviceLocation: false
           });
-          index ++; // zero-based index, but we want to start at 1
 
           addressField.on('change', function(e) {
             _setHiddenFields(e, index); // set hidden fields to returned values
@@ -92,7 +92,7 @@ var PlaceSearch = function (options) {
       name = field;
       value = '';
 
-      if (i > 1) {
+      if (i > 1) { // append number to additional address fields after first one
         name += i;
       }
 
@@ -101,7 +101,7 @@ var PlaceSearch = function (options) {
       if (e) { // e is empty if user is clearing out previous value
         if (field === 'latlng' && e.result.latlng) { // flatten coord. pair
           value = e.result.latlng.lat + ', ' + e.result.latlng.lng;
-        } else if (field === 'street') { // using custom name for field that differs from library
+        } else if (field === 'street') { // custom field name (street) differs from library
           value = e.result.name || '';
         } else {
           value = e.result[field] || '';

@@ -65,7 +65,7 @@ class Input {
     $_jsonValues = [],
     $_submittedValue;
 
-  private static $_numDatetimeFields = 0;
+  private static $_count = 0;
   public $isValid = true;
 
   public function __construct (Array $params=[]) {
@@ -431,8 +431,7 @@ class Input {
 
       // set inline .js var with Flatpickr options
       if ($this->type === 'datetime') {
-        self::$_numDatetimeFields ++;
-        $this->_fpIndex = self::$_numDatetimeFields - 1; // want 0-based index
+        $this->_fpIndex =  ++ self::$_count;
 
         $html .= sprintf('<script>
             function initFlatpickr%d() {

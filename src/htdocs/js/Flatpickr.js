@@ -143,6 +143,7 @@ var Flatpickr = function (options) {
     if (inputs.length > 0) {
       callback = function () { // initialize Flatpickr after lib is loaded
         inputs.forEach(function(input, index) {
+          index ++; // zero-based index, but we want to start at 1
           options = _getOptions(index);
           fp = flatpickr(input, options);
 

@@ -73,13 +73,12 @@ If you just want to use this library to create a web-based form, all the necessa
     ```php
     $form->render();
     ```
-    
 
 See [example.php](src/htdocs/example.php) for additional details.
 
 ### MySQL
 
-You will also need to create a MySQL table with field names that correspond to the name attribute of each form control/group you add. Additional fields are needed to store optional [metadata](#options) for each record if you enable metadata:
+Create a MySQL table on the server with field names that correspond to the name attribute of each form control/group you add. Additional fields are needed to store optional [metadata](#options) for each record if you enable metadata:
 
 * datetime (Type DATETIME)
 * ip (Type VARCHAR)
@@ -87,11 +86,13 @@ You will also need to create a MySQL table with field names that correspond to t
 
 No metadata fields are included by default. Adding an auto-incrementing 'id' field is recommended.
 
+It is recommended to set the MySQL encoding to utf8mb4 for the database, table and fields to accommodate all characters and symbols.
+
 ## Building/Compiling
 
 If you want to make modifications to the library, you will need to build/compile your changes.
 
-1. **Install** dependencies and start the build process and development web server:
+1. **Install** dependencies and **start** the build process and development web server:
 
     `npm install`
 
@@ -99,15 +100,13 @@ If you want to make modifications to the library, you will need to build/compile
 
     `grunt`
 
-    Preview files in src/htdocs at http://localhost:9200/.
-
-While grunt is running, live reload will automatically run the build process and refresh your browser when you save your changes.
+    Preview files in src/htdocs at http://localhost:9200/. While grunt is running, live reload automatically runs the build process and refreshes your browser when you save changes.
 
 2. **Compile** the CSS and JavaScript:
 
     `grunt dist`
 
-    This updates the files in the 'dist' folder with your changes. Preview files in dist/htdocs at http://localhost:9201/.
+    This updates files in the 'dist' folder with your changes. Preview files in dist/htdocs at http://localhost:9201/.
 
 ### Dependencies
 
@@ -242,7 +241,7 @@ $name = new Input([
 | flatpickrOptions | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for 'datetime' type `<input>` controls. |
 | *id* | String | value of 'name' option | `<input>` id attribute. |
 | inputmode | String | '' | `<input>` inputmode attribute. |
-| label | String | '' | `<label>` for `<input>`. |
+| label | String | '' | `<label>` for `<input>`. If provided, the value is displayed above the form control/group. Otherwise, the value of the name attribute is displayed. |
 | max | Integer | null | `<input>` max attribute. |
 | maxlength | Integer | null | `<input>` maxlength attribute. |
 | message | String | 'Please provide a valid {{label}}' | Message shown when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's `<label>` or `<name>` into the message. If you set minlength/maxlength values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |
@@ -352,7 +351,7 @@ $name = new Select([
 | description | String | '' | Explanatory text displayed next to the form control. |
 | disabled | Boolean | false | `<select>` disabled attribute. |
 | id | String | value of 'name' option | `<select>` id attribute. |
-| label | String | '' | `<label>` for `<select>`. |
+| label | String | '' | `<label>` for `<select>`. If provided, the value is displayed above the form control. Otherwise, the value of the name attribute is displayed. |
 | message | String | 'Please select an option from the menu' | Message shown when the form control is invalid. |
 | **name** | String | '' | `<select>` name attribute. |
 | **options** | Array | [] | Associative array of choices in the select menu. The array key is the data value sent to the server when that option is selected; the array value is the text that is shown in each of the menu choices. |
@@ -394,7 +393,7 @@ $name = new Textarea([
 | description | String | '' | Explanatory text displayed next to the form control. Automatically set to number of chars. required if minlength/maxlength is set and this option has not been set. |
 | disabled | Boolean | false | `<textarea>` disabled attribute. |
 | id | String | value of 'name' option | `<textarea>` id attribute. |
-| label | String | '' | `<label>` for `<textarea>`. |
+| label | String | '' | `<label>` for `<textarea>`. If provided, the value is displayed above the form control. Otherwise, the value of the name attribute is displayed. |
 | maxlength | Integer | null | `<textarea>` maxlength attribute. |
 | minlength | Integer | null | `<textarea>` minlength attribute. |
 | message | String | 'Please provide a valid response' | Message shown when the form control is invalid. If you set minlength/maxlength values, and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |

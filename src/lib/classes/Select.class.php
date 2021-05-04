@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Create HTML <select>
+ * Create a <select>.
  *
  * @param $params {Array}
  *     html select attributes; supported properties are:
@@ -13,12 +13,12 @@
  *
  *     other properties:
  *
- *       class {String}
+ *       class {String} - CSS class attached to parent <div>
  *       description {String} - explanatory text displayed next to form control
- *       label {String} - label element for control
+ *       label {String} - <label> element for control
  *       message {String} - instructions displayed for invalid form control
  *       options {Array} - REQUIRED
- *       selected {String}
+ *       selected {String} - option selected by default
  */
 class Select {
   private $_defaults = [
@@ -39,8 +39,8 @@ class Select {
     $value;
 
   public function __construct (Array $params=[]) {
-    // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
+
     foreach ($options as $key => $value) {
       // Only set props that are defined in $_defaults
       if (array_key_exists($key, $this->_defaults)) {
@@ -57,7 +57,7 @@ class Select {
   }
 
   /**
-   * Check for missing required params; set id, label params if not already set
+   * Check for missing required params; set id, label params if not already set.
    */
   private function _checkParams () {
     if (!$this->name) {
@@ -67,7 +67,7 @@ class Select {
       print '<p class="error">ERROR: <em>options</em> (array) is <strong>required</strong> for all select elements</p>';
     }
 
-    // Set id and label to name value if not set during instantiation
+    // Set id and label if not set during instantiation
     if (!$this->id) {
       $this->id = $this->name;
     }
@@ -77,7 +77,7 @@ class Select {
   }
 
   /**
-   * Get optional html attributes for control
+   * Get optional HTML attributes for control.
    *
    * @param $tabindex {Integer}
    *
@@ -86,26 +86,28 @@ class Select {
   private function _getAttrs ($tabindex) {
     $attrs = '';
 
+    if ($tabindex) {
+      $attrs .= sprintf(' tabindex="%d"', $tabindex);
+    }
+
     if ($this->disabled) {
       $attrs .= ' disabled="disabled"';
     }
     if ($this->required) {
       $attrs .= ' required="required"';
     }
-    if ($tabindex) {
-      $attrs .= sprintf(' tabindex="%d"', $tabindex);
-    }
 
     return $attrs;
   }
 
   /**
-   * Get relevant css classes for control's parent <div>
+   * Get relevant CSS classes for control's parent <div>.
    *
    * @return $cssClasses {Array}
    */
   private function _getCssClasses () {
     $cssClasses = ['control', $this->type];
+
     if ($this->class) {
       $cssClasses[] = $this->class;
     }
@@ -117,36 +119,35 @@ class Select {
   }
 
   /**
-   * Get HTML for element
+   * Get HTML for element.
    *
    * @param $tabindex {Integer}
+   *     default is NULL
    *
    * @return $html {String}
    */
   public function getHtml ($tabindex=NULL) {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
-
     $description = sprintf('<p class="description" data-message="%s">%s</p>',
       $this->message,
       $this->description
     );
-
     $label = sprintf('<label for="%s">%s</label>',
       $this->id,
       $this->label
     );
-
     $options = '';
+
     foreach ($this->options as $key => $value) {
       $optionAttrs = '';
 
-      // Set selected option: show user's selection if form was already submitted
-      if (isSet($_POST[$this->name])) {
-        if ($key === $this->value) { // user-selected option
+      // Set selected option
+      if (isSet($_POST[$this->name])) { // show user-selected option
+        if ($key === $this->value) {
           $optionAttrs = ' selected="selected"';
         }
-      } else if ($key === $this->selected) {
+      } else if ($key === $this->selected) { // show default selected option
         $optionAttrs = ' selected="selected"';
       }
 

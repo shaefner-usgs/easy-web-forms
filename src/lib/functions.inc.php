@@ -38,7 +38,7 @@ function getFilters () {
  *
  * @param $name {String}
  *     The parameter name
- * @param $type {String}
+ * @param $type {String} default is 'raw'
  *     Optional type of sanitizing filter to apply
  * @param $default {?} default is NULL
  *     Optional default value if the given parameter value does not exist
@@ -47,13 +47,14 @@ function getFilters () {
  */
 function safeParam ($name, $type='raw', $default=NULL) {
   $filters = getFilters();
-  if (!array_key_exists($type, $filters)) {
-    $type = 'raw';
-  }
   $options = $filters[$type];
   $filter = $options['filter'];
   $value = NULL;
-  
+
+  if (!array_key_exists($type, $filters)) {
+    $type = 'raw';
+  }
+
   if (isSet($_POST[$name]) && $_POST[$name] !== '') {
     if (is_array($_POST[$name])) { // handle checkboxes
       $value = filter_var(implode(', ', $_POST[$name]), $filter, $options);
@@ -65,7 +66,7 @@ function safeParam ($name, $type='raw', $default=NULL) {
   } else {
     $value = $default;
   }
-  
+
   // Always strip non-allowed HTML tags (regardless of filter type)
   $value = strip_tags($value, '<a><br><dd><dl><dt><li><ol><p><sub><sup><table><td><th><tr><ul>');
 
@@ -89,11 +90,11 @@ function safeParam ($name, $type='raw', $default=NULL) {
  */
 function array_merge_recursive_distinct(array &$array1, array &$array2) {
   $merged = $array1;
+
   foreach ($array2 as $key => &$value) {
     if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
       $merged[$key] = array_merge_recursive_distinct($merged[$key], $value);
-    }
-    else {
+    } else {
       $merged[$key] = $value;
     }
   }

@@ -401,7 +401,7 @@ $name = new Textarea([
 | placeholder | String | '' | `<textarea>` placeholder attribute. |
 | required | Boolean | false | `<textarea>` required attribute. |
 | rows | Integer | 4 | `<textarea>` rows attribute. |
-| value | String | '' | `<textarea>` value attribute. |
+| value | String | '' | Initial `<textarea>` value. |
 
 Options in **bold** are required.
 

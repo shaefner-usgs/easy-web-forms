@@ -121,8 +121,7 @@ class Select {
   /**
    * Get HTML for element.
    *
-   * @param $tabindex {Integer}
-   *     default is NULL
+   * @param $tabindex {Integer} default is NULL
    *
    * @return $html {String}
    */

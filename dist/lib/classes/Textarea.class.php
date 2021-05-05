@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Create HTML <textarea>
+ * Create a <textarea>.
  *
  * @param $params {Array}
  *     html textarea attributes; supported properties are:
@@ -18,11 +18,11 @@
  *
  *     other properties:
  *
- *       class {String}
+ *       class {String} - CSS class attached to parent <div>
  *       description {String} - explanatory text displayed next to form control
- *       label {String} - label element for control
+ *       label {String} - <label> element for control
  *       message {String} - instructions displayed for invalid form control
- *       value {String}
+ *       value {String} - initial value of <textarea> element
  */
 class Textarea {
   private $_defaults = [
@@ -46,8 +46,8 @@ class Textarea {
     $type = 'textarea';
 
   public function __construct (Array $params=[]) {
-    // Merge defaults with user-supplied params and set as class properties
     $options = array_merge($this->_defaults, $params);
+
     foreach ($options as $key => $value) {
       // Only set props that are defined in $_defaults
       if (array_key_exists($key, $this->_defaults)) {
@@ -64,14 +64,14 @@ class Textarea {
   }
 
   /**
-   * Check for missing required params; set id, label params if not already set
+   * Check for missing required params; set id, label params if not already set.
    */
   private function _checkParams () {
     if (!$this->name) {
-      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all textarea elements</p>';
+      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all textarea elements.</p>';
     }
 
-    // Set id and label to name value if not set during instantiation
+    // Set id and label if not set during instantiation
     if (!$this->id) {
       $this->id = $this->name;
     }
@@ -81,7 +81,7 @@ class Textarea {
   }
 
   /**
-   * Get optional html attributes for control
+   * Get optional HTML attributes for control.
    *
    * @param $tabindex {Integer}
    *
@@ -89,6 +89,10 @@ class Textarea {
    */
   private function _getAttrs ($tabindex) {
     $attrs = '';
+
+    if ($tabindex) {
+      $attrs .= sprintf(' tabindex="%d"', $tabindex);
+    }
 
     if ($this->disabled) {
       $attrs .= ' disabled="disabled"';
@@ -105,20 +109,18 @@ class Textarea {
     if ($this->required) {
       $attrs .= ' required="required"';
     }
-    if ($tabindex) {
-      $attrs .= sprintf(' tabindex="%d"', $tabindex);
-    }
 
     return $attrs;
   }
 
   /**
-   * Get relevant css classes for control's parent <div>
+   * Get relevant CSS classes for control's parent <div>.
    *
    * @return $cssClasses {Array}
    */
   private function _getCssClasses () {
     $cssClasses = ['control', $this->type];
+
     if ($this->class) {
       $cssClasses[] = $this->class;
     }
@@ -130,45 +132,31 @@ class Textarea {
   }
 
   /**
-   * Get HTML for element
+   * Get HTML for element.
    *
-   * @param $tabindex {Integer}
+   * @param $tabindex {Integer} default is NULL
    *
    * @return $html {String}
    */
   public function getHtml ($tabindex=NULL) {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
-
-    // Create note about req'd number of chars. if applicable
-    $maxLength = intval($this->maxlength);
-    $minLength = intval($this->minlength);
-    $msgLength = '';
-    if ($minLength && $maxLength) {
-      $msgLength = "$minLength&ndash;$maxLength characters";
-    } else if ($minLength) { // minlength only set
-      $msgLength = "at least $minLength characters";
-    } else if ($maxLength){ // maxlength only set
-      $msgLength = "no more than $maxLength characters";
-    }
-
-    // If no custom description was set, default to showing min/max-length requirements
     $description = $this->description;
-    if (!$description && $msgLength) {
-      $description = $msgLength;
-    }
-
     $label = sprintf('<label for="%s">%s</label>',
       $this->id,
       $this->label
     );
-    
-    // Substitute values for mustache placeholders
+    $lengthMsg = Form::getLengthMsg($this->minlength, $this->maxlength);
     $message = preg_replace('/{{(label|name)}}/', strtoupper($this->label), $this->message);
 
+    // If no custom description was set, default to showing min/max-length requirements
+    if (!$description && $lengthMsg) {
+      $description = $lengthMsg;
+    }
+
     // If no custom message was set, append min/max-length requirements
-    if ($this->message === $this->_defaults['message'] && $msgLength) {
-      $message .= " ($msgLength)";
+    if ($this->message === $this->_defaults['message'] && $lengthMsg) {
+      $message .= " ($lengthMsg)";
     }
 
     $info = sprintf('<p class="description" data-message="%s">%s</p>',

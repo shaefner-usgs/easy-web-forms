@@ -26,7 +26,7 @@ $datetime = new Input([
   'type' => 'datetime',
   'label' => 'Delivery Time',
   'name' => 'deliverytime',
-  'flatpickrOptions' => [
+  'fpOpts' => [
     'altFormat' => 'h:i K',
     'altInput' => true,
     'defaultHour' => date('H') + 1,
@@ -106,35 +106,27 @@ $form = new Form([
   'successMsg' => 'Thanks for your order.'
 ]);
 $form->addControl($name);
-// $form->addControl($email);
-// $form->addControl($address);
-// $form->addControl($datetime);
-// $form->addControl($crust);
-// $form->addGroup([
-//   'controls' => [
-//     $mozzarella,
-//     $soy
-//   ],
-//   'label' => 'Type of Cheese'
-// ]);
-// $form->addGroup([
-//   'arrangement' => 'stacked',
-//   'controls' => [
-//     $sausage,
-//     $pepperoni,
-//     $peppers,
-//     $tomato,
-//     $onion
-//   ]
-// ]);
-
-$image = new Input([
-  'type' => 'file',
-  'name' => 'image',
-  'required' => true
+$form->addControl($email);
+$form->addControl($address);
+$form->addControl($datetime);
+$form->addControl($crust);
+$form->addGroup([
+  'controls' => [
+    $mozzarella,
+    $soy
+  ],
+  'label' => 'Type of Cheese'
 ]);
-
-$form->addControl($image);
+$form->addGroup([
+  'arrangement' => 'stacked',
+  'controls' => [
+    $sausage,
+    $pepperoni,
+    $peppers,
+    $tomato,
+    $onion
+  ]
+]);
 $form->addControl($instructions);
 
 ?>

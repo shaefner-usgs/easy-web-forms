@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Database queries and utility methods
+ * Database queries and utility methods.
  *
  * @param $db {Object}
  *     Database connector
@@ -14,15 +14,15 @@ class Database {
   }
 
   /**
-   * Perform db query
+   * Perform db query.
    *
    * @param $sql {String}
    *     SQL query
-   * @param $params {Array} default is NULL
+   * @param $params {Array} default is empty Array
    *     Key-value substitution params for SQL query
    *
    * @return $stmt {Object}
-   *     PDOStatement object
+   *     PDOStatement
    */
   private function _execQuery ($sql, Array $params=[]) {
     try {
@@ -30,22 +30,21 @@ class Database {
 
       // Bind sql params
       foreach ($params as $key => $value) {
-        $type = $this->_getType($value);
-        $stmt->bindValue($key, $value, $type);
+        $stmt->bindValue($key, $value, $this->_getType($value));
       }
 
       $stmt->execute();
 
       return $stmt;
     } catch(Exception $e) {
-      print '<p class="error">ERROR: ' . $e->getMessage() . '</p>';
- 
+      print '<p class="error">ERROR: ' . $e->getMessage() . '.</p>';
+
       exit;
     }
   }
 
   /**
-   * Manually format fields/placeholders for MySQL SET clause
+   * Manually format fields/placeholders for MySQL SET clause.
    *   inspired by: https://phpdelusions.net/pdo
    *
    * @param $params {Array}
@@ -60,13 +59,14 @@ class Database {
     foreach ($params as $field => $value) {
       $setClause .= '`' . str_replace('`', '``', $field) . '`' . "=:$field, ";
     }
+
     $setClause = substr($setClause, 0, -2); // strip final ','
 
     return $setClause;
   }
 
   /**
-   * Get data type for a sql parameter (PDO::PARAM_* constant)
+   * Get data type for a sql parameter (PDO::PARAM_* constant).
    *
    * @param $var {?}
    *     Variable to identify type of
@@ -80,9 +80,9 @@ class Database {
       'NULL' => PDO::PARAM_NULL,
       'string' => PDO::PARAM_STR
     ];
+    $type = $pdoTypes['string']; // default
     $varType = gettype($var);
 
-    $type = $pdoTypes['string']; // default
     if (isSet($pdoTypes[$varType])) {
       $type = $pdoTypes[$varType];
     }
@@ -91,7 +91,7 @@ class Database {
   }
 
   /**
-   * Insert record into database
+   * Insert record into database.
    *
    * @param $params {Array}
    *     Key-value pairs being inserted
@@ -106,7 +106,7 @@ class Database {
   }
 
   /**
-   * Update record in database
+   * Update record in database.
    *
    * @param $params {Array}
    *     Key-value pairs being updated
@@ -117,13 +117,14 @@ class Database {
    */
   public function updateRecord ($params, $table, $record) {
     $key = key($record);
-    $value = $record[$key];
     $setClause = $this->_getSetClause($params);
+    $value = $record[$key];
     $sql = "UPDATE $table $setClause WHERE $key = $value";
-    
+
     if (!$key || !$value) {
-      print '<p class="error">ERROR: <b>record</b> (Array) must be set during
-        Form instantiation when <b>mode</b> is set to &lsquo;update&rsquo;.</p>';
+      print '<p class="error">ERROR: <strong>record</strong> (Array) must be set
+        during Form instantiation when <strong>mode</strong> is set to
+        &lsquo;update&rsquo;.</p>';
 
       exit;
     }

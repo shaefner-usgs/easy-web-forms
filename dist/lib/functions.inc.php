@@ -1,34 +1,42 @@
 <?php
 
 /**
- * PHP Sanitize filter settings by type
+ * Get PHP Sanitize filter.
+ *
+ * @param $type {String}
  *
  * @return {Array}
  */
-function getFilters () {
-  return [
+function getFilter ($type) {
+  $filters = [
     'email' => [
-      'filter' => FILTER_SANITIZE_EMAIL
+      'id' => FILTER_SANITIZE_EMAIL
     ],
     'int' => [
-      'filter' => FILTER_VALIDATE_INT
+      'id' => FILTER_VALIDATE_INT
     ],
     'number' => [
-      'filter' => FILTER_VALIDATE_FLOAT,
+      'id' => FILTER_VALIDATE_FLOAT,
       'flags' => FILTER_FLAG_ALLOW_THOUSAND
     ],
     'raw' => [
-      'filter' => FILTER_UNSAFE_RAW,
+      'id' => FILTER_UNSAFE_RAW,
       'flags' => FILTER_FLAG_STRIP_BACKTICK
     ],
     'striptags' => [
-      'filter' => FILTER_SANITIZE_STRING,
+      'id' => FILTER_SANITIZE_STRING,
       'flags' => FILTER_FLAG_STRIP_BACKTICK
     ],
     'url' => [
-      'filter' => FILTER_SANITIZE_URL
+      'id' => FILTER_SANITIZE_URL
     ]
   ];
+
+  if (!array_key_exists($type, $filters)) {
+    $type = 'raw';
+  }
+
+  return $filters[$type];
 }
 
 /**
@@ -38,7 +46,7 @@ function getFilters () {
  *
  * @param $name {String}
  *     The parameter name
- * @param $type {String}
+ * @param $type {String} default is 'raw'
  *     Optional type of sanitizing filter to apply
  * @param $default {?} default is NULL
  *     Optional default value if the given parameter value does not exist
@@ -46,26 +54,26 @@ function getFilters () {
  * @return $value {String}
  */
 function safeParam ($name, $type='raw', $default=NULL) {
-  $filters = getFilters();
-  if (!array_key_exists($type, $filters)) {
-    $type = 'raw';
-  }
-  $options = $filters[$type];
-  $filter = $options['filter'];
+  $filter = getFilter($type);
+  $options = [];
   $value = NULL;
-  
+
+  if (array_key_exists('flags', $filter)) {
+    $options['flags'] = $filter['flags'];
+  }
+
   if (isSet($_POST[$name]) && $_POST[$name] !== '') {
     if (is_array($_POST[$name])) { // handle checkboxes
-      $value = filter_var(implode(', ', $_POST[$name]), $filter, $options);
+      $value = filter_var(implode(', ', $_POST[$name]), $filter['id'], $options);
     } else {
-      $value = filter_input(INPUT_POST, $name, $filter, $options);
+      $value = filter_input(INPUT_POST, $name, $filter['id'], $options);
     }
   } else if (isSet($_GET[$name]) && $_GET[$name] !== '') {
-    $value = filter_input(INPUT_GET, $name, $filter, $options);
+    $value = filter_input(INPUT_GET, $name, $filter['id'], $options);
   } else {
     $value = $default;
   }
-  
+
   // Always strip non-allowed HTML tags (regardless of filter type)
   $value = strip_tags($value, '<a><br><dd><dl><dt><li><ol><p><sub><sup><table><td><th><tr><ul>');
 
@@ -73,9 +81,10 @@ function safeParam ($name, $type='raw', $default=NULL) {
 }
 
 /**
- * Recursive (deep) array merge
- *   similar to PHP's array_merge (and unlike array_merge_recursive),
- *   matching keys' values in the second array overwrite those in the first array
+ * Recursive (deep) array merge.
+ *
+ * Similar to PHP's array_merge (and unlike array_merge_recursive), matching
+ *   keys' values in the second array overwrite those in the first array
  *
  * Parameters are passed by reference, though only for performance reasons.
  * They're not altered by this function.
@@ -89,11 +98,11 @@ function safeParam ($name, $type='raw', $default=NULL) {
  */
 function array_merge_recursive_distinct(array &$array1, array &$array2) {
   $merged = $array1;
+
   foreach ($array2 as $key => &$value) {
     if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
       $merged[$key] = array_merge_recursive_distinct($merged[$key], $value);
-    }
-    else {
+    } else {
       $merged[$key] = $value;
     }
   }

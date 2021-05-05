@@ -109,10 +109,6 @@ div.form {
         @include labels;
       }
     }
-
-    > img + p {
-      display: none; // hide description when displaying user image
-    }
   }
 
   .datetime input {

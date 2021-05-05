@@ -3,17 +3,18 @@
 include_once __DIR__ . '/../dep/Autop.php';
 
 /**
- * Create and process HTML form
+ * Create and process HTML form.
  *
  * @param $params {Array}
  *
- *     adminEmail {String} - Where to send results of successful form submission
- *     emailSubject {String} - Subject of form submission email notification
+ *     adminEmail {String} - Email address(es) for form submission notifications
+ *     emailSubject {String} - Subject of form submission notifications
  *     meta {Array} - Extra fields to include in MySQL database with each submission
  *     mode {String} - SQL mode: 'insert' (default) or 'update'
- *     record {Array} - SQL field name (key) and value of record to update (mode must be set to 'update')
+ *     record {Array} - SQL field name (key) and value of record to update
  *     submitButtonText {String} - Submit button text
  *     successMsg {String} - Message shown upon successful form submission
+ *     table {String} - Name of MySQL table to insert records into
  */
 class Form {
   private $_countAddressFields = 0,
@@ -37,7 +38,6 @@ class Form {
     $_results = ''; // summary of user input
 
   public function __construct (Array $params=[]) {
-    // Merge defaults with user-supplied params and set as class properties
     $options = array_merge_recursive_distinct($this->_defaults, $params);
 
     foreach ($options as $key => $value) {
@@ -49,10 +49,10 @@ class Form {
   }
 
   /**
-   * Add hidden input fields for storing constituent values of an address
+   * Add hidden input fields for storing constituent values of an address.
    *   (javascript populates these values from MapQuest's PlaceSearch.js json)
    */
-  private function _addHiddenAddressFields () {
+  private function _addHiddenFields () {
     $fieldNames = [
       'city',
       'countryCode',
@@ -61,10 +61,10 @@ class Form {
       'state',
       'street'
     ];
+    $suffix = '';
 
     // Append count to field names if more than 1 address field on page
     $this->_countAddressFields ++;
-    $suffix = '';
     if ($this->_countAddressFields > 1) {
       $suffix = $this->_countAddressFields;
     }
@@ -77,18 +77,15 @@ class Form {
         'value' => ''
       ]);
 
-      // Add field
-      $this->_items[$name] = [
-        'controls' => [$input],
-        'label' => $input->label
-      ];
+      $this->addControl($input);
     }
   }
 
   /**
-   * Add metadata field(s) to user input for Database record
+   * Add metadata field(s) to user input for Database record.
    *
    * @param $userData {Array}
+   *     User input on web form
    *
    * @return {Array}
    */
@@ -109,34 +106,31 @@ class Form {
   }
 
   /**
-   * Check that all controls in group have matching values for 'name' & 'required'
+   * Check that all controls in group have matching values for 'name' & 'required'.
    *
    * @param $controls {Array}
    */
   private function _checkParams ($controls) {
-    $prevKey = '';
+    $prevName = '';
     $prevRequired = '';
 
     foreach ($controls as $control) {
-      $key = $control->name;
-      $required = $control->required;
-
-      if ($prevKey !== '' && $key !== $prevKey) {
-         print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all inputs in a group</p>';
+      if ($prevName && $control->name !== $prevName) {
+         print '<p class="error">ERROR: the <em>name</em> attribute must be the same for all inputs in a group.</p>';
       }
-      if ($prevRequired !== '' && $required !== $prevRequired) {
-        printf ('<p class="error">ERROR: the <em>required</em> attribute must be the same for all inputs in a group (%s)</p>',
-          $key
+      if ($prevRequired && $control->required !== $prevRequired) {
+        printf ('<p class="error">ERROR: the <em>required</em> attribute must be the same for all inputs in a group (%s).</p>',
+          $control->name
         );
       }
 
-      $prevKey = $key;
-      $prevRequired = $required;
+      $prevName = $control->name;
+      $prevRequired = $control->required;
     }
   }
 
   /**
-   * Get HTML for a group of controls (radio/checkbox group)
+   * Get HTML for a group of controls (radio/checkbox group).
    *
    * @param $group {Array}
    *
@@ -144,17 +138,17 @@ class Form {
    */
   private function _getControlGroupHtml ($group) {
     $controls = $group['controls'];
-
     $cssClasses = [];
-    if (!$controls[0]->isValid) { // only need to check 1st control in group
+
+    // Only need to check 1st control in each group
+    if (!$controls[0]->isValid) {
       $cssClasses[] = 'invalid';
     }
-    if ($controls[0]->required) { // only need to check 1st control in group
+    if ($controls[0]->required) {
       $cssClasses[] = 'required';
     }
 
-    $html = '';
-    $html .= sprintf('<fieldset class="%s">
+    $html = sprintf('<fieldset class="%s">
       <legend>%s</legend>
       <div class="group %s">',
         implode(' ', $cssClasses), // attach classes to parent for radio/checkbox
@@ -177,7 +171,7 @@ class Form {
   }
 
   /**
-   * Get html for form
+   * Get HTML for form.
    *
    * @return $html {String}
    */
@@ -193,13 +187,13 @@ class Form {
 
     foreach ($this->_items as $key => $item) {
       $controls = $item['controls'];
-      $control = $controls[0]; // single control or first control in group
+      $control = $controls[0]; // single control or 1st control in group
 
       if (count($controls) > 1) { // radio/checkbox group
         $controlsHtml .= $this->_getControlGroupHtml($item);
-      } else { // single control
+      } else {
         if ($control->type === 'hidden') {
-          $controlsHtml .= $control->getHtml(); // no tabindex
+          $controlsHtml .= $control->getHtml(); // no tabindex needed
         } else {
           $controlsHtml .= $control->getHtml(++ $this->_countTabIndex);
 
@@ -245,7 +239,7 @@ class Form {
   }
 
   /**
-   * Get html for results summary after form submitted
+   * Get HTML for results summary after form submitted.
    *
    * @return $html {String}
    */
@@ -262,25 +256,18 @@ class Form {
   }
 
   /**
-   * Process form on submit
-   *
-   * 1. Create an array (for MySQL) and HTML <dl> of values entered by user
-   * 2. If validation passes, insert/update db record and send (optional) email
+   * Process form on submit - create an array (for MySQL) and HTML summary of
+   *   values entered by user. Also handle uploaded files.
    */
   private function _process () {
-    $numDateTimeFields = 0;
+    $countDateTimeFields = 0;
     $sqlValues = [];
-    $table = $GLOBALS['dbTable'];
-
-    if ($this->table) { // override table set in config
-      $table = $this->table;
-    }
 
     $this->_results = '<dl>';
 
     foreach ($this->_items as $key => $item) {
       $controls = $item['controls'];
-      $control = $controls[0]; // single control instance or first control in group
+      $control = $controls[0]; // single control or 1st control in group
       $displayValue = '';
       $sqlValue = '';
 
@@ -299,7 +286,7 @@ class Form {
           move_uploaded_file($_FILES[$key]['tmp_name'], $newName);
         }
       } else if (count($controls) > 1) { // radio/checkbox group
-        $sqlValue = $control->value; // get value from first control in group
+        $sqlValue = $control->value; // get value from 1st control in group
         $values = [];
 
         foreach ($controls as $ctrl) {
@@ -309,21 +296,20 @@ class Form {
         }
 
         $displayValue = implode(', ', $values);
-      } else { // single (non-file) control
+      } else { // single (non-file) input, select, or textarea control
         $sqlValue = $control->value;
 
-        if ($control->type === 'datetime') { // datetime field
+        if ($control->type === 'datetime') {
+          $countDateTimeFields ++;
           $displayValue = $control->value;
 
           // Set display value to altInput value if configured
-          if (isSet($_POST['altInput' . $numDateTimeFields])) {
-            $displayValue = $_POST['altInput' . $numDateTimeFields];
+          if (isSet($_POST['altInput' . $countDateTimeFields])) {
+            $displayValue = $_POST['altInput' . $countDateTimeFields];
           }
-
-          $numDateTimeFields ++; // increment afterwards b/c it's a 0-based index
-        } else if ($control->type === 'select') { // select menu
+        } else if ($control->type === 'select') {
           $displayValue = $control->options[$control->value];
-        } else { // everything else
+        } else {
           $displayValue = $control->value;
         }
       }
@@ -334,8 +320,8 @@ class Form {
       if ($control->type !== 'hidden') { // don't include hidden fields in results summary
         $value = htmlspecialchars(stripslashes($displayValue));
 
-        if ($control->type === 'textarea') { // add p, br tags to preserve formatting
-          $value = \Xmeltrut\Autop\Autop::format($value);
+        if ($control->type === 'textarea') {
+          $value = \Xmeltrut\Autop\Autop::format($value); // preserve formatting
         }
 
         $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
@@ -344,30 +330,22 @@ class Form {
     }
 
     $this->_results .= '</dl>';
+
     $this->_validate();
 
-    // Insert/update record and send notification email if valid
     if ($this->_isValid) {
-      $params = $this->_addMetaData($sqlValues);
-
-      $Database = new Database($GLOBALS['db']);
-      if ($this->mode === 'update') {
-        $Database->updateRecord($params, $table, $this->record);
-      } else {
-        $Database->insertRecord($params, $table);
-      }
-
+      $this->_updateDb($sqlValues);
       $this->_sendEmail();
     }
   }
 
   /**
-   * Send a notification email to admin when a user submits the form
+   * Send a notification email to admin when a user submits the form.
    */
   private function _sendEmail () {
     if ($this->adminEmail) {
       $headers = [
-        'Content-type: text/html; charset=iso-8859-1',
+        'Content-Type: text/html; charset=utf-8',
         'From: webmaster@' . $_SERVER['SERVER_NAME'],
         'MIME-Version: 1.0'
       ];
@@ -387,17 +365,38 @@ class Form {
     }
   }
 
+  /**
+   * Insert/update record in db.
+   *
+   * @param $sqlValues {Array}
+   */
+  private function _updateDb ($sqlValues) {
+    $Database = new Database($GLOBALS['db']);
+    $params = $this->_addMetaData($sqlValues);
+    $table = $GLOBALS['dbTable'];
+
+    if ($this->table) {
+      $table = $this->table; // override table set in config
+    }
+
+    if ($this->mode === 'update') {
+      $Database->updateRecord($params, $table, $this->record);
+    } else {
+      $Database->insertRecord($params, $table);
+    }
+  }
+
   /*
-   * Server-side validation
+   * Server-side validation.
    *
    * Check each form control and set its boolean isValid prop. If any control is
-   *   invalid, set Form's _isValid prop to false
+   *   invalid, set Form's _isValid prop to false.
    */
   private function _validate () {
-    $this->_isValid = true; // default; set to false below if validation fails
+    $this->_isValid = true;
 
     foreach ($this->_items as $key => $item) {
-      $control = $item['controls'][0]; // single control instance or first control in group
+      $control = $item['controls'][0]; // single control or 1st control in group
       $value = $control->value;
       $length = strlen($value);
       $maxLength = null;
@@ -420,14 +419,14 @@ class Form {
         ($maxLength && $length > $maxLength) ||
         ($pattern && !preg_match("/$pattern/", $value) && $value)
       ) {
+        $control->isValid = false; // control
         $this->_isValid = false; // form
-        $control->isValid = false; // this control
       }
     }
   }
 
   /**
-   * Add a single form control (input, select, textarea) instance to Form
+   * Add a single form control (input, select, textarea) instance to Form.
    *
    * @param $control {Object}
    *     Form control instance
@@ -436,34 +435,34 @@ class Form {
     $key = $control->name;
 
     $this->_items[$key] = [
-      'controls' => [$control], // single-item array
+      'controls' => [$control], // expects a single-item array
       'label' => $control->label
     ];
 
     if ($control->type === 'address') {
-      $this->_addHiddenAddressFields();
+      $this->_addHiddenFields();
     }
   }
 
   /**
-   * Add a radio/checkbox group instance to Form
+   * Add a radio/checkbox group instance to Form.
    *
    * @param $group {Array}
    *     [
    *       arrangement {String} - 'inline' or 'stacked'
    *       controls {Array} - Form control instances as an indexed array
-   *       description {String} - explanatory text displayed next to form control
-   *       label {String} - input label
-   *       message {String} - instructions displayed for invalid form control
+   *       description {String} - explanatory text displayed next to group
+   *       label {String} - <legend> for <fieldset> group
+   *       message {String} - instructions displayed for invalid group
    *     ]
    */
   public function addGroup ($group) {
     $arrangement = 'inline'; // default value
     $controls = $group['controls'];
     $description = '';
-    $key = $controls[0]->name; // get shared 'name' attr from first control
+    $key = $controls[0]->name; // get shared 'name' attr from 1st control
     $label = ucfirst($controls[0]->name); // default to 'name' attr
-    $message = $controls[0]->message; // default to control type's default 'message'
+    $message = '';
 
     $this->_checkParams($controls);
 
@@ -490,12 +489,13 @@ class Form {
   }
 
   /**
-   * Determine if form is being submitted or not
+   * Determine if form is being submitted or not.
    *
    * @return $posting {Boolean}
    */
   public function isPosting () {
     $posting = false;
+
     if (isSet($_POST['submitbutton'])) {
       $posting = true;
     }
@@ -505,7 +505,7 @@ class Form {
 
   /**
    * Determine if form passed server-side validation or not (expose private
-   *   _isValid prop)
+   *   _isValid prop).
    *
    * @return {Boolean}
    */
@@ -514,7 +514,7 @@ class Form {
   }
 
   /**
-   * Render form or results depending on current state
+   * Render form or results depending on current state.
    */
   public function render () {
     if ($this->isPosting()) { // user submitting form

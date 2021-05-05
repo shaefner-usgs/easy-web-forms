@@ -68,7 +68,7 @@ class Textarea {
    */
   private function _checkParams () {
     if (!$this->name) {
-      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all textarea elements</p>';
+      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all textarea elements.</p>';
     }
 
     // Set id and label if not set during instantiation

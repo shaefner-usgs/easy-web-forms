@@ -61,10 +61,10 @@ class Select {
    */
   private function _checkParams () {
     if (!$this->name) {
-      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all select elements</p>';
+      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all select elements.</p>';
     }
     if (count($this->options) < 1 || !is_array($this->options)) {
-      print '<p class="error">ERROR: <em>options</em> (array) is <strong>required</strong> for all select elements</p>';
+      print '<p class="error">ERROR: <em>options</em> (array) is <strong>required</strong> for all select elements.</p>';
     }
 
     // Set id and label if not set during instantiation

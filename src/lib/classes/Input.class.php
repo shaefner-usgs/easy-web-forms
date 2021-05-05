@@ -96,18 +96,18 @@ class Input {
    */
   private function _checkParams ($params) {
     if (!$this->name) {
-      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all input elements</p>';
+      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all input elements.</p>';
     }
     if ($this->type === 'checkbox' || $this->type === 'radio') {
       $this->_isCheckboxOrRadio = true;
 
       if (!$this->id) {
-        printf ('<p class="error">ERROR: the <em>id</em> attribute is <strong>required</strong> for all radio/checkbox inputs (%s)</p>',
+        printf ('<p class="error">ERROR: the <em>id</em> attribute is <strong>required</strong> for all radio/checkbox inputs (%s).</p>',
           $this->name
         );
       }
       if (!$this->value) {
-        printf ('<p class="error">ERROR: the <em>value</em> attribute is <strong>required</strong> for all radio/checkbox inputs (%s)</p>',
+        printf ('<p class="error">ERROR: the <em>value</em> attribute is <strong>required</strong> for all radio/checkbox inputs (%s).</p>',
           $this->name
         );
       }
@@ -116,7 +116,7 @@ class Input {
     // Alert user to set message/description when adding radio/checkbox group to form
     if ($this->_isCheckboxOrRadio) {
       if (isSet($params['description']) || isSet($params['message'])) {
-        printf ('<p class="error">ERROR: the <em>description</em> and <em>message</em> properties must be set when adding a radio/checkbox group (%s), using Form&rsquo;s addGroup() method',
+        printf ('<p class="error">ERROR: the <em>description</em> and <em>message</em> properties must be set when adding a radio/checkbox group (%s), using Form&rsquo;s addGroup() method.',
           $this->name
         );
       }

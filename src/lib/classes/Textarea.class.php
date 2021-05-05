@@ -132,27 +132,6 @@ class Textarea {
   }
 
   /**
-   * Get message about req'd number of chars. if applicable
-   *
-   * @return $msg {String}
-   */
-  private function _getLengthMsg () {
-    $max = intval($this->maxlength);
-    $min = intval($this->minlength);
-    $msg = '';
-
-    if ($min && $max) {
-      $msg = "$min&ndash;$max characters";
-    } else if ($min) { // minlength only
-      $msg = "at least $min characters";
-    } else if ($max){ // maxlength only
-      $msg = "no more than $max characters";
-    }
-
-    return $msg;
-  }
-
-  /**
    * Get HTML for element.
    *
    * @param $tabindex {Integer} default is NULL
@@ -167,7 +146,7 @@ class Textarea {
       $this->id,
       $this->label
     );
-    $lengthMsg = $this->_getLengthMsg();
+    $lengthMsg = Form::getLengthMsg($this->minlength, $this->maxlength);
     $message = preg_replace('/{{(label|name)}}/', strtoupper($this->label), $this->message);
 
     // If no custom description was set, default to showing min/max-length requirements

@@ -1,5 +1,7 @@
 <?php
 
+include_once 'Form.class.php';
+
 /**
  * Create an <input>.
  *
@@ -250,27 +252,6 @@ class Input {
   }
 
   /**
-   * Get message about req'd number of chars. if applicable
-   *
-   * @return $msg {String}
-   */
-  private function _getLengthMsg () {
-    $max = intval($this->maxlength);
-    $min = intval($this->minlength);
-    $msg = '';
-
-    if ($min && $max) {
-      $msg = "$min&ndash;$max characters";
-    } else if ($min) { // minlength only
-      $msg = "at least $min characters";
-    } else if ($max){ // maxlength only
-      $msg = "no more than $max characters";
-    }
-
-    return $msg;
-  }
-
-  /**
    * Replace javascript expressions with a placeholder, and store placeholder
    *   keys & original values for later substitution after using json_encode().
    *
@@ -383,7 +364,7 @@ class Input {
       $this->id,
       $this->label
     );
-    $lengthMsg = $this->_getLengthMsg();
+    $lengthMsg = Form::getLengthMsg($this->minlength, $this->maxlength);
     $message = preg_replace('/{{(label|name)}}/', strtoupper($this->label), $this->message);
     $name = $this->name;
     $randomNumber = sprintf('%05d', mt_rand(1, 99999));

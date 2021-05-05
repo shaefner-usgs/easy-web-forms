@@ -489,6 +489,28 @@ class Form {
   }
 
   /**
+   * Get message about req'd number of chars. if applicable
+   *
+   * @param $min {Number}
+   * @param $max {Number}
+   *
+   * @return $msg {String}
+   */
+  public static function getLengthMsg ($min, $max) {
+    $msg = '';
+
+    if ($min && $max) {
+      $msg = "$min&ndash;$max characters";
+    } else if ($min) { // minlength only
+      $msg = "at least $min characters";
+    } else if ($max){ // maxlength only
+      $msg = "no more than $max characters";
+    }
+
+    return $msg;
+  }
+
+  /**
    * Determine if form is being submitted or not.
    *
    * @return $posting {Boolean}

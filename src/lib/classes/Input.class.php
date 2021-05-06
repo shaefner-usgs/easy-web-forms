@@ -266,9 +266,10 @@ class Input {
       '/document\.querySelector\s*\(.*\)/' // elements
     ];
 
-    // Flatten arrays into an array literal string
+    // Flatten arrays into a string ($value) and array literal ($jsonValue)
     if (is_array($value)) {
-      $jsonValue = sprintf('[%s]', implode(',', $value));
+      $value = implode(',', $value);
+      $jsonValue = "[$value]";
     }
 
     foreach ($patterns as $pattern) {

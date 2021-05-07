@@ -211,7 +211,10 @@ var Validator = function (options) {
       fauxButton.setAttribute('value', 'Submit');
 
       _form.appendChild(fauxButton);
-      _form.submit();
+
+      window.setTimeout(function() {
+        _form.submit();
+      }, 250);
     } else { // stop form submission and alert user
       if (!errorMsg) {
         errorMsg = document.createElement('p');

@@ -75,7 +75,8 @@ function safeParam ($name, $type='raw', $default=NULL) {
   }
 
   // Always strip non-allowed HTML tags (regardless of filter type)
-  $value = strip_tags($value, '<a><br><dd><dl><dt><li><ol><p><sub><sup><table><td><th><tr><ul>');
+  $allowed = '<a><br><dd><dl><dt><h2><h3><h4><h5><li><ol><p><sub><sup><table><td><th><tr><ul>';
+  $value = strip_tags($value, $allowed);
 
   return $value;
 }

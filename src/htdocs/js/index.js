@@ -2,9 +2,9 @@
 
 
 var AppUtil = require('AppUtil'),
+    File = require('File'),
     Flatpickr = require('Flatpickr'),
     FormMeta = require('FormMeta'),
-    Image = require('Image'),
     PlaceSearch = require('PlaceSearch'),
     Validator = require('Validator');
 
@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (form) { // displaying form (not results)
     options.validator = Validator(options);
 
+    File(options);
     Flatpickr(options);
-    Image(options);
     PlaceSearch(options);
   }
 });

@@ -10,7 +10,7 @@
  *     form: {Element}
  *   }
  */
-var Image = function (options) {
+var File = function (options) {
   var _initialize,
 
       _createImg,
@@ -104,4 +104,4 @@ var Image = function (options) {
 };
 
 
-module.exports = Image;
+module.exports = File;

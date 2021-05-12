@@ -76,7 +76,7 @@ var Validator = function (options) {
         if (type === 'checkbox' || type === 'radio') {
           types = ['change']; // input event is buggy for radio/checkbox
         } else if (type === 'file') {
-          types = ['change', 'input']; // change: for older webkit browsers
+          types = ['change'];
         } else {
           types = ['blur', 'input']; // blur: captures autocompleted fields
         }

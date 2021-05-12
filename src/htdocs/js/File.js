@@ -2,8 +2,9 @@
 
 
 /**
- * Set up file type <input>s to show a preview image inline when a user chooses
- *   an image.
+ * Configure file type <input>s to:
+ *   1) show a preview image inline when an image is chosen;
+ *   2) reset when 'X' button is clicked.
  *
  * @param options {Object}
  *   {
@@ -13,19 +14,52 @@
 var File = function (options) {
   var _initialize,
 
+      _form,
+
+      _addListeners,
       _createImg,
       _getControl,
       _removeImg,
+      _reset,
+      _showButton,
       _showImg;
 
 
   _initialize = function (options) {
-    var inputs = options.form.querySelectorAll('input[type=file]');
+    _form = options.form;
+
+    _addListeners();
+  };
+
+  /**
+   * Add event listeners to file controls.
+   */
+  _addListeners = function () {
+    var button,
+        control,
+        inputs;
+
+    inputs = _form.querySelectorAll('input[type=file]');
 
     inputs.forEach(function(input) {
-      if (/image/.test(input.getAttribute('accept'))) { // image file type
-        input.onchange = _showImg;
-      }
+      control = _getControl(input.id);
+      button = control.querySelector('button');
+
+      button.addEventListener('click', function() {
+        button.classList.add('hide');
+
+        _reset(input);
+      });
+
+      input.addEventListener('change', function(e) {
+        button.classList.add('hide'); // need to re-render for proper placement
+
+        if (/image/.test(input.getAttribute('accept'))) { // image file type
+          _showImg(e);
+        }
+
+        _showButton();
+      });
     });
   };
 
@@ -62,7 +96,7 @@ var File = function (options) {
   };
 
   /**
-   * Remove an existing <img> from the DOM.
+   * Remove user-selected image from the DOM.
    *
    * @param id {String}
    */
@@ -76,6 +110,50 @@ var File = function (options) {
     if (img) {
       img.parentNode.removeChild(img);
     }
+  };
+
+  /**
+   * Reset file input. Set control to invalid if it's a required field.
+   *
+   * @param input {Element}
+   */
+  _reset = function (input) {
+    var control = _getControl(input.id);
+
+    input.value = null;
+
+    _removeImg(input.id);
+
+    if (input.hasAttribute('required')) {
+      control.classList.add('invalid');
+    }
+  };
+
+  /**
+   * Show reset button after setting CSS values that control placement.
+   */
+  _showButton = function () {
+    var bottomHeight,
+        button,
+        div,
+        input,
+        label,
+        topHeight;
+
+    div = document.querySelector('.file');
+    button = div.querySelector('button');
+    input = document.getElementById('file');
+    label = div.querySelector('label');
+
+    // Add slight delay so image is rendered before calculating CSS values
+    window.setTimeout(function() {
+      topHeight = label.offsetHeight;
+      bottomHeight = div.offsetHeight - topHeight - input.offsetHeight;
+
+      button.style.top = topHeight + 'px';
+      button.style.bottom = bottomHeight + 'px';
+      button.classList.remove('hide');
+    }, 250);
   };
 
   /**

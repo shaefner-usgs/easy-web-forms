@@ -69,7 +69,7 @@ div.form {
 
   fieldset,
   .control {
-    margin: 1.75em 0;
+    margin: 2em 0;
   }
 
   img {
@@ -92,6 +92,7 @@ div.form {
 
   .control {
     display: flex;
+    position: relative;
 
     &:first-of-type {
       margin-top: .75em;
@@ -187,5 +188,30 @@ div.form {
     color: $danger;
     content: ' *';
     font-weight: 500;
+  }
+
+  .reset-file {
+    background: transparent;
+    background-image: none !important;
+    border: 0;
+    box-shadow: none;
+    cursor: pointer;
+    font-size: $font-size;
+    outline: none;
+    padding: 2px 15px;
+    position: absolute;
+    right: 0;
+
+    svg {
+      fill: #cfcfcf;
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%);
+    }
+
+    &.hide {
+      display: none;
+    }
   }
 }

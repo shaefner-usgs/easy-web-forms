@@ -411,6 +411,17 @@ class Input {
       $attrs
     );
 
+    if ($this->type === 'file') { // add 'X' button to allow removing chosen file
+      $input .= '<button type="button" aria-label="clear" class="hide reset-file">
+          <svg width="15" height="16" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(-1)" fill="#D1D1D1" fill-rule="evenodd">
+              <rect transform="scale(-1 1) rotate(45 0 -12.992)" x="7.09" y="-1.333" width="3.2" height="18.642" rx="1.6"></rect>
+              <rect transform="rotate(-135 8.69 8.012)" x="7.09" y="-1.309" width="3.2" height="18.642" rx="1.6"></rect>
+            </g>
+          </svg>
+        </button>';
+    }
+
     if ($this->type === 'hidden') {
       $html = $input; // only include input tag for hidden fields
     } else {

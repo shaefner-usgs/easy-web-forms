@@ -4,7 +4,7 @@
 /**
  * Configure file type <input>s to:
  *   1) show a preview image inline when an image is chosen;
- *   2) reset when 'X' button is clicked.
+ *   2) reset when the 'X' button in the form control is clicked.
  *
  * @param options {Object}
  *   {
@@ -42,7 +42,7 @@ var File = function (options) {
     inputs = _form.querySelectorAll('input[type=file]');
 
     inputs.forEach(function(input) {
-      control = _getControl(input.id);
+      control = _getControl(input);
       button = control.querySelector('button');
 
       button.addEventListener('click', function() {
@@ -58,7 +58,7 @@ var File = function (options) {
           _showImg(e);
         }
 
-        _showButton();
+        _showButton(input);
       });
     });
   };
@@ -66,14 +66,14 @@ var File = function (options) {
   /**
    * Create a new <img> and add it to the DOM.
    *
-   * @param id {String}
+   * @param input {Element}
    * @param dataUrl {String}
    */
-  _createImg = function (id, dataUrl) {
+  _createImg = function (input, dataUrl) {
     var control,
         img;
 
-    control = _getControl(id);
+    control = _getControl(input);
     img = document.createElement('img');
 
     img.onload = function() {
@@ -83,14 +83,14 @@ var File = function (options) {
   };
 
   /**
-   * Get the control <div> associated with an <input> id.
+   * Get the control (i.e. parent) <div> associated with an <input>.
    *
-   * @param id {String}
+   * @param input {Element}
    *
    * @return {Element}
    */
-  _getControl = function (id) {
-    var el = document.getElementById(id);
+  _getControl = function (input) {
+    var el = document.getElementById(input.id);
 
     return el.closest('.control');
   };
@@ -98,13 +98,13 @@ var File = function (options) {
   /**
    * Remove user-selected image from the DOM.
    *
-   * @param id {String}
+   * @param input {Element}
    */
-  _removeImg = function (id) {
+  _removeImg = function (input) {
     var control,
         img;
 
-    control = _getControl(id);
+    control = _getControl(input);
     img = control.querySelector('img');
 
     if (img) {
@@ -118,11 +118,11 @@ var File = function (options) {
    * @param input {Element}
    */
   _reset = function (input) {
-    var control = _getControl(input.id);
+    var control = _getControl(input);
 
     input.value = null;
 
-    _removeImg(input.id);
+    _removeImg(input);
 
     if (input.hasAttribute('required')) {
       control.classList.add('invalid');
@@ -131,18 +131,18 @@ var File = function (options) {
 
   /**
    * Show reset button after setting CSS values that control placement.
+   *
+   * @param input {Element}
    */
-  _showButton = function () {
+  _showButton = function (input) {
     var bottomHeight,
         button,
         div,
-        input,
         label,
         topHeight;
 
-    div = document.querySelector('.file');
+    div = _getControl(input);
     button = div.querySelector('button');
-    input = document.getElementById('file');
     label = div.querySelector('label');
 
     // Add slight delay so image is rendered before calculating CSS values
@@ -169,8 +169,8 @@ var File = function (options) {
     reader = new FileReader();
 
     reader.onload = function() {
-      _removeImg(input.id);
-      _createImg(input.id, reader.result);
+      _removeImg(input);
+      _createImg(input, reader.result);
     };
 
     reader.readAsDataURL(input.files[0]);

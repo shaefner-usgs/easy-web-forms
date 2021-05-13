@@ -361,6 +361,7 @@ class Input {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
     $description = $this->description;
+    $input = '';
     $label = sprintf('<label for="%s">%s</label>',
       $this->id,
       $this->label
@@ -403,14 +404,6 @@ class Input {
       $value = $this->value; // instantiated or user-supplied value depending on state
     }
 
-    $input = sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
-      $this->id,
-      $name,
-      $type,
-      $value,
-      $attrs
-    );
-
     if ($this->type === 'file') { // add 'X' button to allow removing chosen file
       $input .= '<button type="button" aria-label="clear" class="hide reset-file">
           <svg width="15" height="16" xmlns="http://www.w3.org/2000/svg">
@@ -421,6 +414,14 @@ class Input {
           </svg>
         </button>';
     }
+
+    $input .= sprintf('<input id="%s" name="%s" type="%s" value="%s"%s />',
+      $this->id,
+      $name,
+      $type,
+      $value,
+      $attrs
+    );
 
     if ($this->type === 'hidden') {
       $html = $input; // only include input tag for hidden fields

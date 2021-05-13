@@ -15,8 +15,10 @@ var File = function (options) {
   var _initialize,
 
       _form,
+      _prevImgs,
 
       _addListeners,
+      _addPrevImg,
       _createImg,
       _getControl,
       _removeImg,
@@ -26,20 +28,31 @@ var File = function (options) {
 
 
   _initialize = function (options) {
-    _form = options.form;
+    var control,
+        inputs;
 
-    _addListeners();
+    _form = options.form;
+    _prevImgs = {};
+
+    inputs = _form.querySelectorAll('input[type=file]');
+
+    inputs.forEach(function(input) {
+      control = _getControl(input);
+
+      _prevImgs[input.id] = control.querySelector('img');
+    });
+
+    _addListeners(inputs);
   };
 
   /**
    * Add event listeners to file controls.
+   *
+   * @param inputs {NodeList}
    */
-  _addListeners = function () {
+  _addListeners = function (inputs) {
     var button,
-        control,
-        inputs;
-
-    inputs = _form.querySelectorAll('input[type=file]');
+        control;
 
     inputs.forEach(function(input) {
       control = _getControl(input);
@@ -61,6 +74,25 @@ var File = function (options) {
         _showButton(input);
       });
     });
+  };
+
+  /**
+   * Add previously uploaded image back (when input is reset).
+   *
+   * @param input {Element}
+   */
+  _addPrevImg = function (input) {
+    var control,
+        firstChild,
+        img;
+
+    control = _getControl(input);
+    firstChild = control.querySelector('.description');
+    img = _prevImgs[input.id];
+
+    if (img) {
+      control.insertBefore(img, firstChild);
+    }
   };
 
   /**
@@ -113,7 +145,7 @@ var File = function (options) {
   };
 
   /**
-   * Reset file input. Set control to invalid if it's a required field.
+   * Reset file input. Set control to 'invalid' if it's a required field.
    *
    * @param input {Element}
    */
@@ -123,6 +155,7 @@ var File = function (options) {
     input.value = null;
 
     _removeImg(input);
+    _addPrevImg(input);
 
     if (input.hasAttribute('required')) {
       control.classList.add('invalid');
@@ -130,7 +163,7 @@ var File = function (options) {
   };
 
   /**
-   * Show reset button after setting CSS values that control placement.
+   * Show reset button after setting CSS that controls its placement.
    *
    * @param input {Element}
    */

@@ -274,7 +274,7 @@ Some types have added functionality:
 
 * **file**
 
- If the 'path' option is set, the file will be uploaded to the given directory and renamed using a timestamp to ensure it's unique; the new filename will be stored in the database. If the user selects an image, a preview will be rendered inline next to the form control. The default 'description' option is set to '.jpg or .png'. Set the 'accept' option to allow other file types. The default 'message' option is set to 'Please choose a file'.
+  If the 'path' option is set, the file will be uploaded to the given directory and renamed using a timestamp to ensure it's unique; the new filename will be stored in the database. If the user selects an image, a preview will be rendered inline next to the form control. The default 'description' option is set to '.jpg or .png'. Set the 'accept' option to allow other file types. The default 'message' option is set to 'Please choose a file'.
   
   If necessary, you can further process uploaded files in the calling PHP script **after** rendering the form:
 

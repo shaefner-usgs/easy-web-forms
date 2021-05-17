@@ -15,9 +15,17 @@ div.results {
 
   dl {
     margin: 2em 0 1em;
+
+    .error {
+      color: $danger;
+    }
   }
 
   dt {
     @include labels;
+
+    .error {
+      color: $danger;
+    }
   }
 }

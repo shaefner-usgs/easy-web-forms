@@ -100,6 +100,7 @@ class Input {
     if (!$this->name) {
       print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all input elements.</p>';
     }
+
     if ($this->type === 'checkbox' || $this->type === 'radio') {
       $this->_isCheckboxOrRadio = true;
 
@@ -110,6 +111,12 @@ class Input {
       }
       if (!$this->value) {
         printf ('<p class="error">ERROR: the <em>value</em> attribute is <strong>required</strong> for all radio/checkbox inputs (%s).</p>',
+          $this->name
+        );
+      }
+    } else if ($this->type === 'file') {
+      if (!$this->path) {
+        printf('<p class="alert">NOTICE: the <em>path</em> option must be set on file inputs (%s) or files will not be uploaded.</p>',
           $this->name
         );
       }

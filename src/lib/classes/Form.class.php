@@ -256,8 +256,70 @@ class Form {
   }
 
   /**
-   * Process form on submit - create an array (for MySQL) and HTML summary of
-   *   values entered by user. Also handle uploaded files.
+   * Get user-friendly error message when file upload fails.
+   *
+   * @param $errorCode {Integer}
+   *
+   * @return $errorMsg {String}
+   */
+  private function _getUploadError ($errorCode) {
+    $errors = [
+      1 => 'the uploaded file exceeds upload_max_filesize (%s) set in php.ini.',
+      2 => 'the uploaded file exceeds MAX_FILE_SIZE set in the HTML form.',
+      3 => 'the uploaded file was only partially uploaded.',
+      4 => 'no file was uploaded.',
+      6 => 'missing a temporary folder.',
+      7 => 'failed to write file to disk.',
+      8 => 'a PHP extension stopped the file upload.'
+    ];
+    $errorMsg = 'Error: ' . $errors[$errorCode];
+
+    if ($errorCode === 1) {
+      $errorMsg = sprintf($errorMsg, ini_get('upload_max_filesize'));
+    }
+
+    return $errorMsg;
+  }
+
+  /**
+   * Upload user-selected file.
+   *
+   * @param $key {String}
+   * @param $path {String}
+   *
+   * @return {Array}
+   */
+  private function _handleUpload ($key, $path) {
+    $displayValue = '';
+    $error = $_FILES[$key]['error'];
+    $name = $_FILES[$key]['name'];
+    $sqlValue = '';
+
+    if ($name && $path) { // store uploaded file if path was provided
+      if ($error) {
+        $displayValue = $this->_getUploadError($error);
+      } else {
+        $displayValue = basename($name);
+        $newName = sprintf('%s/%s.%s',
+          $path,
+          time(), // use timestamp for filename to ensure it's unique
+          pathinfo($name)['extension']
+        );
+        $sqlValue = basename($newName);
+
+        move_uploaded_file($_FILES[$key]['tmp_name'], $newName);
+      }
+    }
+
+    return [
+      'display' => $displayValue,
+      'sql' => $sqlValue
+    ];
+  }
+
+  /**
+   * Process form: create an array (for MySQL) and an HTML summary of user
+   *   input. Also update database and send admin email if configured.
    */
   private function _process () {
     $countDateTimeFields = 0;
@@ -268,22 +330,24 @@ class Form {
     foreach ($this->_items as $key => $item) {
       $controls = $item['controls'];
       $control = $controls[0]; // single control or 1st control in group
+      $cssClass = '';
       $displayValue = '';
       $sqlValue = '';
 
       if ($control->type === 'file') {
-        $name = $_FILES[$key]['name'];
+        $results = $this->_handleUpload($key, $control->path);
+        $displayValue = $results['display'];
+        $sqlValue = $results['sql'];
 
-        if ($name && $control->path) { // move uploaded file if path was provided
-          $displayValue = basename($name);
-          $newName = sprintf('%s/%s.%s',
-            $control->path,
-            time(), // use timestamp for filename to ensure it's unique
-            pathinfo($name)['extension']
-          );
-          $sqlValue = basename($newName);
+        if ($displayValue && !$sqlValue) { // file upload error
+          $cssClass = 'error';
 
-          move_uploaded_file($_FILES[$key]['tmp_name'], $newName);
+          if ($control->required) { // stop form submission on failed upload
+            $control->isValid = false;
+            $control->message = $displayValue;
+
+            $this->_isValid = false; // form
+          };
         }
       } else if (count($controls) > 1) { // radio/checkbox group
         $sqlValue = $control->value; // get value from 1st control in group
@@ -317,6 +381,7 @@ class Form {
       if ($sqlValue) {
         $sqlValues[$key] = $sqlValue;
       }
+
       if ($control->type !== 'hidden') { // don't include hidden fields in results summary
         $value = htmlspecialchars(stripslashes($displayValue));
 
@@ -324,18 +389,25 @@ class Form {
           $value = \Xmeltrut\Autop\Autop::format($value); // preserve formatting
         }
 
-        $this->_results .= '<dt>' . ucfirst($item['label']) . '</dt>';
-        $this->_results .= sprintf('<dd id="%s">%s</dd>', $key, $value);
+        $this->_results .= sprintf('<dt class="%s">%s</dt>',
+          $cssClass,
+          ucfirst($item['label'])
+        );
+        $this->_results .= sprintf('<dd class="%s" id="%s">%s</dd>',
+          $cssClass,
+          $key,
+          $value
+        );
       }
     }
 
     $this->_results .= '</dl>';
 
-    $this->_validate();
-
     if ($this->_isValid) {
-      $this->_updateDb($sqlValues);
-      $this->_sendEmail();
+      if (!empty($sqlValues)) {
+        $this->_updateDb($sqlValues);
+        $this->_sendEmail();
+      }
     }
   }
 
@@ -413,6 +485,7 @@ class Form {
       if (isSet($control->pattern)) {
         $pattern = preg_replace('@/@', '\/', $control->pattern); // escape '/' chars
       }
+
       if (
         ($control->required && !$value) ||
         ($minLength && $length < $minLength) ||
@@ -540,6 +613,7 @@ class Form {
    */
   public function render () {
     if ($this->isPosting()) { // user submitting form
+      $this->_validate();
       $this->_process();
 
       if ($this->_isValid) {

@@ -159,6 +159,7 @@ var File = function (options) {
 
     if (input.hasAttribute('required')) {
       control.classList.add('invalid');
+      control.classList.remove('valid');
     }
   };
 

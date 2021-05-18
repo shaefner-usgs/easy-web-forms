@@ -136,15 +136,15 @@ To override built-in pattern matching, set a custom 'pattern' attribute when you
 
 ## Inline Content
 
-To render additional HTML content associated with a form control next to the control, include the content inside a `<div>` with the class '.form-meta' and set the content's class to the 'name' value of the form control. For example:
+To render additional HTML content associated with a form control next to the control, include the ancillary content inside a `<div>` with the class 'form-meta' and set the ancillary content's class to the 'name' value of the form control. For example:
 
 ```html
 <div class="form-meta">
-  <img class="name" src="image.jpg" />
+  <img class="nameValue" src="image.jpg" />
 </div>
 ```
 
-This also works for adding inline content to the results following form submission. Note: Form's [isPosting()](#is-posting) and [isValid()](#is-valid) methods might be useful for controlling when the content is displayed. The content will be moved into place after the form/results are rendered.
+This also works for adding inline content to the results following form submission. The content is moved into place (via javascript) when the form/results are rendered. Note: Form's [isPosting()](#is-posting) and [isValid()](#is-valid) methods might be useful for controlling when the content is displayed.
 
 ## Security
 

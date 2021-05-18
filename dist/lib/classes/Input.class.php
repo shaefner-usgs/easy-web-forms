@@ -114,12 +114,6 @@ class Input {
           $this->name
         );
       }
-    } else if ($this->type === 'file') {
-      if (!$this->path) {
-        printf('<p class="alert">NOTICE: the <em>path</em> option must be set on file inputs (%s) or files will not be uploaded.</p>',
-          $this->name
-        );
-      }
     }
 
     // Alert user to set message/description when adding radio/checkbox group to form

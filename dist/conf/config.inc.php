@@ -4,17 +4,17 @@
 date_default_timezone_set('America/Los_Angeles');
 
 // Database table for form submission results; you can also provide the table during Form instantiation
-$dbTable = 'orders';
+$dbTable = '';
 
 // MapQuest key for PlaceSearch.js address field autocomplete (required for address type <input>s)
-$mapQuestApiKey = 'Fmjtd|luur2h0bn1,2g=o5-9wbnhy';
+$mapQuestApiKey = '';
 
 // Option 1: Inline database connector
 
-$host = 'localhost';
-$dbname = 'web';
-$username = 'root';
-$password = 'rootroot';
+$host = '';
+$dbname = '';
+$username = '';
+$password = '';
 
 try {
   $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);

@@ -37,7 +37,7 @@ var Flatpickr = function (options) {
 
   /**
    * Store Flatpickr's altInput value (human-readable date) in a hidden field
-   *   for display in results summary.
+   * for display in results summary.
    *
    * @param altInput {Element}
    * @param i {Integer}
@@ -55,8 +55,8 @@ var Flatpickr = function (options) {
 
   /**
    * Add event listeners to validate Flatpickr altInput fields, which display a
-   *   human-readable date in a separate field while returning a different value
-   *   to the server in the original field.
+   * human-readable date in a separate field while returning a different value
+   * to the server in the original field.
    *
    * @param altInput {Element}
    *     Flatpickr altInput

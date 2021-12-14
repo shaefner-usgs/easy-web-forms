@@ -50,7 +50,7 @@ class Form {
 
   /**
    * Add hidden input fields for storing constituent values of an address.
-   *   (javascript populates these values from MapQuest's PlaceSearch.js json)
+   * (javascript populates these values from MapQuest's PlaceSearch.js json)
    */
   private function _addHiddenFields () {
     $fieldNames = [
@@ -319,7 +319,7 @@ class Form {
 
   /**
    * Process form: create an array (for MySQL) and an HTML summary of user
-   *   input. Also update database and send admin email if configured.
+   * input. Also update database and send admin email if configured.
    */
   private function _process () {
     $countDateTimeFields = 0;
@@ -462,7 +462,7 @@ class Form {
    * Server-side validation.
    *
    * Check each form control and set its boolean isValid prop. If any control is
-   *   invalid, set Form's _isValid prop to false.
+   * invalid, set Form's _isValid prop to false.
    */
   private function _validate () {
     $this->_isValid = true;
@@ -582,7 +582,7 @@ class Form {
 
     return $msg;
   }
-  
+
   /**
    * Get the form submission results
    *
@@ -609,7 +609,7 @@ class Form {
 
   /**
    * Determine if form passed server-side validation or not (expose private
-   *   _isValid prop).
+   * _isValid prop).
    *
    * @return {Boolean}
    */

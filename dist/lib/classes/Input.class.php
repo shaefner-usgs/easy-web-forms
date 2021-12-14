@@ -140,7 +140,7 @@ class Input {
 
   /**
    * php's json_encode with support for javascript expressions passed as strings
-   *   for configuring Flatpickr options.
+   * for configuring Flatpickr options.
    *
    * @param $opts {Array}
    *
@@ -254,7 +254,7 @@ class Input {
 
   /**
    * Replace javascript expressions with a placeholder, and store placeholder
-   *   keys & original values for later substitution after using json_encode().
+   * keys & original values for later substitution after using json_encode().
    *
    * @param $key {String}
    * @param $value {Mixed}

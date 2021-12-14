@@ -3,9 +3,9 @@
 
 /**
  * Display items associated with a specific 'field' inline even though they are
- *   rendered after the form/results. The item (node) you want to move must be
- *   nested in a div with the class 'form-meta' have a css class that matches
- *   the 'id' value of the associated field.
+ * rendered after the form/results. The item (node) you want to move must be
+ * nested in a div with the class 'form-meta' have a css class that matches the
+ * 'id' value of the associated field.
  *
  * @param options {Object}
  *   {
@@ -30,7 +30,8 @@ var FormMeta = function(options) {
 
   /**
    * Get all 'fields': either the form controls or results list.
-   *   Note: radio/checkbox inputs (form controls) are not currently supported.
+   *
+   * Note: radio/checkbox inputs (form controls) are not currently supported.
    *
    * @return fields {Array}
    *     id values

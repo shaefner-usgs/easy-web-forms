@@ -42,7 +42,7 @@ function getFilter ($type) {
 /**
  * Get a request parameter value from $_GET or $_POST results.
  *
- *   NOTE: flattens selected checkbox values into a comma-separated list
+ * NOTE: flattens selected checkbox values into a comma-separated list
  *
  * @param $name {String}
  *     The parameter name
@@ -85,7 +85,7 @@ function safeParam ($name, $type='raw', $default=NULL) {
  * Recursive (deep) array merge.
  *
  * Similar to PHP's array_merge (and unlike array_merge_recursive), matching
- *   keys' values in the second array overwrite those in the first array
+ * keys' values in the second array overwrite those in the first array
  *
  * Parameters are passed by reference, though only for performance reasons.
  * They're not altered by this function.

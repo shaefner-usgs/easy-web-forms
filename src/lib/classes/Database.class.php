@@ -45,7 +45,8 @@ class Database {
 
   /**
    * Manually format fields/placeholders for MySQL SET clause.
-   *   inspired by: https://phpdelusions.net/pdo
+   *
+   * inspired by: https://phpdelusions.net/pdo
    *
    * @param $params {Array}
    *     Key-value pairs for query

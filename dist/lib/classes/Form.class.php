@@ -360,7 +360,7 @@ class Form {
           }
         }
 
-        $displayValue = implode(', ', $values);
+        $displayValue = implode($item['separator'], $values);
       } else { // single (non-file) input, select, or textarea control
         $sqlValue = $control->value;
 
@@ -551,6 +551,7 @@ class Form {
       'description' => '',
       'label' => ucfirst($key), // default to 'name' attr
       'message' => '',
+      'separator' => ', ',
       'validate' => 'some'
     ];
     $this->_items[$key] = array_merge($defaults, $group);
@@ -581,7 +582,7 @@ class Form {
   }
 
   /**
-   * Get the form submission results
+   * Get the form submission results.
    *
    * @return {String}
    */

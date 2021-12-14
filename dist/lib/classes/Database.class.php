@@ -14,11 +14,11 @@ class Database {
   }
 
   /**
-   * Perform db query.
+   * Perform a query.
    *
    * @param $sql {String}
    *     SQL query
-   * @param $params {Array} default is empty Array
+   * @param $params {Array} default is []
    *     Key-value substitution params for SQL query
    *
    * @return $stmt {Object}
@@ -46,28 +46,26 @@ class Database {
   /**
    * Manually format fields/placeholders for MySQL SET clause.
    *
-   * inspired by: https://phpdelusions.net/pdo
+   * Inspired by: https://phpdelusions.net/pdo
    *
    * @param $params {Array}
    *     Key-value pairs for query
    *
-   * @return $setClause {String}
+   * @return {String}
    *     MySQL SET clause
    */
   private function _getSetClause ($params) {
-    $setClause = 'SET ';
+    $parts = [];
 
     foreach ($params as $field => $value) {
-      $setClause .= '`' . str_replace('`', '``', $field) . '`' . "=:$field, ";
+      $parts[] = '`' . str_replace('`', '``', $field) . '`' . "=:$field";
     }
 
-    $setClause = substr($setClause, 0, -2); // strip final ','
-
-    return $setClause;
+    return 'SET ' . implode(', ', $parts);
   }
 
   /**
-   * Get data type for a sql parameter (PDO::PARAM_* constant).
+   * Get the data type for a SQL parameter (PDO::PARAM_* constant).
    *
    * @param $var {?}
    *     Variable to identify type of

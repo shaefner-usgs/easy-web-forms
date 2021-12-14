@@ -582,6 +582,15 @@ class Form {
 
     return $msg;
   }
+  
+  /**
+   * Get the form submission results
+   *
+   * @return {String}
+   */
+  public function getResults () {
+    return $this->_results;
+  }
 
   /**
    * Determine if form is being submitted or not.

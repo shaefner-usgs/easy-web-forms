@@ -205,6 +205,7 @@ $form = new Form([
 | description | String | '' | Explanatory text displayed next to the form control group. |
 | label | String | 'name' attribute value of [`<Control>`](#form-controls)s in group. | `<legend>` for `<fieldset>` group. |
 | message | String | '' | Message shown when one or more form controls in a group are invalid. |
+| validate | String | 'some' | validation scope for a required checkbox group: 'some' or 'all'. |
 
 Options in **bold** are required.
 

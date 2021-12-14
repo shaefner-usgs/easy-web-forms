@@ -132,6 +132,7 @@ var Validator = function (options) {
         minLength,
         name,
         pattern,
+        scope,
         state,
         type,
         value;
@@ -143,13 +144,25 @@ var Validator = function (options) {
     if (type === 'checkbox' || type === 'radio') {
       name = el.getAttribute('name');
       controls = _form.querySelectorAll('input[name="' + name + '"]');
-      state = 'invalid'; // flip default
+      scope = 'some'; // whether just some or all checkboxes need to be checked
 
-      controls.forEach(function(control) {
-        if (control.checked) {
-          state = 'valid';
+      if (el.closest('.group').classList.contains('all')) {
+        scope = 'all';
+      }
+
+      if (scope === 'some') {
+        state = 'invalid'; // flip default
+
+        controls.forEach(function(control) {
+          if (control.checked) {
+            state = 'valid';
+          }
+        });
+      } else {
+        if (Array.from(controls).some(control => !control.checked)) {
+          state = 'invalid';
         }
-      });
+      }
     } else { // everything else (besides checkbox/radio inputs)
       if (el.hasAttribute('minlength') || el.hasAttribute('maxlength')) {
         maxLength = parseInt(el.getAttribute('maxLength'), 10);

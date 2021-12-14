@@ -150,10 +150,11 @@ class Form {
 
     $html = sprintf('<fieldset class="%s">
       <legend>%s</legend>
-      <div class="group %s">',
+      <div class="group %s %s">',
         implode(' ', $cssClasses), // attach classes to parent for radio/checkbox
         $group['label'],
-        $group['arrangement']
+        $group['arrangement'],
+        $group['validate']
     );
 
     foreach ($controls as $control) {
@@ -468,6 +469,7 @@ class Form {
     $this->_isValid = true;
 
     foreach ($this->_items as $key => $item) {
+      $allchecked = true;
       $control = $item['controls'][0]; // single control or 1st control in group
       $value = $control->value;
       $length = strlen($value);
@@ -482,11 +484,22 @@ class Form {
         $minLength = intval($control->minlength);
       }
 
+      if (
+        isset($_POST[$control->name]) &&
+        $control->type === 'checkbox' &&
+        $item['validate'] === 'all'
+      ) {
+        if (count($_POST[$control->name]) !== count($item['controls'])) {
+          $allchecked = false;
+        }
+      }
+
       if (isSet($control->pattern)) {
         $pattern = preg_replace('@/@', '\/', $control->pattern); // escape '/' chars
       }
 
       if (
+        !$allchecked ||
         ($control->required && !$value) ||
         ($minLength && $length < $minLength) ||
         ($maxLength && $length > $maxLength) ||
@@ -524,41 +537,25 @@ class Form {
    *     [
    *       arrangement {String} - 'inline' or 'stacked'
    *       controls {Array} - Form control instances as an indexed array
-   *       description {String} - explanatory text displayed next to group
+   *       description {String} - explanatory text displayed next to a group
    *       label {String} - <legend> for <fieldset> group
-   *       message {String} - instructions displayed for invalid group
+   *       message {String} - message displayed for an invalid group
+   *       validate {String} - 'some' or 'all' (checkbox groups only)
    *     ]
    */
   public function addGroup ($group) {
-    $arrangement = 'inline'; // default value
     $controls = $group['controls'];
-    $description = '';
     $key = $controls[0]->name; // get shared 'name' attr from 1st control
-    $label = ucfirst($controls[0]->name); // default to 'name' attr
-    $message = '';
+    $defaults = [
+      'arrangement' => 'inline',
+      'description' => '',
+      'label' => ucfirst($key), // default to 'name' attr
+      'message' => '',
+      'validate' => 'some'
+    ];
+    $this->_items[$key] = array_merge($defaults, $group);
 
     $this->_checkParams($controls);
-
-    if (array_key_exists('arrangement', $group)) {
-      $arrangement = $group['arrangement'];
-    }
-    if (array_key_exists('description', $group)) {
-      $description = $group['description'];
-    }
-    if (array_key_exists('label', $group)) {
-      $label = $group['label'];
-    }
-    if (array_key_exists('message', $group)) {
-      $message = $group['message'];
-    }
-
-    $this->_items[$key] = [
-      'arrangement' => $arrangement,
-      'controls' => $controls,
-      'description' => $description,
-      'label' => $label,
-      'message' => $message
-    ];
   }
 
   /**

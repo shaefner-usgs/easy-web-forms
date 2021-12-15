@@ -10,6 +10,7 @@ include_once __DIR__ . '/../conf/config.inc.php';
 
 // Classes
 include_once __DIR__ . '/../lib/classes/Database.class.php';
+include_once __DIR__ . '/../lib/classes/Email.class.php';
 include_once __DIR__ . '/../lib/classes/Form.class.php';
 include_once __DIR__ . '/../lib/classes/Input.class.php';
 include_once __DIR__ . '/../lib/classes/Select.class.php';

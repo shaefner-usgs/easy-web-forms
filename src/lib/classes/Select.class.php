@@ -16,7 +16,7 @@
  *       class {String} - CSS class attached to parent <div>
  *       description {String} - explanatory text displayed next to form control
  *       label {String} - <label> element for control
- *       message {String} - instructions displayed for invalid form control
+ *       message {String} - message displayed for invalid form control
  *       options {Array} - REQUIRED
  *       selected {String} - option selected by default
  */
@@ -61,10 +61,12 @@ class Select {
    */
   private function _checkParams () {
     if (!$this->name) {
-      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all select elements.</p>';
+      print '<p class="error">ERROR: the <em>name</em> attribute is ' .
+        '<strong>required</strong> for all select elements.</p>';
     }
     if (count($this->options) < 1 || !is_array($this->options)) {
-      print '<p class="error">ERROR: <em>options</em> (array) is <strong>required</strong> for all select elements.</p>';
+      print '<p class="error">ERROR: <em>options</em> (array) is ' .
+        '<strong>required</strong> for all select elements.</p>';
     }
 
     // Set id and label if not set during instantiation

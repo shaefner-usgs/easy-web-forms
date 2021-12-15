@@ -29,9 +29,9 @@ include_once 'Form.class.php';
  *
  *       class {String} - CSS class attached to parent <div>
  *       description {String} - explanatory text displayed next to form control
- *       fpOpts {Array} - Flatpickr datetime picker lib
+ *       fpOpts {Array} - options for Flatpickr datetime lib
  *       label {String} - <label> element for control
- *       message {String} - instructions displayed for invalid form control
+ *       message {String} - message displayed for invalid form control
  *       path {String} - full path to file upload directory on server
  */
 class Input {
@@ -68,6 +68,7 @@ class Input {
     $_submittedValue;
 
   private static $_count = 0;
+
   public $isValid = true;
 
   public function __construct (Array $params=[]) {
@@ -75,7 +76,7 @@ class Input {
     $options = array_merge($this->_defaults, $params);
 
     foreach ($options as $key => $value) {
-      if ($key === 'name'&& $options['type'] === 'checkbox') {
+      if ($key === 'name' && $options['type'] === 'checkbox') {
         $value = preg_replace('/(\w+)\[\]$/', '$1', $value); // strip '[]'
       } else if ($key === 'path') {
         $value = rtrim($value, '/'); // strip trailing slash
@@ -200,20 +201,16 @@ class Input {
 
     if ($this->type === 'address') {
       $attrs .= ' data-type="address"';
-    }
-    else if ($this->type === 'datetime') {
+    } else if ($this->type === 'datetime') {
       $attrs .= ' data-type="datetime"';
-    }
-    else if ($this->type === 'file') {
+    } else if ($this->type === 'file') {
       $attrs .= sprintf(' accept="%s"', $this->accept);
-    }
-    else if ($this->type === 'number') {
+    } else if ($this->type === 'number') {
       $attrs .= sprintf(' max="%s" min="%s"',
         $this->max,
         $this->min
       );
-    }
-    else if ($this->type === 'text') {
+    } else if ($this->type === 'text') {
       if ($this->maxlength) {
         $attrs .= sprintf(' maxlength="%s"', $this->maxlength);
       }

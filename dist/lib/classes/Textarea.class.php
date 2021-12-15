@@ -21,7 +21,7 @@
  *       class {String} - CSS class attached to parent <div>
  *       description {String} - explanatory text displayed next to form control
  *       label {String} - <label> element for control
- *       message {String} - instructions displayed for invalid form control
+ *       message {String} - message displayed for invalid form control
  *       value {String} - initial value of <textarea> element
  */
 class Textarea {
@@ -68,7 +68,8 @@ class Textarea {
    */
   private function _checkParams () {
     if (!$this->name) {
-      print '<p class="error">ERROR: the <em>name</em> attribute is <strong>required</strong> for all textarea elements.</p>';
+      print '<p class="error">ERROR: the <em>name</em> attribute is ' .
+        '<strong>required</strong> for all textarea elements.</p>';
     }
 
     // Set id and label if not set during instantiation

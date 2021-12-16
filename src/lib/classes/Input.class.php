@@ -1,7 +1,5 @@
 <?php
 
-include_once 'Form.class.php';
-
 /**
  * Create an <input>.
  *

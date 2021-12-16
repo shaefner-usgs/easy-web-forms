@@ -9,6 +9,7 @@ include_once __DIR__ . '/../dep/Autop.php';
  *
  *     adminEmail {String} - Email address(es) for form submission notifications
  *     emailSubject {String} - Subject of form submission notifications
+ *     emailTemplate {String} - Full path to email template
  *     meta {Array} - Extra fields to include in MySQL database with each submission
  *     mode {String} - SQL mode: 'insert' (default) or 'update'
  *     record {Array} - SQL field name (key) and value of record to update
@@ -22,6 +23,7 @@ class Form {
     $_defaults = [
       'adminEmail' => '',
       'emailSubject' => 'Form submitted',
+      'emailTemplate' => '',
       'meta' => [
         'browser' => false,
         'datetime' => false,
@@ -417,11 +419,6 @@ class Form {
    */
   private function _sendEmail () {
     if ($this->adminEmail) {
-      $headers = [
-        'Content-Type: text/html; charset=utf-8',
-        'From: webmaster@' . $_SERVER['SERVER_NAME'],
-        'MIME-Version: 1.0'
-      ];
       $placeholders = '/\{\{([^}]+)\}\}/';
       $subject = $this->emailSubject;
 
@@ -434,7 +431,15 @@ class Form {
         $subject = preg_replace($pattern, $replacement, $subject);
       }
 
-      mail($this->adminEmail, $subject, $this->_results, implode("\r\n", $headers));
+      $email = new Email([
+        'content' => $this->_results,
+        'from' => 'do-not-reply@' . $_SERVER['SERVER_NAME'],
+        'subject' => $subject,
+        'template' => $this->emailTemplate,
+        'to' => $this->adminEmail
+      ]);
+
+      $email->send();
     }
   }
 

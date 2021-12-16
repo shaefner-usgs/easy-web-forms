@@ -27,7 +27,7 @@
 class Textarea {
   private $_defaults = [
     'class' => '',
-    'cols' => 60,
+    'cols' => null,
     'description' => '',
     'disabled' => false,
     'id' => '',
@@ -95,6 +95,9 @@ class Textarea {
       $attrs .= sprintf(' tabindex="%d"', $tabindex);
     }
 
+    if ($this->cols) {
+      $attrs .= sprintf(' cols="%d"', $this->cols);
+    }
     if ($this->disabled) {
       $attrs .= ' disabled="disabled"';
     }
@@ -165,10 +168,9 @@ class Textarea {
       $description
     );
 
-    $textarea = sprintf('<textarea id="%s" name="%s" cols="%s" rows="%s"%s>%s</textarea>',
+    $textarea = sprintf('<textarea id="%s" name="%s" rows="%s"%s>%s</textarea>',
       $this->id,
       $this->name,
-      $this->cols,
       $this->rows,
       $attrs,
       $this->value

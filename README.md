@@ -392,7 +392,7 @@ $name = new Textarea([
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
-| cols | Integer | 60 | `<textarea>` cols attribute. |
+| cols | Integer | null | `<textarea>` cols attribute. |
 | description | String | '' | Explanatory text displayed next to the form control. Automatically set to number of chars. required if minlength/maxlength is set and this option has not been set. |
 | disabled | Boolean | false | `<textarea>` disabled attribute. |
 | id | String | value of 'name' option | `<textarea>` id attribute. |

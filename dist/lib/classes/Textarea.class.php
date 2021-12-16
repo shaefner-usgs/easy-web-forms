@@ -102,10 +102,10 @@ class Textarea {
       $attrs .= ' disabled="disabled"';
     }
     if ($this->maxlength) {
-      $attrs .= sprintf(' maxlength="%s"', $this->maxlength);
+      $attrs .= sprintf(' maxlength="%d"', $this->maxlength);
     }
     if ($this->minlength) {
-      $attrs .= sprintf(' minlength="%s"', $this->minlength);
+      $attrs .= sprintf(' minlength="%d"', $this->minlength);
     }
     if ($this->placeholder) {
       $attrs .= sprintf(' placeholder="%s"', $this->placeholder);
@@ -168,7 +168,7 @@ class Textarea {
       $description
     );
 
-    $textarea = sprintf('<textarea id="%s" name="%s" rows="%s"%s>%s</textarea>',
+    $textarea = sprintf('<textarea id="%s" name="%s" rows="%d"%s>%s</textarea>',
       $this->id,
       $this->name,
       $this->rows,

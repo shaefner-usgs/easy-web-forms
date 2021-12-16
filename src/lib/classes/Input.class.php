@@ -204,16 +204,16 @@ class Input {
     } else if ($this->type === 'file') {
       $attrs .= sprintf(' accept="%s"', $this->accept);
     } else if ($this->type === 'number') {
-      $attrs .= sprintf(' max="%s" min="%s"',
+      $attrs .= sprintf(' max="%d" min="%d"',
         $this->max,
         $this->min
       );
     } else if ($this->type === 'text') {
       if ($this->maxlength) {
-        $attrs .= sprintf(' maxlength="%s"', $this->maxlength);
+        $attrs .= sprintf(' maxlength="%d"', $this->maxlength);
       }
       if ($this->minlength) {
-        $attrs .= sprintf(' minlength="%s"', $this->minlength);
+        $attrs .= sprintf(' minlength="%d"', $this->minlength);
       }
     }
 

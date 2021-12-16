@@ -556,9 +556,13 @@ class Form {
       'description' => '',
       'label' => ucfirst($key), // default to 'name' attr
       'message' => '',
-      'separator' => ', ',
-      'validate' => 'some'
+      'separator' => ', '
     ];
+
+    if ($controls[0]->type === 'checkbox') {
+      $defaults['validate'] = 'all';
+    }
+
     $this->_items[$key] = array_merge($defaults, $group);
 
     $this->_checkParams($controls);

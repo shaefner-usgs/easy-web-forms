@@ -207,7 +207,7 @@ $form = new Form([
 | label | String | 'name' attribute value of [`<Control>`](#form-controls)s in group. | `<legend>` for `<fieldset>` group. |
 | message | String | '' | Message shown when one or more form controls in a group are invalid. |
 | separator | String | ', ' | String used to separate user-selected options from a checkbox group in the summary results. |
-| validate | String | 'some' | Validation scope for a required checkbox group: 'some' or 'all'. |
+| validate | String | 'all' | Validation scope for a required checkbox group: 'some' or 'all'. |
 
 Options in **bold** are required.
 

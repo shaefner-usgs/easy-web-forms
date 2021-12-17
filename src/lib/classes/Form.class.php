@@ -545,6 +545,7 @@ class Form {
    *       description {String} - explanatory text displayed next to a group
    *       label {String} - <legend> for <fieldset> group
    *       message {String} - message displayed for an invalid group
+   *       separator {String} - concatenates selected checkbox values in results
    *       validate {String} - 'some' or 'all' (checkbox groups only)
    *     ]
    */
@@ -553,6 +554,7 @@ class Form {
     $key = $controls[0]->name; // get shared 'name' attr from 1st control
     $defaults = [
       'arrangement' => 'inline',
+      'controls' => [],
       'description' => '',
       'label' => ucfirst($key), // default to 'name' attr
       'message' => '',

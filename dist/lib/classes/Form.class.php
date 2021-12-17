@@ -192,7 +192,7 @@ class Form {
       $controls = $item['controls'];
       $control = $controls[0]; // single control or 1st control in group
 
-      if (count($controls) > 1) { // radio/checkbox group
+      if ($control->type === 'checkbox' || $control->type === 'radio') {
         $controlsHtml .= $this->_getControlGroupHtml($item);
       } else {
         if ($control->type === 'hidden') {
@@ -352,7 +352,7 @@ class Form {
             $this->_isValid = false; // form
           };
         }
-      } else if (count($controls) > 1) { // radio/checkbox group
+      } else if ($control->type === 'checkbox' || $control->type === 'radio') {
         $sqlValue = $control->value; // get value from 1st control in group
         $values = [];
 

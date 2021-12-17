@@ -202,7 +202,7 @@ $form = new Form([
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
 | arrangement | String | 'inline' | Form control (radio/checkbox) layout: 'inline' or 'stacked'. |
-| **controls** | Array | [] | Indexed array of [`<Control>`](#form-controls)s. |
+| **controls** | Array | [] | Indexed array of [`<Control>`](#form-controls)s or a single checkbox control. |
 | description | String | '' | Explanatory text displayed next to the form control group. |
 | label | String | 'name' attribute value of [`<Control>`](#form-controls)s in group. | `<legend>` for `<fieldset>` group. |
 | message | String | '' | Message shown when one or more form controls in a group are invalid. |

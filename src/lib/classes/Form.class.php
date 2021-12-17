@@ -558,7 +558,8 @@ class Form {
       'description' => '',
       'label' => ucfirst($key), // default to 'name' attr
       'message' => '',
-      'separator' => ', '
+      'separator' => ', ',
+      'validate' => null
     ];
 
     if ($controls[0]->type === 'checkbox') {

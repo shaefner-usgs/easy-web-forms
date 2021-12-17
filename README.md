@@ -20,7 +20,7 @@ If you just want to use this library to create a web-based form, all the necessa
     include_once '../lib/index.inc.php';
     ```
 
-    Include this line first before any other content on the web page. Be certain to set configuration parameters for your environment in conf/config.inc.php.
+    Include this line first before any other content on the web page. Be certain to **set configuration parameters** for your environment in conf/config.inc.php.
 
     ```html
     <link rel="stylesheet" href="css/index.css" />
@@ -60,11 +60,11 @@ If you just want to use this library to create a web-based form, all the necessa
 
     $form->addControl($name);
     $form->addGroup([
-        controls => [
+        'controls' => [
             $male,
             $female
         ],
-        label => 'Gender'
+        'label' => 'Gender'
     ]);
     ```
 
@@ -78,15 +78,15 @@ See [example.php](src/htdocs/example.php) for additional details.
 
 ### MySQL
 
-Create a MySQL table on the server with field names that correspond to the name attribute of each form control/group you add. Additional fields are needed to store optional [metadata](#options) for each record if you enable metadata:
+Create a MySQL table on the server with field names that correspond to the name attribute of each form control/group that you add. Additional fields are needed to store optional [metadata](#options) for each record if enabled:
 
+* browser (Type VARCHAR)
 * datetime (Type DATETIME)
 * ip (Type VARCHAR)
-* browser (Type VARCHAR)
 
 No metadata fields are included by default. Adding an auto-incrementing 'id' field is recommended.
 
-It is recommended to set the MySQL encoding to utf8mb4 for the database, table and fields to accommodate all characters and symbols.
+It is recommended to set the MySQL encoding to 'utf8mb4' for the database, table and fields to accommodate all characters and symbols.
 
 ## Building/Compiling
 
@@ -102,7 +102,7 @@ If you want to make modifications to the library, you will need to build/compile
 
     Preview files in src/htdocs at http://localhost:9200/. While grunt is running, live reload automatically runs the build process and refreshes your browser when you save changes.
 
-2. **Compile** the CSS and JavaScript:
+2. **Compile** the CSS and JavaScript and **copy** the PHP files:
 
     `grunt dist`
 
@@ -136,7 +136,7 @@ To override built-in pattern matching, set a custom 'pattern' attribute when you
 
 ## Inline Content
 
-To render additional HTML content associated with a form control next to the control, include the ancillary content inside a `<div>` with the class 'form-meta' and set the ancillary content's class to the 'name' value of the form control. For example:
+To render additional HTML content associated with a form control next to the control (e.g. an image preview for a 'file' type `<input`), include the ancillary content inside a `<div>` with the class 'form-meta' and set the ancillary content's 'class' to the 'name' value of the form control. For example:
 
 ```html
 <div class="form-meta">
@@ -144,7 +144,9 @@ To render additional HTML content associated with a form control next to the con
 </div>
 ```
 
-This also works for adding inline content to the results following form submission. The content is moved into place (via javascript) when the form/results are rendered. Note: Form's [isPosting()](#is-posting) and [isValid()](#is-valid) methods might be useful for controlling when the content is displayed.
+This also works for adding inline content to the results summary following form submission. Ancillary content is moved into place in the DOM (via javascript) when the form/summary is rendered. 
+
+Note: Form's [isPosting()](#is-posting) and [isValid()](#is-valid) methods might be useful for controlling when ancillary content is displayed.
 
 ## Security
 
@@ -176,37 +178,37 @@ $form = new Form([
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
-| adminEmail | String | '' | If supplied, the email address where a summary of user-entered data is sent when the form is submitted successfully. Comma separate multiple addresses. |
-| emailSubject | String | 'Form submitted' | Subject of form submission email notification sent to admin. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the name attribute values of the form fields. |
-| emailTemplate | String | '' | Full path to a file containing an email template with a {{content}} placeholder where submitted results will be inserted. |
+| adminEmail | String | '' | If supplied, the email address(es) where the results summary is sent upon successful form submission. Comma separate multiple addresses. |
+| emailSubject | String | 'Form submitted' | Subject of the form submission email notification. Use [mustache templates](https://mustache.github.io) to include form field data entered by user. **Example**: Form submitted by {{fname}} {{lname}}, where 'fname' and 'lname' are the 'name' attribute values of the form fields. |
+| emailTemplate | String | '' | Full path to a file containing an email template with a {{content}} placeholder where the results summary will be inserted. |
 | meta | Array | ['browser' => false, 'datetime' => false, 'ip' => false] | Associative array of metadata fields to include in each database record. None are included by default. |
 | mode | String | 'insert' | SQL mode: 'insert' or 'update'. |
-| record | Array | [] | Associative array containing details of the record to update. The array key is the SQL field's name, typically an 'id'; the array value is the corresponding field's unique value. The 'mode' option must be set to 'update'. |
+| record | Array | [] | Associative array containing details of the MySQL record to update. The array key is the SQL field's name, typically an 'id'; the array value is the corresponding field's unique value. The 'mode' option must be set to 'update'. |
 | submitButtonText | String | 'Submit' | Submit button's text value. |
 | successMsg | String | 'Thank you for your input.' | Message shown to user upon successful form submission. |
-| table | String | '' | Name of MySQL table to insert records into. Overrides table name supplied in conf/config.inc.php |
+| table | String | '' | Name of MySQL table to insert records into. Overrides the table name supplied in conf/config.inc.php |
 
 #### Methods
 
 | Method | Returns | Description |
 | ------ | ------ | ------ |
-| addControl([`<Control>`](#form-controls) control) | null | Adds the given control to the form. Form controls are rendered in the order added. |
+| addControl([`<Control>`](#form-controls) control) | null | Adds the given control to the form. Form controls are rendered/processed in the order added. |
 | addGroup([`<addGroup options>`](#addGroup-options) options) | null | Adds the given radio/checkbox group of controls to the form. Form controls are rendered/processed in the order added. |
-| getResults() | String | Gets a summary of the results (as an HTML definition list) upon successful form submission. |
+| getResults() | String | Gets a summary of the results (as an HTML definition list) after successful form submission. |
 | <a id="is-posting"></a>isPosting() | Boolean | Checks if the form is being submitted. |
-| <a id="is-valid"></a>isValid() | Boolean | Checks if the form passed server-side validation after submitting. |
-| render() | null | Displays either the form or the results if submitting. |
+| <a id="is-valid"></a>isValid() | Boolean | Checks if the form passed server-side validation after submission. |
+| render() | null | Displays either the form or the results upon successful form submission. |
 
 <a id="addGroup-options"></a>
-#### addGroup options
+#### addGroup Options
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
 | arrangement | String | 'inline' | Form control (radio/checkbox) layout: 'inline' or 'stacked'. |
 | **controls** | Array | [] | Indexed array of [`<Control>`](#form-controls)s or a single checkbox control. |
-| description | String | '' | Explanatory text displayed next to the form control group. |
+| description | String | '' | Text content displayed below the form control group. |
 | label | String | 'name' attribute value of [`<Control>`](#form-controls)s in group. | `<legend>` for `<fieldset>` group. |
-| message | String | '' | Message shown when one or more form controls in a group are invalid. |
+| message | String | '' | Text content shown when one or more form controls in a group are invalid. |
 | separator | String | ', ' | String used to separate user-selected options from a checkbox group in the summary results. |
 | validate | String | 'all' | Validation scope for a required checkbox group: 'some' or 'all'. |
 
@@ -240,19 +242,19 @@ $name = new Input([
 | accept | String | 'image/png, image/jpeg' | `<input>` accept attribute. |
 | checked | Boolean | false | `<input>` checked attribute. |
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
-| description | String | '' | Explanatory text displayed next to the form control. Automatically set to the number of chars. required if minlength/maxlength are set and this option has not been set. |
+| description | String | '' | Text content displayed below the form control. Automatically set to the number of chars. required if 'minlength'/'maxlength' are set and this option has not been set. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
 | fpOpts | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for 'datetime' type `<input>` controls. |
 | *id* | String | value of 'name' option | `<input>` id attribute. |
 | inputmode | String | '' | `<input>` inputmode attribute. |
-| label | String | '' | `<label>` for `<input>`. If provided, the value is displayed above the form control/group. Otherwise, the value of the name attribute is displayed. |
+| label | String | '' | `<label>` for `<input>`. If provided, the value is displayed above the form control/group. Otherwise, the value of the 'name' option is displayed. |
 | max | Integer | null | `<input>` max attribute. |
 | maxlength | Integer | null | `<input>` maxlength attribute. |
-| message | String | 'Please provide a valid {{label}}' | Message shown when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's `<label>` or `<name>` into the message. If you set minlength/maxlength values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |
+| message | String | 'Please provide a valid {{label}}' | Text content shown when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's 'label' or 'name' into the message. If you set 'minlength'/'maxlength' values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |
 | min | Integer | null | `<input>` min attribute. |
 | minlength | Integer | null | `<input>` minlength attribute. |
 | **name** | String | '' | `<input>` name attribute. |
-| path | String | '' | Full (absolute) path to the file upload directory on the server for 'file' type `<input>` controls (a trailing slash is optional). If this option omitted, the uploaded file will not be saved. |
+| path | String | '' | Full (absolute) path to the file upload directory on the server for 'file' type `<input>` controls (a trailing slash is optional). If this option is omitted, the uploaded file will not be saved. |
 | pattern | RegExp | '' | `<input>` pattern attribute. **Note:** Do not include delimiters around the pattern text. |
 | placeholder | String | '' | `<input>` placeholder attribute. |
 | readonly | Boolean | false | `<input>` readonly attribute. |
@@ -278,7 +280,7 @@ Some types have added functionality:
 
 * **file**
 
-  If the 'path' option is set, the file will be uploaded to the given path and renamed using a timestamp and the original file extension (to ensure all uploaded files have a unique name). The new filename is stored in the database. If the user selects an image, a preview will be rendered inline next to the form control. The default 'description' option is set to '.jpg or .png'. The default 'message' option is set to 'Please choose a file'. Set the 'accept' option to allow file types other than .jpg and .png. 
+  If the 'path' option is set, the file will be uploaded to the given path and renamed using a timestamp and the original file extension (to ensure all uploaded files have a unique name). This new filename is stored in the database. If the user selects an image, a preview will be rendered inline next to the form control. The default 'description' option is set to '.jpg or .png'. The default 'message' option is set to 'Please choose a file'. Set the 'accept' option to allow file types other than .jpg and .png. 
   
   If necessary, you can further process uploaded files in the calling PHP script **after** rendering the form:
 
@@ -307,7 +309,7 @@ In addition, the following non-standard **custom types** are also supported:
 
 * **address**
 
-  Creates a single field for entering a street address with autocomplete suggestions as you type. You will need to create the following extra fields in the database table to store the constituent values, which are set in hidden `<input>` fields on the web page: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. This functionality utilizes a 3rd-party library called [PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/), and it requires a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php.
+  Creates a single field for entering a street address with autocomplete suggestions as you type. You will need to create the following extra fields in the database table to store the constituent values, which are stored in hidden `<input>` fields: 'city', 'countryCode', 'latlng', 'postalCode', 'state', 'street'. This functionality utilizes a 3rd-party library called [PlaceSearch.js](https://developer.mapquest.com/documentation/place-search-js/v1.0/), and it requires a [MapQuest API key](https://developer.mapquest.com), which you set in conf/config.inc.php.
 
 * **datetime**
 
@@ -352,13 +354,13 @@ $name = new Select([
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
-| description | String | '' | Explanatory text displayed next to the form control. |
+| description | String | '' | Text content displayed below the form control. |
 | disabled | Boolean | false | `<select>` disabled attribute. |
 | id | String | value of 'name' option | `<select>` id attribute. |
-| label | String | '' | `<label>` for `<select>`. If provided, the value is displayed above the form control. Otherwise, the value of the name attribute is displayed. |
-| message | String | 'Please select an option from the menu' | Message shown when the form control is invalid. |
+| label | String | '' | `<label>` for `<select>`. If provided, the value is displayed above the form control. Otherwise, the value of the 'name' option is displayed. |
+| message | String | 'Please select an option from the menu' | Text content shown when the form control is invalid. |
 | **name** | String | '' | `<select>` name attribute. |
-| **options** | Array | [] | Associative array of choices in the select menu. The array key is the data value sent to the server when that option is selected; the array value is the text that is shown in each of the menu choices. |
+| **options** | Array | [] | Associative array of choices in the `<select>` menu. The array key is the data value sent to the server when that option is selected; the array value is the text that is shown in each of the menu choices. |
 | required | Boolean | false | `<select>` required attribute. |
 | selected | String | '' | `<option>` selected attribute. Set the value to the array key of the option to be selected by default when page loads. |
 
@@ -394,13 +396,13 @@ $name = new Textarea([
 | ------ | ------ | ------ | ------ |
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
 | cols | Integer | null | `<textarea>` cols attribute. |
-| description | String | '' | Explanatory text displayed next to the form control. Automatically set to number of chars. required if minlength/maxlength is set and this option has not been set. |
+| description | String | '' | Text content displayed below the form control. Automatically set to number of chars. required if 'minlength'/'maxlength' is set and this option has not been set. |
 | disabled | Boolean | false | `<textarea>` disabled attribute. |
 | id | String | value of 'name' option | `<textarea>` id attribute. |
-| label | String | '' | `<label>` for `<textarea>`. If provided, the value is displayed above the form control. Otherwise, the value of the name attribute is displayed. |
+| label | String | '' | `<label>` for `<textarea>`. If provided, the value is displayed above the form control. Otherwise, the value of the 'name' option is displayed. |
 | maxlength | Integer | null | `<textarea>` maxlength attribute. |
 | minlength | Integer | null | `<textarea>` minlength attribute. |
-| message | String | 'Please provide a valid response' | Message shown when the form control is invalid. If you set minlength/maxlength values, and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |
+| message | String | 'Please provide a valid response' | Text content shown when the form control is invalid. If you set 'minlength'/'maxlength' values, and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |
 | **name** | String | '' | `<textarea>` name attribute. |
 | placeholder | String | '' | `<textarea>` placeholder attribute. |
 | required | Boolean | false | `<textarea>` required attribute. |

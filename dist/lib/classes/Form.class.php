@@ -54,7 +54,7 @@ class Form {
    * Add hidden input fields for storing constituent values of an address.
    * (javascript populates these values from MapQuest's PlaceSearch.js json)
    */
-  private function _addHiddenFields () {
+  private function _addAddressFields () {
     $fieldNames = [
       'city',
       'countryCode',
@@ -531,7 +531,7 @@ class Form {
     ];
 
     if ($control->type === 'address') {
-      $this->_addHiddenFields();
+      $this->_addAddressFields();
     }
   }
 

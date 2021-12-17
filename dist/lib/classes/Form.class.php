@@ -474,7 +474,7 @@ class Form {
     $this->_isValid = true;
 
     foreach ($this->_items as $key => $item) {
-      $allchecked = true;
+      $allchecked = true; // only relevant if 'validate' is set to 'all'
       $control = $item['controls'][0]; // single control or 1st control in group
       $value = $control->value;
       $length = strlen($value);
@@ -504,8 +504,7 @@ class Form {
       }
 
       if (
-        !$allchecked ||
-        ($control->required && !$value) ||
+        ($control->required && (!$value || !$allchecked)) ||
         ($minLength && $length < $minLength) ||
         ($maxLength && $length > $maxLength) ||
         ($pattern && !preg_match("/$pattern/", $value) && $value)

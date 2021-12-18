@@ -242,7 +242,7 @@ $name = new Input([
 | accept | String | 'image/png, image/jpeg' | `<input>` accept attribute. |
 | checked | Boolean | false | `<input>` checked attribute. |
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
-| description | String | '' | Text content displayed below the form control. Automatically set to the number of chars. required if 'minlength'/'maxlength' are set and this option has not been set. Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
+| description | String | '' | Text content displayed below the form control. Automatically set to the number of chars. required if 'minlength'/'maxlength' are set and this option has not been set. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
 | fpOpts | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for 'datetime' type `<input>` controls. |
 | *id* | String | value of 'name' option | `<input>` id attribute. |
@@ -250,7 +250,7 @@ $name = new Input([
 | label | String | '' | `<label>` for `<input>`. If provided, the value is displayed above the form control/group. Otherwise, the value of the 'name' option is displayed. |
 | max | Integer | null | `<input>` max attribute. |
 | maxlength | Integer | null | `<input>` maxlength attribute. |
-| message | String | 'Please provide a valid {{label}}' | Text content shown when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's 'label' or 'name' into the message. If you set 'minlength'/'maxlength' values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
+| message | String | 'Please provide a valid {{label}}' | Text content shown when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's 'label' or 'name' into the message. If you set 'minlength'/'maxlength' values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | min | Integer | null | `<input>` min attribute. |
 | minlength | Integer | null | `<input>` minlength attribute. |
 | **name** | String | '' | `<input>` name attribute. |

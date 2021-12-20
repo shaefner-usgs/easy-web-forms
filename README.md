@@ -206,9 +206,9 @@ $form = new Form([
 | ------ | ------ | ------ | ------ |
 | arrangement | String | 'inline' | Form control (radio/checkbox) layout: 'inline' or 'stacked'. |
 | **controls** | Array | [] | Indexed array of [control](#form-controls)s or a single checkbox control. |
-| description | String | '' | Text content displayed below the form control group. |
+| description | String | '' | Text content that is displayed below the form control group. |
 | label | String | 'name' attribute value of controls in group. | `<legend>` for `<fieldset>` group. |
-| message | String | '' | Text content shown when one or more form controls in a group are invalid. |
+| message | String | '' | Text content that is displayed when one or more form controls in a group are invalid. |
 | separator | String | ', ' | String used to separate user-selected options from a checkbox group in the summary results. |
 | validate | String | 'all' | Validation scope for a required checkbox group: 'some' or 'all'. |
 
@@ -242,15 +242,15 @@ $name = new Input([
 | accept | String | 'image/png, image/jpeg' | `<input>` accept attribute. |
 | checked | Boolean | false | `<input>` checked attribute. |
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
-| description | String | '' | Text content displayed below the form control. Automatically set to the number of chars. required if 'minlength'/'maxlength' are set and this option has not been set. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
+| description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. Automatically set to the number of chars. required if 'minlength'/'maxlength' are set and this option has not been set. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
 | fpOpts | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for 'datetime' type `<input>` controls. |
 | *id* | String | value of 'name' option | `<input>` id attribute. |
 | inputmode | String | '' | `<input>` inputmode attribute. |
-| label | String | '' | `<label>` for `<input>`. If provided, the value is displayed above the form control/group. Otherwise, the value of the 'name' option is displayed. |
+| label | String | '' | `<label>` for `<input>`. If provided, text header that is displayed above the form control (or next to it for radio/checkbox controls). Otherwise, the value of the 'name' option is displayed. |
 | max | Integer | null | `<input>` max attribute. |
 | maxlength | Integer | null | `<input>` maxlength attribute. |
-| message | String | 'Please provide a valid {{label}}' | Text content shown when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's 'label' or 'name' into the message. If you set 'minlength'/'maxlength' values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
+| message | String | 'Please provide a valid {{label}}' | Text content that is displayed when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's 'label' or 'name' into the message. If you set 'minlength'/'maxlength' values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | min | Integer | null | `<input>` min attribute. |
 | minlength | Integer | null | `<input>` minlength attribute. |
 | **name** | String | '' | `<input>` name attribute. |
@@ -354,11 +354,11 @@ $name = new Select([
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
-| description | String | '' | Text content displayed below the form control. |
+| description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. |
 | disabled | Boolean | false | `<select>` disabled attribute. |
 | id | String | value of 'name' option | `<select>` id attribute. |
-| label | String | '' | `<label>` for `<select>`. If provided, the value is displayed above the form control. Otherwise, the value of the 'name' option is displayed. |
-| message | String | 'Please select an option from the menu' | Text content shown when the form control is invalid. |
+| label | String | '' | `<label>` for `<select>`. If provided, text header that is displayed above the form control. Otherwise, the value of the 'name' option is displayed. |
+| message | String | 'Please select an option from the menu' | Text content that is displayed when the form control is invalid. |
 | **name** | String | '' | `<select>` name attribute. |
 | **options** | Array | [] | Associative array of choices in the `<select>` menu. The array key is the data value sent to the server when that option is selected; the array value is the text that is shown in each of the menu choices. |
 | required | Boolean | false | `<select>` required attribute. |
@@ -396,12 +396,12 @@ $name = new Textarea([
 | ------ | ------ | ------ | ------ |
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
 | cols | Integer | null | `<textarea>` cols attribute. |
-| description | String | '' | Text content displayed below the form control. Automatically set to number of chars. required if 'minlength'/'maxlength' is set and this option has not been set. |
+| description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. Automatically set to number of chars. required if 'minlength'/'maxlength' is set and this option has not been set. |
 | disabled | Boolean | false | `<textarea>` disabled attribute. |
 | id | String | value of 'name' option | `<textarea>` id attribute. |
-| label | String | '' | `<label>` for `<textarea>`. If provided, the value is displayed above the form control. Otherwise, the value of the 'name' option is displayed. |
+| label | String | '' | `<label>` for `<textarea>`. If provided, text header that is displayed above the form control. Otherwise, the value of the 'name' option is displayed. |
 | maxlength | Integer | null | `<textarea>` maxlength attribute. |
-| message | String | 'Please provide a valid response' | Text content shown when the form control is invalid. If you set 'minlength'/'maxlength' values, and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |
+| message | String | 'Please provide a valid response' | Text content that is displayed when the form control is invalid. If you set 'minlength'/'maxlength' values, and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. |
 | minlength | Integer | null | `<textarea>` minlength attribute. |
 | **name** | String | '' | `<textarea>` name attribute. |
 | placeholder | String | '' | `<textarea>` placeholder attribute. |

@@ -141,6 +141,7 @@ class Form {
   private function _getControlGroupHtml ($group) {
     $controls = $group['controls'];
     $cssClasses = [];
+    $explanation = '';
 
     // Only need to check 1st control in each group
     if (!$controls[0]->isValid) {
@@ -150,11 +151,18 @@ class Form {
       $cssClasses[] = 'required';
     }
 
+    if ($group['explanation']) {
+      $explanation = \Xmeltrut\Autop\Autop::format($group['explanation']);
+      $explanation = str_replace('<p>', '<p class="explanation">', $explanation);
+    }
+
     $html = sprintf('<fieldset class="%s">
       <legend>%s</legend>
+      %s
       <div class="group %s %s">',
         implode(' ', $cssClasses), // attach classes to parent for radio/checkbox
         $group['label'],
+        $explanation,
         $group['arrangement'],
         $group['validate']
     );
@@ -541,9 +549,10 @@ class Form {
    *     [
    *       arrangement {String} - 'inline' or 'stacked'
    *       controls {Array} - Form control instances as an indexed array
-   *       description {String} - explanatory text displayed next to a group
+   *       description {String} - text displayed below a group
+   *       explanation {String} - text displayed above a group
    *       label {String} - <legend> for <fieldset> group
-   *       message {String} - message displayed for an invalid group
+   *       message {String} - text displayed when a group is invalid
    *       separator {String} - concatenates selected checkbox values in results
    *       validate {String} - 'some' or 'all' (checkbox groups only)
    *     ]
@@ -555,6 +564,7 @@ class Form {
       'arrangement' => 'inline',
       'controls' => [],
       'description' => '',
+      'explanation' => '',
       'label' => ucfirst($key), // default to 'name' attr
       'message' => '',
       'separator' => ', ',
@@ -571,7 +581,7 @@ class Form {
   }
 
   /**
-   * Get message about req'd number of chars. if applicable
+   * Get message about req'd number of chars. if applicable.
    *
    * @param $min {Number}
    * @param $max {Number}

@@ -1,5 +1,7 @@
 <?php
 
+include_once __DIR__ . '/../dep/Autop.php';
+
 /**
  * Create a <textarea>.
  *
@@ -19,9 +21,10 @@
  *     other properties:
  *
  *       class {String} - CSS class attached to parent <div>
- *       description {String} - explanatory text displayed next to form control
+ *       description {String} - text displayed below a form control
+ *       explanation {String} - text displayed above a form control
  *       label {String} - <label> element for control
- *       message {String} - message displayed for invalid form control
+ *       message {String} - text displayed when a form control is invalid
  *       value {String} - initial value of <textarea> element
  */
 class Textarea {
@@ -30,6 +33,7 @@ class Textarea {
     'cols' => null,
     'description' => '',
     'disabled' => false,
+    'explanation' => '',
     'id' => '',
     'label' => '',
     'maxlength' => null,
@@ -146,6 +150,7 @@ class Textarea {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
     $description = $this->description;
+    $explanation = '';
     $label = sprintf('<label for="%s">%s</label>',
       $this->id,
       $this->label
@@ -156,6 +161,11 @@ class Textarea {
     // If no custom description was set, default to showing min/max-length requirements
     if (!$description && $lengthMsg) {
       $description = $lengthMsg;
+    }
+
+    if ($this->explanation) {
+      $explanation = \Xmeltrut\Autop\Autop::format($this->explanation);
+      $explanation = str_replace('<p>', '<p class="explanation">', $explanation);
     }
 
     // If no custom message was set, append min/max-length requirements
@@ -176,10 +186,11 @@ class Textarea {
       $this->value
     );
 
-    $html = sprintf('<div class="%s">%s%s%s</div>',
+    $html = sprintf('<div class="%s">%s%s%s%s</div>',
       implode(' ', $cssClasses),
       $info,
       $textarea,
+      $explanation,
       $label
     );
 

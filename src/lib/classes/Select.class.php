@@ -1,5 +1,7 @@
 <?php
 
+include_once __DIR__ . '/../dep/Autop.php';
+
 /**
  * Create a <select>.
  *
@@ -14,9 +16,10 @@
  *     other properties:
  *
  *       class {String} - CSS class attached to parent <div>
- *       description {String} - explanatory text displayed next to form control
+ *       description {String} - text displayed below a form control
+ *       explanation {String} - text displayed above a form control
  *       label {String} - <label> element for control
- *       message {String} - message displayed for invalid form control
+ *       message {String} - text displayed when a form control is invalid
  *       options {Array} - REQUIRED
  *       selected {String} - option selected by default
  */
@@ -25,6 +28,7 @@ class Select {
     'class' => '',
     'description' => '',
     'disabled' => false,
+    'explanation' => '',
     'id' => '',
     'label' => '',
     'message' => 'Please select an option from the menu',
@@ -134,11 +138,17 @@ class Select {
       $this->message,
       $this->description
     );
+    $explanation = '';
     $label = sprintf('<label for="%s">%s</label>',
       $this->id,
       $this->label
     );
     $options = '';
+
+    if ($this->explanation) {
+      $explanation = \Xmeltrut\Autop\Autop::format($this->explanation);
+      $explanation = str_replace('<p>', '<p class="explanation">', $explanation);
+    }
 
     foreach ($this->options as $key => $value) {
       $optionAttrs = '';
@@ -171,10 +181,11 @@ class Select {
       $options
     );
 
-    $html = sprintf('<div class="%s">%s%s%s</div>',
+    $html = sprintf('<div class="%s">%s%s%s%s</div>',
       implode(' ', $cssClasses),
       $description,
       $select,
+      $explanation,
       $label
     );
 

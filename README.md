@@ -207,7 +207,8 @@ $form = new Form([
 | arrangement | String | 'inline' | Form control (radio/checkbox) layout: 'inline' or 'stacked'. |
 | **controls** | Array | [] | Indexed array of [control](#form-controls)s or a single checkbox control. |
 | description | String | '' | Text content that is displayed below the form control group. |
-| label | String | 'name' attribute value of controls in group. | `<legend>` for `<fieldset>` group. |
+| explanation | String | '' | Text content that is displayed above the form control group. |
+| label | String | 'name' attribute value of controls in group. | `<legend>` for the `<fieldset>` group. |
 | message | String | '' | Text content that is displayed when one or more form controls in a group are invalid. |
 | separator | String | ', ' | String used to separate user-selected options from a checkbox group in the summary results. |
 | validate | String | 'all' | Validation scope for a required checkbox group: 'some' or 'all'. |
@@ -244,6 +245,7 @@ $name = new Input([
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
 | description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. Automatically set to the number of chars. required if 'minlength'/'maxlength' are set and this option has not been set. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
+| explanation | String | '' | Text content that is displayed above the form control. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | fpOpts | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for 'datetime' type `<input>` controls. |
 | *id* | String | value of 'name' option | `<input>` id attribute. |
 | inputmode | String | '' | `<input>` inputmode attribute. |
@@ -356,6 +358,7 @@ $name = new Select([
 | class | String | '' | CSS class attached to the form control's parent `<div>`. |
 | description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. |
 | disabled | Boolean | false | `<select>` disabled attribute. |
+| explanation | String | '' | Text content that is displayed above the form control. |
 | id | String | value of 'name' option | `<select>` id attribute. |
 | label | String | '' | `<label>` for `<select>`. If provided, text header that is displayed above the form control. Otherwise, the value of the 'name' option is displayed. |
 | message | String | 'Please select an option from the menu' | Text content that is displayed when the form control is invalid. |
@@ -398,6 +401,7 @@ $name = new Textarea([
 | cols | Integer | null | `<textarea>` cols attribute. |
 | description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. Automatically set to number of chars. required if 'minlength'/'maxlength' is set and this option has not been set. |
 | disabled | Boolean | false | `<textarea>` disabled attribute. |
+| explanation | String | '' | Text content that is displayed above the form control. |
 | id | String | value of 'name' option | `<textarea>` id attribute. |
 | label | String | '' | `<label>` for `<textarea>`. If provided, text header that is displayed above the form control. Otherwise, the value of the 'name' option is displayed. |
 | maxlength | Integer | null | `<textarea>` maxlength attribute. |

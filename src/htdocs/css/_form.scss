@@ -112,11 +112,14 @@ div.form {
     height: auto;
   }
 
-  .description {
+  .description, .explanation {
     color: $gray-900;
     font-size: 15px;
     line-height: 1.6;
     margin: .2em 0 0;
+  }
+  .explanation {
+    margin-bottom: .75em;
   }
 
   .group {

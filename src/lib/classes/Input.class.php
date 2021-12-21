@@ -1,5 +1,7 @@
 <?php
 
+include_once __DIR__ . '/../dep/Autop.php';
+
 /**
  * Create an <input>.
  *
@@ -26,10 +28,11 @@
  *     other (custom) properties:
  *
  *       class {String} - CSS class attached to parent <div>
- *       description {String} - explanatory text displayed next to form control
+ *       description {String} - text displayed below (or next to a radio/checkbox) a form control
+ *       explanation {String} - text displayed above a form control
  *       fpOpts {Array} - options for Flatpickr datetime lib
  *       label {String} - <label> element for control
- *       message {String} - message displayed for invalid form control
+ *       message {String} - text displayed when a form control is invalid
  *       path {String} - full path to file upload directory on server
  */
 class Input {
@@ -39,6 +42,7 @@ class Input {
       'class' => '',
       'description' => '',
       'disabled' => false,
+      'explanation' => '',
       'fpOpts' => [],
       'id' => '',
       'inputmode' => '',
@@ -115,10 +119,14 @@ class Input {
       }
     }
 
-    // Alert user to set message/description when adding radio/checkbox group to form
+    // Alert user to set description/explanation/message when adding radio/checkbox group to form
     if ($this->_isCheckboxOrRadio) {
-      if (isSet($params['description']) || isSet($params['message'])) {
-        printf ('<p class="error">ERROR: the <em>description</em> and <em>message</em> properties must be set when adding a radio/checkbox group (%s), using Form&rsquo;s addGroup() method.',
+      if (
+        isSet($params['description']) ||
+        isSet($params['explanation']) ||
+        isSet($params['message'])
+      ) {
+        printf ('<p class="error">ERROR: the <em>description</em>, <em>explanation</em> and <em>message</em> properties must be set when adding a radio/checkbox group (%s), using Form&rsquo;s addGroup() method.',
           $this->name
         );
       }
@@ -357,6 +365,7 @@ class Input {
     $attrs = $this->_getAttrs($tabindex);
     $cssClasses = $this->_getCssClasses();
     $description = $this->description;
+    $explanation = '';
     $input = '';
     $label = sprintf('<label for="%s">%s</label>',
       $this->id,
@@ -371,6 +380,11 @@ class Input {
     // If no custom description was set, default to showing min/max-length requirements
     if (!$description && $lengthMsg) {
       $description = $lengthMsg;
+    }
+
+    if ($this->explanation) {
+      $explanation = \Xmeltrut\Autop\Autop::format($this->explanation);
+      $explanation = str_replace('<p>', '<p class="explanation">', $explanation);
     }
 
     // If no custom message was set, append min/max-length requirements
@@ -422,10 +436,11 @@ class Input {
     if ($this->type === 'hidden') {
       $html = $input; // only include input tag for hidden fields
     } else {
-      $html = sprintf('<div class="%s">%s%s%s</div>',
+      $html = sprintf('<div class="%s">%s%s%s%s</div>',
         implode(' ', $cssClasses),
         $info,
         $input,
+        $explanation,
         $label
       );
 

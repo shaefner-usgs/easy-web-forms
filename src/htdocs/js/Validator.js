@@ -18,105 +18,126 @@ var Validator = function (options) {
   var _this,
       _initialize,
 
-      _allControls,
       _form,
-      _inputs,
-      _selects,
-      _submitButton,
-      _textareas,
 
-      _addEvents,
+      _addButton,
       _addListeners,
-      _getControls,
+      _configListeners,
+      _getParent,
       _getState,
       _handleSubmit,
+      _showError,
       _validateAll;
 
 
   _this = {};
 
   _initialize = function (options) {
-    _form = options.form;
+    var button;
 
-    _getControls();
-    _addListeners();
+    _form = options.form;
+    button = _form.querySelector('button[type="submit"]');
+
+    button.addEventListener('click', e => {
+      e.preventDefault();
+      _handleSubmit(button);
+    });
+
+    _configListeners();
   };
 
   /**
-   * Add validate events to a form control.
+   * Submit button is not set in $_POST when submitted via js; add a hidden
+   * 'faux' button to set it.
+   */
+  _addButton = function () {
+    var fauxButton = document.createElement('input');
+
+    fauxButton.setAttribute('name', 'submitbutton');
+    fauxButton.setAttribute('type', 'hidden');
+    fauxButton.setAttribute('value', 'Submit');
+
+    _form.appendChild(fauxButton);
+  };
+
+  /**
+   * Add event listeners to validate a form control.
    *
    * @param el {Element}
    *     Form control
-   * @param types {Array}
-   *     Event types to listen for
+   * @param events {Array}
+   *     Events to listen for
    */
-  _addEvents = function (el, types) {
-    types.forEach(function(type) {
-      el.addEventListener(type, function() {
+  _addListeners = function (el, events) {
+    events.forEach(event => {
+      el.addEventListener(event, () => {
         _this.validate(el);
       });
     });
   };
 
   /**
-   * Add event listeners to form controls.
+   * Configure event listeners for each type of form control.
    */
-  _addListeners = function () {
-    var type,
-        types;
+  _configListeners = function () {
+    var events,
+        inputs,
+        selects,
+        textareas;
 
-    _inputs.forEach(function(input) {
-      type = input.getAttribute('type');
+    events = ['blur', 'input']; // blur event captures autocompleted fields
+    inputs = _form.querySelectorAll('input:not([type="hidden"])');
+    selects = _form.querySelectorAll('select');
+    textareas = _form.querySelectorAll('textarea');
+
+    inputs.forEach(input => {
+      var type = input.getAttribute('type');
 
       if (input.hasAttribute('maxlength') ||
           input.hasAttribute('minlength') ||
           input.hasAttribute('pattern') ||
           input.hasAttribute('required')
       ) {
-        if (type === 'checkbox' || type === 'radio') {
-          types = ['change']; // input event is buggy for radio/checkbox
-        } else if (type === 'file') {
-          types = ['change'];
-        } else {
-          types = ['blur', 'input']; // blur: captures autocompleted fields
+        if (type === 'checkbox' || type === 'file' || type === 'radio') {
+          events = ['change'];
         }
 
-        _addEvents(input, types);
+        _addListeners(input, events);
       }
     });
 
-    _selects.forEach(function(select) {
+    selects.forEach(select => {
       if (select.hasAttribute('required')) {
-        _addEvents(select, ['blur', 'change']);
+        _addListeners(select, ['blur', 'change']);
       }
     });
 
-    _submitButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      _handleSubmit();
-    });
-
-    _textareas.forEach(function(textarea) {
+    textareas.forEach(textarea => {
       if (textarea.hasAttribute('maxlength') ||
           textarea.hasAttribute('minlength') ||
           textarea.hasAttribute('pattern') ||
           textarea.hasAttribute('required')
       ) {
-        _addEvents(textarea, ['blur', 'input']);
+        _addListeners(textarea, events);
       }
     });
   };
 
   /**
-   * Get a NodeList of form controls by type.
+   * Get the parent container for a given control.
+   *
+   * @param el {Element}
+   *
+   * @return parent {Element}
    */
-  _getControls = function () {
-    _allControls = _form.querySelectorAll('input:not([type="hidden"]), select, textarea');
+  _getParent = function (el) {
+    var parent = el.closest('.control');
 
-    _inputs = _form.querySelectorAll('input:not([type="hidden"])');
-    _selects = _form.querySelectorAll('select');
-    _textareas = _form.querySelectorAll('textarea');
-    _submitButton = _form.querySelector('button[type="submit"]');
+    if (parent.classList.contains('checkbox') || parent.classList.contains('radio')) {
+      parent = parent.closest('fieldset');
+    }
+
+    return parent;
   };
 
   /**
@@ -153,7 +174,7 @@ var Validator = function (options) {
       if (scope === 'some') {
         state = 'invalid'; // flip default
 
-        controls.forEach(function(control) {
+        controls.forEach(control => {
           if (control.checked) {
             state = 'valid';
           }
@@ -163,7 +184,7 @@ var Validator = function (options) {
           state = 'invalid';
         }
       }
-    } else { // everything else (besides checkbox/radio inputs)
+    } else { // everything but radio/checkbox inputs
       if (el.hasAttribute('minlength') || el.hasAttribute('maxlength')) {
         maxLength = parseInt(el.getAttribute('maxLength'), 10);
         minLength = parseInt(el.getAttribute('minLength'), 10);
@@ -172,6 +193,7 @@ var Validator = function (options) {
           state = 'invalid';
         }
       }
+
       if (el.hasAttribute('pattern')) {
         pattern = new RegExp(el.getAttribute('pattern'));
 
@@ -179,6 +201,7 @@ var Validator = function (options) {
           state = 'invalid';
         }
       }
+
       if (el.hasAttribute('required') && value === '') {
         state = 'invalid';
       }
@@ -189,23 +212,24 @@ var Validator = function (options) {
 
   /**
    * Show validation errors or submit form depending on validation state.
+   *
+   * @param button {Element}
    */
-  _handleSubmit = function () {
+  _handleSubmit = function (button) {
     var div,
-        errorMsg,
-        fauxButton,
+        error,
         isValid,
         loader;
 
     div = document.querySelector('div.form');
-    errorMsg = div.querySelector('p.error');
+    error = div.querySelector('p.error');
     loader = _form.querySelector('.loader');
 
-    if (_submitButton.classList.contains('disabled')) {
+    if (button.classList.contains('disabled')) {
       return;
     }
 
-    _submitButton.classList.add('disabled');
+    button.classList.add('disabled');
     loader.classList.remove('hide');
 
     _validateAll();
@@ -213,34 +237,36 @@ var Validator = function (options) {
     isValid = !_form.querySelector('.invalid');
 
     if (isValid) {
-      if (errorMsg) {
-        div.removeChild(errorMsg); // clean up any pre-existing error message
+      if (error) {
+        div.removeChild(error); // clean up any pre-existing error message
       }
 
-      // Submit button is not set in $_POST when submitted via js; set it here
-      fauxButton = document.createElement('input');
-      fauxButton.setAttribute('name', 'submitbutton');
-      fauxButton.setAttribute('type', 'hidden');
-      fauxButton.setAttribute('value', 'Submit');
-
-      _form.appendChild(fauxButton);
-
-      window.setTimeout(function() {
+      _addButton();
+      setTimeout(() => {
         _form.submit();
       }, 250);
-    } else { // stop form submission and alert user
-      if (!errorMsg) {
-        errorMsg = document.createElement('p');
-
-        errorMsg.classList.add('error');
-        errorMsg.innerHTML = 'Please fix the following errors and submit the form again.';
-
-        div.insertBefore(errorMsg, _form);
-      }
-
+    } else {
+      _showError(error, div);
       div.scrollIntoView();
-      _submitButton.classList.remove('disabled');
+      button.classList.remove('disabled');
       loader.classList.add('hide');
+    }
+  };
+
+  /**
+   * Show an error message if the form contains validation errors.
+   *
+   * @param error {Element}
+   * @param div {Element}
+   */
+  _showError = function (error, div) {
+    if (!error) {
+      error = document.createElement('p');
+
+      error.classList.add('error');
+      error.innerHTML = 'Please fix the following errors and submit the form again.';
+
+      div.insertBefore(error, _form);
     }
   };
 
@@ -248,9 +274,11 @@ var Validator = function (options) {
    * Validate all form controls.
    */
   _validateAll = function () {
-    _allControls.forEach(function(el) {
-      if (el.hasAttribute('pattern') || el.hasAttribute('required')) {
-        _this.validate(el);
+    var controls = _form.querySelectorAll('input:not([type="hidden"]), select, textarea');
+
+    controls.forEach(control => {
+      if (control.hasAttribute('pattern') || control.hasAttribute('required')) {
+        _this.validate(control);
       }
     });
   };
@@ -269,23 +297,18 @@ var Validator = function (options) {
         parent,
         state;
 
-    parent = el.closest('.control');
+    calendars = document.querySelectorAll('.flatpickr-calendar');
+    parent = _getParent(el);
     state = _getState(el);
 
-    if (parent.classList.contains('checkbox') || parent.classList.contains('radio')) {
-      parent = parent.closest('fieldset');
-    }
-
-    // Set validation state on parent node and any datepicker widget(s)
+    // Set validation state on parent node and also datepicker widget(s)
     if (el.getAttribute('data-type') === 'datetime') {
-      // Don't change state to invalid while user is interacting with datepicker widget
+      // Don't set state to invalid while user is interacting with datepicker
       if (state === 'valid' || !parent.classList.contains('open')) {
-        calendars = document.querySelectorAll('.flatpickr-calendar');
-
         parent.classList.remove('invalid', 'valid');
         parent.classList.add(state);
 
-        calendars.forEach(function(calendar) {
+        calendars.forEach(calendar => {
           calendar.classList.remove('invalid', 'valid');
           calendar.classList.add(state);
         });

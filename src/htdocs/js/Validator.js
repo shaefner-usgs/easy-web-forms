@@ -26,6 +26,7 @@ var Validator = function (options) {
       _getParent,
       _getState,
       _handleSubmit,
+      _setFocus,
       _showError,
       _validateAll;
 
@@ -246,11 +247,26 @@ var Validator = function (options) {
         _form.submit();
       }, 250);
     } else {
+      _setFocus();
       _showError(error, div);
+
       div.scrollIntoView();
       button.classList.remove('disabled');
       loader.classList.add('hide');
     }
+  };
+
+  /**
+   * Set focus to first invalid control.
+   */
+  _setFocus = function () {
+    var control,
+        parent;
+
+    parent = _form.querySelector('.invalid'); // first invalid control
+    control = parent.querySelector('input, select, textarea');
+
+    control.focus();
   };
 
   /**

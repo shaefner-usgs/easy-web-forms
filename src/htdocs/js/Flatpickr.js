@@ -151,8 +151,8 @@ var Flatpickr = function (options) {
         });
       };
 
-      AppUtil.addCssFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
-      AppUtil.addJsFile('https://cdn.jsdelivr.net/npm/flatpickr', callback);
+      AppUtil.addCssFile('https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css');
+      AppUtil.addJsFile('https://cdn.jsdelivr.net/npm/flatpickr@4.6.9', callback);
     }
   };
 

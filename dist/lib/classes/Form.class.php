@@ -486,8 +486,8 @@ class Form {
       $control = $item['controls'][0]; // single control or 1st control in group
       $value = $control->value;
       $length = strlen($value);
-      $maxLength = null;
-      $minLength = null;
+      $maxLength = NULL;
+      $minLength = NULL;
       $pattern = '';
 
       if ($control->type === 'file') {
@@ -568,7 +568,7 @@ class Form {
       'label' => ucfirst($key), // default to 'name' attr
       'message' => '',
       'separator' => ', ',
-      'validate' => null
+      'validate' => NULL
     ];
 
     if ($controls[0]->type === 'checkbox') {

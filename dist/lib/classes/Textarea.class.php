@@ -30,14 +30,14 @@ include_once __DIR__ . '/../dep/Autop.php';
 class Textarea {
   private $_defaults = [
     'class' => '',
-    'cols' => null,
+    'cols' => NULL,
     'description' => '',
     'disabled' => false,
     'explanation' => '',
     'id' => '',
     'label' => '',
-    'maxlength' => null,
-    'minlength' => null,
+    'maxlength' => NULL,
+    'minlength' => NULL,
     'message' => 'Please provide a valid response',
     'name' => '',
     'placeholder' => '',

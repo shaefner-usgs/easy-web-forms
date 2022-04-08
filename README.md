@@ -171,7 +171,7 @@ $form = new Form([
 
 | Factory | Description |
 | ------ | ------ |
-| Form(<Array> options?) | Instantiates a new Form given an optional options Array. |
+| Form(`<Array>` options?) | Instantiates a new Form given an optional options Array. |
 
 <a id="options"></a>
 #### Options
@@ -233,7 +233,7 @@ $name = new Input([
 
 | Factory | Description |
 | ------ | ------ |
-| Input(<Array> options) | Instantiates a new HTML `<input>` control given an options Array. |
+| Input(`<Array>` options) | Instantiates a new HTML `<input>` control given an options Array. |
 
 <a id="flatpickr"></a>
 #### Options
@@ -349,7 +349,7 @@ $name = new Select([
 
 | Factory | Description |
 | ------ | ------ |
-| Select(<Array> options) | Instantiates a new HTML `<select>` control given an options Array. |
+| Select(`<Array>` options) | Instantiates a new HTML `<select>` control given an options Array. |
 
 #### Options
 
@@ -391,7 +391,7 @@ $name = new Textarea([
 
 | Factory | Description |
 | ------ | ------ |
-| Textarea(<Array> options) | Instantiates a new HTML `<textarea>` control given an options Array. |
+| Textarea(`<Array>` options) | Instantiates a new HTML `<textarea>` control given an options Array. |
 
 #### Options
 

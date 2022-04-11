@@ -18,6 +18,7 @@ var Validator = function (options) {
   var _this,
       _initialize,
 
+      _controls,
       _form,
 
       _addButton,
@@ -26,6 +27,7 @@ var Validator = function (options) {
       _getParent,
       _getState,
       _handleSubmit,
+      _removeListeners,
       _setFocus,
       _showError,
       _validateAll;
@@ -36,7 +38,12 @@ var Validator = function (options) {
   _initialize = function (options) {
     var button;
 
+    _controls = {
+      els: [],
+      events: []
+    };
     _form = options.form;
+
     button = _form.querySelector('button[type="submit"]');
 
     button.addEventListener('click', e => {
@@ -62,7 +69,8 @@ var Validator = function (options) {
   };
 
   /**
-   * Add event listeners to validate a form control.
+   * Add event listener(s) to validate a form control while the user is
+   * interacting with the control.
    *
    * @param el {Element}
    *     Form control
@@ -70,10 +78,11 @@ var Validator = function (options) {
    *     Events to listen for
    */
   _addListeners = function (el, events) {
+    _controls.els.push(el);
+    _controls.events.push(events);
+
     events.forEach(event => {
-      el.addEventListener(event, () => {
-        _this.validate(el);
-      });
+      el.addEventListener(event, _this.validate);
     });
   };
 
@@ -261,6 +270,23 @@ var Validator = function (options) {
   };
 
   /**
+   * Remove event listeners from the form controls.
+   */
+  _removeListeners = function () {
+    _controls.els.forEach((el, i) => {
+      _controls.events[i].forEach(event => {
+        el.removeEventListener(event, _this.validate);
+      });
+    });
+
+    // Reset tracked controls
+    _controls = {
+      els: [],
+      events: []
+    };
+  };
+
+  /**
    * Set focus to first invalid control.
    */
   _setFocus = function () {
@@ -310,14 +336,16 @@ var Validator = function (options) {
   /**
    * Validate user input on a given form control.
    *
-   * @param el {Element}
+   * @param e {Mixed <Event|Element>}
    */
-  _this.validate = function (el) {
+  _this.validate = function (e) {
     var calendars,
+        el,
         parent,
         state;
 
     calendars = document.querySelectorAll('.flatpickr-calendar');
+    el = e.target || e;
     parent = _getParent(el);
     state = _getState(el);
 
@@ -337,6 +365,15 @@ var Validator = function (options) {
       parent.classList.remove('invalid', 'valid');
       parent.classList.add(state);
     }
+  };
+
+  /**
+   * Update the controls tracked by the Validator. It is necessary to call this
+   * global method if the required controls change after initialization.
+   */
+  window.updateValidator = function () {
+    _removeListeners();
+    _configListeners();
   };
 
 

@@ -134,6 +134,8 @@ In addition, the following `<input>` types have automatic pattern matching built
 
 To override built-in pattern matching, set a custom 'pattern' attribute when you create an `<input>`.
 
+If the list of required controls changes dynamically (i.e. after initialization), it is necessary to call the global method window.updateValidator() whenever they change.
+
 ## Inline Content
 
 To render additional HTML content associated with a form control next to the control (e.g. an image preview for a 'file' type `<input>`), include the ancillary content inside a `<div>` with the class 'form-meta' and set the ancillary content's 'class' to the 'name' value of the form control. For example:

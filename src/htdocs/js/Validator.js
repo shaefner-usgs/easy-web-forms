@@ -79,20 +79,24 @@ var Validator = function (options) {
 
   /**
    * Configure event listeners for each type of form control.
+   *
+   * Note: the blur event on inputs and textareas captures autocompleted fields.
    */
   _configListeners = function () {
-    var events,
-        inputs,
+    var inputs,
         selects,
         textareas;
 
-    events = ['blur', 'input']; // blur event captures autocompleted fields
     inputs = _form.querySelectorAll('input:not([type="hidden"])');
     selects = _form.querySelectorAll('select');
     textareas = _form.querySelectorAll('textarea');
 
     inputs.forEach(input => {
-      var type = input.getAttribute('type');
+      var events,
+          type;
+
+      events = ['blur', 'input'];
+      type = input.getAttribute('type');
 
       if (input.hasAttribute('maxlength') ||
           input.hasAttribute('minlength') ||
@@ -119,7 +123,7 @@ var Validator = function (options) {
           textarea.hasAttribute('pattern') ||
           textarea.hasAttribute('required')
       ) {
-        _addListeners(textarea, events);
+        _addListeners(textarea, ['blur', 'input']);
       }
     });
   };

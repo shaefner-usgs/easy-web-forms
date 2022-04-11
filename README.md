@@ -136,7 +136,7 @@ To override built-in pattern matching, set a custom 'pattern' attribute when you
 
 ## Inline Content
 
-To render additional HTML content associated with a form control next to the control (e.g. an image preview for a 'file' type `<input`), include the ancillary content inside a `<div>` with the class 'form-meta' and set the ancillary content's 'class' to the 'name' value of the form control. For example:
+To render additional HTML content associated with a form control next to the control (e.g. an image preview for a 'file' type `<input>`), include the ancillary content inside a `<div>` with the class 'form-meta' and set the ancillary content's 'class' to the 'name' value of the form control. For example:
 
 ```html
 <div class="form-meta">

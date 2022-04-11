@@ -125,6 +125,41 @@ class Select {
   }
 
   /**
+   * Get the HTML for the menu's options.
+   *
+   * @return $options {String}
+   */
+  private function _getOptions () {
+    $options = '';
+
+    foreach ($this->options as $key => $value) {
+      $attrs = '';
+
+      // Set selected option
+      if (isSet($_POST[$this->name])) { // show user-selected option
+        if ($key === $this->value) {
+          $attrs = ' selected="selected"';
+        }
+      } else if ($key === $this->selected) { // show default selected option
+        $attrs = ' selected="selected"';
+      }
+
+      // Set additional options for 'placeholder' option
+      if ($this->required && !$key) { // default 'empty' option
+        $attrs .= ' disabled="disabled" hidden="hidden"';
+      }
+
+      $options .= sprintf('<option value="%s"%s>%s</option>',
+        $key,
+        $attrs,
+        $value
+      );
+    }
+
+    return $options;
+  }
+
+  /**
    * Get HTML for element.
    *
    * @param $tabindex {Integer} default is NULL
@@ -143,35 +178,11 @@ class Select {
       $this->id,
       $this->label
     );
-    $options = '';
+    $options = $this->_getOptions();
 
     if ($this->explanation) {
       $explanation = \Xmeltrut\Autop\Autop::format($this->explanation);
       $explanation = str_replace('<p>', '<p class="explanation">', $explanation);
-    }
-
-    foreach ($this->options as $key => $value) {
-      $optionAttrs = '';
-
-      // Set selected option
-      if (isSet($_POST[$this->name])) { // show user-selected option
-        if ($key === $this->value) {
-          $optionAttrs = ' selected="selected"';
-        }
-      } else if ($key === $this->selected) { // show default selected option
-        $optionAttrs = ' selected="selected"';
-      }
-
-      // Set additional options for 'placeholder' option
-      if ($this->required && !$key) { // default 'empty' option
-        $optionAttrs .= ' disabled="disabled" hidden="hidden"';
-      }
-
-      $options .= sprintf('<option value="%s"%s>%s</option>',
-        $key,
-        $optionAttrs,
-        $value
-      );
     }
 
     $select = sprintf('<select id="%s" name="%s"%s>%s</select>',

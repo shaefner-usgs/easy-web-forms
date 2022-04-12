@@ -244,7 +244,7 @@ $name = new Input([
 | ------ | ------ | ------ | ------ |
 | accept | String | 'image/png, image/jpeg' | `<input>` accept attribute. |
 | checked | Boolean | false | `<input>` checked attribute. |
-| class | String | '' | CSS class attached to the form control's parent `<div>`. |
+| class | String | '' | CSS class(es) attached to the form control's parent `<div>`. |
 | description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. Automatically set to the number of chars. required if 'minlength'/'maxlength' are set and this option has not been set. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
 | explanation | String | '' | Text content that is displayed above the form control. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
@@ -357,7 +357,7 @@ $name = new Select([
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
-| class | String | '' | CSS class attached to the form control's parent `<div>`. |
+| class | String | '' | CSS class(es) attached to the form control's parent `<div>`. |
 | description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. |
 | disabled | Boolean | false | `<select>` disabled attribute. |
 | explanation | String | '' | Text content that is displayed above the form control. |
@@ -399,7 +399,7 @@ $name = new Textarea([
 
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
-| class | String | '' | CSS class attached to the form control's parent `<div>`. |
+| class | String | '' | CSS class(es) attached to the form control's parent `<div>`. |
 | cols | Integer | null | `<textarea>` cols attribute. |
 | description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. Automatically set to number of chars. required if 'minlength'/'maxlength' is set and this option has not been set. |
 | disabled | Boolean | false | `<textarea>` disabled attribute. |

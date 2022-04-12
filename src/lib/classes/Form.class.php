@@ -397,7 +397,8 @@ class Form {
         $sqlValues[$key] = $sqlValue;
       }
 
-      if ($control->type !== 'hidden') { // don't include hidden fields in results summary
+      // Don't include hidden or empty fields in results summary
+      if ($control->type !== 'hidden' && $displayValue) {
         $value = htmlspecialchars(stripslashes($displayValue));
 
         if ($control->type === 'textarea') {

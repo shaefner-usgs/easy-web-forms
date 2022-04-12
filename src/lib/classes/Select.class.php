@@ -125,6 +125,38 @@ class Select {
   }
 
   /**
+   * Get the HTML for a menu option.
+   *
+   * @param key {String}
+   * @param value {String}
+   *
+   * @return {String}
+   */
+  private function _getOption ($key, $value) {
+    $attrs = '';
+
+    // Set additional options for 'placeholder' option
+    if ($this->required && !$key) { // default 'empty' option
+      $attrs .= 'disabled="disabled" hidden="hidden"';
+    }
+
+    // Set selected option if applicable
+    if (isSet($_POST[$this->name])) { // user-selected option
+      if ($key === $this->value) {
+        $attrs .= ' selected="selected"';
+      }
+    } else if ($key === $this->selected) { // default selected option
+      $attrs .= ' selected="selected"';
+    }
+
+    return sprintf('<option value="%s"%s>%s</option>',
+      $key,
+      $attrs,
+      $value
+    );
+  }
+
+  /**
    * Get the HTML for the menu's options.
    *
    * @return $options {String}
@@ -133,27 +165,17 @@ class Select {
     $options = '';
 
     foreach ($this->options as $key => $value) {
-      $attrs = '';
+      if (is_array($value)) { // nested group
+        $options .= sprintf('<optgroup label="%s">', $key);
 
-      // Set selected option
-      if (isSet($_POST[$this->name])) { // show user-selected option
-        if ($key === $this->value) {
-          $attrs = ' selected="selected"';
+        foreach ($value as $key2 => $value2) {
+          $options .= $this->_getOption($key2, $value2);
         }
-      } else if ($key === $this->selected) { // show default selected option
-        $attrs = ' selected="selected"';
-      }
 
-      // Set additional options for 'placeholder' option
-      if ($this->required && !$key) { // default 'empty' option
-        $attrs .= ' disabled="disabled" hidden="hidden"';
+        $options .= '</optgroup>';
+      } else {
+        $options .= $this->_getOption($key, $value);
       }
-
-      $options .= sprintf('<option value="%s"%s>%s</option>',
-        $key,
-        $attrs,
-        $value
-      );
     }
 
     return $options;

@@ -87,20 +87,19 @@ class Select {
    *
    * @param $tabindex {Integer}
    *
-   * @return $attrs {String}
+   * @return $attrs {Array}
    */
   private function _getAttrs ($tabindex) {
-    $attrs = '';
+    $attrs = [];
 
     if ($tabindex) {
-      $attrs .= sprintf(' tabindex="%d"', $tabindex);
+      $attrs[] = sprintf('tabindex="%d"', $tabindex);
     }
-
     if ($this->disabled) {
-      $attrs .= ' disabled="disabled"';
+      $attrs[] = 'disabled="disabled"';
     }
     if ($this->required) {
-      $attrs .= ' required="required"';
+      $attrs[] = 'required="required"';
     }
 
     return $attrs;
@@ -125,6 +124,63 @@ class Select {
   }
 
   /**
+   * Get the HTML for a menu option.
+   *
+   * @param key {String}
+   * @param value {String}
+   *
+   * @return {String}
+   */
+  private function _getOption ($key, $value) {
+    $attrs = [];
+
+    // Set additional options for 'placeholder' option
+    if ($this->required && !$key) { // default 'empty' option
+      array_push($attrs, 'disabled="disabled"', 'hidden="hidden"');
+    }
+
+    // Set selected option if applicable
+    if (isSet($_POST[$this->name])) { // user-selected option
+      if ($key === $this->value) {
+        $attrs[] = 'selected="selected"';
+      }
+    } else if ($key === $this->selected) { // default selected option
+      $attrs[] = 'selected="selected"';
+    }
+
+    return sprintf('<option value="%s"%s>%s</option>',
+      $key,
+      implode(' ', $attrs),
+      $value
+    );
+  }
+
+  /**
+   * Get the HTML for the menu's options.
+   *
+   * @return $options {String}
+   */
+  private function _getOptions () {
+    $options = '';
+
+    foreach ($this->options as $key => $value) {
+      if (is_array($value)) { // nested group
+        $options .= sprintf('<optgroup label="%s">', $key);
+
+        foreach ($value as $key2 => $value2) {
+          $options .= $this->_getOption($key2, $value2);
+        }
+
+        $options .= '</optgroup>';
+      } else {
+        $options .= $this->_getOption($key, $value);
+      }
+    }
+
+    return $options;
+  }
+
+  /**
    * Get HTML for element.
    *
    * @param $tabindex {Integer} default is NULL
@@ -143,41 +199,17 @@ class Select {
       $this->id,
       $this->label
     );
-    $options = '';
+    $options = $this->_getOptions();
 
     if ($this->explanation) {
       $explanation = \Xmeltrut\Autop\Autop::format($this->explanation);
       $explanation = str_replace('<p>', '<p class="explanation">', $explanation);
     }
 
-    foreach ($this->options as $key => $value) {
-      $optionAttrs = '';
-
-      // Set selected option
-      if (isSet($_POST[$this->name])) { // show user-selected option
-        if ($key === $this->value) {
-          $optionAttrs = ' selected="selected"';
-        }
-      } else if ($key === $this->selected) { // show default selected option
-        $optionAttrs = ' selected="selected"';
-      }
-
-      // Set additional options for 'placeholder' option
-      if ($this->required && !$key) { // default 'empty' option
-        $optionAttrs .= ' disabled="disabled" hidden="hidden"';
-      }
-
-      $options .= sprintf('<option value="%s"%s>%s</option>',
-        $key,
-        $optionAttrs,
-        $value
-      );
-    }
-
     $select = sprintf('<select id="%s" name="%s"%s>%s</select>',
       $this->id,
       $this->name,
-      $attrs,
+      implode(' ', $attrs),
       $options
     );
 

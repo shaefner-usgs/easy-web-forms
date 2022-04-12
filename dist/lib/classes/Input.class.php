@@ -171,57 +171,55 @@ class Input {
    *
    * @param $tabindex {Integer}
    *
-   * @return $attrs {String}
+   * @return $attrs {Array}
    */
   private function _getAttrs ($tabindex) {
-    $attrs = '';
+    $attrs = [];
 
     if ($tabindex) {
-      $attrs .= sprintf(' tabindex="%d"', $tabindex);
+      $attrs[] = sprintf('tabindex="%d"', $tabindex);
     }
-
     if ($this->_isCheckboxOrRadio) {
       if ($this->isChecked()) {
-        $attrs .= ' checked="checked"';
+        $attrs[] = 'checked="checked"';
       }
     }
-
     if ($this->disabled) {
-      $attrs .= ' disabled="disabled"';
+      $attrs[] = 'disabled="disabled"';
     }
     if ($this->inputmode) {
-      $attrs .= sprintf(' inputmode="%s"', $this->inputmode);
+      $attrs[] = sprintf('inputmode="%s"', $this->inputmode);
     }
     if ($this->pattern) {
-      $attrs .= sprintf(' pattern="%s"', $this->pattern);
+      $attrs[] = sprintf('pattern="%s"', $this->pattern);
     }
     if ($this->placeholder) {
-      $attrs .= sprintf(' placeholder="%s"', $this->placeholder);
+      $attrs[] = sprintf('placeholder="%s"', $this->placeholder);
     }
     if ($this->readonly) {
-      $attrs .= ' readonly="readonly"';
+      $attrs[] = 'readonly="readonly"';
     }
     if ($this->required) {
-      $attrs .= ' required="required"';
+      $attrs[] = 'required="required"';
     }
 
     if ($this->type === 'address') {
-      $attrs .= ' data-type="address"';
+      $attrs[] = 'data-type="address"';
     } else if ($this->type === 'datetime') {
-      $attrs .= ' data-type="datetime"';
+      $attrs[] = 'data-type="datetime"';
     } else if ($this->type === 'file') {
-      $attrs .= sprintf(' accept="%s"', $this->accept);
+      $attrs[] = sprintf('accept="%s"', $this->accept);
     } else if ($this->type === 'number') {
-      $attrs .= sprintf(' max="%d" min="%d"',
+      $attrs[] = sprintf('max="%d" min="%d"',
         $this->max,
         $this->min
       );
     } else if ($this->type === 'text') {
       if ($this->maxlength) {
-        $attrs .= sprintf(' maxlength="%d"', $this->maxlength);
+        $attrs[] = sprintf('maxlength="%d"', $this->maxlength);
       }
       if ($this->minlength) {
-        $attrs .= sprintf(' minlength="%d"', $this->minlength);
+        $attrs[] = sprintf('minlength="%d"', $this->minlength);
       }
     }
 
@@ -430,7 +428,7 @@ class Input {
       $name,
       $type,
       $value,
-      $attrs
+      implode(' ', $attrs)
     );
 
     if ($this->type === 'hidden') {

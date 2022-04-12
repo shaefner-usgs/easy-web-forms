@@ -341,9 +341,13 @@ class Form {
     foreach ($this->_items as $key => $item) {
       $controls = $item['controls'];
       $control = $controls[0]; // single control or 1st control in group
-      $cssClass = '';
+      $cssClasses = [];
       $displayValue = '';
       $sqlValue = '';
+
+      if ($control->class) {
+        $cssClasses = preg_split('/\s+/', $control->class);
+      }
 
       if ($control->type === 'file') {
         $results = $this->_handleUpload($key, $control->path);
@@ -351,7 +355,7 @@ class Form {
         $sqlValue = $results['sql'];
 
         if ($displayValue && !$sqlValue) { // file upload error
-          $cssClass = 'error';
+          $cssClasses[] = 'error';
 
           if ($control->required) { // stop form submission on failed upload
             $control->isValid = false;
@@ -393,7 +397,8 @@ class Form {
         $sqlValues[$key] = $sqlValue;
       }
 
-      if ($control->type !== 'hidden') { // don't include hidden fields in results summary
+      // Don't include hidden or empty fields in results summary
+      if ($control->type !== 'hidden' && $displayValue) {
         $value = htmlspecialchars(stripslashes($displayValue));
 
         if ($control->type === 'textarea') {
@@ -401,11 +406,11 @@ class Form {
         }
 
         $this->_results .= sprintf('<dt class="%s">%s</dt>',
-          $cssClass,
+          implode(' ', $cssClasses),
           ucfirst($item['label'])
         );
         $this->_results .= sprintf('<dd class="%s" id="%s">%s</dd>',
-          $cssClass,
+          implode(' ', $cssClasses),
           $key,
           $value
         );

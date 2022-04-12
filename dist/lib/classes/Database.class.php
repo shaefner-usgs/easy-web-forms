@@ -99,7 +99,7 @@ class Database {
    */
   public function insertRecord ($params, $table) {
     $setClause = $this->_getSetClause($params);
-    $sql = "INSERT INTO $table $setClause";
+    $sql = "INSERT INTO `$table` $setClause";
 
     $this->_execQuery($sql, $params);
   }
@@ -118,7 +118,7 @@ class Database {
     $key = key($record);
     $setClause = $this->_getSetClause($params);
     $value = $record[$key];
-    $sql = "UPDATE $table $setClause WHERE $key = $value";
+    $sql = "UPDATE `$table` $setClause WHERE $key = $value";
 
     if (!$key || !$value) {
       print '<p class="error">ERROR: <strong>record</strong> (Array) must be set

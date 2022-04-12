@@ -90,32 +90,32 @@ class Textarea {
    *
    * @param $tabindex {Integer}
    *
-   * @return $attrs {String}
+   * @return $attrs {Array}
    */
   private function _getAttrs ($tabindex) {
-    $attrs = '';
+    $attrs = [];
 
     if ($tabindex) {
-      $attrs .= sprintf(' tabindex="%d"', $tabindex);
+      $attrs[] = sprintf('tabindex="%d"', $tabindex);
     }
 
     if ($this->cols) {
-      $attrs .= sprintf(' cols="%d"', $this->cols);
+      $attrs[] = sprintf('cols="%d"', $this->cols);
     }
     if ($this->disabled) {
-      $attrs .= ' disabled="disabled"';
+      $attrs[] = 'disabled="disabled"';
     }
     if ($this->maxlength) {
-      $attrs .= sprintf(' maxlength="%d"', $this->maxlength);
+      $attrs[] = sprintf('maxlength="%d"', $this->maxlength);
     }
     if ($this->minlength) {
-      $attrs .= sprintf(' minlength="%d"', $this->minlength);
+      $attrs[] = sprintf('minlength="%d"', $this->minlength);
     }
     if ($this->placeholder) {
-      $attrs .= sprintf(' placeholder="%s"', $this->placeholder);
+      $attrs[] = sprintf('placeholder="%s"', $this->placeholder);
     }
     if ($this->required) {
-      $attrs .= ' required="required"';
+      $attrs[] = 'required="required"';
     }
 
     return $attrs;
@@ -182,7 +182,7 @@ class Textarea {
       $this->id,
       $this->name,
       $this->rows,
-      $attrs,
+      implode(' ', $attrs),
       $this->value
     );
 

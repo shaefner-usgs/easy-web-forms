@@ -87,20 +87,19 @@ class Select {
    *
    * @param $tabindex {Integer}
    *
-   * @return $attrs {String}
+   * @return $attrs {Array}
    */
   private function _getAttrs ($tabindex) {
-    $attrs = '';
+    $attrs = [];
 
     if ($tabindex) {
-      $attrs .= sprintf(' tabindex="%d"', $tabindex);
+      $attrs[] = sprintf('tabindex="%d"', $tabindex);
     }
-
     if ($this->disabled) {
-      $attrs .= ' disabled="disabled"';
+      $attrs[] = 'disabled="disabled"';
     }
     if ($this->required) {
-      $attrs .= ' required="required"';
+      $attrs[] = 'required="required"';
     }
 
     return $attrs;
@@ -133,25 +132,25 @@ class Select {
    * @return {String}
    */
   private function _getOption ($key, $value) {
-    $attrs = '';
+    $attrs = [];
 
     // Set additional options for 'placeholder' option
     if ($this->required && !$key) { // default 'empty' option
-      $attrs .= 'disabled="disabled" hidden="hidden"';
+      array_push($attrs, 'disabled="disabled"', 'hidden="hidden"');
     }
 
     // Set selected option if applicable
     if (isSet($_POST[$this->name])) { // user-selected option
       if ($key === $this->value) {
-        $attrs .= ' selected="selected"';
+        $attrs[] = 'selected="selected"';
       }
     } else if ($key === $this->selected) { // default selected option
-      $attrs .= ' selected="selected"';
+      $attrs[] = 'selected="selected"';
     }
 
     return sprintf('<option value="%s"%s>%s</option>',
       $key,
-      $attrs,
+      implode(' ', $attrs),
       $value
     );
   }
@@ -210,7 +209,7 @@ class Select {
     $select = sprintf('<select id="%s" name="%s"%s>%s</select>',
       $this->id,
       $this->name,
-      $attrs,
+      implode(' ', $attrs),
       $options
     );
 

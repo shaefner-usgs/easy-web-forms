@@ -365,7 +365,7 @@ $name = new Select([
 | label | String | '' | `<label>` for `<select>`. If provided, text header that is displayed above the form control. Otherwise, the value of the 'name' option is displayed. |
 | message | String | 'Please select an option from the menu' | Text content that is displayed when the form control is invalid. |
 | **name** | String | '' | `<select>` name attribute. |
-| **options** | Array | [] | Associative array of choices in the `<select>` menu. The array key is the data value sent to the server when that option is selected; the array value is the text that is shown in each of the menu choices. |
+| **options** | Array | [] | Associative array of choices in the `<select>` menu. The array key is the data value sent to the server when that option is selected; the array value is the text that is shown in each of the menu choices. To display a nested grouping of options (`<optgroup>`), use an associative array for the array value. |
 | required | Boolean | false | `<select>` required attribute. |
 | selected | String | '' | `<option>` selected attribute. Set the value to the array key of the option to be selected by default when page loads. |
 

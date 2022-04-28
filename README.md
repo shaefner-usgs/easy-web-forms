@@ -14,7 +14,7 @@ PHP and MySQL are required on the web server that hosts your form.
 
 If you just want to use this library to create a web-based form, all the necessary files are located in the 'dist' folder. See below for instructions on building/compiling from source if you want to make modifications to the library.
 
-1. **Include** the PHP, CSS and JavaScript dependencies in a new PHP document in htdocs:
+1. **Include** the PHP, CSS and JavaScript dependencies in a new PHP document in dist/htdocs:
 
     ```php
     include_once '../lib/index.inc.php';

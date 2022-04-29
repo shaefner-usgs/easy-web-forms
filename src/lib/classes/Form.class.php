@@ -240,7 +240,7 @@ class Form {
     $html .= '</div>';
 
     // Set MapQuest API key as global JS var if set in config file
-    if ($GLOBALS['mapQuestApiKey']) {
+    if (isset($GLOBALS['mapQuestApiKey'])) {
       $html .= sprintf("<script>var MAPQUESTKEY = '%s';</script>",
         $GLOBALS['mapQuestApiKey']
       );

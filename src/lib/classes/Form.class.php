@@ -387,7 +387,12 @@ class Form {
             $displayValue = $_POST['altInput' . $countDateTimeFields];
           }
         } else if ($control->type === 'select') {
-          $displayValue = $control->options[$control->value];
+          // Set $displayValue while accounting for nested <optgroup>s
+          array_walk_recursive($control->options, function($value, $key, $data) {
+            if ($key === $data[0]) {
+              $data[1] = $value;
+            }
+          }, [$control->value ,&$displayValue]);
         } else {
           $displayValue = $control->value;
         }

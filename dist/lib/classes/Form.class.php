@@ -240,7 +240,7 @@ class Form {
     $html .= '</div>';
 
     // Set MapQuest API key as global JS var if set in config file
-    if ($GLOBALS['mapQuestApiKey']) {
+    if (isset($GLOBALS['mapQuestApiKey'])) {
       $html .= sprintf("<script>var MAPQUESTKEY = '%s';</script>",
         $GLOBALS['mapQuestApiKey']
       );
@@ -387,7 +387,12 @@ class Form {
             $displayValue = $_POST['altInput' . $countDateTimeFields];
           }
         } else if ($control->type === 'select') {
-          $displayValue = $control->options[$control->value];
+          // Set $displayValue while accounting for nested <optgroup>s
+          array_walk_recursive($control->options, function($value, $key, $data) {
+            if ($key === $data[0]) {
+              $data[1] = $value;
+            }
+          }, [$control->value ,&$displayValue]);
         } else {
           $displayValue = $control->value;
         }

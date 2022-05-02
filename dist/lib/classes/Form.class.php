@@ -389,8 +389,8 @@ class Form {
         } else if ($control->type === 'select') {
           // Set $displayValue while accounting for nested <optgroup>s
           array_walk_recursive($control->options, function($value, $key, $data) {
-            if ($key === $data[0]) {
-              $data[1] = $value;
+            if (html_entity_decode($key) === $data[0]) {
+              $data[1] = html_entity_decode($value);
             }
           }, [$control->value ,&$displayValue]);
         } else {

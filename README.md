@@ -88,33 +88,6 @@ No metadata fields are included by default. Adding an auto-incrementing 'id' fie
 
 It is recommended to set the MySQL encoding to 'utf8mb4' for the database, table and fields to accommodate all characters and symbols.
 
-## Building/Compiling
-
-If you want to make modifications to the library, you will need to build/compile your changes.
-
-1. **Install** dependencies and **start** the build process and development web server:
-
-    `npm install`
-
-    `php composer.phar install`
-
-    `grunt`
-
-    Preview files in src/htdocs at http://localhost:9200/. While grunt is running, live reload automatically runs the build process and refreshes your browser when you save changes.
-
-2. **Compile** the CSS and JavaScript and **copy** the PHP files:
-
-    `grunt dist`
-
-    This updates files in the 'dist' folder with your changes. Preview files in dist/htdocs at http://localhost:9201/.
-
-### Dependencies
-
-1. [Grunt](https://gruntjs.com/)
-2. [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/)
-3. [Composer](https://getcomposer.org/)
-4. PHP with CGI
-
 <a id="validation"></a>
 ## Validation
 
@@ -153,6 +126,33 @@ Note: Form's [isPosting()](#is-posting) and [isValid()](#is-valid) methods might
 ## Security
 
 All user-supplied input is sanitized using PHP [Data Filtering](https://www.php.net/manual/en/book.filter.php) and prepared statements are used to prevent SQL injection vulnerabilities.
+
+## Building/Compiling
+
+If you want to make modifications to the library, you will need to build/compile your changes.
+
+1. **Install** dependencies and **start** the build process and development web server:
+
+    `npm install`
+
+    `php composer.phar install`
+
+    `grunt`
+
+    Preview files in src/htdocs at http://localhost:9200/. While grunt is running, live reload automatically runs the build process and refreshes your browser when you save changes.
+
+2. **Compile** the CSS and JavaScript and **copy** the PHP files:
+
+    `grunt dist`
+
+    This updates files in the 'dist' folder with your changes. Preview files in dist/htdocs at http://localhost:9201/.
+
+### Dependencies
+
+1. [Grunt](https://gruntjs.com/)
+2. [Node.js](https://nodejs.org/), [NPM](https://www.npmjs.com/)
+3. [Composer](https://getcomposer.org/)
+4. PHP with CGI
 
 ## API Documentation
 

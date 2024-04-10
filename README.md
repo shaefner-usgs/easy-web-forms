@@ -207,6 +207,7 @@ $form = new Form([
 | Option | Type | Default | Description |
 | ------ | ------ | ------ | ------ |
 | arrangement | String | 'inline' | Form control (radio/checkbox) layout: 'inline' or 'stacked'. |
+| class | String | '' | CSS class(es) attached to <fieldset> group. |
 | **controls** | Array | [] | Indexed array of [control](#form-controls)s or a single checkbox control. |
 | description | String | '' | Text content that is displayed below the form control group. |
 | explanation | String | '' | Text content that is displayed above the form control group. |

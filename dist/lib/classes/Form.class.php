@@ -143,6 +143,10 @@ class Form {
     $cssClasses = [];
     $explanation = '';
 
+    if ($group['class']) {
+      $cssClasses[] = $group['class'];
+    }
+
     // Only need to check 1st control in each group
     if (!$controls[0]->isValid) {
       $cssClasses[] = 'invalid';
@@ -558,6 +562,7 @@ class Form {
    * @param $group {Array}
    *     [
    *       arrangement {String} - 'inline' or 'stacked'
+   *       class {String} - CSS class attached to <fieldset>
    *       controls {Array} - Form control instances as an indexed array
    *       description {String} - text displayed below a group
    *       explanation {String} - text displayed above a group
@@ -572,6 +577,7 @@ class Form {
     $key = $controls[0]->name; // get shared 'name' attr from 1st control
     $defaults = [
       'arrangement' => 'inline',
+      'class' => '',
       'controls' => [],
       'description' => '',
       'explanation' => '',

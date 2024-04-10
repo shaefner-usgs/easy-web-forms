@@ -245,21 +245,21 @@ $name = new Input([
 | accept | String | 'image/png, image/jpeg' | `<input>` accept attribute. |
 | checked | Boolean | false | `<input>` checked attribute. |
 | class | String | '' | CSS class(es) attached to the form control's parent `<div>`. |
-| description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. Automatically set to the number of chars. required if 'minlength'/'maxlength' are set and this option has not been set. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
+| description | String | '' | Text content that is displayed below the form control; typically used to describe the expected input from the user. Automatically set to the number of chars. required if 'minlength'/'maxlength' are set and this option has not been set. <br>Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | disabled | Boolean | false | `<input>` disabled attribute. |
-| explanation | String | '' | Text content that is displayed above the form control. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
+| explanation | String | '' | Text content that is displayed above the form control. <br>Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | fpOpts | Array | [] | [flatpickr options](https://flatpickr.js.org/options/). Key/value pairs to configure datepicker widget for 'datetime' type `<input>` controls. |
 | *id* | String | value of 'name' option | `<input>` id attribute. |
 | inputmode | String | '' | `<input>` inputmode attribute. |
 | label | String | '' | `<label>` for `<input>`. If provided, text header that is displayed above the form control (or next to it for radio/checkbox controls). Otherwise, the value of the 'name' option is displayed. |
 | max | Integer | null | `<input>` max attribute. |
 | maxlength | Integer | null | `<input>` maxlength attribute. |
-| message | String | 'Please provide a valid {{label}}' | Text content that is displayed when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's 'label' or 'name' into the message. If you set 'minlength'/'maxlength' values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
+| message | String | 'Please provide a valid {{label}}' | Text content that is displayed when the form control is invalid. Use [mustache templates](https://mustache.github.io) to insert the control's 'label' or 'name' into the message. If you set 'minlength'/'maxlength' values and you haven't set a custom message, a note will be automatically appended to the default message explaining this requirement. <br>Note: Set this option in [addGroup options](#addGroup-options) for a radio/checkbox group. |
 | min | Integer | null | `<input>` min attribute. |
 | minlength | Integer | null | `<input>` minlength attribute. |
 | **name** | String | '' | `<input>` name attribute. |
 | path | String | '' | Full (absolute) path to the file upload directory on the server for 'file' type `<input>` controls (a trailing slash is optional). If this option is omitted, the uploaded file will not be saved. |
-| pattern | RegExp | '' | `<input>` pattern attribute. **Note:** Do not include delimiters around the pattern text. |
+| pattern | RegExp | '' | `<input>` pattern attribute. <br>Note: Do not include delimiters around the pattern text. |
 | placeholder | String | '' | `<input>` placeholder attribute. |
 | readonly | Boolean | false | `<input>` readonly attribute. |
 | required | Boolean | false | `<input>` required attribute. |
@@ -276,7 +276,9 @@ Some types have added functionality:
 
 * **checkbox**
 
-  The default 'message' option is set to 'Please select one or more options'.
+  The default 'message' option is set to 'Please select one or more options'. 
+  
+  Note: add control(s) using the addGroup method (not addControl), even for a single control.
 
 * **email**
 
